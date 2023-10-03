@@ -16,17 +16,20 @@ public class UIHpText : MonoBehaviour
           ui_text = GetComponent<Text>();
           hpClass = GetComponentInParent<HPComponent>();
 
-          hpClass.OnHpChange += UpdateUI;
-          hpClass.OnRevive += UpdateUI;
+          hpClass.OnHpChange += OnChange;
+          hpClass.OnRevive += OnChange;
           hpClass.OnDeath += OnDeath;
      }
-
      void LateUpdate()
      {
-          transform.LookAt(transform.position + Camera.main.transform.forward); //face camera
+          FaceCamera();
      }
 
-     void UpdateUI()
+     void FaceCamera()
+     {
+          transform.LookAt(transform.position + Camera.main.transform.forward);
+     }
+     void OnChange()
      {
           ui_text.text = hpClass.HP + "/" + hpClass.maxHP;
      }

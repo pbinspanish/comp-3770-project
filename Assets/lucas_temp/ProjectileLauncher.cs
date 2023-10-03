@@ -65,7 +65,8 @@ public class ProjectileLauncher : NetworkBehaviour
 
           var pos = PlayerChara.mine.transform.position;
           var offset = new Vector3(0, 1, 0) + 1 * PlayerChara.mine.transform.forward.normalized;
-          var dir = PlayerChara.mine.transform.forward;
+          //var dir = PlayerChara.mine.transform.forward;
+          var dir = (PlayerController.mouseHit - pos).normalized;
 
           var data = new Package();
           data.clientID = clientID;

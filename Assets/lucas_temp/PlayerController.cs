@@ -8,8 +8,6 @@ public class PlayerController : MonoBehaviour
 
      // get input and control PlayerChara
 
-
-     readonly static Plane ground = new(Vector3.up, Vector3.zero);
      bool enableMoveInput = true; //lose control when eg. knocked away / stunned
      Camera cam;
 
@@ -103,36 +101,40 @@ public class PlayerController : MonoBehaviour
           // Y: verticle velocity, it's not cap by max speed
           if (inputY != 0 && isGrounded)
           {
-               vel.y = inputY * jumpForce; //Y maneuver will neutralize previous Y value
-               rb.velocity = vel;
+               rb.velocity = new Vector3(vel.x, 0, vel.z);
+               rb.AddForce(inputY * jumpForce * Vector3.up, ForceMode.Impulse);
 
                inputY = 0; //comsume input
                isGrounded = false;
           }
           else
           {
-               vel.y = rb.velocity.y - gravity * G * Time.fixedDeltaTime; //gravity
-               rb.velocity = vel;
+               rb.velocity = new Vector3(vel.x, rb.velocity.y - gravity * G * Time.fixedDeltaTime, vel.z);
           }
+
+          _vel = rb.velocity;
      }
 
+     public Vector3 _vel;
 
      // rotation ---------------------------------------------------------------------
 
+     public static Vector3 mouseHit;
      float rotateSpeed { get => PlayerStatus.inst.rotateSpeed; }
 
      void UpdateRotation()
      {
-          var t = PlayerChara.mine.transform;
+          var player = PlayerChara.mine;
           var ray = cam.ScreenPointToRay(Input.mousePosition);
 
-          if (ground.Raycast(ray, out var enter))
+          if (Physics.Raycast(ray, out var hit))
           {
-               var hit = ray.GetPoint(enter);
-               var dir = hit - t.position;
-               var rot = Quaternion.LookRotation(dir, Vector3.up);
+               mouseHit = hit.point;
 
-               t.rotation = Quaternion.RotateTowards(t.rotation, rot, rotateSpeed * Time.deltaTime);
+               var me = player.transform.position + 1.5f * Vector3.up;
+               var dir = hit.point - me;
+               var rot = Quaternion.LookRotation(new Vector3(dir.x, 0, dir.z)); //remove up/down tilt
+               player.transform.rotation = Quaternion.RotateTowards(player.transform.rotation, rot, rotateSpeed * Time.deltaTime);
           }
      }
 

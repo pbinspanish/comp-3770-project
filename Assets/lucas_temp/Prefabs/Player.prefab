@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3347722715456379771}
   - component: {fileID: 7497088134396068365}
   - component: {fileID: 5501781927767710753}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -151,7 +151,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 1
 --- !u!1 &588694765373002116
 GameObject:
@@ -164,7 +164,7 @@ GameObject:
   - component: {fileID: 588694765373002117}
   - component: {fileID: 588694765373002119}
   - component: {fileID: 588694765373002118}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Visor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -247,7 +247,7 @@ GameObject:
   - component: {fileID: 588694765804079488}
   - component: {fileID: 588694765804079495}
   - component: {fileID: 588694765804079494}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -16,7 +16,6 @@ public class PlayerChara : NetworkBehaviour
      // public
      public static PlayerChara mine;
      public Rigidbody rb { get; private set; }
-     public Renderer model { get; private set; }
 
      // net var
      NetworkVariable<Vector3> nPos = new(writePerm: NetworkVariableWritePermission.Owner);
@@ -36,7 +35,7 @@ public class PlayerChara : NetworkBehaviour
                mine = this;
 
           rb = GetComponent<Rigidbody>();
-          model = GetComponentInChildren<Renderer>();
+          gameObject.layer = LayerMask.NameToLayer("Player");
      }
 
 
@@ -63,7 +62,7 @@ public class PlayerChara : NetworkBehaviour
      [ClientRpc]
      void ChangeColor_ClientRpc(Color color)
      {
-          model.material.color = color;
+          GetComponentInChildren<Renderer>().material.color = color;
      }
 
 
