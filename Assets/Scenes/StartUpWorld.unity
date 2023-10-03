@@ -574,12 +574,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 963194227}
+  showMouseCursor: 1
   walkSpeed: 3
   runSpeed: 5
-  jumpHeight: 7
   gravity: -9.81
   gravityMultiplier: 3
-  upVelocity: 0
+  jumpHeight: 7
 --- !u!143 &1636713799
 CharacterController:
   m_ObjectHideFlags: 0

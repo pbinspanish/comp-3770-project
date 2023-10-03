@@ -10,23 +10,27 @@ public class PlayerMovement : MonoBehaviour
     //references
     private CharacterController characterController;
     private Animator playerAnimator;
+
+    [Header("Camera & Mouse Cursor")]
     public Camera playerCamera;
+    public bool showMouseCursor = true;
 
     //movement speed
+    [Header("Movement")]
     public float walkSpeed = 3f;
     public float runSpeed = 5f;
     private float currentSpeed;
     private float rotationSpeed = 10f;
     
+    //gravity
+    [Header("Physics")]
+    public float gravity = -9.81f;
+    public float gravityMultiplier = 3f;
     //jump height
     public float jumpHeight = 7f;
 
-    //gravity
-    public float gravity = -9.81f;
-    public float gravityMultiplier = 3f;
-    
     //used for gravity(falling) and jumping
-    public float upVelocity;
+    private float upVelocity;
 
     //vector that controls movement
     private Vector3 movementDirection = Vector3.zero;
@@ -39,8 +43,11 @@ public class PlayerMovement : MonoBehaviour
         playerAnimator = GetComponent<Animator>();
         
         //lock cursor and set invisible
-        //Cursor.lockState = CursorLockMode.Locked;
-        //Cursor.visible = false;
+        if (!showMouseCursor)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
     }
 
     // Update is called once per frame
@@ -90,7 +97,7 @@ public class PlayerMovement : MonoBehaviour
         bool Run = Input.GetKey(KeyCode.LeftShift);
         bool isRunning = false;
         bool Jump = Input.GetKey(KeyCode.Space);
-        bool isJumping = false;
+        //bool isJumping = false;
 
         //handle walking or running speed
         if (Run && !isRunning && playerMoving)
