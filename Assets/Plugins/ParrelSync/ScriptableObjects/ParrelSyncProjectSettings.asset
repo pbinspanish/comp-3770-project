@@ -9,11 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62df468093469df49b38b5d6f587e91a, type: 3}
-  m_Name: ItemCard
+  m_Script: {fileID: 11500000, guid: c0011418c9d75434988a06b6df93b283, type: 3}
+  m_Name: ParrelSyncProjectSettings
   m_EditorClassIdentifier: 
-  id: 1001
-  _name: Salad
-  image: {fileID: 21300000, guid: 54d9e3bf3d193b644a28c109dc2d4c84, type: 3}
-  description: Heal 20 hp. Protect you from scurvy.
-  price: 10
+  m_OptionalSymbolicLinkFolders: []

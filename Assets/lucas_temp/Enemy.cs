@@ -4,11 +4,9 @@ using Unity.Netcode;
 using UnityEngine;
 
 
+// TEST class
 public class Enemy : NetworkBehaviour
 {
-
-     // TEST class
-     // this + HPComponent = almost a whole enemy!
 
      // public
      public Rigidbody rb { get; private set; }
@@ -16,7 +14,6 @@ public class Enemy : NetworkBehaviour
      // net var
      //NetworkVariable<Vector3> nPos = new(writePerm: NetworkVariableWritePermission.Server);
      //NetworkVariable<Quaternion> nRot = new(writePerm: NetworkVariableWritePermission.Server);
-
      NetworkVariable<Vector3> nPos = new NetworkVariable<Vector3>();
      NetworkVariable<Quaternion> nRot = new NetworkVariable<Quaternion>();
 
@@ -30,7 +27,8 @@ public class Enemy : NetworkBehaviour
           hpClass = GetComponentInParent<HPComponent>();
           rb = GetComponent<Rigidbody>();
 
-          hpClass.OnDeath += OnDeath;
+          gameObject.layer = LayerMask.NameToLayer("Enemy");
+          hpClass.OnDeathBlow += OnDeath;
      }
 
      public override void OnNetworkSpawn()
@@ -56,10 +54,12 @@ public class Enemy : NetworkBehaviour
           }
      }
 
-     void OnDeath()
+     void OnDeath(int delta)
      {
           var rb = GetComponent<Rigidbody>();
-          rb.constraints = 0; //0=constraint, 80=freezeXZ
+
+          if (rb)
+               rb.constraints = 0; //0=constraint, 80=freezeXZ
      }
 
 

@@ -1,14 +1,19 @@
-using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.Netcode;
 using UnityEngine;
+using static Unity.Collections.AllocatorManager;
 
 
 public class PlayerController : MonoBehaviour
 {
-
      // get input and control PlayerChara
 
-     bool enableMoveInput = true; //lose control when eg. knocked away / stunned
+     // public
+     public static Vector3 mouseHit; //
+     public bool enableMoveInput = true; //lose control when eg. knocked away / stunned
+     public bool clickToRandColor = false;
+
+     // private
+     Rigidbody rb { get => PlayerChara.me.rb; }
      Camera cam;
 
 
@@ -18,20 +23,49 @@ public class PlayerController : MonoBehaviour
      }
      void Update()
      {
-          if (PlayerChara.mine != null && !specMode)
+          if (PlayerChara.me != null)
           {
+               if (Input.GetKeyDown(KeyCode.Alpha3)) Blink(); //TEST
+
                UpdateInput();
+               UpdateColor();
           }
      }
      void FixedUpdate()
      {
-          if (PlayerChara.mine != null && !specMode)
+          if (PlayerChara.me != null)
           {
-               UpdatePosition();
                UpdateRotation();
+               UpdatePosition();
           }
      }
 
+
+
+     // TEST ---------------------------------------------------------------------
+
+     float blinkDist = 20;
+     void Blink()
+     {
+          //var rot = PlayerChara.me.transform.rotation.eulerAngles;
+          //rot.y = 0; //blink in XZ plane
+          //var dir = Quaternion.Euler(rot) * Vector3.forward;
+          //PlayerChara.me.transform.position += dir.normalized * blinkDist;
+
+          PlayerChara.me.transform.position += PlayerChara.me.transform.rotation * Vector3.forward * blinkDist;
+
+          Debug.Log("BLINK ");
+     }
+
+     void UpdateColor()
+     {
+          if (clickToRandColor)
+          {
+               clickToRandColor = false;
+               var color = new Color(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f));
+               PlayerChara.me.ChangeColor_ServerRpc(color);
+          }
+     }
 
      // input ---------------------------------------------------------------------
 
@@ -39,6 +73,7 @@ public class PlayerController : MonoBehaviour
      float inputZ; //forward
      float inputY; //jump
      bool isRunning = false;
+     bool blink = false;
 
      void UpdateInput()
      {
@@ -55,30 +90,29 @@ public class PlayerController : MonoBehaviour
                inputZ = 0;
                isRunning = false;
                inputY = 0;
+               blink = false;
           }
      }
 
 
-
      // move ---------------------------------------------------------------------
+     CharaStatus setting { get => CharaStatus.singleton; }
+     float acc { get => setting.acc; }
+     float speedCap { get => setting.speedCap; }
+     float speedCapRun { get => setting.speedCapRun; }
+     float speedCapAirborne { get => setting.speedCapAirborne; }
+     float jumpForce { get => setting.jumpForce; }
+     float rotateSpeed { get => setting.rotateSpeed; }
 
-     Vector3 vel;
-     Rigidbody rb { get => PlayerChara.mine.rb; }
+     float gravity { get => GlobalSetting.singleton.gravity; }
 
-     float acc { get => PlayerStatus.inst.acc; }
-     float speedCap { get => PlayerStatus.inst.speedCap; }
-     float speedCapRun { get => PlayerStatus.inst.speedCapRun; }
-     float speedCapAirborne { get => PlayerStatus.inst.speedCapAirborne; }
-     float jumpForce { get => PlayerStatus.inst.jumpForce; }
      bool isGrounded { get => true; set { } } //TODO
-     float gravity { get => PlayerStatus.inst.gravity; }
-     float G { get => PlayerStatus.inst.G; }
 
 
      void UpdatePosition()
      {
-          // XZ: vertical verticle
-          vel = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+          // XZ move
+          var vel = new Vector3(rb.velocity.x, 0, rb.velocity.z);
 
           if (cam != null)
           {
@@ -93,7 +127,8 @@ public class PlayerController : MonoBehaviour
                vel += new Vector3(inputX, 0, inputZ).normalized * acc * Time.fixedDeltaTime;
           }
 
-          // clamp XZ
+
+          // cap XZ speed
           float _clamp = isGrounded ? (isRunning ? speedCapRun : speedCap) : speedCapAirborne;
           vel = Vector3.ClampMagnitude(vel, _clamp);
 
@@ -109,22 +144,13 @@ public class PlayerController : MonoBehaviour
           }
           else
           {
-               rb.velocity = new Vector3(vel.x, rb.velocity.y - gravity * G * Time.fixedDeltaTime, vel.z);
+               rb.velocity = new Vector3(vel.x, rb.velocity.y - gravity * Time.fixedDeltaTime, vel.z);
           }
-
-          _vel = rb.velocity;
      }
-
-     public Vector3 _vel;
-
-     // rotation ---------------------------------------------------------------------
-
-     public static Vector3 mouseHit;
-     float rotateSpeed { get => PlayerStatus.inst.rotateSpeed; }
 
      void UpdateRotation()
      {
-          var player = PlayerChara.mine;
+          var player = PlayerChara.me;
           var ray = cam.ScreenPointToRay(Input.mousePosition);
 
           if (Physics.Raycast(ray, out var hit))
@@ -139,15 +165,5 @@ public class PlayerController : MonoBehaviour
      }
 
 
-
-     // spectator camera ---------------------------------------------------------------------
-
-     bool specMode = false;
-
-     public void ToggleSpectatorMode()
-     {
-          specMode = !specMode;
-          CameraMgr.inst.SetSpectatorMode(specMode);
-     }
 
 }

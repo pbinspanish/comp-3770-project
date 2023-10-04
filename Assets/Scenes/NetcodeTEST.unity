@@ -742,7 +742,6 @@ GameObject:
   - component: {fileID: 274804242}
   - component: {fileID: 274804243}
   - component: {fileID: 274804244}
-  - component: {fileID: 274804241}
   m_Layer: 0
   m_Name: PlayerControl
   m_TagString: Untagged
@@ -750,28 +749,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &274804241
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 274804240}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 485a37234bcfc5644a24bbf7e7425ae1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  color: {r: 0, g: 0.18722677, b: 1, a: 1}
-  clickToRandColor: 0
-  acc: 80
-  speedCap: 10
-  speedCapRun: 25
-  speedCapAirborne: 5
-  rotateSpeed: 800
-  jumpForce: 100
-  gravity: 9.8
-  G: 2
 --- !u!4 &274804242
 Transform:
   m_ObjectHideFlags: 0
@@ -799,6 +776,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 506a07ed5a98cca49aff2432f43f88c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enableMoveInput: 1
+  clickToRandColor: 0
 --- !u!114 &274804244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7964,6 +7943,8 @@ GameObject:
   - component: {fileID: 1552324572}
   - component: {fileID: 1552324573}
   - component: {fileID: 1552324574}
+  - component: {fileID: 1552324576}
+  - component: {fileID: 1552324575}
   m_Layer: 0
   m_Name: TEST
   m_TagString: Untagged
@@ -7980,7 +7961,7 @@ Transform:
   m_GameObject: {fileID: 1552324571}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 10000, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8020,6 +8001,41 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &1552324575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552324571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea247ee5df6a383409eccd459f41431d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  acc: 80
+  speedCap: 10
+  speedCapRun: 25
+  speedCapAirborne: 5
+  rotateSpeed: 800
+  jumpForce: 100
+  color: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &1552324576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552324571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 220b72e7e9f9fd244870f7576601ea83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clientSmooth: 0.4
+  clientSmoothFlat: 1
+  clientMaxDeviation: 10
+  gravity: 9.8
 --- !u!1 &1576634222
 GameObject:
   m_ObjectHideFlags: 0
@@ -8253,7 +8269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ProtocolType: 0
-  m_MaxPacketQueueSize: 128
+  m_MaxPacketQueueSize: 256
   m_MaxPayloadSize: 6144
   m_HeartbeatTimeoutMS: 500
   m_ConnectTimeoutMS: 1000
@@ -8264,8 +8280,8 @@ MonoBehaviour:
     Port: 7777
     ServerListenAddress: 127.0.0.1
   DebugSimulator:
-    PacketDelayMS: 0
-    PacketJitterMS: 0
+    PacketDelayMS: 100
+    PacketJitterMS: 400
     PacketDropRate: 0
 --- !u!114 &1614285222
 MonoBehaviour:
@@ -8345,7 +8361,7 @@ Transform:
   m_GameObject: {fileID: 1625112026}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.581057, y: 0, z: -1.0834664}
+  m_LocalPosition: {x: 10000, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8363,18 +8379,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e23ad3d825a38d240a2db79e591d160b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 187653448068468398, guid: e86a8fb92fb9015458b421efdbf46dc6, type: 3}
-  log: 0
-  damage: 1
-  AoEDamage: 2
-  AoERadius: 10
-  velocity: 40
-  penetrate: 1
-  force: {x: 150, y: 50}
-  despawnRange: 1000
-  despawnInSec: 10
-  poolCount: 0
-  poolActive: 0
+  hotkey: 323
+  setting:
+    projectile: {fileID: 187653448068468398, guid: e86a8fb92fb9015458b421efdbf46dc6, type: 3}
+    log: 0
+    clientHasAutority: 1
+    speed: 40
+    damage: 1
+    maxVictim: 1
+    knock: {x: 100, y: 33}
+    range: 100
+    launchOffset: {x: 0, y: 1, z: 0}
+    hitEnemy: 1
+    hitWall: 1
+    hitPlayer: 0
+    stickToTarget: 30
+    stickToWall: 30
+  poolState: 
 --- !u!114 &1625112029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8802,10 +8823,10 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1614285223}
   - {fileID: 1552324572}
-  - {fileID: 274804242}
   - {fileID: 1625112027}
+  - {fileID: 1614285223}
+  - {fileID: 274804242}
   - {fileID: 1790494917}
   - {fileID: 203768985}
   - {fileID: 2896301734676765338}
@@ -8814,9 +8835,9 @@ SceneRoots:
   - {fileID: 824409154}
   - {fileID: 1978485062}
   - {fileID: 274333468}
-  - {fileID: 1471460950}
   - {fileID: 860917212}
   - {fileID: 1123249126}
   - {fileID: 619603454}
   - {fileID: 1249074955}
   - {fileID: 1278446502}
+  - {fileID: 1471460950}

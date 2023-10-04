@@ -8,17 +8,18 @@ using Unity.Netcode.Transports.UTP;
 using UnityEngine;
 
 
-
 public class TEST : NetworkBehaviour
 {
 
-     public static TEST inst;
+     public static TEST singleton { get { if (_singleton == null) _singleton = FindObjectOfType<TEST>(); return _singleton; } }
+     static TEST _singleton;
+
      ulong clientID { get => NetworkManager.Singleton.LocalClientId; }
+
 
      void Awake()
      {
-          inst = this;
-          _inputIP = GetLocalIPv4();// or localhost 127.0.0.1
+          _inputIP = GetLocalIPv4();
      }
      void Start()
      {
@@ -26,6 +27,14 @@ public class TEST : NetworkBehaviour
 
           StartCoroutine(UpdateIP());
           StartCoroutine(UpdateFPS());
+
+          var sim = NetworkManager.GetComponent<UnityTransport>().DebugSimulator;
+          if (sim.PacketDelayMS > 0 || sim.PacketJitterMS > 0 || sim.PacketDropRate > 0)
+          {
+               simulateLatency = true;
+               Debug.Log("------------- Simulating latency -------------");
+          }
+
      }
 
      IEnumerator UpdateFPS()
@@ -128,13 +137,21 @@ public class TEST : NetworkBehaviour
      string _inputIP;
      bool _visible = true;
      public float fps;
+     bool simulateLatency = false;
 
      void OnGUI()
      {
           // toggle GUI
-          if (GUILayout.Button(fps + "", GUILayout.Height(40), GUILayout.Width(40)))
+
+          //if (GUILayout.Button(fps + "", GUILayout.Height(40), GUILayout.Width(40)))
+          //     _visible = !_visible;
+          //if (!_visible) return;
+
+          if (GUILayout.Button(simulateLatency ? "LATENCY" : "", GUILayout.Height(40), GUILayout.Width(64)))
                _visible = !_visible;
           if (!_visible) return;
+
+
           GUILayout.BeginArea(new Rect(16, 16, 400, 5000));//-------------------------------------------------------
 
 

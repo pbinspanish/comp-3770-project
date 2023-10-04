@@ -30,7 +30,7 @@ public class Item : MonoBehaviour
      {
           col = GetComponent<Collider>();
           col.isTrigger = true;
-          gameObject.layer = LayerMask.NameToLayer("CollideWithPlayer");
+          //gameObject.layer = LayerMask.NameToLayer("Item");
      }
 
      // 2d image
@@ -49,7 +49,7 @@ public class Item : MonoBehaviour
 
      void OnTriggerEnter(Collider other)
      {
-          Debug.Log("OnTriggerEnter");
+          //Debug.Log("OnTriggerEnter");
      }
 
 }

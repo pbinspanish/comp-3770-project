@@ -5,6 +5,7 @@ using UnityEngine.Pool;
 using UnityEngine.UI;
 
 
+// TEST class
 public class UIHpText : MonoBehaviour
 {
 
@@ -18,7 +19,7 @@ public class UIHpText : MonoBehaviour
 
           hpClass.OnHpChange += OnChange;
           hpClass.OnRevive += OnChange;
-          hpClass.OnDeath += OnDeath;
+          hpClass.OnDeathBlow += OnDeathBlow;
      }
      void LateUpdate()
      {
@@ -29,11 +30,11 @@ public class UIHpText : MonoBehaviour
      {
           transform.LookAt(transform.position + Camera.main.transform.forward);
      }
-     void OnChange()
+     void OnChange(int delta)
      {
-          ui_text.text = hpClass.HP + "/" + hpClass.maxHP;
+          ui_text.text = hpClass.hp + "/" + hpClass.maxHP;
      }
-     void OnDeath()
+     void OnDeathBlow(int delta)
      {
           ui_text.text = "DEAD";
      }

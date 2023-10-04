@@ -1,30 +1,30 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Globalization;
 using Unity.Netcode;
 using UnityEngine;
+using Unity.Netcode.Components;
 using System;
-
 
 public class PlayerChara : NetworkBehaviour
 {
 
-     // this is player's charactor, phyically moving in the game world
-     // controlled by PlayerController
+     // player's charactor, controlled by PlayerController
 
 
      // public
-     public static PlayerChara mine;
-     public Rigidbody rb { get; private set; }
+     public static PlayerChara me; //the charactor you control. everyone else is controlled by server
 
-     // net var
-     NetworkVariable<Vector3> nPos = new(writePerm: NetworkVariableWritePermission.Owner);
-     NetworkVariable<Quaternion> nRot = new(writePerm: NetworkVariableWritePermission.Owner);
+     public Rigidbody rb { get; private set; }
+     public CapsuleCollider col { get; private set; } //physical collider, smoothed
+     public CapsuleCollider ghostCol { get; private set; } //trigger collider, no smooth, for spell hit / pick up item / map event etc..
+
+     //public Action<Collider> OnTriggerEnter_ { set => ghost.OnTriggerEnter_ = value; }
+     //public Action<Collider> OnTriggerExit_ { set => ghost.OnTriggerExit_ = value; }
+     //public Action<Collider> OnTriggerStay_ { set => ghost.OnTriggerStay_ = value; }
 
      // private
-     readonly static float smooth = 0.05f;
-     Vector3 _vel;
-     ulong clientID { get => NetworkManager.Singleton.LocalClientId; }
+     NetworkVariable<Vector3> netPos = new(writePerm: NetworkVariableWritePermission.Owner);
+     NetworkVariable<Quaternion> netRot = new(writePerm: NetworkVariableWritePermission.Owner);
+     PlayerChara_GhostCollider ghost;
 
 
      public override void OnNetworkSpawn()
@@ -32,33 +32,64 @@ public class PlayerChara : NetworkBehaviour
           base.OnNetworkSpawn();
 
           if (IsOwner)
-               mine = this;
+               me = this;
 
           rb = GetComponent<Rigidbody>();
+          col = GetComponent<CapsuleCollider>();
+          col.isTrigger = false;
+
+          ghost = GetComponentInChildren<PlayerChara_GhostCollider>();
+          ghostCol = ghost.GetComponent<CapsuleCollider>();
+          ghostCol.isTrigger = true;
+
           gameObject.layer = LayerMask.NameToLayer("Player");
+          ghost.gameObject.layer = LayerMask.NameToLayer("PlayerGhost");
      }
 
-
-     void Update()
+     void FixedUpdate()
      {
           if (IsOwner)
           {
-               nPos.Value = transform.position;
-               nRot.Value = transform.rotation;
+               netRot.Value = transform.rotation;
+               netPos.Value = transform.position;
           }
           else
           {
-               transform.position = Vector3.SmoothDamp(transform.position, nPos.Value, ref _vel, smooth);
-               transform.rotation = nRot.Value;
+               transform.rotation = netRot.Value;
+               SmoothPos();
           }
      }
+
+
+     // smooth --------------------------------------------------------------------------------------------
+     Vector3 _vel;
+     void SmoothPos()
+     {
+          if (transform.position == netPos.Value)
+               return;
+
+          if (Vector3.Distance(transform.position, netPos.Value) <= GlobalSetting.singleton.clientMaxDeviation)
+          {
+               // smooth
+               transform.position = Vector3.MoveTowards(transform.position, netPos.Value, GlobalSetting.singleton.clientSmoothFlat * Time.fixedDeltaTime);
+               transform.position = Vector3.SmoothDamp(transform.position, netPos.Value, ref _vel, GlobalSetting.singleton.clientSmooth, float.MaxValue, Time.fixedDeltaTime);
+          }
+          else
+          {
+               transform.position = netPos.Value; //no smooth
+          }
+
+          ghostCol.transform.position = netPos.Value; // collider with no smooth
+     }
+
+
+     // RPC --------------------------------------------------------------------------------------------
 
      [ServerRpc(RequireOwnership = false)]
      public void ChangeColor_ServerRpc(Color color) //just for fun
      {
           ChangeColor_ClientRpc(color);
      }
-
      [ClientRpc]
      void ChangeColor_ClientRpc(Color color)
      {
