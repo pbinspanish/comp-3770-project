@@ -5,28 +5,26 @@ using Unity.Netcode;
 using UnityEngine;
 
 
+/// <summary>
+/// Script attached to a projectile. Handle collision, damage, knock...
+/// </summary>
 public class Projectile : MonoBehaviour
 {
-     // The main script to detect collision, damage, knock back etc...
-     // Create by - ProjectileLauncher
-     // Get data from - ProjectileSetting
 
-
-     //TODO: currently let the firing client decide damage and knock, see how it works out
+     //TODO: [TEST] currently let the firing client decide damage and knock, see how it works out
      bool authority { get => setting.clientHasAutority ? (originClientID == clientID) : isServerObj; }
+     bool log { get => setting.log; } //test
 
 
+     //public
      [Header("Setting")]
      public Vector3 colliderCenter = new Vector3(0, 0, 0);
      public float colliderRadius = 1.5f;
 
 
-     // private
-     [HideInInspector] public ProjectileLauncher launcher;
-     static int collideMask;
-     static int targetMask;
-     static int wallMask;
+     //private
      ProjectileSetting setting { get => launcher.setting; }
+     [HideInInspector] public ProjectileLauncher launcher;
      bool inUse = false; //if not inUse, then it won't move/collide, only wait for despawn
      float tDespawn;
      List<GameObject> victims = new List<GameObject>();
@@ -34,8 +32,6 @@ public class Projectile : MonoBehaviour
      Vector3 velocity;
      ulong clientID { get => NetworkManager.Singleton.LocalClientId; }
      bool isServerObj { get => NetworkManager.Singleton.IsServer; }
-     bool log { get => setting.log; }
-
 
 
      void FixedUpdate()
@@ -43,27 +39,12 @@ public class Projectile : MonoBehaviour
           if (Time.fixedTime > tDespawn)
           {
                EndOfUse();
-               return;
           }
           else if (inUse)
           {
                Move();
                DetectCollisions();
           }
-     }
-
-
-     // initialize ---------------------------------------------------------------------------------
-     public static void InitLayer(ProjectileSetting setting)
-     {
-          targetMask = wallMask = collideMask = 0;
-
-          if (setting.hitEnemy) targetMask |= LayerMask.GetMask("Enemy");
-          if (setting.hitPlayer) targetMask |= LayerMask.GetMask("Player");
-          if (setting.hitWall) wallMask |= LayerMask.GetMask("Default");
-
-          collideMask |= targetMask;
-          collideMask |= wallMask;
      }
 
 
@@ -119,7 +100,7 @@ public class Projectile : MonoBehaviour
      void DetectCollisions()
      {
           var position = transform.localToWorldMatrix.MultiplyPoint(colliderCenter);
-          var numCollisions = Physics.OverlapSphereNonAlloc(position, colliderRadius, _cache, collideMask);
+          var numCollisions = Physics.OverlapSphereNonAlloc(position, colliderRadius, _cache, setting.colMask);
 
           for (int i = 0; i < numCollisions; i++)
           {
@@ -127,7 +108,7 @@ public class Projectile : MonoBehaviour
                int colMask = 1 << col.gameObject.layer;
 
                //if wall
-               if ((colMask & wallMask) != 0)
+               if ((colMask & setting.wallMask) != 0)
                {
                     OnHitVFX(transform.position, col.gameObject);
                     StuckToObject(col.transform, true);
@@ -136,7 +117,7 @@ public class Projectile : MonoBehaviour
                }
 
                //if target
-               if ((colMask & targetMask) != 0)
+               if ((colMask & setting.targetMask) != 0)
                {
                     if (victims.Contains(col.gameObject))
                          continue;
@@ -189,7 +170,8 @@ public class Projectile : MonoBehaviour
 
           if (!isServerObj)
                return;
-
+          if (setting.knock.x == 0 && setting.knock.y == 0)
+               return;
           var _rb = target.GetComponent<Rigidbody>();
           if (!_rb)
                return;

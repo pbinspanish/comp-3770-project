@@ -6,16 +6,19 @@ using UnityEngine;
 using UnityEngine.Pool;
 
 
+/// <summary>
+/// Creates and Fire() Projectile.
+/// Also see Projectile, ProjectileSetting.
+/// </summary>
 public class ProjectileLauncher : NetworkBehaviour
 {
-     // create and Fire() Projectile
-     // provide Network service
 
-     public KeyCode hotkey = KeyCode.Mouse0;
+     //public
+     public KeyCode hotkey = KeyCode.Mouse0; //replace with input system later
      public ProjectileSetting setting;
-
      bool log = false; //debug
      public string poolState; //debug
+
 
      //private
      ulong clientID { get => NetworkManager.Singleton.LocalClientId; }
@@ -23,9 +26,8 @@ public class ProjectileLauncher : NetworkBehaviour
 
      void Awake()
      {
-          Projectile.InitLayer(setting);
-
           InitPool();
+          setting.InitLayerMask();
      }
      void Update()
      {
@@ -34,6 +36,7 @@ public class ProjectileLauncher : NetworkBehaviour
           if (Input.GetKeyDown(hotkey) && PlayerChara.me != null)
                Fire();
      }
+
 
 
      // fire projectile ---------------------------------------------------------------
@@ -96,7 +99,6 @@ public class ProjectileLauncher : NetworkBehaviour
           //TODO: despawn?   
 
      }
-
 
 
      // pool ---------------------------------------------------------------------------------

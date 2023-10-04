@@ -16,6 +16,7 @@ public class TEST : NetworkBehaviour
 
      ulong clientID { get => NetworkManager.Singleton.LocalClientId; }
 
+     public bool IO_test = false;
 
      void Awake()
      {
@@ -23,6 +24,8 @@ public class TEST : NetworkBehaviour
      }
      void Start()
      {
+
+
           TEST_SubscribeNetworkEvent();
 
           StartCoroutine(UpdateIP());
@@ -35,6 +38,8 @@ public class TEST : NetworkBehaviour
                Debug.Log("------------- Simulating latency -------------");
           }
 
+          if (IO_test)
+               IO.Example();
      }
 
      IEnumerator UpdateFPS()
@@ -136,7 +141,7 @@ public class TEST : NetworkBehaviour
 
      string _inputIP;
      bool _visible = true;
-     public float fps;
+     float fps;
      bool simulateLatency = false;
 
      void OnGUI()
