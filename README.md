@@ -35,7 +35,7 @@ Layer mask (current only work in my scene - Lucas)
 	Player -
 	Enemy -
 	PlayerGhost - a 2nd invisible collider on player, improve network experience
-	NPC - treated same as player (maybe merge?)
 
-	*projectile use OverlapSphere() for collision, it's cheaper and doesn't need a layer mask
+	*Projectiles use OverlapCapsule() for collision, it's cheaper
+	*Note for OverlapSphere(), if projectile is moving VERY FAST and your collision radius is SMALL, it will miss maybe ~1 out of 10 times.
 ```
