@@ -23,19 +23,25 @@ Ensure the following packages are installed in the project. You can verify this 
 
 ## Development
 ```
-Layer mask (current only work in my scene - Lucas)
-	
-	Very handy when dealing with collision
-	Collision rule is in Edit -> Project Setting -> Physics
-	for an example, check Projectile.cs
+Layer mask
+	Used for collision. Config is in Edit -> Project Setting -> Physics
+	For an example, check Projectile.cs
 
 	Here are the definition:
+		Default - 
+		Player -
+		Enemy -
+		PlayerGhost - a 2nd invisible collider on player, improve network experience
 
-	Default - 
-	Player -
-	Enemy -
-	PlayerGhost - a 2nd invisible collider on player, improve network experience
+	*Projectiles should use OverlapCapsule() for collision (cheaper then collider). OverlapSphere() will sometime miss if projectile is moving very fast.
 
-	*Projectiles use OverlapCapsule() for collision, it's cheaper
-	*Note for OverlapSphere(), if projectile is moving VERY FAST and your collision radius is SMALL, it will miss maybe ~1 out of 10 times.
+
+Visual Effect
+	We are upgrading to URP now (Universual Rendering Pipeline). This means VFX you see on Youtube is do-able now.
+
+	New toy:
+		Shader Graph, Particle Graph (with node editor)
+	Package needed:
+		Shader Graph, Visual Effect Graph, Universual RP
+
 ```
