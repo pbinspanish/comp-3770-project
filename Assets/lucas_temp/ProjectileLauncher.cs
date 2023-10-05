@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,15 +14,17 @@ using UnityEngine.Pool;
 public class ProjectileLauncher : NetworkBehaviour
 {
 
-     //public
+     //publics
      public KeyCode hotkey = KeyCode.Mouse0; //replace with input system later
-     public ProjectileSetting setting;
      bool log = false; //debug
-     public string poolState; //debug
+     public string poolDebug; //debug
+     public string collideCastDebug; //debug
+     public ProjectileSetting setting;
 
 
      //private
      ulong clientID { get => NetworkManager.Singleton.LocalClientId; }
+     float tFire;
 
 
      void Awake()
@@ -31,17 +34,52 @@ public class ProjectileLauncher : NetworkBehaviour
      }
      void Update()
      {
-          poolState = pool.CountActive + " Active | " + pool.CountAll + " Count";
+          poolDebug = pool.CountActive + " Active | " + pool.CountAll + " Count";
+          collideCastDebug = Projectile.countCapsule + " capsule | " + Projectile.countSphere + " sphere";
 
-          if (Input.GetKeyDown(hotkey) && PlayerChara.me != null)
+          if (PlayerChara.me != null)
+          {
+               HandleInput();
+          }
+     }
+
+     void HandleInput()
+     {
+          if (Time.time < tFire)
+               return;
+
+          bool input = false;
+          switch (setting.triggerMode)
+          {
+               case TriggerMode.KeyDown:
+                    input = Input.GetKeyDown(hotkey); break;
+               case TriggerMode.KeyUp:
+                    input = Input.GetKeyUp(hotkey); break;
+               case TriggerMode.FullAuto:
+                    input = Input.GetKey(hotkey); break;
+          }
+
+          if (!input)
+               return;
+
+          if (setting.delay > 0)
+               StartCoroutine(CallLater(Fire, setting.delay));
+          else
                Fire();
      }
 
+     IEnumerator CallLater(Action call, float ms)
+     {
+          yield return new WaitForSeconds(ms / 1000);
 
+          call?.Invoke();
+     }
 
      // fire projectile ---------------------------------------------------------------
      public void Fire()
      {
+          tFire = Time.time + setting.cooldown / 1000;
+
           var data = new NetPackage();
           data.originClientID = clientID;
           data.pos = PlayerChara.me.transform.position;
@@ -77,12 +115,14 @@ public class ProjectileLauncher : NetworkBehaviour
           public ulong originClientID;
           public Vector3 pos;
           public Vector3 dir;
+          public float delay;
 
           void INetworkSerializable.NetworkSerialize<T>(BufferSerializer<T> serializer)
           {
                serializer.SerializeValue(ref originClientID);
                serializer.SerializeValue(ref pos);
                serializer.SerializeValue(ref dir);
+               serializer.SerializeValue(ref delay);
           }
      }
 

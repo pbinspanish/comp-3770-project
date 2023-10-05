@@ -63,6 +63,8 @@ public class Projectile : MonoBehaviour
           transform.rotation = Quaternion.LookRotation(dir);
 
           velocity = dir.normalized * setting.speed;
+
+          _distPerFrame = setting.speed * Time.fixedDeltaTime;
      }
 
 
@@ -70,40 +72,39 @@ public class Projectile : MonoBehaviour
      void Move()
      {
           //choosing this over Rigidbody.Addforce() is because we want to stick the arrow on enemy, but since both has rb they will seperate when add force...
-          pos0 = transform.position;
+          _pos0 = transform.position;
           transform.position += velocity * Time.fixedDeltaTime;
      }
 
 
      // detect collision ---------------------------------------------------------------------------------
-     Collider[] _cache = new Collider[10]; // cast sphere is cheaper then collider
-     Vector3 pos0;
-     void StuckToObject(Transform target, bool isWall = false)
-     {
-          if (!target)
-          {
-               Debug.LogError("");
-               return;
-          }
+     Collider[] _cache = new Collider[10];
+     Vector3 _pos0; //cache
+     float _distPerFrame; //cache
 
-          if (setting.stickToTarget <= 0)
-               return;
-
-          // stick to wall or enemy
-          inUse = false;
-          velocity = Vector3.zero;
-
-          if (!isWall)
-               transform.parent = target;
-
-          tDespawn = Time.fixedTime + (isWall ? setting.stickToWall : setting.stickToTarget);
-     }
+     public static int countCapsule;
+     public static int countSphere;
 
 
      void DetectCollisions()
      {
           var position = transform.localToWorldMatrix.MultiplyPoint(colliderCenter);
-          var sum = Physics.OverlapCapsuleNonAlloc(pos0, transform.position, colliderRadius, _cache, setting.colMask);
+
+          int sum = 0;
+          if (_distPerFrame > colliderRadius * 2)
+          {
+               // if we are moving super fast, and our collision radius is small, to provent missing an object (size be ~1 unit) in a update, use capsul cast
+               sum = Physics.OverlapCapsuleNonAlloc(_pos0, transform.position, colliderRadius, _cache, setting.colMask);
+
+               countCapsule++;
+          }
+          else
+          {
+               // good old sphere cast
+               sum = Physics.OverlapSphereNonAlloc(transform.position, colliderRadius, _cache, setting.colMask);
+
+               countSphere++;
+          }
 
           for (int i = 0; i < sum; i++)
           {
@@ -142,6 +143,27 @@ public class Projectile : MonoBehaviour
                }
           }
 
+     }
+
+     void StuckToObject(Transform target, bool isWall = false)
+     {
+          if (!target)
+          {
+               Debug.LogError("");
+               return;
+          }
+
+          if (setting.stickToTarget <= 0)
+               return;
+
+          // stick to wall or enemy
+          inUse = false;
+          velocity = Vector3.zero;
+
+          if (!isWall)
+               transform.parent = target;
+
+          tDespawn = Time.fixedTime + (isWall ? setting.stickToWall : setting.stickToTarget);
      }
 
 
@@ -203,9 +225,11 @@ public class Projectile : MonoBehaviour
      // show collider ---------------------------------------------------------------------------------
      void OnDrawGizmosSelected()
      {
+          Gizmos.color = Color.blue;
+          Gizmos.DrawWireSphere(_pos0 + colliderCenter, colliderRadius);
+
           Gizmos.color = Color.red;
           Gizmos.DrawWireSphere(transform.position + colliderCenter, colliderRadius);
-          Gizmos.DrawWireSphere(pos0 + colliderCenter, colliderRadius);
      }
 
 
