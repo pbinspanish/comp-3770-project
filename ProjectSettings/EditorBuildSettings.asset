@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/giant hole.unity
     guid: f1ba835fbc71f0540a28005f183ff63e
+  - enabled: 1
+    path: Assets/Scenes/NetcodeTEST2.unity
+    guid: 1b0cd116be186b64f97498ecf28d097f
   m_configObjects: {}

@@ -104,20 +104,21 @@ public class ProjectileLauncher : NetworkBehaviour
      // pool ---------------------------------------------------------------------------------
 
      ObjectPool<Projectile> pool;
-     readonly static int pSize = 200;
-     readonly static int pSizeCap = 500;
 
      void InitPool()
      {
-          pool = new ObjectPool<Projectile>(CreateNewProjectile, null, null, null, false, pSize, pSizeCap);
+          var size = 200;
+          var sizeCap = 500;
+          pool = new ObjectPool<Projectile>(CreateNewProjectile, null, null, null, false, size, sizeCap);
      }
 
      Projectile CreateNewProjectile()
      {
-          var gameObj = Instantiate(setting.projectile, transform);
-          var p = gameObj.GetComponent<Projectile>();
+          var gameObject = Instantiate(setting.projectile, transform);
+          gameObject.SetActive(false);
+
+          var p = gameObject.GetComponent<Projectile>();
           p.launcher = this;
-          p.gameObject.SetActive(false);
 
           return p;
      }

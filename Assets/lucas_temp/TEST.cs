@@ -24,8 +24,6 @@ public class TEST : NetworkBehaviour
      }
      void Start()
      {
-
-
           TEST_SubscribeNetworkEvent();
 
           StartCoroutine(UpdateIP());

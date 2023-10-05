@@ -70,12 +70,14 @@ public class Projectile : MonoBehaviour
      void Move()
      {
           //choosing this over Rigidbody.Addforce() is because we want to stick the arrow on enemy, but since both has rb they will seperate when add force...
+          pos0 = transform.position;
           transform.position += velocity * Time.fixedDeltaTime;
      }
 
 
      // detect collision ---------------------------------------------------------------------------------
      Collider[] _cache = new Collider[10]; // cast sphere is cheaper then collider
+     Vector3 pos0;
      void StuckToObject(Transform target, bool isWall = false)
      {
           if (!target)
@@ -97,12 +99,13 @@ public class Projectile : MonoBehaviour
           tDespawn = Time.fixedTime + (isWall ? setting.stickToWall : setting.stickToTarget);
      }
 
+
      void DetectCollisions()
      {
           var position = transform.localToWorldMatrix.MultiplyPoint(colliderCenter);
-          var numCollisions = Physics.OverlapSphereNonAlloc(position, colliderRadius, _cache, setting.colMask);
+          var sum = Physics.OverlapCapsuleNonAlloc(pos0, transform.position, colliderRadius, _cache, setting.colMask);
 
-          for (int i = 0; i < numCollisions; i++)
+          for (int i = 0; i < sum; i++)
           {
                var col = _cache[i];
                int colMask = 1 << col.gameObject.layer;
@@ -159,7 +162,7 @@ public class Projectile : MonoBehaviour
           if (!hpClass) hpClass = target.GetComponentInParent<HPComponent>();
 
           if (hpClass)
-               hpClass.UpdateHP(-setting.damage);
+               hpClass.DeltaHP(-setting.damage);
           else
                Debug.LogError(target.name);
      }
@@ -202,6 +205,7 @@ public class Projectile : MonoBehaviour
      {
           Gizmos.color = Color.red;
           Gizmos.DrawWireSphere(transform.position + colliderCenter, colliderRadius);
+          Gizmos.DrawWireSphere(pos0 + colliderCenter, colliderRadius);
      }
 
 
