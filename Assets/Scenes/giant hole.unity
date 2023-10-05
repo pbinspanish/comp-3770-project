@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748171, a: 1}
+  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2096,7 +2096,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1098849545
 Transform:
   m_ObjectHideFlags: 0
@@ -2524,7 +2524,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1269813646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2557,18 +2557,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e23ad3d825a38d240a2db79e591d160b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 187653448068468398, guid: e86a8fb92fb9015458b421efdbf46dc6, type: 3}
-  log: 0
-  damage: 1
-  AoEDamage: 2
-  AoERadius: 10
-  velocity: 40
-  penetrate: 1
-  force: {x: 150, y: 50}
-  despawnRange: 1000
-  despawnInSec: 10
-  poolCount: 0
-  poolActive: 0
+  hotkey: 323
+  poolDebug: 
+  collideCastDebug: 
+  setting:
+    projectile: {fileID: 0}
+    log: 0
+    clientHasAutority: 0
+    speed: 20
+    damage: 1
+    maxVictim: 1
+    knock: {x: 100, y: 30}
+    range: 100
+    launchOffset: {x: 0, y: 1.5, z: 0}
+    cooldown: 20
+    delay: 0
+    triggerMode: 0
+    hitEnemy: 1
+    hitWall: 1
+    hitPlayer: 0
+    stickToTarget: 3
+    stickToWall: 30
+    colMask: 0
+    targetMask: 0
+    wallMask: 0
 --- !u!4 &1269813648
 Transform:
   m_ObjectHideFlags: 0
@@ -3047,7 +3059,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1490313055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3100,7 +3112,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 506a07ed5a98cca49aff2432f43f88c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _vel: {x: 0, y: 0, z: 0}
+  enableMoveInput: 1
+  clickToRandColor: 0
 --- !u!4 &1490313058
 Transform:
   m_ObjectHideFlags: 0
@@ -3723,7 +3736,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1733743808
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3756,7 +3769,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0347ee182f80b7942abb928a67fa8437, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fps: 0
+  IO_test: 0
 --- !u!4 &1733743810
 Transform:
   m_ObjectHideFlags: 0
@@ -3855,7 +3868,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1868386513
 MonoBehaviour:
   m_ObjectHideFlags: 0
