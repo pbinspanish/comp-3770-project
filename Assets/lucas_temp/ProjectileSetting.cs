@@ -14,12 +14,12 @@ public class ProjectileSetting
      public GameObject projectile; //prefab
      //public GameObject onHitEffect; //prefab
 
-     [Header("TEST / Debug")]
+     [Header(" - TEST")]
      public bool log = false; //debug
      public bool clientHasAutority = false; //TEST
 
 
-     [Header("Basic")]
+     [Header(" - Basic")]
      public float speed = 20;
      public int damage = 1;
      public int maxVictim = 1;
@@ -27,9 +27,13 @@ public class ProjectileSetting
      public float range = 100;
 
 
-     [Header("Launch")]
-     public Vector3 launchOffset = new Vector3(0, 1, 0);
-     //public float launchDelay = 200;
+     [Header(" - Launch")]
+     public Vector3 launchOffset = new Vector3(0, 1.5f, 0);
+     public float cooldown = 20; //ms before you can launch again
+     public float delay; //ms before you launch
+     public TriggerMode triggerMode = TriggerMode.KeyDown;
+
+
      //public float moveWhileLaunch = 0.5f;
 
 
@@ -40,7 +44,12 @@ public class ProjectileSetting
      //public KnockMode AoEKnockMode = KnockMode.KnockFromAoECenter; 
 
 
-     [Header("TargetMask")]
+     [Header(" - Charge")]
+
+
+
+
+     [Header(" - TargetMask")]
      public bool hitEnemy = true;
      public bool hitWall = true;
      public bool hitPlayer = false;
@@ -50,13 +59,14 @@ public class ProjectileSetting
      //public ExpireMode despawnMode = ExpireMode.Despawn; //
 
 
-     [Header("Visual")]
+     [Header(" - Visual")]
      public float stickToTarget = 3f;
      public float stickToWall = 30f;
 
 
 
-     // not setting ---------------------------------------------------------------------------------
+
+     // not setting  ---------------------------------------------------------------------------------
      [HideInInspector] public int colMask;
      [HideInInspector] public int targetMask;
      [HideInInspector] public int wallMask;
@@ -88,3 +98,9 @@ public enum KnockMode
      KnockFromAoECenter,
 }
 
+public enum TriggerMode
+{
+     KeyDown,
+     KeyUp,
+     FullAuto,
+}
