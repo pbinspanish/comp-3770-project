@@ -85,11 +85,11 @@ public class ProjectileSetting
 
 }
 
-
-public enum ExpireMode
+public enum TriggerMode
 {
-     Despawn,
-     Explode, //only for AOE
+     KeyDown,
+     KeyUp,
+     FullAuto,
 }
 
 public enum KnockMode
@@ -98,9 +98,10 @@ public enum KnockMode
      KnockFromAoECenter,
 }
 
-public enum TriggerMode
-{
-     KeyDown,
-     KeyUp,
-     FullAuto,
-}
+//public enum ExpireMode
+//{
+//     Despawn,
+//     Explode, //only for AOE
+//}
+
+

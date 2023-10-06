@@ -149,10 +149,10 @@ public class ProjectileLauncher : NetworkBehaviour
      {
           var size = 200;
           var sizeCap = 500;
-          pool = new ObjectPool<Projectile>(CreateNewProjectile, null, null, null, false, size, sizeCap);
+          pool = new ObjectPool<Projectile>(CreateNew, null, null, null, false, size, sizeCap);
      }
 
-     Projectile CreateNewProjectile()
+     Projectile CreateNew()
      {
           var gameObject = Instantiate(setting.projectile, transform);
           gameObject.SetActive(false);
