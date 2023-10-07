@@ -1,10 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Pool;
-using static UnityEditor.Progress;
 
 
 public class DropManager : MonoBehaviour
@@ -81,10 +77,10 @@ public class DropManager : MonoBehaviour
           if (!table.trim)
                table.Trim();
 
-          if (table.mode == DropMode.EverythingIsPossible)
+          if (table.Probability == DropMode.EverythingIsPossible)
                return RollFreeForAll(table);
 
-          if (table.mode == DropMode.OneAmongAll)
+          if (table.Probability == DropMode.OneAmongAll)
                return RollOneAmongAll(table);
 
           return null;

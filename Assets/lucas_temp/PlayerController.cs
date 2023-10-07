@@ -1,6 +1,5 @@
 using Unity.Netcode;
 using UnityEngine;
-using static Unity.Collections.AllocatorManager;
 
 
 public class PlayerController : MonoBehaviour
@@ -8,7 +7,7 @@ public class PlayerController : MonoBehaviour
      // get input and control PlayerChara
 
      // public
-     public static Vector3 mouseHit; //
+     public static Vector3 mouseHit { get; private set; }
      public bool enableMoveInput = true; //lose control when eg. knocked away / stunned
      public bool clickToRandColor = false;
 
@@ -104,7 +103,7 @@ public class PlayerController : MonoBehaviour
      float jumpForce { get => setting.jumpForce; }
      float rotateSpeed { get => setting.rotateSpeed; }
 
-     float gravity { get => GlobalSetting.singleton.gravity; }
+     float gravity = 9.8f;
 
      bool isGrounded { get => true; set { } } //TODO
 
@@ -137,7 +136,7 @@ public class PlayerController : MonoBehaviour
           if (inputY != 0 && isGrounded)
           {
                rb.velocity = new Vector3(vel.x, 0, vel.z);
-               rb.AddForce(inputY * jumpForce * Vector3.up, ForceMode.Impulse);
+               rb.AddForce(inputY * jumpForce * Vector3.up, UnityEngine.ForceMode.Impulse);
 
                inputY = 0; //comsume input
                isGrounded = false;
@@ -161,6 +160,10 @@ public class PlayerController : MonoBehaviour
                var dir = hit.point - me;
                var rot = Quaternion.LookRotation(new Vector3(dir.x, 0, dir.z)); //remove up/down tilt
                player.transform.rotation = Quaternion.RotateTowards(player.transform.rotation, rot, rotateSpeed * Time.deltaTime);
+          }
+          else
+          {
+               //Debug.Log("no hit"); no rotation
           }
      }
 

@@ -6,13 +6,15 @@ using UnityEngine;
 
 
 /// <summary>
-/// Handle hp for player, enemy or cucumber alike
+/// Handle hp for player or enemy
+/// [!!!] Must attach to root GameObject
 /// </summary>
 public class HPComponent : NetworkBehaviour, IDamageAble
 {
 
      //public
      public int hpMax = 5; //TODO: migrate to some status class
+     public int hp__; //no use, just for inspector
      public Action<int> OnHpChange;
      public Action OnDeathBlow;
      public Action OnRevive;
@@ -72,7 +74,7 @@ public class HPComponent : NetworkBehaviour, IDamageAble
 
           if (hp != newHP)
           {
-               hp = newHP;
+               hp = hp__ = newHP;
                OnHpChange?.Invoke(hp);
 
                if (hp == 0)

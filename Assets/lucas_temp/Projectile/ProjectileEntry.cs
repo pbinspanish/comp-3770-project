@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
+/// <summary>
+/// Data for Projectile
+/// </summary>
+[CreateAssetMenu(menuName = "3770/ProjectileEntry")]
 public class ProjectileEntry : ScriptableObject
 {
-
-     // data for Projectile
-
 
      public GameObject projectile; //prefab
      //public GameObject onHitEffect; //prefab
@@ -18,48 +18,49 @@ public class ProjectileEntry : ScriptableObject
 
 
      [Header(" - Basic")]
-     public float speed = 20;
-     public int damage = 1;
-     public int maxVictim = 1;
-     public Vector2 knock = new Vector2(100, 30);
+     public float speed = 60;
      public float range = 100;
+     public int damage = 1;
+     public int dmgRandomRange = 0; // -this < x < this. Randomly change damage by x
+     public int maxHit = 1;
 
 
-     [Header(" - Launch")]
-     public Vector3 launchOffset = new Vector3(0, 1.5f, 0);
-     public float cooldown = 20; //ms before you can launch again
-     public float delay; //ms before you launch
+     [Header(" - Launching")]
      public TriggerMode triggerMode = TriggerMode.KeyDown;
+     public float spawnOffsetUp = 1.5f;
+     public float spawnOffsetFwd = 2f;
+     public float delay = 0; //ms before launch
+     public float cooldown = 20; //ms before launch again
 
 
-     //public float moveWhileLaunch = 0.5f;
+     [Header(" - Force")]
+     public float forceUp = 33;
+     public float forceFwd = 100;
+     public ForceDir forceDirection = ForceDir.Foward;
 
 
-     //[Header("AoE")]
-     //public int AoEDamage = 1; 
-     //public int AoERadius = 10; 
-     //public Vector2 AoEKnock = new Vector2(100, 30); 
-     //public KnockMode AoEKnockMode = KnockMode.KnockFromAoECenter; 
+     [Header(" - AoE")]
+     public bool hitSameTarget = false; // can we hit more then once? eg a fire wall
+     public float hitSameTargetEvery = 1000; //ms
 
 
-     [Header(" - Charge")]
-
-
-
-
-     [Header(" - TargetMask")]
+     [Header(" - Other")]
+     public float stickToTarget = 30f;
+     public float stickToWall = 30f;
      public bool hitEnemy = true;
      public bool hitWall = true;
      public bool hitPlayer = false;
+     [Range(0, 89)] public float maxUpwardsAgnle = 30;
+     [Range(0, 89)] public float maxDownwardsAgnle = 0; //can we fire up/downwards?
+
+
+     [Header(" - WIP")]
+     [Range(0, 100)] public int speedWhenDelay = 100; //% of speed
+
 
 
      //[Header("Despawn")]
      //public ExpireMode despawnMode = ExpireMode.Despawn; //
-
-
-     [Header(" - Visual")]
-     public float stickToTarget = 3f;
-     public float stickToWall = 30f;
 
 
 
@@ -83,3 +84,25 @@ public class ProjectileEntry : ScriptableObject
 
 
 }
+
+
+public enum TriggerMode
+{
+     KeyDown,
+     KeyUp,
+     FullAuto,
+}
+
+public enum ForceDir
+{
+     Foward, //eg push / pull target
+     RelativeToCenter, //eg push away / suck to center
+}
+
+//public enum ExpireMode
+//{
+//     Despawn,
+//     Explode, //only for AOE
+//}
+
+

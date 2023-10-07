@@ -6,26 +6,36 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-[CreateAssetMenu(menuName = "DropTable")]
+
+public enum DropMode
+{
+     EverythingIsPossible, //Roll every item independently
+     EverythingIsPossible_ButNeverNothing, //If all fail, use weighted probability to roll 1 item
+     OneAmongAll, //ONLY and ALWAYS drop 1 item. Use weighted probability
+}
+
+
+[CreateAssetMenu(menuName = "3770/DropTable")]
 [ExecuteInEditMode]
 public class DropTable : ScriptableObject
 {
-     [SerializeField]
-     public DropMode mode = DropMode.EverythingIsPossible;
-     public bool clickToTrim; //delete null or duplicated items
+
+     [Tooltip("Delete duplicated, null or empty entry")]
+     public bool clickMeToTrim;
+     public DropMode Probability = DropMode.EverythingIsPossible;
      public List<DropEntry> entries;
 
-     [HideInInspector] public bool trim;
 
      void OnValidate()
      {
-          if (clickToTrim)
+          if (clickMeToTrim)
           {
-               clickToTrim = false;
+               clickMeToTrim = false;
                Trim();
           }
      }
 
+     [HideInInspector] public bool trim;
      public void Trim()
      {
           //this structure appears in inspector, who knows what user'd do?
@@ -54,8 +64,3 @@ public class DropEntry
 }
 
 
-public enum DropMode
-{
-     EverythingIsPossible, //roll every item independently, so you may get iron, lemon and diamond all at once!
-     OneAmongAll, //will ONLY and ALWAYS drop 1 item. Use weighted probability
-}

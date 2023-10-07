@@ -34,7 +34,10 @@ public class ScriptableObjectDrawer : PropertyDrawer
                // Draw object properties
                if (!editor)
                     Editor.CreateCachedEditor(property.objectReferenceValue, null, ref editor);
-               editor.OnInspectorGUI();
+
+               if (editor) // Catch empty property
+                    editor.OnInspectorGUI();
+               //editor.OnInspectorGUI();
 
                // Set indent back to what it was
                EditorGUI.indentLevel--;
@@ -55,7 +58,6 @@ public class _DummyEditor : Editor
      With this empty implementation it doesn't alter anything, it just removes Unitys property drawing bug.
      */
 }
-
 
 
 

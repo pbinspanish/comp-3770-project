@@ -10,13 +10,15 @@ using UnityEngine;
 
 public class TEST : NetworkBehaviour
 {
+     public static TEST inst { get { if (_inst == null) _inst = FindObjectOfType<TEST>(); return _inst; } }
 
-     public static TEST singleton { get { if (_singleton == null) _singleton = FindObjectOfType<TEST>(); return _singleton; } }
-     static TEST _singleton;
+     //public
+     public bool quickTest = false;
 
+     //private
+     static TEST _inst;
      ulong clientID { get => NetworkManager.Singleton.LocalClientId; }
 
-     public bool IO_test = false;
 
      void Awake()
      {
@@ -29,22 +31,20 @@ public class TEST : NetworkBehaviour
           StartCoroutine(UpdateIP());
           StartCoroutine(UpdateFPS());
 
+          if (quickTest)
+          {
+               StartHost();
+               _showGUI = false;
+          }
+
           var sim = NetworkManager.GetComponent<UnityTransport>().DebugSimulator;
           if (sim.PacketDelayMS > 0 || sim.PacketJitterMS > 0 || sim.PacketDropRate > 0)
           {
                simulateLatency = true;
-               Debug.Log("------------- Simulating latency -------------");
+               Debug.Log("[!!!] Simulating latency");
           }
-
-          if (IO_test)
-               IO.Example();
      }
 
-     IEnumerator UpdateFPS()
-     {
-          fps = 1f / Time.deltaTime;
-          yield return new WaitForSeconds(2);
-     }
 
      // set up connection ----------------------------------------------------------------------------
 
@@ -116,43 +116,19 @@ public class TEST : NetworkBehaviour
      }
 
 
-
-     // spawn gameobject ----------------------------------------------------------------------------
-
-     void BossSummonMinion()
-     {
-          //W
-     }
-
-
-     // pick up gold coin
-     void PickUpCoin() // put latency to test
-     {
-          //W
-     }
-
-
-
-
-
      // OnGUI ----------------------------------------------------------------------------
 
      string _inputIP;
-     bool _visible = true;
+     bool _showGUI = true;
      float fps;
      bool simulateLatency = false;
 
      void OnGUI()
      {
           // toggle GUI
-
-          //if (GUILayout.Button(fps + "", GUILayout.Height(40), GUILayout.Width(40)))
-          //     _visible = !_visible;
-          //if (!_visible) return;
-
-          if (GUILayout.Button(simulateLatency ? "LATENCY" : "", GUILayout.Height(40), GUILayout.Width(64)))
-               _visible = !_visible;
-          if (!_visible) return;
+          if (GUILayout.Button((int)fps + " " + (simulateLatency ? "(L)" : ""), GUILayout.Height(40), GUILayout.Width(64)))
+               _showGUI = !_showGUI;
+          if (!_showGUI) return;
 
 
           GUILayout.BeginArea(new Rect(16, 16, 400, 5000));//-------------------------------------------------------
@@ -225,6 +201,11 @@ public class TEST : NetworkBehaviour
                log += "\n" + _array[i];
      }
 
+     IEnumerator UpdateFPS()
+     {
+          fps = 1f / Time.deltaTime;
+          yield return new WaitForSeconds(2);
+     }
 
 
 

@@ -68,11 +68,11 @@ public class PlayerChara : NetworkBehaviour
           if (transform.position == netPos.Value)
                return;
 
-          if (Vector3.Distance(transform.position, netPos.Value) <= GlobalSetting.singleton.clientMaxDeviation)
+          if (Vector3.Distance(transform.position, netPos.Value) <= NetworkSetting.clientMaxDeviation)
           {
                // smooth
-               transform.position = Vector3.MoveTowards(transform.position, netPos.Value, GlobalSetting.singleton.clientSmoothFlat * Time.fixedDeltaTime);
-               transform.position = Vector3.SmoothDamp(transform.position, netPos.Value, ref _vel, GlobalSetting.singleton.clientSmooth, float.MaxValue, Time.fixedDeltaTime);
+               transform.position = Vector3.MoveTowards(transform.position, netPos.Value, NetworkSetting.clientSmoothFlat * Time.fixedDeltaTime);
+               transform.position = Vector3.SmoothDamp(transform.position, netPos.Value, ref _vel, NetworkSetting.clientSmooth, float.MaxValue, Time.fixedDeltaTime);
           }
           else
           {

@@ -1,9 +1,7 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
-
 
 /// <summary>
 /// Script attached to a projectile. Handle collision, damage, knock...
@@ -23,7 +21,7 @@ public class Projectile : MonoBehaviour
 
 
      //private
-     ProjectileSetting setting { get => launcher.setting; }
+     ProjectileEntry setting { get => launcher.setting; }
      [HideInInspector] public ProjectileLauncher launcher;
      bool inUse = false; //if not inUse, then it won't move/collide, only wait for despawn
      float tDespawn;
@@ -51,20 +49,28 @@ public class Projectile : MonoBehaviour
      // fire ---------------------------------------------------------------------------------
      public void Fire(Vector3 start, Vector3 dir, ulong originClientID)
      {
+          enabled = true;
+          gameObject.SetActive(true);
+
           inUse = true;
 
-          victims.Clear();
           tDespawn = Time.time + setting.range / setting.speed;
-          this.originClientID = originClientID;
 
-          gameObject.SetActive(true);
+          victims.Clear();
+          _hitCount = 0;
+
+          this.originClientID = originClientID;
 
           transform.position = start;
           transform.rotation = Quaternion.LookRotation(dir);
 
           velocity = dir.normalized * setting.speed;
 
-          _distPerFrame = setting.speed * Time.fixedDeltaTime;
+          _distPerFrame = setting.speed * Time.fixedDeltaTime; //cache speed
+
+          foreach (var particle in GetComponentsInChildren<ParticleSystem>())
+               particle.Play();
+
      }
 
 
@@ -81,9 +87,8 @@ public class Projectile : MonoBehaviour
      Collider[] _cache = new Collider[10];
      Vector3 _pos0; //cache
      float _distPerFrame; //cache
-
-     public static int countCapsule;
-     public static int countSphere;
+     int _hitCount;
+     float tResetVictim;
 
 
      void DetectCollisions()
@@ -95,55 +100,78 @@ public class Projectile : MonoBehaviour
           {
                // if we are moving super fast, and our collision radius is small, to provent missing an object (size be ~1 unit) in a update, use capsul cast
                sum = Physics.OverlapCapsuleNonAlloc(_pos0, transform.position, colliderRadius, _cache, setting.colMask);
-
-               countCapsule++;
           }
           else
           {
                // good old sphere cast
                sum = Physics.OverlapSphereNonAlloc(transform.position, colliderRadius, _cache, setting.colMask);
-
-               countSphere++;
           }
+
 
           for (int i = 0; i < sum; i++)
           {
-               var col = _cache[i];
-               int colMask = 1 << col.gameObject.layer;
+               Collider target = _cache[i];
+               int mask = 1 << target.gameObject.layer;
+
 
                //if wall
-               if ((colMask & setting.wallMask) != 0)
+               if ((mask & setting.wallMask) != 0)
                {
-                    OnHitVFX(transform.position, col.gameObject);
-                    StuckToObject(col.transform, true);
+                    OnHitVFX(target.gameObject);
+                    StuckToObject(target.transform, true); //end of use
 
                     return;
                }
 
+
                //if target
-               if ((colMask & setting.targetMask) != 0)
+               if (setting.hitSameTarget && Time.time > tResetVictim)
                {
-                    if (victims.Contains(col.gameObject))
+                    victims.Clear();
+                    tResetVictim = -1; //so we know to get a new value later
+               }
+
+               if ((mask & setting.targetMask) != 0)
+               {
+                    // we don't mind throwing dead enemy around
+                    Knock(target.gameObject);
+
+
+                    // if reset victim timer (some spell can damage the same target every X second)
+                    if (setting.hitSameTarget && tResetVictim == -1)
+                         tResetVictim = Time.time + setting.hitSameTargetEvery / 1000;
+
+                    // if alive
+                    var hpClass = target.GetComponent<HPComponent>();
+                    if (hpClass == null || hpClass.hp == 0)
                          continue;
 
-                    victims.Add(col.gameObject);
+                    // if already victim
+                    if (victims.Contains(target.gameObject))
+                         continue;
 
-                    //meat and juice
-                    OnHitVFX(transform.position, col.gameObject);
-                    Damage(col.gameObject);
-                    Knock(col.gameObject);
 
-                    launcher.OnHit_ClientRPC(transform.position, col.transform.position);
+                    // good
+                    _hitCount++;
+                    victims.Add(target.gameObject);
 
-                    if (victims.Count >= setting.maxVictim)
+                    OnHitVFX(target.gameObject);
+                    Damage(target.gameObject);
+
+                    //network
+                    launcher.AfterHit_ClientRPC(transform.position, target.transform.position);
+
+                    // end of use
+                    if (_hitCount >= setting.maxHit)
                     {
-                         StuckToObject(col.transform); //stick to last target
-                         return; //skip the loop
+                         StuckToObject(target.transform); //end of use
+                         return;
                     }
                }
           }
 
      }
+
 
      void StuckToObject(Transform target, bool isWall = false)
      {
@@ -168,10 +196,11 @@ public class Projectile : MonoBehaviour
 
 
      // on hit ---------------------------------------------------------------------------------
-     void OnHitVFX(Vector3 projectilePos, GameObject target) //visual effect
+     void OnHitVFX(GameObject target) //visual effect
      {
           if (log) Debug.Log("OnHitVFX()");
      }
+
 
      void Damage(GameObject target)
      {
@@ -180,14 +209,20 @@ public class Projectile : MonoBehaviour
           if (!authority)
                return;
 
-          var hpClass = target.GetComponent<HPComponent>();
-          if (!hpClass) hpClass = target.GetComponentInParent<HPComponent>();
+          // absolute value
+          int abs = Mathf.Abs(setting.damage) + Random.Range(-setting.dmgRandomRange, setting.dmgRandomRange + 1);
+          abs = Mathf.Clamp(abs, 1, int.MaxValue);
 
-          if (hpClass)
-               hpClass.DeltaHP(-setting.damage);
-          else
-               Debug.LogError(target.name);
+          // damage or heal
+          int sign = setting.damage > 0 ? -1 : 1; //yes, damage is -
+          int damageOrHeal = abs * sign;
+
+          UIDamageTextMgr.inst.OnDamage(damageOrHeal, target);
+
+          var hpClass = target.GetComponent<HPComponent>();
+          hpClass.DeltaHP(damageOrHeal);
      }
+
 
      void Knock(GameObject target)
      {
@@ -195,28 +230,35 @@ public class Projectile : MonoBehaviour
 
           if (!isServerObj)
                return;
-          if (setting.knock.x == 0 && setting.knock.y == 0)
+          if (setting.forceUp == 0 && setting.forceFwd == 0)
                return;
           var _rb = target.GetComponent<Rigidbody>();
           if (!_rb)
                return;
 
-          Vector3 force = transform.forward * setting.knock.x + Vector3.up * setting.knock.y;
-          _rb.AddForce(force, ForceMode.Force);
+          Vector3 force = new Vector3();
+          if (setting.forceDirection == ForceDir.Foward)
+          {
+               force = transform.forward * setting.forceFwd + Vector3.up * setting.forceUp;
+          }
+          else if (setting.forceDirection == ForceDir.RelativeToCenter)
+          {
+               force = (target.transform.position - transform.position).normalized * setting.forceFwd + Vector3.up * setting.forceUp;
+          }
+
+          _rb.AddForce(force, UnityEngine.ForceMode.Force);
      }
 
 
      // end of use ---------------------------------------------------------------------------------
-     void EndOfUse()
+     public void EndOfUse()
      {
           if (log) Debug.Log("EndOfUse()");
-
           inUse = false;
-
           gameObject.SetActive(false);
+
           victims.Clear();
           transform.parent = launcher.transform;
-          transform.localScale = Vector3.one; //last parent might be scaled, return to 1
 
           launcher.Recycle(this);
      }
