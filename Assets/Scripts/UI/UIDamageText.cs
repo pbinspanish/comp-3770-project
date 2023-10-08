@@ -6,7 +6,7 @@ using static UnityEngine.GraphicsBuffer;
 
 
 /// <summary>
-/// Display damage text
+/// Display damage text.
 /// </summary>
 public class UIDamageText : MonoBehaviour
 {
@@ -41,7 +41,7 @@ public class UIDamageText : MonoBehaviour
           ui.text = number + "";
           ui.transform.localScale = new Vector3(scale, scale, scale);
 
-          Debug.Log("scale " + scale);
+          //Debug.Log("scale " + scale);
 
           anim.Play(animationName);
      }

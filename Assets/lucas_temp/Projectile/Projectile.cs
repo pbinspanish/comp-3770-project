@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
+
 /// <summary>
-/// Script attached to a projectile. Handle collision, damage, knock...
+/// Script attached to a projectile. Handle collision, damage, force etc.
 /// </summary>
 public class Projectile : MonoBehaviour
 {
@@ -32,6 +33,12 @@ public class Projectile : MonoBehaviour
      bool isServerObj { get => NetworkManager.Singleton.IsServer; }
 
 
+
+     void Update()
+     {
+
+     }
+
      void FixedUpdate()
      {
           if (Time.fixedTime > tDespawn)
@@ -40,6 +47,13 @@ public class Projectile : MonoBehaviour
           }
           else if (inUse)
           {
+               // reset victim list? so we can hit them again
+               if (setting.hitSameTarget && Time.time > tResetVictim)
+               {
+                    victims.Clear();
+                    tResetVictim = -1;
+               }
+
                Move();
                DetectCollisions();
           }
@@ -74,10 +88,11 @@ public class Projectile : MonoBehaviour
      }
 
 
-     // detect collision ---------------------------------------------------------------------------------
+     // move ---------------------------------------------------------------------------------
      void Move()
      {
-          //choosing this over Rigidbody.Addforce() is because we want to stick the arrow on enemy, but since both has rb they will seperate when add force...
+          //choosing 'telerpot' over Rigidbody.Addforce() is because we want to stick the arrow on enemy,
+          //but since both arrow and enemy has rb, adding force will pull them apart..
           _pos0 = transform.position;
           transform.position += velocity * Time.fixedDeltaTime;
      }
@@ -93,8 +108,9 @@ public class Projectile : MonoBehaviour
 
      void DetectCollisions()
      {
-          var position = transform.localToWorldMatrix.MultiplyPoint(colliderCenter);
 
+          // ray cast
+          var position = transform.localToWorldMatrix.MultiplyPoint(colliderCenter);
           int sum = 0;
           if (_distPerFrame > colliderRadius * 2)
           {
@@ -108,13 +124,14 @@ public class Projectile : MonoBehaviour
           }
 
 
+          //check collisions
           for (int i = 0; i < sum; i++)
           {
                Collider target = _cache[i];
                int mask = 1 << target.gameObject.layer;
 
 
-               //if wall
+               // if wall
                if ((mask & setting.wallMask) != 0)
                {
                     OnHitVFX(target.gameObject);
@@ -124,42 +141,47 @@ public class Projectile : MonoBehaviour
                }
 
 
-               //if target
-               if (setting.hitSameTarget && Time.time > tResetVictim)
-               {
-                    victims.Clear();
-                    tResetVictim = -1; //so we know to get a new value later
-               }
-
+               // if target
                if ((mask & setting.targetMask) != 0)
                {
-                    // we don't mind throwing dead enemy around
-                    Knock(target.gameObject);
 
-
-                    // if reset victim timer (some spell can damage the same target every X second)
-                    if (setting.hitSameTarget && tResetVictim == -1)
-                         tResetVictim = Time.time + setting.hitSameTargetEvery / 1000;
-
-                    // if alive
+                    // if creature
                     var hpClass = target.GetComponent<HPComponent>();
-                    if (hpClass == null || hpClass.hp == 0)
+                    if (hpClass == null)
+                         continue;
+
+                    // apply constant force
+                    if (setting.smoothForce || hpClass.hp == 0) // we don't mind throwing dead enemy around
+                         Knock(target.gameObject, true);
+
+                    // but dead won't take damage or block bullet
+                    if (hpClass.hp == 0)
                          continue;
 
                     // if already victim
                     if (victims.Contains(target.gameObject))
                          continue;
 
-
                     // good
                     _hitCount++;
                     victims.Add(target.gameObject);
 
+                    if (!setting.smoothForce)
+                         Knock(target.gameObject);
+
                     OnHitVFX(target.gameObject);
                     Damage(target.gameObject);
 
+
+
                     //network
                     launcher.AfterHit_ClientRPC(transform.position, target.transform.position);
+
+
+                    // reset timer? (to damage the same target every X second)
+                    if (setting.hitSameTarget && tResetVictim == -1)
+                         tResetVictim = Time.time + setting.hitSameTargetEvery / 1000;
+
 
                     // end of use
                     if (_hitCount >= setting.maxHit)
@@ -217,34 +239,39 @@ public class Projectile : MonoBehaviour
           int sign = setting.damage > 0 ? -1 : 1; //yes, damage is -
           int damageOrHeal = abs * sign;
 
-          UIDamageTextMgr.inst.OnDamage(damageOrHeal, target);
+          UIDamageTextMgr.OnDamage(damageOrHeal, target);
 
           var hpClass = target.GetComponent<HPComponent>();
           hpClass.DeltaHP(damageOrHeal);
      }
 
 
-     void Knock(GameObject target)
+     void Knock(GameObject target, bool smooth = false)
      {
           if (log) Debug.Log("Knock()");
 
           if (!isServerObj)
                return;
-          if (setting.forceUp == 0 && setting.forceFwd == 0)
-               return;
           var _rb = target.GetComponent<Rigidbody>();
           if (!_rb)
                return;
 
+          //
           Vector3 force = new Vector3();
           if (setting.forceDirection == ForceDir.Foward)
           {
-               force = transform.forward * setting.forceFwd + Vector3.up * setting.forceUp;
+               force = transform.forward * setting.forceFwdUp.x + Vector3.up * setting.forceFwdUp.y;
           }
           else if (setting.forceDirection == ForceDir.RelativeToCenter)
           {
-               force = (target.transform.position - transform.position).normalized * setting.forceFwd + Vector3.up * setting.forceUp;
+               force = (target.transform.position - transform.position).normalized * setting.forceFwdUp.x + Vector3.up * setting.forceFwdUp.y;
           }
+
+          force *= smooth ? Time.fixedDeltaTime : 1; //impulse or constantly apply
+
+          var hpClass = target.GetComponent<HPComponent>();
+          if (hpClass)
+               force *= (hpClass.hp == 0 ? setting.corpseForceMultiply : 1);
 
           _rb.AddForce(force, UnityEngine.ForceMode.Force);
      }

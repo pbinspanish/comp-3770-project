@@ -2,14 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 /// <summary>
-/// Data for Projectile
+/// Data for Projectile.
 /// </summary>
 [CreateAssetMenu(menuName = "3770/ProjectileEntry")]
 public class ProjectileEntry : ScriptableObject
 {
 
-     public GameObject projectile; //prefab
+     public Projectile projectile; //prefab
      //public GameObject onHitEffect; //prefab
 
      [Header(" - TEST")]
@@ -27,16 +28,16 @@ public class ProjectileEntry : ScriptableObject
 
      [Header(" - Launching")]
      public TriggerMode triggerMode = TriggerMode.KeyDown;
-     public float spawnOffsetUp = 1.5f;
-     public float spawnOffsetFwd = 2f;
+     public Vector2 spawnFwdUp = new Vector2(1.5f, 2f);
      public float delay = 0; //ms before launch
      public float cooldown = 20; //ms before launch again
 
 
      [Header(" - Force")]
-     public float forceUp = 33;
-     public float forceFwd = 100;
+     public Vector2 forceFwdUp = new Vector2(33, 100);
      public ForceDir forceDirection = ForceDir.Foward;
+     public bool smoothForce = false;
+     public float corpseForceMultiply = 1.5f;
 
 
      [Header(" - AoE")]
@@ -52,6 +53,7 @@ public class ProjectileEntry : ScriptableObject
      public bool hitPlayer = false;
      [Range(0, 89)] public float maxUpwardsAgnle = 30;
      [Range(0, 89)] public float maxDownwardsAgnle = 0; //can we fire up/downwards?
+     public int preheatPool = 0; // so lag less when we actually play
 
 
      [Header(" - WIP")]

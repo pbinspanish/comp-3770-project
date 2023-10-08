@@ -2,21 +2,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 
 
 /// <summary>
 /// Creates and Fire() Projectile.
-/// Also see Projectile, ProjectileSetting.
 /// </summary>
 public class ProjectileLauncher : NetworkBehaviour
 {
 
      //publics
      public KeyCode hotkey = KeyCode.Mouse0; //replace with input system later
-     public int preheatPool = 0;
      public string monitor;
      public ProjectileEntry setting;
 
@@ -75,12 +72,12 @@ public class ProjectileLauncher : NetworkBehaviour
 
           // position
           data.fireFrom = PlayerChara.me.transform.position;
-          data.fireFrom += PlayerChara.me.transform.rotation * new Vector3(0, setting.spawnOffsetUp, setting.spawnOffsetFwd);
+          data.fireFrom += PlayerChara.me.transform.rotation * new Vector3(0, setting.spawnFwdUp.y, setting.spawnFwdUp.x);
 
           // direction
           data.dir = PlayerController.mouseHit
                - PlayerChara.me.transform.position
-               - new Vector3(0, setting.spawnOffsetUp, 0); //compensate height, since we fire from hip, not from feet
+               - new Vector3(0, setting.spawnFwdUp.y, 0); //compensate height, since we fire from hip, not from feet
 
           gizmos_dir = data.dir; //debug
           if (setting.maxDownwardsAgnle == 0 && setting.maxUpwardsAgnle == 0)
@@ -104,6 +101,13 @@ public class ProjectileLauncher : NetworkBehaviour
           OnFire_ServerRPC(data);
      }
 
+     int num1 =1;
+
+     int func()
+     {
+          return 1;
+     }
+
      void _fire(NetPackage data, bool hasWaited = false)
      {
           if (data.delay > 0 && !hasWaited)
@@ -111,10 +115,10 @@ public class ProjectileLauncher : NetworkBehaviour
                StartCoroutine(_fireDelayed(data));
                return;
           }
-
+          
           var p = pool.Get();
           p.enabled = true;
-          p.GetComponent<Projectile>().Fire(data.fireFrom, data.dir, data.originClientID);
+          p.Fire(data.fireFrom, data.dir, data.originClientID);
      }
 
      IEnumerator _fireDelayed(NetPackage data)
@@ -176,7 +180,7 @@ public class ProjectileLauncher : NetworkBehaviour
           var sizeCap = 500;
           pool = new ObjectPool<Projectile>(CreateNew, null, null, null, false, size, sizeCap);
 
-          for (int i = 0; i < preheatPool; i++)
+          for (int i = 0; i < setting.preheatPool; i++)
           {
                var obj = pool.Get();
                obj.EndOfUse();
@@ -185,10 +189,10 @@ public class ProjectileLauncher : NetworkBehaviour
 
      Projectile CreateNew()
      {
-          var gameObject = Instantiate(setting.projectile, transform);
-          gameObject.SetActive(false);
+          var p = Instantiate(setting.projectile, transform);
+          p.gameObject.SetActive(false);
+          p.enabled = false;
 
-          var p = gameObject.GetComponent<Projectile>();
           p.launcher = this;
 
           return p;

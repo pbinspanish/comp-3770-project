@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 3562455844059271409}
   - component: {fileID: 2989459132654949902}
   - component: {fileID: 1120397471722887521}
-  - component: {fileID: 402557526443553163}
   m_Layer: 0
   m_Name: Admin
   m_TagString: Untagged
@@ -115,22 +114,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93b22f232f453c44b902782b5b1f8388, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &402557526443553163
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8058470694820835937}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5925bc1bcbb960b49b78b271c8a6360d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefab: {fileID: 1525481225084594839, guid: eede715dce4c48d4e9a76e40d7e72499, type: 3}
-  canvas: {fileID: 0}
-  damageColor: {r: 1, g: 1, b: 1, a: 1}
-  healColor: {r: 0, g: 1, b: 0, a: 1}
-  offset: 4.25
-  maxScale: 3
-  damageForMaxScale: 50

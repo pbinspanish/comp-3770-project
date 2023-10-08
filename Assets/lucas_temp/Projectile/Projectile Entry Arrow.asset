@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9004629b820795643b0fd64a4d2399f3, type: 3}
   m_Name: Projectile Entry Arrow
   m_EditorClassIdentifier: 
-  projectile: {fileID: 187653448068468398, guid: e86a8fb92fb9015458b421efdbf46dc6,
+  projectile: {fileID: 187653448068468399, guid: e86a8fb92fb9015458b421efdbf46dc6,
     type: 3}
   log: 0
   clientHasAutority: 1
@@ -22,13 +22,13 @@ MonoBehaviour:
   dmgRandomRange: 2
   maxHit: 1
   triggerMode: 0
-  spawnOffsetUp: 1.5
-  spawnOffsetFwd: 2
+  spawnFwdUp: {x: 1.5, y: 2}
   delay: 0
   cooldown: 20
-  forceUp: 33
-  forceFwd: 100
+  forceFwdUp: {x: 100, y: 33}
   forceDirection: 0
+  smoothForce: 0
+  corpseForceMultiply: 1
   hitSameTarget: 0
   hitSameTargetEvery: 1000
   stickToTarget: 30
@@ -38,6 +38,7 @@ MonoBehaviour:
   hitPlayer: 0
   maxUpwardsAgnle: 30
   maxDownwardsAgnle: 0
+  preheatPool: 0
   speedWhenDelay: 100
   colMask: 2049
   targetMask: 2048

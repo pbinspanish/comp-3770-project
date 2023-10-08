@@ -5042,5 +5042,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colliderCenter: {x: 0, y: 0, z: 0}
-  colliderRadius: 7.93
+  colliderRadius: 8.3
   launcher: {fileID: 0}

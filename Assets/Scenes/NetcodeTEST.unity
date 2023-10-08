@@ -3869,7 +3869,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 369fd29d6bafec4439ab966475a76ff6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  card: {fileID: 11400000, guid: 235f9494782d9f745a041bdf8993737b, type: 2}
 --- !u!135 &1278446504
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -5481,11 +5480,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 402557526443553163, guid: 935459978ccc7cb419e77a9afe52c6d3,
-        type: 3}
-      propertyPath: canvas
-      value: 
-      objectReference: {fileID: 2019714180}
     - target: {fileID: 2323422503387700351, guid: 935459978ccc7cb419e77a9afe52c6d3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5833,16 +5827,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5011996732818181050, guid: c13cba26fb0e1fb47a3c0e6b31d50529,
-        type: 3}
-      propertyPath: preheatPool
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5646072822130126738, guid: c13cba26fb0e1fb47a3c0e6b31d50529,
-        type: 3}
-      propertyPath: preheatPool
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6714305837253865839, guid: c13cba26fb0e1fb47a3c0e6b31d50529,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9004629b820795643b0fd64a4d2399f3, type: 3}
   m_Name: Projectile Entry Blackhole
   m_EditorClassIdentifier: 
-  projectile: {fileID: 7187918182120644708, guid: 9d9c4071069ec1c4f9367e56089bcb47,
+  projectile: {fileID: 2331716587167652985, guid: 9d9c4071069ec1c4f9367e56089bcb47,
     type: 3}
   log: 0
   clientHasAutority: 1
@@ -22,13 +22,13 @@ MonoBehaviour:
   dmgRandomRange: 0
   maxHit: 1
   triggerMode: 0
-  spawnOffsetUp: 2.5
-  spawnOffsetFwd: 1
+  spawnFwdUp: {x: 7, y: 2}
   delay: 1200
   cooldown: 1000
-  forceUp: 10
-  forceFwd: -10
+  forceFwdUp: {x: -90, y: 150}
   forceDirection: 1
+  smoothForce: 0
+  corpseForceMultiply: 3
   hitSameTarget: 1
   hitSameTargetEvery: 500
   stickToTarget: 0
@@ -38,6 +38,7 @@ MonoBehaviour:
   hitPlayer: 0
   maxUpwardsAgnle: 0
   maxDownwardsAgnle: 0
+  preheatPool: 0
   speedWhenDelay: 100
   colMask: 2048
   targetMask: 2048

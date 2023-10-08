@@ -6,7 +6,7 @@ using UnityEngine;
 public class Item : MonoBehaviour
 {
      readonly static int collisionMasl; //collide with player
-     public ItemCard card; //detail of this item
+     //public ItemCard card; //detail of this item
 
      //private
      SpriteRenderer ren;
@@ -37,10 +37,10 @@ public class Item : MonoBehaviour
      // 2d image
      void UpdateImage()
      {
-          if (card == null) return;
+          //if (card == null) return;
 
-          ren = GetComponentInChildren<SpriteRenderer>();
-          if (ren != null) ren.sprite = card.image;
+          //ren = GetComponentInChildren<SpriteRenderer>();
+          //if (ren != null) ren.sprite = card.image;
      }
 
      void FaceCamera()

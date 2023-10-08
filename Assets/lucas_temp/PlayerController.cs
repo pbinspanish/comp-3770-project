@@ -72,7 +72,6 @@ public class PlayerController : MonoBehaviour
      float inputZ; //forward
      float inputY; //jump
      bool isRunning = false;
-     bool blink = false;
 
      void UpdateInput()
      {
@@ -89,7 +88,6 @@ public class PlayerController : MonoBehaviour
                inputZ = 0;
                isRunning = false;
                inputY = 0;
-               blink = false;
           }
      }
 
