@@ -25,6 +25,7 @@ public class ProjectileLauncher : NetworkBehaviour
      void Awake()
      {
           InitPool();
+          InitPoolVFX();
           setting.InitLayerMask();
      }
      void Update()
@@ -49,7 +50,7 @@ public class ProjectileLauncher : NetworkBehaviour
                     input = Input.GetKeyDown(hotkey); break;
                case TriggerMode.KeyUp:
                     input = Input.GetKeyUp(hotkey); break;
-               case TriggerMode.FullAuto:
+               case TriggerMode.FullyAuto:
                     input = Input.GetKey(hotkey); break;
           }
 
@@ -101,13 +102,6 @@ public class ProjectileLauncher : NetworkBehaviour
           OnFire_ServerRPC(data);
      }
 
-     int num1 =1;
-
-     int func()
-     {
-          return 1;
-     }
-
      void _fire(NetPackage data, bool hasWaited = false)
      {
           if (data.delay > 0 && !hasWaited)
@@ -115,7 +109,7 @@ public class ProjectileLauncher : NetworkBehaviour
                StartCoroutine(_fireDelayed(data));
                return;
           }
-          
+
           var p = pool.Get();
           p.enabled = true;
           p.Fire(data.fireFrom, data.dir, data.originClientID);
@@ -170,10 +164,9 @@ public class ProjectileLauncher : NetworkBehaviour
      }
 
 
-     // pool ---------------------------------------------------------------------------------
+     // projectile pool ---------------------------------------------------------------------------------
 
      ObjectPool<Projectile> pool;
-
      void InitPool()
      {
           var size = 200;
@@ -202,6 +195,53 @@ public class ProjectileLauncher : NetworkBehaviour
      {
           pool.Release(p);
      }
+
+
+     // onHitEffect pool ---------------------------------------------------------------------------------
+
+     ObjectPool<GameObject> poolVFX;
+     void InitPoolVFX()
+     {
+          var size = 200;
+          var sizeCap = 500;
+          poolVFX = new ObjectPool<GameObject>(CreateNewVFX, null, null, null, false, size, sizeCap);
+
+          for (int i = 0; i < setting.preheatPool; i++)
+          {
+               var obj = poolVFX.Get();
+               obj.SetActive(false);
+          }
+     }
+
+     GameObject CreateNewVFX()
+     {
+          var vfx = Instantiate(setting.onHitVFX, transform);
+          vfx.gameObject.SetActive(false);
+
+          return vfx;
+     }
+
+     public GameObject GetVFX(Projectile p)
+     {
+          if (p.launcher == this && setting.onHitVFX != null)
+               return poolVFX.Get();
+
+          return null;
+     }
+
+     public void PlanRecycleVFX(GameObject vfx)
+     {
+          StartCoroutine(RecycleVFX(vfx));
+     }
+
+     IEnumerator RecycleVFX(GameObject vfx)
+     {
+          yield return new WaitForSeconds(setting.recycleVFX);
+
+          vfx.SetActive(false);
+          poolVFX.Release(vfx);
+     }
+
 
 
      // debug ---------------------------------------------------------------------------------

@@ -9,14 +9,21 @@ using UnityEngine.Pool;
 public class UIDamageTextMgr : ScriptableObject
 {
 
-     // public
+     // public ---------------------------------------------------------------------------------
      public UIDamageText prefab;
      public Color damageColor = Color.white;
      public Color healColor = Color.green;
-     public float offset = 4.25f;
-     public float maxScale = 3;
-     public int damageForMaxScale = 50;
+     public float offset = 4.25f; //above head
+     public float dynamicScale = 3;
+     public int dynamicScaleAtDamage = 100; // big damage = big text
 
+
+     public static void Init()
+     {
+          // Call this manually to decrease the lag when you first hit some enemy
+          // TODO: not sure what causes the lag. Resources.Load?
+          inst.Init_ForReal();
+     }
 
      public static void OnDamage(int damage, GameObject target)
      {
@@ -28,7 +35,7 @@ public class UIDamageTextMgr : ScriptableObject
           var color = damage < 0 ? damageColor : healColor;
 
           // big damage = big text
-          int scale = (int)Mathf.Lerp(1, maxScale, damage / (float)damageForMaxScale);
+          var scale = Mathf.LerpUnclamped(1f, dynamicScale, Mathf.Abs(damage) / (float)dynamicScaleAtDamage);
 
           ui.Display(Mathf.Abs(damage), target, color, scale);
      }
@@ -42,18 +49,19 @@ public class UIDamageTextMgr : ScriptableObject
           if (_inst == null)
           {
                _inst = Resources.Load(typeof(UIDamageTextMgr).Name) as UIDamageTextMgr;
-               _inst.Init();
+               _inst.Init_ForReal();
           }
           return _inst;
      }
-
-     void Init()
+     void Init_ForReal()
      {
-          InitPool();
+          if (pool == null)
+               inst.InitPool();
      }
 
-     static Canvas canvas { get => inst.GetCanvas(); }
-     static Canvas _canvas;
+
+     Canvas canvas { get => inst.GetCanvas(); }
+     Canvas _canvas;
      Canvas GetCanvas()
      {
           if (_canvas != null)

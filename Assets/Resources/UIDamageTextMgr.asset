@@ -16,5 +16,5 @@ MonoBehaviour:
   damageColor: {r: 1, g: 1, b: 1, a: 1}
   healColor: {r: 0, g: 1, b: 0, a: 1}
   offset: 4.25
+  damageForMaxScale: 100
   maxScale: 3
-  damageForMaxScale: 50

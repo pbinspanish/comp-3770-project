@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7351081750029229569}
   - component: {fileID: 5011996732818181050}
   - component: {fileID: 5646072822130126738}
+  - component: {fileID: 380560510165186051}
   m_Layer: 0
   m_Name: ProjectileLauncher
   m_TagString: Untagged
@@ -84,3 +85,18 @@ MonoBehaviour:
   hotkey: 49
   monitor: 
   setting: {fileID: 11400000, guid: 2867bcd878d4bab45806a9a8d76645d6, type: 2}
+--- !u!114 &380560510165186051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7330959694808950794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e23ad3d825a38d240a2db79e591d160b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hotkey: 50
+  monitor: 
+  setting: {fileID: 11400000, guid: c34990a1577d3de4583126b633f83991, type: 2}

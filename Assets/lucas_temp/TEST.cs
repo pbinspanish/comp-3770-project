@@ -23,6 +23,8 @@ public class TEST : NetworkBehaviour
      void Awake()
      {
           _inputIP = GetLocalIPv4();
+
+          UIDamageTextMgr.Init();
      }
      void Start()
      {

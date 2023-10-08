@@ -12,16 +12,16 @@ public class Projectile : MonoBehaviour
 
      //TODO: [TEST] currently let the firing client decide damage and knock, see how it works out
      bool authority { get => setting.clientHasAutority ? (originClientID == clientID) : isServerObj; }
-     bool log { get => setting.log; } //test
+     bool log = false; //test
 
 
-     //public
+     // public
      [Header("Setting")]
      public Vector3 colliderCenter = new Vector3(0, 0, 0);
      public float colliderRadius = 1.5f;
 
 
-     //private
+     // private
      ProjectileEntry setting { get => launcher.setting; }
      [HideInInspector] public ProjectileLauncher launcher;
      bool inUse = false; //if not inUse, then it won't move/collide, only wait for despawn
@@ -32,12 +32,6 @@ public class Projectile : MonoBehaviour
      ulong clientID { get => NetworkManager.Singleton.LocalClientId; }
      bool isServerObj { get => NetworkManager.Singleton.IsServer; }
 
-
-
-     void Update()
-     {
-
-     }
 
      void FixedUpdate()
      {
@@ -115,12 +109,12 @@ public class Projectile : MonoBehaviour
           if (_distPerFrame > colliderRadius * 2)
           {
                // if we are moving super fast, and our collision radius is small, to provent missing an object (size be ~1 unit) in a update, use capsul cast
-               sum = Physics.OverlapCapsuleNonAlloc(_pos0, transform.position, colliderRadius, _cache, setting.colMask);
+               sum = Physics.OverlapCapsuleNonAlloc(_pos0, transform.position + colliderCenter, colliderRadius, _cache, setting.colMask);
           }
           else
           {
                // good old sphere cast
-               sum = Physics.OverlapSphereNonAlloc(transform.position, colliderRadius, _cache, setting.colMask);
+               sum = Physics.OverlapSphereNonAlloc(transform.position + colliderCenter, colliderRadius, _cache, setting.colMask);
           }
 
 
@@ -221,7 +215,26 @@ public class Projectile : MonoBehaviour
      void OnHitVFX(GameObject target) //visual effect
      {
           if (log) Debug.Log("OnHitVFX()");
+
+          if (setting.onHitVFX == null)
+               return;
+
+          var vfx = launcher.GetVFX(this);
+          vfx.gameObject.SetActive(true);
+          vfx.transform.position = transform.position + colliderCenter;
+
+          // in case you have particles
+          var pList2 = vfx.GetComponentsInChildren<ParticleSystem>(); //this DOES includes <T> on the parent
+          if (pList2.Length > 0)
+               foreach (var p in pList2)
+                    p.Play();
+
+          // finally
+          launcher.PlanRecycleVFX(vfx);
+
      }
+
+
 
 
      void Damage(GameObject target)
@@ -262,7 +275,7 @@ public class Projectile : MonoBehaviour
           {
                force = transform.forward * setting.forceFwdUp.x + Vector3.up * setting.forceFwdUp.y;
           }
-          else if (setting.forceDirection == ForceDir.RelativeToCenter)
+          else if (setting.forceDirection == ForceDir.AwayFromCenter)
           {
                force = (target.transform.position - transform.position).normalized * setting.forceFwdUp.x + Vector3.up * setting.forceFwdUp.y;
           }

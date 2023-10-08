@@ -11,9 +11,9 @@ using static UnityEngine.GraphicsBuffer;
 public class UIDamageText : MonoBehaviour
 {
 
-     string animationName = "UIDamageTextFly";
+     string animName = "UIDamageTextFly";
 
-     TextMeshProUGUI ui;
+     TextMeshProUGUI text;
      Animator anim;
      [HideInInspector] public UIDamageTextMgr mgr;
      GameObject target;
@@ -22,11 +22,14 @@ public class UIDamageText : MonoBehaviour
      void Awake()
      {
           anim = GetComponent<Animator>();
-          ui = GetComponentInChildren<TextMeshProUGUI>();
+          text = GetComponentInChildren<TextMeshProUGUI>();
      }
 
      void LateUpdate()
      {
+          if (target == null)
+               return;
+
           var pos = target.transform.position + new Vector3(0f, mgr.offset, 0f);
           transform.position = Camera.main.WorldToScreenPoint(pos);
      }
@@ -38,12 +41,11 @@ public class UIDamageText : MonoBehaviour
 
           target = _target;
 
-          ui.text = number + "";
-          ui.transform.localScale = new Vector3(scale, scale, scale);
+          text.text = number + "";
+          transform.localScale = new Vector3(scale, scale, scale);
 
-          //Debug.Log("scale " + scale);
+          anim.Play(animName);
 
-          anim.Play(animationName);
      }
 
      public void OnAnimationEnd() //DO NOT change name, called by animator

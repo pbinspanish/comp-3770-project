@@ -14,12 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectile: {fileID: 187653448068468399, guid: e86a8fb92fb9015458b421efdbf46dc6,
     type: 3}
+  onHitEffect: {fileID: 0}
   log: 0
   clientHasAutority: 1
   speed: 70
   range: 100
-  damage: 3
-  dmgRandomRange: 2
+  damage: 1
+  dmgRandomRange: 0
   maxHit: 1
   triggerMode: 0
   spawnFwdUp: {x: 1.5, y: 2}
