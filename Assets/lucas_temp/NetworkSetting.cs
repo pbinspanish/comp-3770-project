@@ -6,10 +6,10 @@ using UnityEngine;
 
 public class NetworkSetting
 {
-     //network
-     public static float clientSmooth = 0.4f;
-     public static float clientSmoothFlat = 1;
-     public static float clientMaxDeviation = 10f;
+     ////network
+     //public static float clientSmooth = 0.4f;
+     //public static float clientSmoothFlat = 1;
+     //public static float clientMaxDeviation = 10f;
 
 
      //physics

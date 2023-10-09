@@ -23,7 +23,7 @@ MonoBehaviour:
   triggerMode: 0
   delay: 1200
   cooldown: 1000
-  forceFwdUp: {x: -70, y: 150}
+  forceFwdUp: {x: -50, y: 150}
   forceDirection: 1
   smoothForce: 0
   corpseForceMultiply: 3
@@ -40,6 +40,6 @@ MonoBehaviour:
   maxUpwardsAgnle: 0
   maxDownwardsAgnle: 0
   preheatPool: 0
-  colMask: 2048
+  allMask: 2048
   targetMask: 2048
   wallMask: 0

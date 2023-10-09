@@ -63,22 +63,21 @@ public class ProjectileEntry : ScriptableObject
 
 
 
-
      // not setting  ---------------------------------------------------------------------------------
-     [HideInInspector] public int colMask;
+     [HideInInspector] public int allMask;
      [HideInInspector] public int targetMask;
      [HideInInspector] public int wallMask;
 
      public void InitLayerMask()
      {
-          targetMask = wallMask = colMask = 0;
+          targetMask = wallMask = allMask = 0;
 
           if (hitEnemy) targetMask |= LayerMask.GetMask("Enemy");
           if (hitPlayer) targetMask |= LayerMask.GetMask("Player");
           if (hitWall) wallMask |= LayerMask.GetMask("Default");
 
-          colMask |= targetMask;
-          colMask |= wallMask;
+          allMask |= targetMask;
+          allMask |= wallMask;
      }
 
 

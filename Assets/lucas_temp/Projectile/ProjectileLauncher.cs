@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -17,9 +18,34 @@ public class ProjectileLauncher : NetworkBehaviour
      public string monitor;
      public ProjectileEntry setting;
 
+
+     public int _InstanceID;
+     public ulong _NetworkObjectId;
+     public ulong _OwnerClientId;
+
+
      //private
      ulong clientID { get => NetworkManager.Singleton.LocalClientId; }
      float tFire;
+
+
+
+     void OnDrawGizmos()
+     {
+          if (PlayerChara.me == null)
+               return;
+
+          string text = "InstID=" + PlayerChara.me.GetInstanceID();
+          text += " | NetObjId=" + PlayerChara.me.NetworkObjectId;
+          text += " | OwnerId=" + PlayerChara.me.OwnerClientId;
+
+          Gizmos.color = Color.cyan;
+          Handles.Label(transform.position, text);
+
+          Gizmos.color = Color.cyan;
+          Handles.Label(transform.position + new Vector3(0, 3.5f, 0), "TEST");
+     }
+
 
 
      void Awake()
@@ -30,12 +56,26 @@ public class ProjectileLauncher : NetworkBehaviour
      }
      void Update()
      {
+          if (PlayerChara.me)
+          {
+               //test
+               _InstanceID = PlayerChara.me.GetInstanceID();
+               _NetworkObjectId = PlayerChara.me.NetworkObjectId;
+               _OwnerClientId = PlayerChara.me.OwnerClientId;
+
+          }
+
+
+
           monitor = "Pool: " + pool.CountActive + " Active | " + pool.CountAll + " Count";
 
           if (PlayerChara.me != null)
           {
                HandleInput();
           }
+
+
+
      }
 
      void HandleInput()
@@ -75,12 +115,13 @@ public class ProjectileLauncher : NetworkBehaviour
           data.fireFrom = PlayerChara.me.transform.position;
           data.fireFrom += PlayerChara.me.transform.rotation * new Vector3(0, setting.spawnFwdUp.y, setting.spawnFwdUp.x);
 
+
           // direction
           data.dir = PlayerController.mouseHit
                - PlayerChara.me.transform.position
                - new Vector3(0, setting.spawnFwdUp.y, 0); //compensate height, since we fire from hip, not from feet
 
-          gizmos_dir = data.dir; //debug
+          //gizmos_dir = data.dir; //debug
           if (setting.maxDownwardsAgnle == 0 && setting.maxUpwardsAgnle == 0)
           {
                data.dir.y = 0;
@@ -94,8 +135,8 @@ public class ProjectileLauncher : NetworkBehaviour
                data.dir.y = Mathf.Clamp(data.dir.y, yMin, yMax);
           }
 
-          gizmos_dirNEW = data.dir; //debug
-          gizmos_from = data.fireFrom; //debug
+          //gizmos_dirNEW = data.dir; //debug
+          //gizmos_from = data.fireFrom; //debug
           data.dir = data.dir.normalized;
 
           _fire(data);
@@ -112,7 +153,9 @@ public class ProjectileLauncher : NetworkBehaviour
 
           var p = pool.Get();
           p.enabled = true;
+          //p.Fire(PlayerChara.me.transform.position, data.dir, data.originClientID);
           p.Fire(data.fireFrom, data.dir, data.originClientID);
+
      }
 
      IEnumerator _fireDelayed(NetPackage data)
@@ -138,9 +181,16 @@ public class ProjectileLauncher : NetworkBehaviour
      struct NetPackage : INetworkSerializable
      {
           public ulong originClientID;
-          public Vector3 fireFrom;
-          public Vector3 dir;
+          public Vector3 fireFrom; //no longer in use
           public float delay;
+          public Vector3 dir;
+
+
+          //    if a spell has not projectile,
+          //    but ONLY targets ground
+          //    then use the ground pos, which mask the visual latency of other clients
+          //    (but I probably should have a static ground spell class???)
+          public Vector3 targetGroundPos; //TODO: maybe?
 
           void INetworkSerializable.NetworkSerialize<T>(BufferSerializer<T> serializer)
           {
@@ -148,6 +198,7 @@ public class ProjectileLauncher : NetworkBehaviour
                serializer.SerializeValue(ref fireFrom);
                serializer.SerializeValue(ref dir);
                serializer.SerializeValue(ref delay);
+               serializer.SerializeValue(ref targetGroundPos);
           }
      }
 
@@ -246,20 +297,32 @@ public class ProjectileLauncher : NetworkBehaviour
 
      // debug ---------------------------------------------------------------------------------
 
-     Vector3 gizmos_dir;
-     Vector3 gizmos_dirNEW;
-     Vector3 gizmos_from;
+     //Vector3 gizmos_dir;
+     //Vector3 gizmos_dirNEW;
+     //Vector3 gizmos_from;
 
-     void OnDrawGizmosSelected()
-     {
-          if (PlayerChara.me == null)
-               return;
+     //void OnDrawGizmosSelected()
+     //{
+     //     if (PlayerChara.me == null)
+     //          return;
 
-          Gizmos.color = Color.red;
-          Gizmos.DrawLine(gizmos_from, gizmos_from + gizmos_dir);
-          Gizmos.color = Color.green;
-          Gizmos.DrawLine(gizmos_from, gizmos_from + gizmos_dirNEW);
-     }
+     //     Gizmos.color = Color.red;
+     //     Gizmos.DrawLine(gizmos_from, gizmos_from + gizmos_dir);
+     //     Gizmos.color = Color.green;
+     //     Gizmos.DrawLine(gizmos_from, gizmos_from + gizmos_dirNEW);
+     //}
+
+
+     //void OnDrawGizmos()
+     //{
+     //     //     Gizmos.DrawLine(gizmos_from, gizmos_from + gizmos_dir);
+
+     //     Gizmos.
+
+
+     //}
+
+
 
 }
 

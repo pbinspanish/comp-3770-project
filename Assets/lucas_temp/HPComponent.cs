@@ -21,10 +21,12 @@ public class HPComponent : NetworkBehaviour, IDamageAble
 
 
      //private
+     bool log = true;
      public int hp { get; private set; }
      ulong clientID { get => NetworkManager.Singleton.LocalClientId; }
      float IDamageAble.hp => hp;
      float IDamageAble.hpMax => hpMax;
+
 
 
      public override void OnNetworkSpawn()
@@ -33,6 +35,8 @@ public class HPComponent : NetworkBehaviour, IDamageAble
 
           hp = hpMax;
           OnHpChange?.Invoke(hp);
+
+          if (log) Debug.Log(gameObject.name + " | OnNetworkSpawn() " + " | " + +hp + "/" + hpMax);
      }
 
      //public
@@ -45,6 +49,8 @@ public class HPComponent : NetworkBehaviour, IDamageAble
 
           _updateHP(data);
           UpdateHP_ServerRPC(data);
+
+          if (log) Debug.Log("DeltaHP() " + hp + "/" + hpMax);
      }
 
      public void UpdateMaxHP(int maxHP)
@@ -56,6 +62,8 @@ public class HPComponent : NetworkBehaviour, IDamageAble
 
           _updateHP(data);
           UpdateHP_ServerRPC(data);
+
+          if (log) Debug.Log("DeltaHP() " + hp + "/" + hpMax);
      }
 
      //private

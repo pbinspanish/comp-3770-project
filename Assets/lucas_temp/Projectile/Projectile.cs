@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
+using UnityEngine.UI;
+using Unity.VisualScripting;
 
 
 /// <summary>
@@ -49,9 +52,11 @@ public class Projectile : MonoBehaviour
                }
 
                Move();
-               DetectCollisions();
+               HandleCollision();
+
           }
      }
+
 
 
      // fire ---------------------------------------------------------------------------------
@@ -99,95 +104,96 @@ public class Projectile : MonoBehaviour
      int _hitCount;
      float tResetVictim;
 
-
-     void DetectCollisions()
+     void HandleCollision()
      {
-
-          // ray cast
           var position = transform.localToWorldMatrix.MultiplyPoint(colliderCenter);
-          int sum = 0;
+          int hit = 0;
           if (_distPerFrame > colliderRadius * 2)
           {
                // if we are moving super fast, and our collision radius is small, to provent missing an object (size be ~1 unit) in a update, use capsul cast
-               sum = Physics.OverlapCapsuleNonAlloc(_pos0, transform.position + colliderCenter, colliderRadius, _cache, setting.colMask);
+               hit = Physics.OverlapCapsuleNonAlloc(_pos0, transform.position + colliderCenter, colliderRadius, _cache, setting.allMask);
           }
           else
           {
                // good old sphere cast
-               sum = Physics.OverlapSphereNonAlloc(transform.position + colliderCenter, colliderRadius, _cache, setting.colMask);
+               hit = Physics.OverlapSphereNonAlloc(transform.position + colliderCenter, colliderRadius, _cache, setting.allMask);
           }
 
 
           //check collisions
-          for (int i = 0; i < sum; i++)
+          for (int i = 0; i < hit; i++)
           {
-               Collider target = _cache[i];
-               int mask = 1 << target.gameObject.layer;
+               Collider other = _cache[i];
+               int otherMask = 1 << other.gameObject.layer; //layer to layerMask
 
 
                // if wall
-               if ((mask & setting.wallMask) != 0)
+               if ((otherMask & setting.wallMask) != 0)
                {
-                    OnHitVFX(target.gameObject);
-                    StuckToObject(target.transform, true); //end of use
-
-                    return;
+                    OnHitVFX(other.gameObject);
+                    StuckToObject(other.transform, true);
+                    return; //end of use
                }
 
 
                // if target
-               if ((mask & setting.targetMask) != 0)
+               if ((otherMask & setting.targetMask) != 0)
                {
-
-                    // if creature
-                    var hpClass = target.GetComponent<HPComponent>();
+                    // if not creature
+                    var hpClass = other.GetComponent<HPComponent>();
                     if (hpClass == null)
+                    {
+                         Debug.LogError("Something in this layer but has no HP?? " + other.name);
                          continue;
+                    }
 
-                    // apply constant force
-                    if (setting.smoothForce || hpClass.hp == 0) // we don't mind throwing dead enemy around
-                         Knock(target.gameObject, true);
+                    // (!) apply constant force / every update
+                    if (setting.smoothForce)
+                         Knock(other.gameObject, true);
 
-                    // but dead won't take damage or block bullet
+                    // throwing dead enemy around
+                    if (hpClass.hp == 0)
+                         Knock(other.gameObject, true);  // it looks cooler, if we apply constant force, even if setting = instant force
+
+                    // the dead don't block bullet or take damage
                     if (hpClass.hp == 0)
                          continue;
 
-                    // if already victim
-                    if (victims.Contains(target.gameObject))
+                    // same for victim
+                    if (victims.Contains(other.gameObject))
                          continue;
 
                     // good
                     _hitCount++;
-                    victims.Add(target.gameObject);
+                    victims.Add(other.gameObject);
 
+                    // (!) apply instant force / only once a while
                     if (!setting.smoothForce)
-                         Knock(target.gameObject);
+                         Knock(other.gameObject);
 
-                    OnHitVFX(target.gameObject);
-                    Damage(target.gameObject);
-
-
+                    Damage(other.gameObject);
+                    OnHitVFX(other.gameObject);
 
                     //network
-                    launcher.AfterHit_ClientRPC(transform.position, target.transform.position);
+                    launcher.AfterHit_ClientRPC(transform.position, other.transform.position);
 
 
-                    // reset timer? (to damage the same target every X second)
+                    // reset victim?
                     if (setting.hitSameTarget && tResetVictim == -1)
                          tResetVictim = Time.time + setting.hitSameTargetEvery / 1000;
 
 
-                    // end of use
+                    // finally
                     if (_hitCount >= setting.maxHit)
                     {
-                         StuckToObject(target.transform); //end of use
-                         return;
+                         StuckToObject(other.transform);
+                         return; //end of use
                     }
                }
           }
 
-     }
 
+     }
 
      void StuckToObject(Transform target, bool isWall = false)
      {
@@ -233,8 +239,6 @@ public class Projectile : MonoBehaviour
           launcher.PlanRecycleVFX(vfx);
 
      }
-
-
 
 
      void Damage(GameObject target)

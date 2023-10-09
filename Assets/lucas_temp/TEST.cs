@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -14,6 +15,10 @@ public class TEST : NetworkBehaviour
 
      //public
      public bool quickTest = false;
+
+     public float clientSmooth = 0.4f;
+     public float clientSmoothFlat = 1;
+     public float clientMaxDeviation = 10f;
 
      //private
      static TEST _inst;
@@ -37,13 +42,6 @@ public class TEST : NetworkBehaviour
           {
                StartHost();
                _showGUI = false;
-          }
-
-          var sim = NetworkManager.GetComponent<UnityTransport>().DebugSimulator;
-          if (sim.PacketDelayMS > 0 || sim.PacketJitterMS > 0 || sim.PacketDropRate > 0)
-          {
-               simulateLatency = true;
-               Debug.Log("[!!!] Simulating latency");
           }
      }
 
@@ -118,17 +116,31 @@ public class TEST : NetworkBehaviour
      }
 
 
+     // lantency test  ----------------------------------------------------------------------------
+     void SetLatency(int delay, int jitter, int dropRate)
+     {
+          var sim = FindAnyObjectByType<UnityTransport>().DebugSimulator;
+          sim.PacketDelayMS = delay;
+          sim.PacketJitterMS = jitter;
+          sim.PacketDropRate = dropRate;
+     }
+     bool IsUsingLatency()
+     {
+          var sim = NetworkManager.GetComponent<UnityTransport>().DebugSimulator;
+          return sim.PacketDelayMS > 0 || sim.PacketJitterMS > 0 || sim.PacketDropRate > 0;
+     }
+
+
      // OnGUI ----------------------------------------------------------------------------
 
      string _inputIP;
      bool _showGUI = true;
      float fps;
-     bool simulateLatency = false;
 
      void OnGUI()
      {
           // toggle GUI
-          if (GUILayout.Button((int)fps + " " + (simulateLatency ? "(L)" : ""), GUILayout.Height(40), GUILayout.Width(64)))
+          if (GUILayout.Button((int)fps + "fps " + (IsUsingLatency() ? "(L)" : ""), GUILayout.Height(40), GUILayout.Width(64)))
                _showGUI = !_showGUI;
           if (!_showGUI) return;
 
@@ -163,6 +175,7 @@ public class TEST : NetworkBehaviour
           }
 
 
+
           // GUI log
           GUILayout.Space(10);
           GUILayout.TextArea(log, GUILayout.Height(420));
@@ -175,7 +188,6 @@ public class TEST : NetworkBehaviour
 
           // Other TEST
           GUILayout.Space(10);
-
 
 
 

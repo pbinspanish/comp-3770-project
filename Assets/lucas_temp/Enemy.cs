@@ -10,7 +10,6 @@ public class Enemy : NetworkBehaviour
 
      // public
      public Rigidbody rb { get; private set; }
-     public bool isElite = false;
 
 
      // net var
@@ -41,19 +40,6 @@ public class Enemy : NetworkBehaviour
           //set initial pos
           nPos.Value = transform.position;
           nRot.Value = transform.rotation;
-
-          //just for fun
-          if (isElite)
-          {
-               hpClass.hpMax = 20;
-               hpClass.DeltaHP(20);
-
-               ////setup hpUI
-               //var ui = UIHpBarFactory.GetUI();
-               //ui.StartUse(gameObject, hpClass, 15);
-          }
-
-
      }
 
      void Update()

@@ -68,11 +68,11 @@ public class PlayerChara : NetworkBehaviour
           if (transform.position == netPos.Value)
                return;
 
-          if (Vector3.Distance(transform.position, netPos.Value) <= NetworkSetting.clientMaxDeviation)
+          if (Vector3.Distance(transform.position, netPos.Value) <= TEST.inst.clientMaxDeviation)
           {
                // smooth
-               transform.position = Vector3.MoveTowards(transform.position, netPos.Value, NetworkSetting.clientSmoothFlat * Time.fixedDeltaTime);
-               transform.position = Vector3.SmoothDamp(transform.position, netPos.Value, ref _vel, NetworkSetting.clientSmooth, float.MaxValue, Time.fixedDeltaTime);
+               transform.position = Vector3.MoveTowards(transform.position, netPos.Value, TEST.inst.clientSmoothFlat * Time.fixedDeltaTime);
+               transform.position = Vector3.SmoothDamp(transform.position, netPos.Value, ref _vel, TEST.inst.clientSmooth, float.MaxValue, Time.fixedDeltaTime);
           }
           else
           {
@@ -96,6 +96,14 @@ public class PlayerChara : NetworkBehaviour
           GetComponentInChildren<Renderer>().material.color = color;
      }
 
+     // debug --------------------------------------------------------------------------------------------
+
+
+     void OnDrawGizmos()
+     {
+          Gizmos.color = Color.cyan;
+          Gizmos.DrawWireCube(netPos.Value + new Vector3(0, 1, 0), new Vector3(1, 2, 1));
+     }
 
 
 }
