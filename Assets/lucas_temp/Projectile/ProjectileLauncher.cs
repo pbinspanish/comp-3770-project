@@ -29,25 +29,6 @@ public class ProjectileLauncher : NetworkBehaviour
      float tFire;
 
 
-
-     void OnDrawGizmos()
-     {
-          if (PlayerChara.me == null)
-               return;
-
-          string text = "InstID=" + PlayerChara.me.GetInstanceID();
-          text += " | NetObjId=" + PlayerChara.me.NetworkObjectId;
-          text += " | OwnerId=" + PlayerChara.me.OwnerClientId;
-
-          Gizmos.color = Color.cyan;
-          Handles.Label(transform.position, text);
-
-          Gizmos.color = Color.cyan;
-          Handles.Label(transform.position + new Vector3(0, 3.5f, 0), "TEST");
-     }
-
-
-
      void Awake()
      {
           InitPool();
@@ -181,7 +162,7 @@ public class ProjectileLauncher : NetworkBehaviour
      struct NetPackage : INetworkSerializable
      {
           public ulong originClientID;
-          public Vector3 fireFrom; //no longer in use
+          public Vector3 fireFrom;
           public float delay;
           public Vector3 dir;
 

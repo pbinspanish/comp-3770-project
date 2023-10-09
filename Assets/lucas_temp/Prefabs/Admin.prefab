@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2323422503387700351}
   - component: {fileID: 3855244470720748352}
+  - component: {fileID: 4896992468041592634}
+  - component: {fileID: 3917389928218523375}
   - component: {fileID: 6689819152590511506}
   - component: {fileID: 3562455844059271409}
   - component: {fileID: 2989459132654949902}
@@ -48,7 +50,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0347ee182f80b7942abb928a67fa8437, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  quickTest: 1
+  quickTest: 0
+--- !u!114 &4896992468041592634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8058470694820835937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff24908effd7d5d4b9b01b81dd1d84e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultMode: 0
+  newSpeedCapMode: 1
+  RTT_LerpMode: 0
+  LerpMode: 0
+  extrapolate: 1.25
+  smoothTime: 0.3
+  clientSmoothFlatMove: 1
+  clientMaxDeviation: 10
+  speedCapFactor: 1.1
+  lerpFactor_RTT: 1
+  lerpFactor: 2
+--- !u!114 &3917389928218523375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8058470694820835937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebd61d316a8bb164a99d9c1ab5cf6c48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pingInterval: 0.1
+  click_to_reset: 0
+  RTT: 0
+  RTTmax: 0
+  pingID: 0
 --- !u!114 &6689819152590511506
 MonoBehaviour:
   m_ObjectHideFlags: 0

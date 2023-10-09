@@ -1,8 +1,8 @@
 using System.Collections;
 using Unity.Netcode;
+using UnityEditor;
 using UnityEngine;
-using Unity.Netcode.Components;
-using System;
+
 
 public class PlayerChara : NetworkBehaviour
 {
@@ -26,14 +26,8 @@ public class PlayerChara : NetworkBehaviour
      NetworkVariable<Quaternion> netRot = new(writePerm: NetworkVariableWritePermission.Owner);
      PlayerChara_GhostCollider ghost;
 
-
-     public override void OnNetworkSpawn()
+     void Awake()
      {
-          base.OnNetworkSpawn();
-
-          if (IsOwner)
-               me = this;
-
           rb = GetComponent<Rigidbody>();
           col = GetComponent<CapsuleCollider>();
           col.isTrigger = false;
@@ -44,6 +38,16 @@ public class PlayerChara : NetworkBehaviour
 
           gameObject.layer = LayerMask.NameToLayer("Player");
           ghost.gameObject.layer = LayerMask.NameToLayer("PlayerGhost");
+
+          pingClass = FindObjectOfType<PING>();
+     }
+
+     public override void OnNetworkSpawn()
+     {
+          base.OnNetworkSpawn();
+
+          if (IsOwner)
+               me = this;
      }
 
      void FixedUpdate()
@@ -60,19 +64,38 @@ public class PlayerChara : NetworkBehaviour
           }
      }
 
-
+     float extrapolate { get => LerpMaster.inst.extrapolate; }
      // smooth --------------------------------------------------------------------------------------------
      Vector3 _vel;
+     float speedCap { get => CharaStatus.singleton.speedCap * 1.5f; }
+     PING pingClass;
+
      void SmoothPos()
      {
           if (transform.position == netPos.Value)
                return;
 
-          if (Vector3.Distance(transform.position, netPos.Value) <= TEST.inst.clientMaxDeviation)
+          if (Vector3.Distance(transform.position, netPos.Value) <= LerpMaster.inst.clientMaxDeviation)
           {
+               // prodiction
+               var prediction = transform.position + extrapolate * (netPos.Value - transform.position); // TODO: linear prediction, if this works then change to fancy curve
+
                // smooth
-               transform.position = Vector3.MoveTowards(transform.position, netPos.Value, TEST.inst.clientSmoothFlat * Time.fixedDeltaTime);
-               transform.position = Vector3.SmoothDamp(transform.position, netPos.Value, ref _vel, TEST.inst.clientSmooth, float.MaxValue, Time.fixedDeltaTime);
+               transform.position = Vector3.MoveTowards(transform.position, prediction, LerpMaster.inst.clientSmoothFlatMove * Time.fixedDeltaTime);
+               if (LerpMaster.inst.defaultMode)
+                    transform.position = Vector3.SmoothDamp(transform.position, prediction, ref _vel, LerpMaster.inst.smoothTime, float.MaxValue, Time.fixedDeltaTime);
+
+               //TEST: 1.5*speed as max speed
+               else if (LerpMaster.inst.newSpeedCapMode)
+                    transform.position = Vector3.SmoothDamp(transform.position, prediction, ref _vel, LerpMaster.inst.smoothTime, LerpMaster.inst.speedCapFactor * speedCap, Time.fixedDeltaTime);
+
+               //TEST: RTT as smoothTime
+               else if (LerpMaster.inst.RTT_LerpMode)
+                    transform.position = Vector3.LerpUnclamped(transform.position, prediction, pingClass.RTT / 1000 * LerpMaster.inst.lerpFactor_RTT * Time.fixedDeltaTime);
+
+               //TEST: Use lerp
+               else if (LerpMaster.inst.LerpMode)
+                    transform.position = Vector3.LerpUnclamped(transform.position, prediction, LerpMaster.inst.lerpFactor * Time.fixedDeltaTime);
           }
           else
           {

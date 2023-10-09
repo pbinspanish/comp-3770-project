@@ -1,0 +1,14 @@
+
+
+Client-Server Strategy:
+
+
+player pos/rot
+	Authority=Server
+	local: allow deviate, snap back at X value
+	server: lerp up to date position
+
+
+
+
+
