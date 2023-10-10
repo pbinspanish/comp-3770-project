@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
+using static UnityEditor.PlayerSettings;
+using static UnityEngine.Rendering.DebugUI;
 
 
 [CreateAssetMenu(menuName = "3770/UIDamageTextMgr")]
 public class UIDamageTextMgr : ScriptableObject
 {
+
+     public static UIDamageTextMgr inst { get => GetSingleton(); }
 
      // public ---------------------------------------------------------------------------------
      public UIDamageText prefab;
@@ -20,44 +24,26 @@ public class UIDamageTextMgr : ScriptableObject
 
      public static void Init()
      {
-          // call this manually decrease (maybe?) the lag when you first hit some enemy
-          // TODO: but what cause the lag?? Resources.Load?
+          // call this to decrease (maybe?) lag when first hit enemy
+          // TODO: but why?? Resources.Load?
           inst.init();
      }
 
+     public static void DisplayDamageText(int value, Vector3 pos)
+     {
+          var ui = inst.pool.Get();
+          ui.Display(Mathf.Abs(value), pos);
+     }
      public static void DisplayDamageText(int value, int netObjectID)
      {
-          inst.DisplayText(value, netObjectID);
+          var target = NetObjectID.Find(netObjectID);
+
+          var ui = inst.pool.Get();
+          ui.Display(Mathf.Abs(value), target);
      }
 
 
-     // private ---------------------------------------------------------------------------------
-     void DisplayText(int value, int netObjectID)
-     {
-          var ui = pool.Get();
-
-          var target = FindNetworkObject(netObjectID);
-          var scale = Mathf.LerpUnclamped(1f, dynamicScale, Mathf.Abs(value) / (float)dynamicScaleAtDamage); //big damage = big text
-          var color = value < 0 ? damageColor : healColor;
-
-          ui.Display(Mathf.Abs(value), target, color, scale);
-     }
-     GameObject FindNetworkObject(int netObjectID)
-     {
-          foreach (var netObj in FindObjectsOfType<NetObjectID>())
-          {
-               if (netObj.ID == netObjectID)
-               {
-                    return netObj.gameObject;
-               }
-          }
-
-          return null;
-     }
-
-
-     // init ---------------------------------------------------------------------------------
-     static UIDamageTextMgr inst { get => GetSingleton(); }
+     // init --------------------------------------------------------------------------------- 
      static UIDamageTextMgr _inst;
      static UIDamageTextMgr GetSingleton()
      {
@@ -99,7 +85,6 @@ public class UIDamageTextMgr : ScriptableObject
 
 
      // pool ---------------------------------------------------------------------------------
-
      ObjectPool<UIDamageText> pool;
      void InitPool()
      {

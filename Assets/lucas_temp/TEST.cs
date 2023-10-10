@@ -28,7 +28,6 @@ public class TEST : NetworkBehaviour
           _inputIP = GetLocalIPv4();
           pingClass = FindObjectOfType<PING>();
           UIDamageTextMgr.Init();
-
      }
      void Start()
      {
@@ -40,6 +39,13 @@ public class TEST : NetworkBehaviour
                _showGUI = false;
           }
 
+     }
+     void Update()
+     {
+          if (Input.GetKeyDown(KeyCode.Mouse0))
+          {
+               UIDamageTextMgr.DisplayDamageText(100, new Vector3(0, 2, 0));
+          }
      }
 
 

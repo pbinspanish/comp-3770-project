@@ -18,15 +18,15 @@ MonoBehaviour:
   speed: 70
   range: 100
   damage: 100
-  dmgRandomRange: 0
+  dmgRandomRange: 20
   maxHit: 1
   triggerMode: 0
   delay: 0
+  capSpeedOnDelay: -1
   cooldown: 20
   forceFwdUp: {x: 33, y: 100}
   forceDirection: 0
   smoothForce: 0
-  corpseForceMultiply: 1.5
   hitSameTarget: 0
   hitSameTargetEvery: 1000
   spawnFwdUp: {x: 1.5, y: 2}
@@ -41,6 +41,6 @@ MonoBehaviour:
   maxUpwardsAgnle: 30
   maxDownwardsAgnle: 0
   preheatPool: 0
-  colMask: 2049
+  allMask: 2049
   targetMask: 2048
   wallMask: 1
