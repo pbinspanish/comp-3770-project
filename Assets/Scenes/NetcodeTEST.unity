@@ -5955,6 +5955,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 380560510165186051, guid: c13cba26fb0e1fb47a3c0e6b31d50529,
         type: 3}
+      propertyPath: hotkey
+      value: 52
+      objectReference: {fileID: 0}
+    - target: {fileID: 380560510165186051, guid: c13cba26fb0e1fb47a3c0e6b31d50529,
+        type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}

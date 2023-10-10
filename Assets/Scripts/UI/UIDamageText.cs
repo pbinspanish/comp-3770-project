@@ -72,11 +72,11 @@ public class UIDamageText : MonoBehaviour
           enabled = true;
           gameObject.SetActive(true);
 
+          text.text = Mathf.Abs(value) + "";
+          text.color = value < 0 ? UIDamageTextMgr.inst.damageColor : UIDamageTextMgr.inst.healColor;
           var scale = GetScale(value);
-          var color = value < 0 ? UIDamageTextMgr.inst.damageColor : UIDamageTextMgr.inst.healColor;
-
-          text.text = value + "";
           transform.localScale = new Vector3(scale, scale, scale);
+
           anim.Play(animName);
      }
 

@@ -32,14 +32,27 @@ public class UIDamageTextMgr : ScriptableObject
      public static void DisplayDamageText(int value, Vector3 pos)
      {
           var ui = inst.pool.Get();
-          ui.Display(Mathf.Abs(value), pos);
+          ui.Display(value, pos);
      }
      public static void DisplayDamageText(int value, int netObjectID)
      {
           var target = NetObjectID.Find(netObjectID);
 
           var ui = inst.pool.Get();
-          ui.Display(Mathf.Abs(value), target);
+          ui.Display(value, target);
+     }
+     public void Example()
+     {
+          if (Input.GetKeyDown(KeyCode.Mouse0))
+          {
+               var damage = -100;
+               UIDamageTextMgr.DisplayDamageText(damage, new Vector3(0, 2, 0));
+          }
+          if (Input.GetKeyDown(KeyCode.Mouse1))
+          {
+               var heal = 100;
+               UIDamageTextMgr.DisplayDamageText(heal, new Vector3(0, 2, 0));
+          }
      }
 
 
