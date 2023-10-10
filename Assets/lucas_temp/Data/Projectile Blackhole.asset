@@ -10,26 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9004629b820795643b0fd64a4d2399f3, type: 3}
-  m_Name: Projectile Entry Blackhole
+  m_Name: Projectile Blackhole
   m_EditorClassIdentifier: 
   projectile: {fileID: 2331716587167652985, guid: 9d9c4071069ec1c4f9367e56089bcb47,
     type: 3}
   clientHasAutority: 1
-  speed: 3
-  range: 28
+  speed: 2
+  range: 30
   damage: 1
   dmgRandomRange: 0
   maxHit: 1
   triggerMode: 0
   delay: 1200
   capSpeedOnDelay: 1.5
-  cooldown: 1000
+  cooldown: 3000
   forceFwdUp: {x: -50, y: 150}
   forceDirection: 1
   smoothForce: 0
   hitSameTarget: 1
   hitSameTargetEvery: 500
-  spawnFwdUp: {x: 7, y: 2}
+  spawnFwdUp: {x: 0, y: 2}
   onHitVFX: {fileID: 0}
   recycleVFX: 2
   stickToTarget: 0

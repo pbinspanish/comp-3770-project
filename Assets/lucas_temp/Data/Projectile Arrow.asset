@@ -10,28 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9004629b820795643b0fd64a4d2399f3, type: 3}
-  m_Name: Projectile Entry ArrowTEST
+  m_Name: Projectile Arrow
   m_EditorClassIdentifier: 
   projectile: {fileID: 187653448068468399, guid: e86a8fb92fb9015458b421efdbf46dc6,
     type: 3}
   clientHasAutority: 1
   speed: 70
   range: 100
-  damage: 100
+  damage: 1
   dmgRandomRange: 0
   maxHit: 1
   triggerMode: 0
   delay: 0
-  cooldown: 20
-  forceFwdUp: {x: 33, y: 100}
+  capSpeedOnDelay: -1
+  cooldown: 100
+  forceFwdUp: {x: 100, y: 33}
   forceDirection: 0
   smoothForce: 0
-  corpseForceMultiply: 1.5
   hitSameTarget: 0
   hitSameTargetEvery: 1000
   spawnFwdUp: {x: 1.5, y: 2}
-  onHitVFX: {fileID: 5841584482562486449, guid: ce0c689300e17124294d5396a339f7c5,
-    type: 3}
+  onHitVFX: {fileID: 0}
   recycleVFX: 2
   stickToTarget: 30
   stickToWall: 30
@@ -41,6 +40,6 @@ MonoBehaviour:
   maxUpwardsAgnle: 30
   maxDownwardsAgnle: 0
   preheatPool: 0
-  colMask: 2049
+  allMask: 2049
   targetMask: 2048
   wallMask: 1

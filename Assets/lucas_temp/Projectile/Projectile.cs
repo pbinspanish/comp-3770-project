@@ -306,9 +306,11 @@ public class Projectile : MonoBehaviour
      // show collider ---------------------------------------------------------------------------------
      void OnDrawGizmosSelected()
      {
-          Gizmos.color = Color.blue;
-          Gizmos.DrawWireSphere(_pos0 + colliderCenter, colliderRadius);
-
+          if (Application.isPlaying)
+          {
+               Gizmos.color = Color.blue;
+               Gizmos.DrawWireSphere(_pos0 + colliderCenter, colliderRadius);
+          }
           Gizmos.color = Color.red;
           Gizmos.DrawWireSphere(transform.position + colliderCenter, colliderRadius);
      }
