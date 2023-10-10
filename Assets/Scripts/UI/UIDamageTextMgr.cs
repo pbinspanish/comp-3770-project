@@ -20,28 +20,43 @@ public class UIDamageTextMgr : ScriptableObject
 
      public static void Init()
      {
-          // Call this manually to decrease the lag when you first hit some enemy
-          // TODO: not sure what causes the lag. Resources.Load?
-          inst.Init_ForReal();
+          // call this manually decrease (maybe?) the lag when you first hit some enemy
+          // TODO: but what cause the lag?? Resources.Load?
+          inst.init();
      }
 
-     public static void OnDamage(int damage, GameObject target)
+     public static void DisplayDamageText(int value, int netObjectID)
      {
-          inst._OnDamage(damage, target);
+          inst.DisplayText(value, netObjectID);
      }
-     void _OnDamage(int damage, GameObject target)
+
+
+     // private ---------------------------------------------------------------------------------
+     void DisplayText(int value, int netObjectID)
      {
           var ui = pool.Get();
-          var color = damage < 0 ? damageColor : healColor;
 
-          // big damage = big text
-          var scale = Mathf.LerpUnclamped(1f, dynamicScale, Mathf.Abs(damage) / (float)dynamicScaleAtDamage);
+          var target = FindNetworkObject(netObjectID);
+          var scale = Mathf.LerpUnclamped(1f, dynamicScale, Mathf.Abs(value) / (float)dynamicScaleAtDamage); //big damage = big text
+          var color = value < 0 ? damageColor : healColor;
 
-          ui.Display(Mathf.Abs(damage), target, color, scale);
+          ui.Display(Mathf.Abs(value), target, color, scale);
+     }
+     GameObject FindNetworkObject(int netObjectID)
+     {
+          foreach (var netObj in FindObjectsOfType<NetObjectID>())
+          {
+               if (netObj.ID == netObjectID)
+               {
+                    return netObj.gameObject;
+               }
+          }
+
+          return null;
      }
 
 
-     // initial ---------------------------------------------------------------------------------
+     // init ---------------------------------------------------------------------------------
      static UIDamageTextMgr inst { get => GetSingleton(); }
      static UIDamageTextMgr _inst;
      static UIDamageTextMgr GetSingleton()
@@ -49,20 +64,19 @@ public class UIDamageTextMgr : ScriptableObject
           if (_inst == null)
           {
                _inst = Resources.Load(typeof(UIDamageTextMgr).Name) as UIDamageTextMgr;
-               _inst.Init_ForReal();
+               _inst.init();
           }
           return _inst;
      }
-     void Init_ForReal()
+     void init()
      {
           if (pool == null)
                inst.InitPool();
      }
 
-
-     Canvas canvas { get => inst.GetCanvas(); }
+     Canvas canvas { get => inst.GetOrCreateCanvas(); }
      Canvas _canvas;
-     Canvas GetCanvas()
+     Canvas GetOrCreateCanvas()
      {
           if (_canvas != null)
                return _canvas;
@@ -91,10 +105,10 @@ public class UIDamageTextMgr : ScriptableObject
      {
           var size = 200;
           var sizeCap = 500;
-          pool = new ObjectPool<UIDamageText>(CreateNew, null, null, null, false, size, sizeCap);
+          pool = new ObjectPool<UIDamageText>(CreateNewUI, null, null, null, false, size, sizeCap);
      }
 
-     UIDamageText CreateNew()
+     UIDamageText CreateNewUI()
      {
           var gameObject = Instantiate(prefab.gameObject, canvas.transform);
           var ui = gameObject.GetComponent<UIDamageText>();
@@ -106,7 +120,7 @@ public class UIDamageTextMgr : ScriptableObject
           return ui;
      }
 
-     public void Recycle(UIDamageText ui)
+     public void RecycleUI(UIDamageText ui)
      {
           ui.enabled = false;
           ui.gameObject.SetActive(false);

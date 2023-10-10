@@ -28,7 +28,7 @@ public class ProjectileEntry : ScriptableObject
      [Header(" - Launching")]
      public TriggerMode triggerMode = TriggerMode.KeyDown;
      public float delay = 0; //ms before launch
-     //[Range(0, 100)] public int speedWhenDelay = 100; //% of speed
+     public float capSpeedOnDelay = -1; //move slower during delay, currently only apply to player
      public float cooldown = 20; //ms before launch again
 
 
@@ -36,7 +36,6 @@ public class ProjectileEntry : ScriptableObject
      public Vector2 forceFwdUp = new Vector2(100, 33);
      public ForceDir forceDirection = ForceDir.Foward;
      public bool smoothForce = false;
-     public float corpseForceMultiply = 1.5f;
 
 
      [Header(" - AoE")]

@@ -256,10 +256,9 @@ public class Projectile : MonoBehaviour
           int sign = setting.damage > 0 ? -1 : 1; //yes, damage is -
           int damageOrHeal = abs * sign;
 
-          UIDamageTextMgr.OnDamage(damageOrHeal, target);
 
           var hpClass = target.GetComponent<HPComponent>();
-          hpClass.DeltaHP(damageOrHeal);
+          hpClass.DamageOrHeal(damageOrHeal);
      }
 
 
@@ -286,10 +285,6 @@ public class Projectile : MonoBehaviour
 
           force *= smooth ? Time.fixedDeltaTime : 1; //impulse or constantly apply
 
-          var hpClass = target.GetComponent<HPComponent>();
-          if (hpClass)
-               force *= (hpClass.hp == 0 ? setting.corpseForceMultiply : 1);
-
           _rb.AddForce(force, UnityEngine.ForceMode.Force);
      }
 
@@ -311,9 +306,11 @@ public class Projectile : MonoBehaviour
      // show collider ---------------------------------------------------------------------------------
      void OnDrawGizmosSelected()
      {
-          Gizmos.color = Color.blue;
-          Gizmos.DrawWireSphere(_pos0 + colliderCenter, colliderRadius);
-
+          if (Application.isPlaying)
+          {
+               Gizmos.color = Color.blue;
+               Gizmos.DrawWireSphere(_pos0 + colliderCenter, colliderRadius);
+          }
           Gizmos.color = Color.red;
           Gizmos.DrawWireSphere(transform.position + colliderCenter, colliderRadius);
      }

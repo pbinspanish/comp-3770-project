@@ -9,10 +9,9 @@ public class PlayerController : MonoBehaviour
      // public
      public static Vector3 mouseHit { get; private set; }
      public bool enableMoveInput = true; //lose control when eg. knocked away / stunned
-     public bool clickToRandColor = false;
 
      // private
-     Rigidbody rb { get => PlayerChara.me.rb; }
+     Rigidbody rb { get => NetworkChara.myChara.rb; }
      Camera cam;
 
 
@@ -22,17 +21,16 @@ public class PlayerController : MonoBehaviour
      }
      void Update()
      {
-          if (PlayerChara.me != null)
+          if (NetworkChara.myChara != null)
           {
                if (Input.GetKeyDown(KeyCode.Alpha3)) Blink(); //TEST
 
                UpdateInput();
-               UpdateColor();
           }
      }
      void FixedUpdate()
      {
-          if (PlayerChara.me != null)
+          if (NetworkChara.myChara != null)
           {
                UpdateRotation();
                UpdatePosition();
@@ -51,20 +49,23 @@ public class PlayerController : MonoBehaviour
           //var dir = Quaternion.Euler(rot) * Vector3.forward;
           //PlayerChara.me.transform.position += dir.normalized * blinkDist;
 
-          PlayerChara.me.transform.position += PlayerChara.me.transform.rotation * Vector3.forward * blinkDist;
+          NetworkChara.myChara.transform.position += NetworkChara.myChara.transform.rotation * Vector3.forward * blinkDist;
 
           Debug.Log("BLINK ");
      }
 
-     void UpdateColor()
+
+     // public ---------------------------------------------------------------------------------
+
+     public float tCapSpeed;
+     public float capSpeed;
+
+     public void CapSpeed(float speed, float sec)
      {
-          if (clickToRandColor)
-          {
-               clickToRandColor = false;
-               var color = new Color(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f));
-               PlayerChara.me.ChangeColor_ServerRpc(color);
-          }
+          capSpeed = speed;
+          tCapSpeed = Time.time + sec;
      }
+
 
      // input ---------------------------------------------------------------------
 
@@ -126,8 +127,8 @@ public class PlayerController : MonoBehaviour
 
 
           // cap XZ speed
-          float _clamp = isGrounded ? (isRunning ? speedCapRun : speedCap) : speedCapAirborne;
-          vel = Vector3.ClampMagnitude(vel, _clamp);
+          float clamp = (Time.time < tCapSpeed) ? capSpeed : isGrounded ? (isRunning ? speedCapRun : speedCap) : speedCapAirborne;
+          vel = Vector3.ClampMagnitude(vel, clamp);
 
 
           // Y: verticle velocity, it's not cap by max speed
@@ -147,7 +148,7 @@ public class PlayerController : MonoBehaviour
 
      void UpdateRotation()
      {
-          var player = PlayerChara.me;
+          var player = NetworkChara.myChara;
           var ray = cam.ScreenPointToRay(Input.mousePosition);
 
           if (Physics.Raycast(ray, out var hit))

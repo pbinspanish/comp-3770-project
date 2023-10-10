@@ -11,38 +11,35 @@ using UnityEngine;
 
 public class TEST : NetworkBehaviour
 {
+
      public static TEST inst { get { if (_inst == null) _inst = FindObjectOfType<TEST>(); return _inst; } }
 
      //public
      public bool quickTest = false;
 
-     public float clientSmooth = 0.4f;
-     public float clientSmoothFlat = 1;
-     public float clientMaxDeviation = 10f;
 
      //private
      static TEST _inst;
      ulong clientID { get => NetworkManager.Singleton.LocalClientId; }
-
+     PING pingClass;
 
      void Awake()
      {
           _inputIP = GetLocalIPv4();
-
+          pingClass = FindObjectOfType<PING>();
           UIDamageTextMgr.Init();
+
      }
      void Start()
      {
-          TEST_SubscribeNetworkEvent();
-
           StartCoroutine(UpdateIP());
-          StartCoroutine(UpdateFPS());
 
           if (quickTest)
           {
                StartHost();
                _showGUI = false;
           }
+
      }
 
 
@@ -98,32 +95,7 @@ public class TEST : NetworkBehaviour
      }
 
 
-     // Server: on connect / disconnect ----------------------------------------------------------------------------
-     void TEST_SubscribeNetworkEvent()
-     {
-          // useful
-          //NetworkManager.Singleton.OnClientConnectedCallback += (client) => Debug.Log("OnClientConnectedCallback() " + client);
-          //NetworkManager.Singleton.OnClientDisconnectCallback += (client) => Debug.Log("OnClientDisconnectCallback() " + client);
-
-          // maybe useful?
-          //NetworkManager.Singleton.OnTransportFailure += () => Debug.Log("OnTransportFailure() ");
-
-          // called first, but use callback seems a better idea
-          //NetworkManager.Singleton.OnServerStarted += () => Debug.Log("OnServerStarted() ");
-          //NetworkManager.Singleton.OnServerStopped += (flag) => Debug.Log("OnServerStopped() " + flag);
-          //NetworkManager.Singleton.OnClientStarted += () => Debug.Log("OnClientStarted() ");
-          //NetworkManager.Singleton.OnClientStopped += (flag) => Debug.Log("OnClientStopped() " + flag);
-     }
-
-
-     // lantency test  ----------------------------------------------------------------------------
-     void SetLatency(int delay, int jitter, int dropRate)
-     {
-          var sim = FindAnyObjectByType<UnityTransport>().DebugSimulator;
-          sim.PacketDelayMS = delay;
-          sim.PacketJitterMS = jitter;
-          sim.PacketDropRate = dropRate;
-     }
+     // testing ----------------------------------------------------------------------------
      bool IsUsingLatency()
      {
           var sim = NetworkManager.GetComponent<UnityTransport>().DebugSimulator;
@@ -135,49 +107,70 @@ public class TEST : NetworkBehaviour
 
      string _inputIP;
      bool _showGUI = true;
-     float fps;
 
      void OnGUI()
      {
-          // toggle GUI
-          if (GUILayout.Button((int)fps + "fps " + (IsUsingLatency() ? "(L)" : ""), GUILayout.Height(40), GUILayout.Width(64)))
+          GUILayout.BeginArea(new Rect(12, 12, 400, 5000));//-------------------------------------------------------
+          var H = GUILayout.Height(25);
+
+          if (GUILayout.Button(_showGUI ? "Hide" : "Show", H, GUILayout.Width(133)))
                _showGUI = !_showGUI;
-          if (!_showGUI) return;
+          if (!_showGUI)
+          {
+               GUILayout.EndArea();//-------------------------------------------------------
+               return;
+          }
 
 
-          GUILayout.BeginArea(new Rect(16, 16, 400, 5000));//-------------------------------------------------------
-
-
-          // start host / client
+          // start as host or client
+          GUILayout.Space(10);
           if (!NetworkManager.Singleton.IsClient && !NetworkManager.Singleton.IsServer)
           {
-               if (GUILayout.Button("(A) Host  -  IP: " + myIP))
-                    StartHost(); // <-
+               if (GUILayout.Button("(A) Host  -  IP: " + myIP, H))
+                    StartHost();
+
 
                GUILayout.BeginHorizontal();
                {
-                    if (GUILayout.Button("(B) Conect to", GUILayout.Width(200)))
-                         StartClient(_inputIP); // <-
+                    if (GUILayout.Button("(B) Conect to", GUILayout.Width(200), H))
+                         StartClient(_inputIP);
 
-                    _inputIP = GUILayout.TextField(_inputIP);
+                    _inputIP = GUILayout.TextField(_inputIP, H);
                }
                GUILayout.EndHorizontal();
           }
           else
           {
                if (NetworkManager.Singleton.IsHost)
-                    GUILayout.Box("You are Host. IP: " + myIP);
+                    GUILayout.Box("You are Host. IP: " + myIP, H);
                else
-                    GUILayout.Box("You are Cinet. Connect to: " + serverIP);
+                    GUILayout.Box("You are Cinet. Connect to: " + serverIP, H);
 
-               if (GUILayout.Button("Disconnect"))
+               if (GUILayout.Button("Disconnect", H))
                     NetworkManager.Singleton.Shutdown();
           }
 
+          // info display
+          GUILayout.Space(12);
+          GUILayout.BeginHorizontal();
+          {
+               // PING
+               if (pingClass)
+               {
+                    GUILayout.Box("RTT = " + Math.Round(pingClass.RTT, 0));
+                    GUILayout.Box("RTTmax = " + Math.Round(pingClass.RTTmax, 0));
+               }
+               else
+                    GUILayout.Box("PING class N/A");
+
+               // simulate latency
+               if (IsUsingLatency())
+                    GUILayout.Box("Simulate Lantency");
+          }
+          GUILayout.EndHorizontal();
 
 
-          // GUI log
-          GUILayout.Space(10);
+          // log
           GUILayout.TextArea(log, GUILayout.Height(420));
           if (GUILayout.Button("Clear log"))
           {
@@ -187,7 +180,7 @@ public class TEST : NetworkBehaviour
 
 
           // Other TEST
-          GUILayout.Space(10);
+          GUILayout.Space(12);
 
 
 
@@ -213,12 +206,6 @@ public class TEST : NetworkBehaviour
 
           for (int i = 1; i < _array.Length; i++)
                log += "\n" + _array[i];
-     }
-
-     IEnumerator UpdateFPS()
-     {
-          fps = 1f / Time.deltaTime;
-          yield return new WaitForSeconds(2);
      }
 
 

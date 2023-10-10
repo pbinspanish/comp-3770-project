@@ -1,0 +1,17 @@
+
+
+Client-Server Strategy:
+
+
+player pos/rot
+	Authority=Server
+	local: allow deviate, snap back at X value
+	server: lerp up to date position
+
+
+
+Post Processing
+https://www.youtube.com/watch?v=bkPe1hxOmbI
+Lazer Beam
+https://www.youtube.com/watch?v=p47XrPFq1U0
+

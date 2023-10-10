@@ -50,7 +50,7 @@ public class UIDamageText : MonoBehaviour
 
      public void OnAnimationEnd() //DO NOT change name, called by animator
      {
-          mgr.Recycle(this);
+          mgr.RecycleUI(this);
      }
 
 
