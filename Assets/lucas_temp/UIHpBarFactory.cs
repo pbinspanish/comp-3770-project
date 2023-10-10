@@ -5,14 +5,6 @@ using UnityEngine;
 using UnityEngine.Pool;
 
 
-// interface for using hp UI
-public interface IDamageAble
-{
-     public float hp { get; }
-     public float hpMax { get; }
-}
-
-
 /// <summary>
 /// Distribute hp bar. The UI will follow the gameobject
 /// 

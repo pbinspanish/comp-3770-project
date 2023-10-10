@@ -48,7 +48,7 @@ public class CameraMgr : MonoBehaviour
 
      void UpdateMainCam()
      {
-          if (PlayerChara.me == null) return;
+          if (NetworkChara.myChara == null) return;
 
           // roration
           if (Input.GetMouseButton(1))
@@ -62,7 +62,7 @@ public class CameraMgr : MonoBehaviour
           }
 
           // position
-          root.position = PlayerChara.me.transform.position + camOffset;
+          root.position = NetworkChara.myChara.transform.position + camOffset;
 
           // dist to root
           camMain.transform.localPosition = new Vector3(0, 0, camDist);

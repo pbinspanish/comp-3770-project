@@ -5,11 +5,13 @@ using System.Net;
 using System.Net.Sockets;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
 public class TEST : NetworkBehaviour
 {
+
      public static TEST inst { get { if (_inst == null) _inst = FindObjectOfType<TEST>(); return _inst; } }
 
      //public
@@ -27,28 +29,18 @@ public class TEST : NetworkBehaviour
           pingClass = FindObjectOfType<PING>();
           UIDamageTextMgr.Init();
 
-
-
      }
      void Start()
      {
-          TEST_SubscribeNetworkEvent();
-
           StartCoroutine(UpdateIP());
-          StartCoroutine(UpdateFPS());
 
           if (quickTest)
           {
                StartHost();
                _showGUI = false;
           }
-     }
 
-     //public override void OnNetworkSpawn()
-     //{
-     //     Debug.Log("clientID " + clientID);
-     //     Debug.Log("OwnerClientId " + OwnerClientId);
-     //}
+     }
 
 
      // set up connection ----------------------------------------------------------------------------
@@ -103,32 +95,7 @@ public class TEST : NetworkBehaviour
      }
 
 
-     // Server: on connect / disconnect ----------------------------------------------------------------------------
-     void TEST_SubscribeNetworkEvent()
-     {
-          // useful
-          //NetworkManager.Singleton.OnClientConnectedCallback += (client) => Debug.Log("OnClientConnectedCallback() " + client);
-          //NetworkManager.Singleton.OnClientDisconnectCallback += (client) => Debug.Log("OnClientDisconnectCallback() " + client);
-
-          // maybe useful?
-          //NetworkManager.Singleton.OnTransportFailure += () => Debug.Log("OnTransportFailure() ");
-
-          // called first, but use callback seems a better idea
-          //NetworkManager.Singleton.OnServerStarted += () => Debug.Log("OnServerStarted() ");
-          //NetworkManager.Singleton.OnServerStopped += (flag) => Debug.Log("OnServerStopped() " + flag);
-          //NetworkManager.Singleton.OnClientStarted += () => Debug.Log("OnClientStarted() ");
-          //NetworkManager.Singleton.OnClientStopped += (flag) => Debug.Log("OnClientStopped() " + flag);
-     }
-
-
-     // lantency test  ----------------------------------------------------------------------------
-     void SetLatency(int delay, int jitter, int dropRate)
-     {
-          var sim = FindAnyObjectByType<UnityTransport>().DebugSimulator;
-          sim.PacketDelayMS = delay;
-          sim.PacketJitterMS = jitter;
-          sim.PacketDropRate = dropRate;
-     }
+     // testing ----------------------------------------------------------------------------
      bool IsUsingLatency()
      {
           var sim = NetworkManager.GetComponent<UnityTransport>().DebugSimulator;
@@ -140,7 +107,6 @@ public class TEST : NetworkBehaviour
 
      string _inputIP;
      bool _showGUI = true;
-     float fps;
 
      void OnGUI()
      {
@@ -193,8 +159,6 @@ public class TEST : NetworkBehaviour
                {
                     GUILayout.Box("RTT = " + Math.Round(pingClass.RTT, 0));
                     GUILayout.Box("RTTmax = " + Math.Round(pingClass.RTTmax, 0));
-                    //GUILayout.Box("PacketLoss = " + pingClass.PacketLoss);
-                    //GUILayout.Box("PacketLoss % = " + Math.Round(pingClass.PacketLossRate * 100, 1) + "%");
                }
                else
                     GUILayout.Box("PING class N/A");
@@ -202,9 +166,6 @@ public class TEST : NetworkBehaviour
                // simulate latency
                if (IsUsingLatency())
                     GUILayout.Box("Simulate Lantency");
-
-               // fps
-               GUILayout.Box("fps = " + fps);
           }
           GUILayout.EndHorizontal();
 
@@ -245,12 +206,6 @@ public class TEST : NetworkBehaviour
 
           for (int i = 1; i < _array.Length; i++)
                log += "\n" + _array[i];
-     }
-
-     IEnumerator UpdateFPS()
-     {
-          fps = 1f / Time.deltaTime;
-          yield return new WaitForSeconds(2);
      }
 
 

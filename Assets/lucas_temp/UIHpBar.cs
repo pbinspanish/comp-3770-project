@@ -17,7 +17,7 @@ public class UIHpBar : MonoBehaviour
 
      public float smooth = 0.5f; // 0 = no smooth
 
-     public void StartUse(GameObject followThisObject, IDamageAble hpClass, float height = 4f, bool isElite = false)
+     public void StartUse(GameObject followThisObject, HPComponent hpClass, float height = 4f, bool isElite = false)
      {
           SetFollow(followThisObject, height);
           this.hpClass = hpClass;
@@ -51,7 +51,7 @@ public class UIHpBar : MonoBehaviour
      [SerializeField] Image hpBar;
 
      //update
-     IDamageAble hpClass;
+     HPComponent hpClass;
      float hp { get => hpClass.hp; }
      float hpMax { get => hpClass.hpMax; }
      float hpSmooth;

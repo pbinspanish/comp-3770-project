@@ -19,11 +19,6 @@ public class ProjectileLauncher : NetworkBehaviour
      public ProjectileEntry setting;
 
 
-     public int _InstanceID;
-     public ulong _NetworkObjectId;
-     public ulong _OwnerClientId;
-
-
      //private
      ulong clientID { get => NetworkManager.Singleton.LocalClientId; }
      float tFire;
@@ -37,26 +32,12 @@ public class ProjectileLauncher : NetworkBehaviour
      }
      void Update()
      {
-          if (PlayerChara.me)
-          {
-               //test
-               _InstanceID = PlayerChara.me.GetInstanceID();
-               _NetworkObjectId = PlayerChara.me.NetworkObjectId;
-               _OwnerClientId = PlayerChara.me.OwnerClientId;
-
-          }
-
-
-
           monitor = "Pool: " + pool.CountActive + " Active | " + pool.CountAll + " Count";
 
-          if (PlayerChara.me != null)
+          if (NetworkChara.myChara != null)
           {
                HandleInput();
           }
-
-
-
      }
 
      void HandleInput()
@@ -93,13 +74,13 @@ public class ProjectileLauncher : NetworkBehaviour
           data.delay = setting.delay;
 
           // position
-          data.fireFrom = PlayerChara.me.transform.position;
-          data.fireFrom += PlayerChara.me.transform.rotation * new Vector3(0, setting.spawnFwdUp.y, setting.spawnFwdUp.x);
+          data.fireFrom = NetworkChara.myChara.transform.position;
+          data.fireFrom += NetworkChara.myChara.transform.rotation * new Vector3(0, setting.spawnFwdUp.y, setting.spawnFwdUp.x);
 
 
           // direction
           data.dir = PlayerController.mouseHit
-               - PlayerChara.me.transform.position
+               - NetworkChara.myChara.transform.position
                - new Vector3(0, setting.spawnFwdUp.y, 0); //compensate height, since we fire from hip, not from feet
 
           //gizmos_dir = data.dir; //debug
@@ -116,8 +97,6 @@ public class ProjectileLauncher : NetworkBehaviour
                data.dir.y = Mathf.Clamp(data.dir.y, yMin, yMax);
           }
 
-          //gizmos_dirNEW = data.dir; //debug
-          //gizmos_from = data.fireFrom; //debug
           data.dir = data.dir.normalized;
 
           _fire(data);
@@ -134,20 +113,30 @@ public class ProjectileLauncher : NetworkBehaviour
 
           var p = pool.Get();
           p.enabled = true;
-          //p.Fire(PlayerChara.me.transform.position, data.dir, data.originClientID);
           p.Fire(data.fireFrom, data.dir, data.originClientID);
 
      }
 
      IEnumerator _fireDelayed(NetPackage data)
      {
+          if (setting.capSpeedOnDelay >= 0 && data.originClientID == clientID)
+          {
+               var controller = FindObjectOfType<PlayerController>();
+               controller.CapSpeed(setting.capSpeedOnDelay, setting.delay / 1000);
+
+               //var obj = NetObjectID.Find(data.netObjectID);
+               //var caster = obj.GetComponent<NetworkChara>();
+               //caster.CapSpeed(setting.capSpeedWhenDelay, setting.delay / 1000);
+          }
+
           yield return new WaitForSeconds(data.delay / 1000);
+
           _fire(data, true);
      }
 
 
 
-     // network RPC  ---------------------------------------------------------------------------------
+     // RPC ---------------------------------------------------------------------------------
      [ServerRpc(RequireOwnership = false)]
      void OnFire_ServerRPC(NetPackage data)
      {
@@ -166,20 +155,20 @@ public class ProjectileLauncher : NetworkBehaviour
           public float delay;
           public Vector3 dir;
 
-
           //    if a spell has not projectile,
           //    but ONLY targets ground
           //    then use the ground pos, which mask the visual latency of other clients
           //    (but I probably should have a static ground spell class???)
-          public Vector3 targetGroundPos; //TODO: maybe?
+          //public Vector3 targetGroundPos; //TODO: maybe?
 
           void INetworkSerializable.NetworkSerialize<T>(BufferSerializer<T> serializer)
           {
                serializer.SerializeValue(ref originClientID);
+
                serializer.SerializeValue(ref fireFrom);
                serializer.SerializeValue(ref dir);
                serializer.SerializeValue(ref delay);
-               serializer.SerializeValue(ref targetGroundPos);
+               //serializer.SerializeValue(ref targetGroundPos);
           }
      }
 

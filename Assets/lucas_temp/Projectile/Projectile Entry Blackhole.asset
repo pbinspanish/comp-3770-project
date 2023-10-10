@@ -22,11 +22,11 @@ MonoBehaviour:
   maxHit: 1
   triggerMode: 0
   delay: 1200
+  capSpeedOnDelay: 1.5
   cooldown: 1000
   forceFwdUp: {x: -50, y: 150}
   forceDirection: 1
   smoothForce: 0
-  corpseForceMultiply: 3
   hitSameTarget: 1
   hitSameTargetEvery: 500
   spawnFwdUp: {x: 7, y: 2}
