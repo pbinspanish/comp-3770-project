@@ -98,7 +98,7 @@ public class Projectile : MonoBehaviour
 
 
      // detect collision ---------------------------------------------------------------------------------
-     Collider[] _cache = new Collider[10];
+     Collider[] _cache = new Collider[20];
      Vector3 _pos0; //cache
      float _distPerFrame; //cache
      int _hitCount;

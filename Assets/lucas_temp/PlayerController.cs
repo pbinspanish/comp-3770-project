@@ -158,7 +158,8 @@ public class PlayerController : MonoBehaviour
                var me = player.transform.position + 1.5f * Vector3.up;
                var dir = hit.point - me;
                var rot = Quaternion.LookRotation(new Vector3(dir.x, 0, dir.z)); //remove up/down tilt
-               player.transform.rotation = Quaternion.RotateTowards(player.transform.rotation, rot, rotateSpeed * Time.deltaTime);
+               //player.transform.rotation = Quaternion.RotateTowards(player.transform.rotation, rot, rotateSpeed * Time.deltaTime);
+               player.transform.rotation = Quaternion.Slerp(player.transform.rotation, rot, rotateSpeed * Time.deltaTime);
           }
           else
           {

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEditor;
 using UnityEngine;
@@ -16,14 +17,13 @@ public class NetworkChara : NetworkBehaviour
 
      // setup before use
      [Header("Player")]
-     public bool isPlayerMainCharactor = false;
-     public bool layer_player;
-     [Header("Enemy")]
-     public bool layer_enemy;
+     public bool isPlayer;
+     public bool isEnemy = true;
 
 
      // public
      public static NetworkChara myChara; //ref for client's charactor
+     public static List<NetworkChara> list = new List<NetworkChara>(); //include player and enemy
      public Rigidbody rb { get; private set; } //to control this charactor
 
 
@@ -33,37 +33,43 @@ public class NetworkChara : NetworkBehaviour
      bool isSpawned;
 
 
-
      // init ---------------------------------------------------------------------------------
      public override void OnNetworkSpawn()
      {
           rb = GetComponent<Rigidbody>();
 
-          if (IsOwner && isPlayerMainCharactor)
+          if (IsOwner && isPlayer)
                if (myChara == null)
                     myChara = this;
                else
                     Debug.LogError("There should be only one player chara");
 
-          if (layer_player)
+          if (isPlayer)
                gameObject.layer = LayerMask.NameToLayer("Player");
-          else if (layer_enemy)
+          else if (isEnemy)
+          {
                gameObject.layer = LayerMask.NameToLayer("Enemy");
+               GetComponentInParent<HPComponent>().OnDeathBlow += TEST_BecomeRagdoll; //just for fun
+          }
+
+          list.Add(this);
 
           isSpawned = true;
      }
      public override void OnNetworkDespawn()
      {
+          if (IsOwner && myChara == this)
+               myChara = null;
+
+          list.Remove(this);
+
           isSpawned = false;
      }
-     public float rbVEL;
 
      void FixedUpdate()
      {
-          if (isSpawned == false)
+          if (!isSpawned)
                return;
-
-          rbVEL = rb.velocity.magnitude;
 
           if (IsOwner)
           {
@@ -121,11 +127,28 @@ public class NetworkChara : NetworkBehaviour
      }
 
 
+     // fun for NPC --------------------------------------------------------------------------------------------
+     void TEST_BecomeRagdoll()
+     {
+          var rb = GetComponent<Rigidbody>();
+
+          if (rb)
+          {
+               rb.constraints = 0; //80 = freezeXZ, 0 = no contraint
+               rb.mass /= 2f;
+          }
+     }
+
+
      // debug --------------------------------------------------------------------------------------------
      void OnDrawGizmos()
      {
-          Gizmos.color = Color.cyan;
-          Gizmos.DrawWireCube(netPos.Value + new Vector3(0, 1, 0), new Vector3(1, 2, 1));
+          if (Vector3.Distance(transform.position, netPos.Value) > 0.1f)
+          {
+               Gizmos.color = Color.cyan;
+               Gizmos.DrawWireCube(netPos.Value + new Vector3(0, 1, 0), new Vector3(1, 2, 1));
+          }
+
      }
 
 

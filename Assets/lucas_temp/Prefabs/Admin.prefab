@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0347ee182f80b7942abb928a67fa8437, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  quickTest: 0
+  quickTest: 1
 --- !u!114 &4896992468041592634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,17 +63,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff24908effd7d5d4b9b01b81dd1d84e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultMode: 0
-  newSpeedCapMode: 1
-  RTT_LerpMode: 0
-  LerpMode: 0
-  extrapolate: 1.25
-  smoothTime: 0.3
-  clientSmoothFlatMove: 1
-  clientMaxDeviation: 10
-  speedCapFactor: 1.1
-  lerpFactor_RTT: 1
-  lerpFactor: 2
+  mode: 0
+  flatVelocity: 1
+  extrapolation: 1.25
+  maxDeviation: 10
+  smoothTime: 0.25
+  speedCapX: 1.1
+  posLerp: 2
+  rotLerp: 10
 --- !u!114 &3917389928218523375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,7 +121,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enableMoveInput: 1
-  clickToRandColor: 0
+  tCapSpeed: 0
+  capSpeed: 0
 --- !u!114 &2989459132654949902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,10 +136,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   acc: 80
-  speedCap: 10
-  speedCapRun: 25
-  speedCapAirborne: 5
-  rotateSpeed: 800
+  speedCap: 8.8
+  speedCapRun: 13.2
+  speedCapAirborne: 4.4
+  rotateSpeed: 17.5
   jumpForce: 100
   color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &1120397471722887521

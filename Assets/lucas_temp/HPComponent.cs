@@ -15,8 +15,7 @@ public class HPComponent : NetworkBehaviour
 {
 
      // inspector
-     public string monitor;
-     public int SetMaxHp = 20; //TODO: migrate to some status class
+     public int TEST_SetMaxHp = 20;
      bool log = false;
 
      // public
@@ -27,16 +26,19 @@ public class HPComponent : NetworkBehaviour
 
      // private
      ulong clientID { get => NetworkManager.Singleton.LocalClientId; }
-     int networkObjID { get => idClass.ID; }
+     int networkObjID { get => idClass.id; }
      NetObjectID idClass;
 
 
      public override void OnNetworkSpawn()
      {
-          ConfigHP(SetMaxHp, SetMaxHp);
-          if (log) Debug.Log(gameObject.name + " | OnNetworkSpawn() " + " | " + +hp + "/" + hpMax);
-
+          ConfigHP(TEST_SetMaxHp, TEST_SetMaxHp);
           idClass = GetComponent<NetObjectID>();
+     }
+
+     public override void OnNetworkDespawn()
+     {
+          //
      }
 
 

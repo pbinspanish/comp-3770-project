@@ -8,6 +8,7 @@ public class CharaStatus : MonoBehaviour
      public static CharaStatus singleton { get { if (_sin == null) _sin = FindObjectOfType<CharaStatus>(); return _sin; } }
      static CharaStatus _sin;
 
+
      [Header("Move")]
      public float acc = 80;
      public float speedCap = 10;

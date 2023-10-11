@@ -10,18 +10,10 @@ public class NetObjectID : NetworkBehaviour
 
      //identify the same object across different devices
 
-     public int ID { get => _id.Value; }
-
-     [TextArea]
-     public string monitor;
-
-
-     //private
-     NetworkVariable<int> _id = new NetworkVariable<int>(writePerm: NetworkVariableWritePermission.Owner);
-     static Dictionary<int, NetworkBehaviour> dict = new Dictionary<int, NetworkBehaviour>();
-
 
      // public
+     public int id { get => _id.Value; }
+
      public static GameObject Find(int netObjectID)
      {
           if (dict.ContainsKey(netObjectID))
@@ -30,25 +22,20 @@ public class NetObjectID : NetworkBehaviour
           return null;
      }
 
-     void Update()
-     {
-          monitor = "";
-          foreach (var pair in dict)
-          {
-               monitor += pair.Key + "," + pair.Value.name + "\n";
-          }
 
-     }
 
-     // init
+     //private
+     NetworkVariable<int> _id = new NetworkVariable<int>(writePerm: NetworkVariableWritePermission.Owner);
+     static Dictionary<int, NetworkBehaviour> dict = new Dictionary<int, NetworkBehaviour>();
+
      public override void OnNetworkSpawn()
      {
+          //owner has the right to assign id
+          //by default this is the client/server spawning the object
           if (IsOwner)
           {
                _id.Value = GetInstanceID();
                dict.Add(_id.Value, this);
-
-               Debug.Log(gameObject.name + " | NetworkID = " + ID);
           }
      }
 
