@@ -34,7 +34,8 @@ public class NetObjectID : NetworkBehaviour
           //by default this is the client/server spawning the object
           if (IsOwner)
           {
-               _id.Value = GetInstanceID();
+               //_id.Value = GetInstanceID();
+               _id.Value = GetHashCode();
                dict.Add(_id.Value, this);
           }
      }

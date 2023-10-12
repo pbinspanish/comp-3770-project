@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Unity.Netcode;
 using UnityEditor;
 using UnityEngine;
@@ -103,37 +104,30 @@ public class ProjectileLauncher : NetworkBehaviour
           OnFire_ServerRPC(data);
      }
 
-     void _fire(NetPackage data, bool hasWaited = false)
+     async void _fire(NetPackage data, bool hasWaited = false)
      {
-          if (data.delay > 0 && !hasWaited)
+          if (data.delay > 0)
           {
-               StartCoroutine(_fireDelayed(data));
-               return;
+               // cap speed on origin client (others will sync pos)
+               if (setting.capSpeedOnDelay >= 0 && data.originClientID == clientID)
+               {
+                    var controller = FindObjectOfType<PlayerController>();
+                    if (controller)
+                         controller.CapSpeed(setting.capSpeedOnDelay, data.delay / 1000);
+               }
+
+               // wait
+               var t = Time.time + data.delay / 1000;
+               while (Time.time < t)
+                    await Task.Yield();
           }
 
+          // fire
           var p = pool.Get();
           p.enabled = true;
           p.Fire(data.fireFrom, data.dir, data.originClientID);
 
      }
-
-     IEnumerator _fireDelayed(NetPackage data)
-     {
-          if (setting.capSpeedOnDelay >= 0 && data.originClientID == clientID)
-          {
-               var controller = FindObjectOfType<PlayerController>();
-               controller.CapSpeed(setting.capSpeedOnDelay, setting.delay / 1000);
-
-               //var obj = NetObjectID.Find(data.netObjectID);
-               //var caster = obj.GetComponent<NetworkChara>();
-               //caster.CapSpeed(setting.capSpeedWhenDelay, setting.delay / 1000);
-          }
-
-          yield return new WaitForSeconds(data.delay / 1000);
-
-          _fire(data, true);
-     }
-
 
 
      // RPC ---------------------------------------------------------------------------------
@@ -250,19 +244,20 @@ public class ProjectileLauncher : NetworkBehaviour
           return null;
      }
 
-     public void PlanRecycleVFX(GameObject vfx)
+     public async void PlanRecycleVFX(GameObject vfx)
      {
-          StartCoroutine(RecycleVFX(vfx));
-     }
+          //StartCoroutine(RecycleVFX(vfx));
 
-     IEnumerator RecycleVFX(GameObject vfx)
-     {
-          yield return new WaitForSeconds(setting.recycleVFX);
+          if (setting.recycleVFX > 0)
+          {
+               var t = Time.time + setting.recycleVFX;
+               while (Time.time < t)
+                    await Task.Yield();
+          }
 
           vfx.SetActive(false);
           poolVFX.Release(vfx);
      }
-
 
 
      // debug ---------------------------------------------------------------------------------

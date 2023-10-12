@@ -297,7 +297,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerAfterNotAttackingFor: 5
   duration: 8.5
-  coolDown: 60
+  coolDown: 30
   verginCoolDown: 3
   lazerMoveSpeed: 9.2
   moveWhileLazer: 0.33
