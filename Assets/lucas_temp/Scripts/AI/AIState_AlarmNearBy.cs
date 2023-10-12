@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIAlarmNearBy : AIState
+public class AIState_AlarmNearBy : AIState
 {
 
      public float notifyNearBy = 20; //when spot a player, how far will nearby enemy be alamred?

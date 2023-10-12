@@ -187,7 +187,7 @@ GameObject:
   - component: {fileID: 621353289357016049}
   - component: {fileID: 2097831090365779912}
   m_Layer: 11
-  m_Name: Target (6) BIG
+  m_Name: PEKKA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
