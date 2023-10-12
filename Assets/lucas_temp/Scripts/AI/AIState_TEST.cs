@@ -32,7 +32,7 @@ public class AIState_TEST : AIState
           return true;
      }
 
-     public override void OnEnterState()
+     public override void OnEnter()
      {
           if (startWithMaxCoolDown && maxCDTriggered == false)
           {
@@ -60,7 +60,7 @@ public class AIState_TEST : AIState
      //     //
      //}
 
-     public override void OnExitState()
+     public override void OnExit()
      {
           if (log) Debug.Log("AIState_TEST.OnExitState()");
      }

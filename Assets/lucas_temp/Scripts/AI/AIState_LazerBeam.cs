@@ -59,7 +59,7 @@ public class AIState_LazerBeam : AIState
           return true;
      }
 
-     public override void OnEnterState()
+     public override void OnEnter()
      {
           if (lazer == null)
                lazer = brain.GetComponent<LazerBeam>();
@@ -115,7 +115,7 @@ public class AIState_LazerBeam : AIState
      //     //
      //}
 
-     public override void OnExitState()
+     public override void OnExit()
      {
           lazer.Stop();
           if (log) Debug.Log("AIState_LazerBeam.OnExitState()");

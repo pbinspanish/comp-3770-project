@@ -11,12 +11,12 @@ public abstract class AIState : MonoBehaviour
      public abstract bool IsValid(); //before neter state, check valid
                                      // eg.if this is AttackState, is there any enemy in melee range / in sight so we can chase?
 
-     public abstract void OnEnterState(); //choose target here
+     public abstract void OnEnter(); //choose target here
 
      public abstract void UpdateState(); //then update is called repeatly until...
      //public abstract void FixedUpdateState();
 
-     public abstract void OnExitState(); //clean up here
+     public abstract void OnExit(); //clean up here
 
 
 

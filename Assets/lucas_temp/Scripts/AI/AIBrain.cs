@@ -15,7 +15,7 @@ public class AIBrain : MonoBehaviour
      // 2) the order of AIState matters, 
 
      // debug
-     public string curState_;
+     public string curState__;
      public bool log;
      public bool TEST_inUse;
 
@@ -25,7 +25,7 @@ public class AIBrain : MonoBehaviour
      //public
 
      List<AIState> stateList;
-     AIState current;
+     AIState curState;
 
 
      void Awake()
@@ -110,24 +110,21 @@ public class AIBrain : MonoBehaviour
 
      void UpdateState()
      {
-          curState_ = "CurState = " + current;
+          curState__ = "CurState = " + curState;
 
-          AIState next = DecideNextState();
-
-          if (next == null)
-               return; //used as idle state
+          AIState nextState = DecideNextState();
 
           // switch state
-          if (current != next)
+          if (curState != nextState)
           {
-               if (current)
-                    current.OnExitState();
-               current = next;
-               current.OnEnterState();
+               if (curState)
+                    curState.OnExit();
+               curState = nextState;
+               curState.OnEnter();
           }
 
           // update
-          current.UpdateState();
+          curState.UpdateState();
      }
 
      //void FixedUpdateState()
@@ -142,6 +139,7 @@ public class AIBrain : MonoBehaviour
                if (state.IsValid())
                     return state;
 
+          Debug.LogError("this should not happen");
           return null;
      }
 

@@ -11,7 +11,7 @@ public class AIState_Idle : AIState
           return true;
      }
 
-     public override void OnEnterState()
+     public override void OnEnter()
      {
           //make a smoothie?
      }
@@ -26,7 +26,7 @@ public class AIState_Idle : AIState
      //     //drinking smoothie faster!!!
      //}
 
-     public override void OnExitState()
+     public override void OnExit()
      {
           //bye
      }

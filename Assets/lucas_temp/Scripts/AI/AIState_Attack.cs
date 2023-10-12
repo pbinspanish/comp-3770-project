@@ -26,7 +26,7 @@ public class AIState_Attack : AIState
           return true;
      }
 
-     public override void OnEnterState()
+     public override void OnEnter()
      {
           DecideTarget();
           if (log) Debug.Log("AIState_Attack | OnEnterState() | target = " + target.name);
@@ -74,7 +74,7 @@ public class AIState_Attack : AIState
      //     }
      //}
 
-     public override void OnExitState()
+     public override void OnExit()
      {
           if (log) Debug.Log("AIState_Attack | OnExitState()");
           target = null;

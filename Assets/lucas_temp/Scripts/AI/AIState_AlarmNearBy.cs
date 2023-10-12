@@ -18,12 +18,12 @@ public class AIState_AlarmNearBy : AIState
           throw new System.NotImplementedException();
      }
 
-     public override void OnEnterState()
+     public override void OnEnter()
      {
           throw new System.NotImplementedException();
      }
 
-     public override void OnExitState()
+     public override void OnExit()
      {
           throw new System.NotImplementedException();
      }
