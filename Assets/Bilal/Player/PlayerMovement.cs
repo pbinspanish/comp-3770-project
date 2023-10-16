@@ -2,139 +2,120 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//automatically add CharacterController when attaching this script to an object
-[RequireComponent(typeof(CharacterController))]
-
+[RequireComponent(typeof(CharacterController))] //automatically adds CharacterController when attaching this script to an object
 public class PlayerMovement : MonoBehaviour
 {
-    //references
-    private CharacterController characterController;
-    private Animator playerAnimator;
-
-    [Header("Camera & Mouse Cursor")]
+    [Header("References")]
     public Camera playerCamera;
-    public bool showMouseCursor = true;
+    private CharacterController characterController;
 
-    //movement speed
+    [Header("Mouse Cursor")]
+    public bool showMouse = true;
+
     [Header("Movement")]
     public float walkSpeed = 3f;
     public float runSpeed = 5f;
     private float currentSpeed;
     private float rotationSpeed = 10f;
     
-    //gravity
     [Header("Physics")]
-    public float gravity = -9.81f;
-    public float gravityMultiplier = 3f;
-    //jump height
+    public float fallRate = 1f;
     public float jumpHeight = 7f;
+    private float gravity = -9.81f;
+    private bool isGrounded; //is the player on the ground?
+    private float upVelocity; //controls the up vector of player movement (positive to jump, negative to fall)
 
-    //used for gravity(falling) and jumping
-    private float upVelocity;
+    //animation variables
+    [HideInInspector] public bool isMoving;
+    [HideInInspector] public bool isWalking;
+    [HideInInspector] public bool isRunning;
+    [HideInInspector] public bool isJumping;
 
-    //vector that controls movement
-    private Vector3 movementDirection = Vector3.zero;
+    private Quaternion desiredRotation;
+    [HideInInspector] public Vector3 movementDirection = Vector3.zero; //vector that controls movement
 
     // Start is called before the first frame update
     void Start()
     {
-        //references
-        characterController = GetComponent<CharacterController>();
-        playerAnimator = GetComponent<Animator>();
-        
-        //lock cursor and set invisible
-        if (!showMouseCursor)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
+        characterController = GetComponent<CharacterController>(); //reference
     }
 
     // Update is called once per frame
     void Update()
     {
+        Cursor.visible = showMouse ? true : false;
         Movement();
     }
 
     void Movement()
     {
-        //get movement input axes
-        float horizontalInput = Input.GetAxisRaw("Horizontal");
-        float verticalInput = Input.GetAxisRaw("Vertical");
-
-        //checks if the player is touching the ground
-        bool isGrounded = characterController.isGrounded;
-
-        //is the player moving? use for animation triggers
-        bool playerMoving = false;
-
-        //calculate movement input to move forward facing the camera
-        Vector3 movementInput = Quaternion.Euler(0, playerCamera.transform.eulerAngles.y, 0) * new Vector3(horizontalInput, 0, verticalInput);
-        //normalize movement vector to ensure it has a magnitude of 1
-        movementDirection = movementInput.normalized;
-
-        //check if the player is moving
-        if (movementDirection != Vector3.zero)
-        {
-            playerMoving = true;
-
-            //rotate the player forward in the direction he is moving
-            Quaternion desiredRotation = Quaternion.LookRotation(movementDirection, Vector3.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation, desiredRotation, rotationSpeed * Time.deltaTime);
-            
-            //activate walk animation
-            playerAnimator.SetBool("isWalking", true);
-        }
-        else
-        {
-            playerMoving = false;
-
-            //deactivate walk animation
-            playerAnimator.SetBool("isWalking", false);
-        }
-
-        //input actions
+        //movement variables
         bool Run = Input.GetKey(KeyCode.LeftShift);
-        bool isRunning = false;
         bool Jump = Input.GetKey(KeyCode.Space);
-        //bool isJumping = false;
 
-        //handle walking or running speed
-        if (Run && !isRunning && playerMoving)
+        //get movement input axes
+        float verticalInput = Input.GetAxisRaw("Vertical"); //"W" & "S" keys
+        float horizontalInput = Input.GetAxisRaw("Horizontal"); //"A" & "D" keys
+
+        //calculate movement direction to move forward facing the camera (isometric)
+        Vector3 movementInput = Quaternion.Euler(0, playerCamera.transform.eulerAngles.y, 0) * new Vector3(horizontalInput, 0, verticalInput);
+        movementDirection = movementInput.normalized; //normalizing ensures a magnitude of 1
+
+        if (showMouse)
         {
-            currentSpeed = runSpeed;
-            isRunning = true;
-            
-            //activate run animation
-            playerAnimator.SetBool("isRunning", true);
+            Ray mouse = playerCamera.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(mouse, out var hit))
+            {
+                Vector3 mouseHit = hit.point;
+                Vector3 offset = transform.position + 1.5f * Vector3.up;
+                Vector3 direction = mouseHit - offset;
+                desiredRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+            }
         }
         else
         {
-            currentSpeed = walkSpeed;
-            isRunning = false;
-            
-            //deactivate run animation
-            playerAnimator.SetBool("isRunning", false);
+            desiredRotation = Quaternion.LookRotation(movementDirection, Vector3.up); //calculate desired rotation to face movement direction
         }
 
+        isMoving = (movementDirection != Vector3.zero) ? true : false; //is the player moving?
+        if (isMoving)
+        {
+            if (Run)
+            {
+                currentSpeed = runSpeed;
+                isRunning = true;
+                isWalking = false;
+            }
+            else
+            {
+                currentSpeed = walkSpeed;
+                isWalking = true;
+                isRunning = false;
+            }
+        }
+
+        isGrounded = characterController.isGrounded; //is the player on the ground?
+
+        if (Jump && isGrounded) //jump
+        {
+            upVelocity = jumpHeight;
+            isJumping = true;
+        }
         //handle gravity physics
         if (isGrounded && upVelocity < 0)
         {
-            upVelocity = -1f;
+            upVelocity = 0f;
         }
         if (!isGrounded)
         {
-            upVelocity += gravity * gravityMultiplier * Time.deltaTime;
+            upVelocity += gravity * fallRate * Time.deltaTime;
         }
-        
-        //calculate up vector (gravity or jumping)
-        movementDirection.y = upVelocity;
 
-        //movement speed only affects moving forward or right. should not affect up vector
+        movementDirection.y = upVelocity;
         movementDirection.x *= currentSpeed;
         movementDirection.z *= currentSpeed;
-        
-        //move player
-        characterController.Move(movementDirection * Time.deltaTime);
+        transform.rotation = Quaternion.Slerp(transform.rotation, desiredRotation, rotationSpeed * Time.deltaTime); //rotate player towards movement direction (desired rotation)
+        characterController.Move(movementDirection * Time.deltaTime); //move player
     }
 }

@@ -1,53 +1,41 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
 using UnityEngine;
 
 public class PlayerCameraMovement : MonoBehaviour
 {
-    //reference to use player transform
-    public Transform player;
-    //offset between camera and player
-    public Vector3 offset;
-    //Smooth camera follow
-    public float smoothTime = 0f;
-    //empty vector to use in SmoothDamp call
-    private Vector3 smoothVelocity = Vector3.zero;
+    [Header("References")]
+    public Transform player; //reference player transform
 
-    int cameraAngle = 0;
-    bool changeMode = false;
-    public Camera playerCamera;
+    [Header("Camera Movement")]
+    public float smoothTime = 0.2f; //smoothing value of camera follow
+    public float rotationRate = 1f; //rate of camera rotation
 
+    private Vector3 offset; //offset between camera and player
+    private Vector3 smoothVelocity = Vector3.zero; //empty vector to use in SmoothDamp
+    private float rotationSpeed = 90f; //camera rotation speed
+    
     // Start is called before the first frame update
     void Start()
     {
-        //calculate offset between camera and player
-        offset = transform.position - player.position;
+        offset = transform.position - player.position; //calculate offset between camera and player
     }
 
-    // Update is called once per frame
+    // LateUpdate is called every frame, if the behaviour is enabled
     void LateUpdate()
     {
-        //calculate camera target position
-        Vector3 targetPosition = player.position + offset;
-        //camera follows player from its original position to the target position
-        transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref smoothVelocity, smoothTime);
+        //camera follows player from its original position to the target position (player.position + offset)
+        transform.position = Vector3.SmoothDamp(transform.position, player.position + offset, ref smoothVelocity, smoothTime); //for sharp follow, smoothTime=0
 
-        //rotate camera around player
-        //transform.RotateAround(player.position, Vector3.up, Input.GetAxis("Mouse X") * 2);
-
-        if (Input.GetKey(KeyCode.Tab) && !changeMode)
+        //rotate camera around player with Q & E keys
+        if (Input.GetKey(KeyCode.Q))
         {
-            switch (cameraAngle)
-            {
-                case 0:
-                    cameraAngle = 1;
-                    break;
-                case 1:
-                    cameraAngle = 0;
-                    break;
-            }
+            transform.RotateAround(player.position, Vector3.up, rotationSpeed * rotationRate * Time.deltaTime);
         }
-
-        //transform.RotateAround(player.position, transform.right, Input.GetAxis("Mouse Y") * -2);
+        if (Input.GetKey(KeyCode.E))
+        {
+            transform.RotateAround(player.position, Vector3.up, -rotationSpeed * rotationRate * Time.deltaTime);
+        }
     }
 }
