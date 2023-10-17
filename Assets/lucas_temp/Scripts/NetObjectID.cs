@@ -10,7 +10,6 @@ public class NetObjectID : NetworkBehaviour
 
      //identify the same object across different devices
 
-
      // public
      public int id { get => _id.Value; }
 

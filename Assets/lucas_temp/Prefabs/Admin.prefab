@@ -121,8 +121,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enableMoveInput: 1
-  tCapSpeed: 0
-  capSpeed: 0
+  groundLayer: Default
+  groundedSphereCastRadius: 0.8
 --- !u!114 &2989459132654949902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,11 +136,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   acc: 80
-  speedCap: 8.8
-  speedCapRun: 13.2
-  speedCapAirborne: 4.4
-  rotateSpeed: 17.5
-  jumpForce: 100
+  accAirborne: 20
+  maxValocity: 8.8
+  maxValocityRun: 13.2
+  rotateLerp: 17.5
+  jumpVelocity: 9.5
+  jumpCount: 2
   color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &1120397471722887521
 MonoBehaviour:

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.ProBuilder.MeshOperations;
@@ -25,7 +26,7 @@ public class NetworkChara : NetworkBehaviour
      public static NetworkChara myChara; //ref for client's charactor
      public static List<NetworkChara> list = new List<NetworkChara>(); //include player and enemy
      public Rigidbody rb { get; private set; } //to control this charactor
-
+     public Collider col { get; private set; }
 
      // private
      NetworkVariable<Vector3> netPos = new(writePerm: NetworkVariableWritePermission.Owner);
@@ -37,6 +38,7 @@ public class NetworkChara : NetworkBehaviour
      public override void OnNetworkSpawn()
      {
           rb = GetComponent<Rigidbody>();
+          col = GetComponent<Collider>();
 
           if (IsOwner && isPlayer)
                if (myChara == null)
@@ -90,7 +92,7 @@ public class NetworkChara : NetworkBehaviour
      Vector3 _vel;
      SmoothSetting setting { get => SmoothSetting.inst; }
      Vector3 pos { get => transform.position; set => transform.position = value; }
-     float speedCap { get => CharaStatus.singleton.speedCap; }
+     float speedCap { get => isPlayer ? PlayerStatus.singleton.maxValocity : float.MaxValue; }
 
 
      void UpdateRot()

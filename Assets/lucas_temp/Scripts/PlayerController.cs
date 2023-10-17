@@ -1,4 +1,8 @@
+using System.Threading.Tasks;
+using TMPro;
+using Unity.Mathematics;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -7,11 +11,14 @@ public class PlayerController : MonoBehaviour
      // get input and control PlayerChara
 
      // public
-     public static Vector3 mouseHit { get; private set; }
+     public static Vector3 mouseHit { get; private set; } //if mouse ray didn't hit anything, pretend it hit the skybox
      public bool enableMoveInput = true; //lose control when eg. knocked away / stunned
+     public string groundLayer = "Default";
+     public float groundedSphereCastRadius = 0.8f; //smaller then chara so bumping into wall don't count
 
      // private
      Rigidbody rb { get => NetworkChara.myChara.rb; }
+     Collider col { get => NetworkChara.myChara.col; }
      Camera cam;
 
 
@@ -32,11 +39,14 @@ public class PlayerController : MonoBehaviour
      {
           if (NetworkChara.myChara != null)
           {
+               //reset flag first
+               flag_updateIsGrounded = false;
+
                UpdateRotation();
                UpdatePosition();
+               UpdateJump();
           }
      }
-
 
 
      // TEST ---------------------------------------------------------------------
@@ -55,23 +65,11 @@ public class PlayerController : MonoBehaviour
      }
 
 
-     // public ---------------------------------------------------------------------------------
 
-     public float tCapSpeed;
-     public float capSpeed;
-
-     public void CapSpeed(float speed, float sec)
-     {
-          capSpeed = speed;
-          tCapSpeed = Time.time + sec;
-     }
-
-
-     // input ---------------------------------------------------------------------
-
+     // input ----------------------------------------------------------------------------------
      float inputX; //left right
      float inputZ; //forward
-     float inputY; //jump
+     bool inputJump;
      bool isRunning = false;
 
      void UpdateInput()
@@ -81,35 +79,30 @@ public class PlayerController : MonoBehaviour
                inputX = Input.GetAxisRaw("Horizontal");
                inputZ = Input.GetAxisRaw("Vertical");
                isRunning = Input.GetKey(KeyCode.LeftShift);
-               if (inputY == 0) inputY = Input.GetKeyDown(KeyCode.Space) ? 1 : 0;
+               if (!inputJump) inputJump = Input.GetKeyDown(KeyCode.Space);
           }
           else
           {
                inputX = 0;
                inputZ = 0;
                isRunning = false;
-               inputY = 0;
+               inputJump = false;
           }
      }
 
 
-     // move ---------------------------------------------------------------------
-     CharaStatus setting { get => CharaStatus.singleton; }
-     float acc { get => setting.acc; }
-     float speedCap { get => setting.speedCap; }
-     float speedCapRun { get => setting.speedCapRun; }
-     float speedCapAirborne { get => setting.speedCapAirborne; }
-     float jumpForce { get => setting.jumpForce; }
-     float rotateSpeed { get => setting.rotateSpeed; }
-
-     float gravity = 9.8f;
-
-     bool isGrounded { get => true; set { } } //TODO
-
+     // move -------------------------------------------------------------------------------------
+     PlayerStatus status { get => PlayerStatus.singleton; }
+     float acc { get => isGrounded ? status.acc : status.accAirborne; }
+     float maxValocity { get => isRunning ? status.maxValocityRun : status.maxValocity; }
+     float jumpVelocity { get => status.jumpVelocity; }
+     float rotateLerp { get => status.rotateLerp; }
+     int jumpCount { get => status.jumpCount; }
+     int jumpRemain;
 
      void UpdatePosition()
      {
-          // XZ move
+          // XZ = velocity on the ground
           var vel = new Vector3(rb.velocity.x, 0, rb.velocity.z);
 
           if (cam != null)
@@ -126,47 +119,99 @@ public class PlayerController : MonoBehaviour
           }
 
 
-          // cap XZ speed
-          float clamp = (Time.time < tCapSpeed) ? capSpeed : isGrounded ? (isRunning ? speedCapRun : speedCap) : speedCapAirborne;
+          //apply
+          float clamp = (Time.time < tCapSpeed) ? capSpeed : maxValocity;
           vel = Vector3.ClampMagnitude(vel, clamp);
+          rb.velocity = new Vector3(vel.x, rb.velocity.y, vel.z);
+     }
 
+     void UpdateJump()
+     {
+          if (isGrounded)
+               jumpRemain = jumpCount;
 
-          // Y: verticle velocity, it's not cap by max speed
-          if (inputY != 0 && isGrounded)
+          if (inputJump)
           {
-               rb.velocity = new Vector3(vel.x, 0, vel.z);
-               rb.AddForce(inputY * jumpForce * Vector3.up, UnityEngine.ForceMode.Impulse);
+               inputJump = false; //comsume input
+               if (jumpRemain > 1)
+               {
+                    jumpRemain--;
+                    isGrounded = false;
 
-               inputY = 0; //comsume input
-               isGrounded = false;
+                    rb.velocity = new Vector3(rb.velocity.x, jumpVelocity, rb.velocity.z); //reset old Y velocity
+               }
           }
-          else
-          {
-               rb.velocity = new Vector3(vel.x, rb.velocity.y - gravity * Time.fixedDeltaTime, vel.z);
-          }
+
+          BeSlippery(!isGrounded); //prevent sticking to the wall in air
      }
 
      void UpdateRotation()
      {
-          var player = NetworkChara.myChara;
           var ray = cam.ScreenPointToRay(Input.mousePosition);
+          var me = rb.transform.position;
 
           if (Physics.Raycast(ray, out var hit))
           {
                mouseHit = hit.point;
-
-               var me = player.transform.position + 1.5f * Vector3.up;
-               var dir = hit.point - me;
-               var rot = Quaternion.LookRotation(new Vector3(dir.x, 0, dir.z)); //remove up/down tilt
-               //player.transform.rotation = Quaternion.RotateTowards(player.transform.rotation, rot, rotateSpeed * Time.deltaTime);
-               player.transform.rotation = Quaternion.Slerp(player.transform.rotation, rot, rotateSpeed * Time.deltaTime);
           }
           else
           {
-               //Debug.Log("no hit"); no rotation
+               mouseHit = ray.origin + ray.direction * 1000f; //pretend we hit the skybox
+
+               //this does not equal to raycast, since player/camera pos/rot are all different
+               //but the behaviour is entertaining, as if player suddenly look into some far far away place
           }
+
+          var rot = Quaternion.LookRotation(new Vector3(mouseHit.x - me.x, 0, mouseHit.z - me.z)); //remove y tilt
+          rb.transform.rotation = Quaternion.Slerp(rb.transform.rotation, rot, rotateLerp * Time.deltaTime);
+
      }
 
+
+     // slow debuff  ---------------------------------------------------------------------------------
+     float capSpeed;
+     float tCapSpeed;
+     public void CapSpeed(float speed, float sec)
+     {
+          capSpeed = speed;
+          tCapSpeed = Time.time + sec;
+     }
+
+
+     // check if grounded ----------------------------------------------------------------------------
+
+     bool isGrounded { get => UpdateIsGrounded(); set => _isGrounded = value; }
+     bool _isGrounded;
+
+     float _small = 0.01f;
+     bool flag_updateIsGrounded;
+
+
+     bool UpdateIsGrounded()
+     {
+          if (!flag_updateIsGrounded)
+          {
+               flag_updateIsGrounded = true;
+
+               var origin = rb.transform.position + Vector3.up * (groundedSphereCastRadius + _small); //+a small number to avoid sphere touching the ground initially (it will ignore these obj)
+               var dist = groundedSphereCastRadius + _small * 2; //add 1 back, add another 1 as allowed error
+               // var dist =  _small * 2; //add 1 back, add another 1 as allowed error
+
+               _isGrounded = Physics.SphereCast(origin, groundedSphereCastRadius, Vector3.down, out _, dist, LayerMask.GetMask(groundLayer));
+          }
+
+          return _isGrounded;
+     }
+
+
+     // prevent sticking to wall in air ----------------------------------------------------------------------------
+
+     void BeSlippery(bool slip)
+     {
+          col.material.dynamicFriction = slip ? 0 : 0.6f;
+          col.material.staticFriction = slip ? 0 : 0.6f;
+          col.material.frictionCombine = slip ? PhysicMaterialCombine.Minimum : PhysicMaterialCombine.Average;
+     }
 
 
 }
