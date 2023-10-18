@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.3069224, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -169,7 +169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1636713796}
-  smoothTime: 0.2
+  smoothTime: 0
   rotationRate: 1
 --- !u!1 &245871943
 GameObject:
@@ -336,6 +336,14 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1a44d13850fbe9740822d2c0220e6717,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1636713804}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1a44d13850fbe9740822d2c0220e6717,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1636713803}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1a44d13850fbe9740822d2c0220e6717,
         type: 3}
       insertIndex: -1
@@ -999,6 +1007,41 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &1636713803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 297812552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea247ee5df6a383409eccd459f41431d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  acc: 80
+  accAirborne: 20
+  maxValocity: 8.8
+  maxValocityRun: 13.2
+  rotateLerp: 17.5
+  jumpVelocity: 10
+  jumpCount: 2
+  color: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &1636713804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 297812552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 506a07ed5a98cca49aff2432f43f88c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enableMoveInput: 1
+  groundLayer: Default
+  groundedSphereCastRadius: 0.8
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
