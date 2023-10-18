@@ -1,11 +1,9 @@
-using System.Threading.Tasks;
 using TMPro;
-using Unity.Mathematics;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 
 
+[RequireComponent(typeof(PlayerStatus))]
 public class PlayerController : MonoBehaviour
 {
      // get input and control PlayerChara
@@ -17,27 +15,55 @@ public class PlayerController : MonoBehaviour
      public float groundedSphereCastRadius = 0.8f; //smaller then chara so bumping into wall don't count
 
      // private
-     Rigidbody rb { get => NetworkChara.myChara.rb; }
-     Collider col { get => NetworkChara.myChara.col; }
+     // Rigidbody rb { get => NetworkChara.myChara.rb; }
+     // Collider col { get => NetworkChara.myChara.col; }
+     Rigidbody rb;
+     Collider col;
      Camera cam;
 
 
      void Start()
      {
           cam = Camera.main;
+
+          if (NetworkChara.myChara != null)
+          {
+               rb = NetworkChara.myChara.rb;
+               col = NetworkChara.myChara.col;
+          }
+          else
+          {
+               rb = GetComponentInChildren<Rigidbody>();
+               col = GetComponentInChildren<Collider>();
+
+               if (rb == null)
+                    rb = gameObject.AddComponent<Rigidbody>();
+               rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ; //freeze rotation
+
+
+               if (col == null)
+                    col = gameObject.AddComponent<CapsuleCollider>();
+               var capsule = col as CapsuleCollider;
+               capsule.center = new Vector3(0, 1, 0);
+               capsule.height = 2;
+          }
      }
      void Update()
      {
-          if (NetworkChara.myChara != null)
+          if (rb != null && col != null)
           {
                if (Input.GetKeyDown(KeyCode.Alpha3)) Blink(); //TEST
-
                UpdateInput();
           }
+          else
+          {
+               Debug.LogError("");
+          }
      }
+
      void FixedUpdate()
      {
-          if (NetworkChara.myChara != null)
+          if (rb != null && col != null)
           {
                //reset flag first
                flag_updateIsGrounded = false;
@@ -45,6 +71,10 @@ public class PlayerController : MonoBehaviour
                UpdateRotation();
                UpdatePosition();
                UpdateJump();
+          }
+          else
+          {
+               Debug.LogError("");
           }
      }
 
@@ -195,7 +225,7 @@ public class PlayerController : MonoBehaviour
 
                var origin = rb.transform.position + Vector3.up * (groundedSphereCastRadius + _small); //+a small number to avoid sphere touching the ground initially (it will ignore these obj)
                var dist = groundedSphereCastRadius + _small * 2; //add 1 back, add another 1 as allowed error
-               // var dist =  _small * 2; //add 1 back, add another 1 as allowed error
+                                                                 // var dist =  _small * 2; //add 1 back, add another 1 as allowed error
 
                _isGrounded = Physics.SphereCast(origin, groundedSphereCastRadius, Vector3.down, out _, dist, LayerMask.GetMask(groundLayer));
           }
