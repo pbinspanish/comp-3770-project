@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.3069224, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -171,6 +171,7 @@ MonoBehaviour:
   player: {fileID: 1636713796}
   smoothTime: 0.2
   rotationRate: 1
+  _speed: 200
 --- !u!1 &297812552 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 1a44d13850fbe9740822d2c0220e6717,
@@ -251,15 +252,23 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1a44d13850fbe9740822d2c0220e6717,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1636713799}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1a44d13850fbe9740822d2c0220e6717,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1636713798}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1a44d13850fbe9740822d2c0220e6717,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1636713800}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1a44d13850fbe9740822d2c0220e6717,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1636713801}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1a44d13850fbe9740822d2c0220e6717,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1636713802}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1a44d13850fbe9740822d2c0220e6717,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1636713803}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1a44d13850fbe9740822d2c0220e6717,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1636713804}
   m_SourcePrefab: {fileID: 100100000, guid: 1a44d13850fbe9740822d2c0220e6717, type: 3}
 --- !u!1 &601866646
 GameObject:
@@ -861,7 +870,23 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1636713798
+--- !u!114 &1636713800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 297812552}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb0868e44edadd4db08d77901a6c993, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movement: {fileID: 0}
+  acceleration: 2
+  deceleration: 2
+  maxWalkVelocity: 1
+--- !u!114 &1636713801
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -870,24 +895,63 @@ MonoBehaviour:
   m_GameObject: {fileID: 297812552}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a80e12339e0cf94e967db568d5e8d1f, type: 3}
+  m_Script: {fileID: 11500000, guid: 506a07ed5a98cca49aff2432f43f88c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerCamera: {fileID: 963194227}
-  showMouse: 1
-  walkSpeed: 3
-  runSpeed: 5
-  currentSpeed: 0
-  rotationSpeed: 20
-  fallRate: 1
-  jumpHeight: 7
-  isMoving: 0
-  isWalking: 0
-  isRunning: 0
-  isJumping: 0
-  movementDirection: {x: 0, y: 0, z: 0}
---- !u!143 &1636713799
-CharacterController:
+  enableMoveInput: 1
+  groundLayer: Default
+  groundedSphereCastRadius: 0.8
+  rb: {fileID: 1636713802}
+  col: {fileID: 0}
+--- !u!54 &1636713802
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 297812552}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 80
+  m_CollisionDetection: 0
+--- !u!114 &1636713803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 297812552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea247ee5df6a383409eccd459f41431d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  acc: 80
+  accAirborne: 20
+  maxValocity: 8.8
+  maxValocityRun: 13.2
+  rotateLerp: 17.5
+  jumpVelocity: 10
+  jumpCount: 2
+  color: {r: 1, g: 0, b: 0, a: 1}
+--- !u!136 &1636713804
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -904,30 +968,11 @@ CharacterController:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 2
+  m_Radius: 0.5
   m_Height: 2
-  m_Radius: 0.35
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1.08, z: 0}
---- !u!114 &1636713800
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 297812552}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbb0868e44edadd4db08d77901a6c993, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movement: {fileID: 1636713798}
-  acceleration: 2
-  deceleration: 2
-  maxWalkVelocity: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
