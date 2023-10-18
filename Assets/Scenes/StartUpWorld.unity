@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -257,7 +257,7 @@ Transform:
   m_GameObject: {fileID: 245871943}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -25, y: 0, z: -25}
+  m_LocalPosition: {x: -25, y: -0.679, z: -25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -339,23 +339,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1a44d13850fbe9740822d2c0220e6717,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1636713797}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1a44d13850fbe9740822d2c0220e6717,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1636713798}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1a44d13850fbe9740822d2c0220e6717,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1636713800}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1a44d13850fbe9740822d2c0220e6717,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1636713801}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1a44d13850fbe9740822d2c0220e6717,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1636713802}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1a44d13850fbe9740822d2c0220e6717,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1636713797}
   m_SourcePrefab: {fileID: 100100000, guid: 1a44d13850fbe9740822d2c0220e6717, type: 3}
 --- !u!1 &601866646
 GameObject:
@@ -957,47 +949,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1636713798
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 297812552}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a80e12339e0cf94e967db568d5e8d1f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerCamera: {fileID: 963194227}
-  showMouse: 1
-  walkSpeed: 3
-  runSpeed: 5
-  currentSpeed: 0
-  rotationSpeed: 20
-  fallRate: 1
-  jumpHeight: 7
-  isMoving: 0
-  isWalking: 0
-  isRunning: 0
-  isJumping: 0
-  movementDirection: {x: 0, y: 0, z: 0}
---- !u!114 &1636713800
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 297812552}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbb0868e44edadd4db08d77901a6c993, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movement: {fileID: 1636713798}
-  acceleration: 2
-  deceleration: 2
-  maxWalkVelocity: 1
 --- !u!54 &1636713801
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1023,8 +974,8 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
+  m_Constraints: 80
+  m_CollisionDetection: 1
 --- !u!136 &1636713802
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1044,10 +995,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 1
+  m_Radius: 0.3
+  m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
