@@ -29,6 +29,8 @@ public class PlayerAnimation : MonoBehaviour
             Quaternion desiredRotation = Quaternion.LookRotation(movement.movementDirection, Vector3.up);
             desiredAngle = desiredRotation.eulerAngles.y;
             currentAngle = transform.eulerAngles.y;
+
+            print(currentAngle);
         }
         else
         {
@@ -50,33 +52,11 @@ public class PlayerAnimation : MonoBehaviour
 
         
 
-        if ((desiredAngle > currentAngle - 45) && (desiredAngle < currentAngle + 45))
+        if ((desiredAngle > currentAngle - 1) && (desiredAngle < currentAngle + 1))
         {
             verticalInput = 1f;
-        }
-        else if((desiredAngle < currentAngle - 45) && (desiredAngle > currentAngle + 45))
-        {
-            verticalInput = -1f;
-        }
-        else if ((desiredAngle == currentAngle - 45) || (desiredAngle == currentAngle + 45))
-        {
-            verticalInput = 0f;
-        }
-
-        if ((desiredAngle > currentAngle) && (desiredAngle < currentAngle + 180))
-        {
-            horizontalInput = 1f;
-        }
-        else if ((desiredAngle < currentAngle) && (desiredAngle > (currentAngle + 180)-360))
-        {
-            horizontalInput = -1f;
-        }
-        else if ((desiredAngle == currentAngle) || (desiredAngle == currentAngle + 180))
-        {
             horizontalInput = 0f;
         }
-
-        //print(horizontalInput);
 
         bool forward = verticalInput > 0 ? true : false;
         bool backward = verticalInput < 0 ? true : false;
@@ -85,9 +65,9 @@ public class PlayerAnimation : MonoBehaviour
 
         float currentMaxVelocity = maxWalkVelocity;
 
-        if (forward && velocityZ < currentMaxVelocity)
+        if (forward && velocityZ <= currentMaxVelocity)
         {
-            velocityZ += Time.deltaTime * acceleration;
+            velocityZ = 1f;
         }
         if (backward && velocityZ > -currentMaxVelocity)
         {
