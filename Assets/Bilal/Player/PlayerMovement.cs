@@ -2,12 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterController))] //automatically adds CharacterController when attaching this script to an object
 public class PlayerMovement : MonoBehaviour
 {
     [Header("References")]
     public Camera playerCamera; //used to move player in the direction facing the camera
-    private CharacterController characterController;
+    private Rigidbody rigidBody;
 
     [Header("Mouse Cursor")]
     public bool showMouse = true; //used to switch explore/combat modes
@@ -37,7 +36,7 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        characterController = GetComponent<CharacterController>(); //reference
+        rigidBody = GetComponent<Rigidbody>(); //reference
     }
 
     // Update is called once per frame
@@ -103,7 +102,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        isGrounded = characterController.isGrounded; //is the player on the ground?
+        /*isGrounded = characterController.isGrounded; //is the player on the ground?
         if (!isJumping && Jump) //jump once (no double jump)
         {
             upVelocity = jumpHeight;
@@ -120,11 +119,11 @@ public class PlayerMovement : MonoBehaviour
         {
             upVelocity += gravity * fallRate * Time.deltaTime;
             isJumping = true;
-        }
+        }*/
 
         movementDirection.y = upVelocity; //up vector
         movementDirection.x *= currentSpeed; //horizontal vector
         movementDirection.z *= currentSpeed; //vertical vector
-        characterController.Move(movementDirection * Time.deltaTime); //move player
+        rigidBody.velocity = movementDirection * Time.deltaTime; //move player
     }
 }
