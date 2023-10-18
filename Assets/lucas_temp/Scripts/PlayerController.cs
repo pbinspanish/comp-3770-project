@@ -1,9 +1,4 @@
-using System.Threading.Tasks;
-using TMPro;
-using Unity.Mathematics;
 using Unity.Netcode;
-using Unity.VisualScripting;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 
 
@@ -51,6 +46,11 @@ public class PlayerController : MonoBehaviour
                capsule.center = new Vector3(0, 1, 0);
                capsule.height = 2;
           }
+
+
+          if (FindFirstObjectByType<PlayerStatus>() == null)
+               gameObject.AddComponent<PlayerStatus>();
+
      }
      void Update()
      {
