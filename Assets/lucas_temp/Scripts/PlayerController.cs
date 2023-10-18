@@ -2,6 +2,7 @@ using Unity.Netcode;
 using UnityEngine;
 
 
+[RequireComponent(typeof(PlayerStatus))]
 public class PlayerController : MonoBehaviour
 {
      // get input and control PlayerChara
@@ -46,8 +47,10 @@ public class PlayerController : MonoBehaviour
                capsule.height = 2;
           }
 
+
           if (FindFirstObjectByType<PlayerStatus>() == null)
                gameObject.AddComponent<PlayerStatus>();
+
      }
      void Update()
      {
