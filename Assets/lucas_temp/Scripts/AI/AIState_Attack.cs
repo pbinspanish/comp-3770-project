@@ -29,11 +29,12 @@ public class AIState_Attack : AIState
      public override void OnEnter()
      {
           DecideTarget();
-          if (log) Debug.Log("AIState_Attack | OnEnterState() | target = " + target.name);
      }
 
      void DecideTarget()
      {
+          if (log) Debug.Log("AIState_Attack | DecideTarget() | target = " + target.name);
+
           target = brain.GetTarget_Closest();
           tSwitchTarget = Time.time + switchTarget;
      }
@@ -47,6 +48,10 @@ public class AIState_Attack : AIState
      public override void UpdateState()
      {
           if (Time.time > tSwitchTarget)
+          {
+               DecideTarget();
+          }
+          else if (target == null)
           {
                DecideTarget();
           }
