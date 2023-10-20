@@ -11,13 +11,11 @@ public class TEST_just_a_Mono : NetworkBehaviour
      public bool clickToDeSpawn = false;
 
      NetworkBehaviour netRef;
-     float t;
 
      void Update()
      {
           TEST_Spawn();
           TEST_DeSpawn();
-          t = Time.deltaTime;
      }
 
      void TEST_Spawn()

@@ -103,7 +103,7 @@ public class AIState_LazerBeam : AIState
           for (int i = 0; i < count; i++)
           {
                var hpClass = _cache[i].GetComponent<HPComponent>();
-               hpClass.DamageOrHeal(-lazerDamage);
+               hpClass.Damage_or_heal(-lazerDamage);
 
                tNextHit = Time.time + minHitInterval;
           }

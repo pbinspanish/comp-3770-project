@@ -51,7 +51,7 @@ public class NetworkChara : NetworkBehaviour
           else if (isEnemy)
           {
                gameObject.layer = LayerMask.NameToLayer("Enemy");
-               GetComponentInParent<HPComponent>().OnDeathBlow += TEST_BecomeRagdoll; //just for fun
+               GetComponentInParent<HPComponent>().On_death_blow += TEST_BecomeRagdoll; //just for fun
           }
 
           list.Add(this);

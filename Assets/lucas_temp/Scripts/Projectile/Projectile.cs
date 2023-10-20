@@ -258,7 +258,7 @@ public class Projectile : MonoBehaviour
 
 
           var hpClass = target.GetComponent<HPComponent>();
-          hpClass.DamageOrHeal(damageOrHeal);
+          hpClass.Damage_or_heal(damageOrHeal);
      }
 
 

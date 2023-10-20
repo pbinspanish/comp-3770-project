@@ -22,18 +22,15 @@ public class NetObjectID : NetworkBehaviour
      }
 
 
-
      //private
      NetworkVariable<int> _id = new NetworkVariable<int>(writePerm: NetworkVariableWritePermission.Owner);
      static Dictionary<int, NetworkBehaviour> dict = new Dictionary<int, NetworkBehaviour>();
 
      public override void OnNetworkSpawn()
      {
-          //owner has the right to assign id
-          //by default this is the client/server spawning the object
+          //owner assign ID, by default this is client/server who spawn the object
           if (IsOwner)
           {
-               //_id.Value = GetInstanceID();
                _id.Value = GetHashCode();
                dict.Add(_id.Value, this);
           }

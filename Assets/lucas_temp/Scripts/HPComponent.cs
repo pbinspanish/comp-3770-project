@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -10,30 +9,27 @@ using UnityEngine;
 /// Handle hp for player or enemy
 /// [!!!] Must attach to root GameObject
 /// </summary>
-[RequireComponent(typeof(NetObjectID))]
 public class HPComponent : NetworkBehaviour
 {
 
-     // inspector
+     // TEST
      public int TEST_SetMaxHp = 20;
-     bool log = false;
 
-     // public
-     public int hpMax { get; private set; }
+     // hp
+     public int maxHP { get; private set; }
      public int hp { get; private set; }
-     public Action OnDeathBlow;
+
+     // event  
+     public Action<int, int, int> On_damage_or_heal; // (damage, hp was, hp is), eg you deal 999 damage to X who has 20 HP. Then damage=999, hp was 20, is 0
+     public Action<int, int> On_config_hp; // (hp, maxHP), for Init HP or passive +maxHP, or similar but isn't a heal
+     public Action On_death_blow;
 
 
-     // private
-     ulong clientID { get => NetworkManager.Singleton.LocalClientId; }
-     int networkObjID { get => idClass.id; }
-     NetObjectID idClass;
-
+     // initial  ----------------------------------------------------------------------------
 
      public override void OnNetworkSpawn()
      {
-          ConfigHP(TEST_SetMaxHp, TEST_SetMaxHp);
-          idClass = GetComponent<NetObjectID>();
+          Config_hp(TEST_SetMaxHp, TEST_SetMaxHp);
      }
 
      public override void OnNetworkDespawn()
@@ -42,74 +38,99 @@ public class HPComponent : NetworkBehaviour
      }
 
 
-     //public
-     public void DamageOrHeal(int _delta) //damage- and heal+
+     // config HP  ----------------------------------------------------------------------------
+
+     // for initial HP, or passive skill +maxHP. They are not healing so won't show UI number
+     public void Config_hp(int newHP, int newMaxHP)
      {
-          UpdateHP(_delta, hpMax, true);
-     }
-     public void ConfigHP(int _newHP, int _newMaxHP) //will not trigger UI
-     {
-          UpdateHP(_newHP, _newMaxHP, false);
-     }
+          var packet = new ConfigPacket();
+          packet.HP = newHP;
+          packet.maxHP = newMaxHP;
 
-
-     //private
-     void UpdateHP(int _delta, int _hpMax, bool ui)
-     {
-          var data = new NetPackage();
-          data.senderID = clientID;
-          data.hpMax = _hpMax;
-          data.delta = _delta;
-          data.objNetID = ui ? networkObjID : -1;
-
-          _apply(data);
-          _apply_ServerRPC(data);
-
-          if (log) Debug.Log("UpdateHP() " + _delta + "/" + hpMax);
+          Config_hp_ServerRPC(packet);
      }
 
-     void _apply(NetPackage data)
-     {
-          var was = hp;
-
-          hpMax = data.hpMax;
-          hp = Mathf.Clamp(hp + data.delta, 0, data.hpMax);
-
-          if (was != 0 && hp == 0)
-               OnDeathBlow?.Invoke();
-
-          if (data.objNetID != -1)
-               UIDamageTextMgr.DisplayDamageText(data.delta, data.objNetID);
-     }
-
-
-     //RPC
      [ServerRpc(RequireOwnership = false)]
-     void _apply_ServerRPC(NetPackage data)
+     void Config_hp_ServerRPC(ConfigPacket data)
      {
-          UpdateHP_ClientRPC(data);
+          Config_hp_ClientRPC(data);
      }
      [ClientRpc]
-     void UpdateHP_ClientRPC(NetPackage data)
+     void Config_hp_ClientRPC(ConfigPacket data)
      {
-          if (clientID != data.senderID) // everyone except the origin caller
-               _apply(data);
+          hp = data.HP;
+          maxHP = data.maxHP;
+
+          On_config_hp?.Invoke(hp, maxHP); //event
      }
 
-     struct NetPackage : INetworkSerializable
+     struct ConfigPacket : INetworkSerializable
      {
-          public ulong senderID;
-          public int hpMax;
-          public int delta;
-          public int objNetID;
-
+          public int HP;
+          public int maxHP;
           void INetworkSerializable.NetworkSerialize<T>(BufferSerializer<T> serializer)
           {
-               serializer.SerializeValue(ref senderID);
-               serializer.SerializeValue(ref hpMax);
-               serializer.SerializeValue(ref delta);
-               serializer.SerializeValue(ref objNetID);
+               serializer.SerializeValue(ref HP);
+               serializer.SerializeValue(ref maxHP);
           }
+     }
+
+
+     // damage or heal  ----------------------------------------------------------------------------
+
+     public void Damage_or_heal(float delta, string damageType = "")
+     {
+          Debug.Assert(delta != 0);
+
+          //delta: damage is - , healing is +
+          var data = new DamageHealPacket();
+          data.delta = Mathf.FloorToInt(delta * GetDamageTypeCoefficient(damageType) / 100f);
+
+          Damage_or_heal_ServerRPC(data);
+     }
+
+     [ServerRpc(RequireOwnership = false)]
+     void Damage_or_heal_ServerRPC(DamageHealPacket data)
+     {
+          Damage_or_heal_ClientRPC(data);
+     }
+     [ClientRpc]
+     void Damage_or_heal_ClientRPC(DamageHealPacket data)
+     {
+          var was = hp;
+          hp = Mathf.Clamp(hp + data.delta, 0, maxHP);
+
+          On_damage_or_heal?.Invoke(data.delta, was, hp); //event
+          UIDamageTextMgr.DisplayDamageText(data.delta, gameObject); //ui
+
+          if (was != 0 && hp == 0)
+               On_death_blow?.Invoke(); //event
+     }
+
+     struct DamageHealPacket : INetworkSerializable
+     {
+          public int delta;
+          void INetworkSerializable.NetworkSerialize<T>(BufferSerializer<T> serializer)
+          {
+               serializer.SerializeValue(ref delta);
+          }
+     }
+
+     // damage type  ----------------------------------------------------------------------------
+     public float VS_default = 100; // VS different damage types. In percentage
+     public float VS_Siege = 100; // eg. boss destroy floor/terrain
+
+
+     float GetDamageTypeCoefficient(string _type)
+     {
+          _type = _type.ToLower(); //ignore up or lower case
+
+          if (_type == "" || _type == "default")
+               return VS_default;
+          else if (_type == "siege")
+               return VS_Siege;
+
+          throw new Exception("unknown type - if this is not a typo, add a new coefficient");
      }
 
 

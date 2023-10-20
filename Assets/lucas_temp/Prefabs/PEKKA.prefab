@@ -176,7 +176,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2906925790305001428}
   - component: {fileID: 657854890662556651}
-  - component: {fileID: 7886065287768754443}
   - component: {fileID: 915129428942252482}
   - component: {fileID: 3728941071591657706}
   - component: {fileID: 7508836375714196138}
@@ -228,18 +227,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPlayer: 0
   isEnemy: 1
---- !u!114 &7886065287768754443
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6294235382854823595}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d90e869378cb87848bb586eadecaab8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &915129428942252482
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,6 +240,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TEST_SetMaxHp: 1000
+  vsDefault: 100
+  vsSiege: 100
 --- !u!114 &3728941071591657706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279,7 +268,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2757bd439bc9fb14aa174848345401be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curState_: 
+  curState__: 
   log: 1
   TEST_inUse: 1
   alarmRange: 22

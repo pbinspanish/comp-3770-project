@@ -34,13 +34,12 @@ public class UIDamageTextMgr : ScriptableObject
           var ui = inst.pool.Get();
           ui.Display(value, pos);
      }
-     public static void DisplayDamageText(int value, int netObjectID)
+     public static void DisplayDamageText(int value, GameObject obj)
      {
-          var target = NetObjectID.Find(netObjectID);
-
           var ui = inst.pool.Get();
-          ui.Display(value, target);
+          ui.Display(value, obj);
      }
+
      public void Example()
      {
           if (Input.GetKeyDown(KeyCode.Mouse0))

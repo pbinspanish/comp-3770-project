@@ -88,7 +88,7 @@ public class AIState_Attack : AIState
                if (log) Debug.Log("AIState_Attack | TEST_CastSpell()");
 
                var hpClass = target.GetComponent<HPComponent>();
-               hpClass.DamageOrHeal(-TEST_AtkDamage);
+               hpClass.Damage_or_heal(-TEST_AtkDamage);
 
           }
      }

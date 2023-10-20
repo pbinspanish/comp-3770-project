@@ -53,7 +53,7 @@ public class UIHpBar : MonoBehaviour
      //update
      HPComponent hpClass;
      float hp { get => hpClass.hp; }
-     float hpMax { get => hpClass.hpMax; }
+     float hpMax { get => hpClass.maxHP; }
      float hpSmooth;
      float minStep = 1;
 
