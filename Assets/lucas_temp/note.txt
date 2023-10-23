@@ -1,5 +1,17 @@
+Task:
+fix CharaController - slip?
+fix CharaController - jump NULL?
+fix AI - NULL?
+spell range indicator (check Projector class)
+
+
+
+
+
 
 decrease server packet timeout??? (might be worth it)
+
+
 
 
 

@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour
      // public
      public static Vector3 mouseHit { get; private set; } //if mouse ray didn't hit anything, pretend it hit the skybox
      public bool enableMoveInput = true; //lose control when eg. knocked away / stunned
-     public string groundLayer = "Default";
      public float groundedSphereCastRadius = 0.8f; //smaller then chara so bumping into wall don't count
 
      // private
@@ -27,7 +26,7 @@ public class PlayerController : MonoBehaviour
      {
           cam = Camera.main;
 
-          // subscribe to game start/end
+          // subscribe
           var admin = FindObjectOfType<TEST>();
           if (admin != null)
           {
@@ -35,7 +34,7 @@ public class PlayerController : MonoBehaviour
                admin.on_game_end += () => isConnected = false;
           }
 
-          // setup rb and col for stand alone use
+          // rb and col for standalone
           this_rb = GetComponentInChildren<Rigidbody>();
           this_col = GetComponentInChildren<Collider>();
 
@@ -56,10 +55,6 @@ public class PlayerController : MonoBehaviour
           {
                if (Input.GetKeyDown(KeyCode.Alpha3)) Blink(); //TEST
                UpdateInput();
-          }
-          else
-          {
-               Debug.LogError("");
           }
      }
 
@@ -211,10 +206,9 @@ public class PlayerController : MonoBehaviour
 
 
      // check if grounded ----------------------------------------------------------------------------
-
+     string[] groundLayer = { "Default", "TerrainWithHP" };
      bool isGrounded { get => UpdateIsGrounded(); set => _isGrounded = value; }
      bool _isGrounded;
-
      float _small = 0.01f;
      bool flag_updateIsGrounded;
 
@@ -228,8 +222,8 @@ public class PlayerController : MonoBehaviour
                var origin = rb.transform.position + Vector3.up * (groundedSphereCastRadius + _small); //+a small number to avoid sphere touching the ground initially (it will ignore these obj)
                var dist = groundedSphereCastRadius + _small * 2; //add 1 back, add another 1 as allowed error
                                                                  // var dist =  _small * 2; //add 1 back, add another 1 as allowed error
-
-               _isGrounded = Physics.SphereCast(origin, groundedSphereCastRadius, Vector3.down, out _, dist, LayerMask.GetMask(groundLayer));
+               var mask = LayerMask.GetMask(groundLayer);
+               _isGrounded = Physics.SphereCast(origin, groundedSphereCastRadius, Vector3.down, out _, dist, mask);
           }
 
           return _isGrounded;
