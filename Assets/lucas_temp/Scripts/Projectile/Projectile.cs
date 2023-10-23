@@ -28,8 +28,8 @@ public class Projectile : MonoBehaviour
      public float speed = 11.0f;
 
 
-    // private
-    ProjectileEntry setting { get => launcher.setting; }
+     // private
+     ProjectileEntry setting { get => launcher.setting; }
      [HideInInspector] public ProjectileLauncher launcher;
      bool inUse = false; //if not inUse, then it won't move/collide, only wait for despawn
      float tDespawn;
@@ -42,12 +42,14 @@ public class Projectile : MonoBehaviour
      [SerializeField] private float damageRadius = 1f; //range of the projectile to hit
      private GameObject Target;
 
-    private void Start()
-    {
-        Target = GameObject.FindGameObjectWithTag("Enemy");
-    }
 
-    void FixedUpdate()
+     void Start()
+     {
+          Target = GameObject.FindGameObjectWithTag("Enemy");
+     }
+
+
+     void FixedUpdate()
      {
           if (Time.fixedTime > tDespawn)
           {
@@ -66,38 +68,40 @@ public class Projectile : MonoBehaviour
                HandleCollision();
 
           }
-        else if (inUse && isHoming)
-        {
-            //Debug.Log("DSA");
-            _pos0 = transform.position;
-            transform.position += transform.forward * (speed * Time.fixedDeltaTime);
-            //Move();
-            GameObject[] targets;
+          else if (inUse && isHoming)
+          {
+               //Debug.Log("DSA");
+               _pos0 = transform.position;
+               transform.position += transform.forward * (speed * Time.fixedDeltaTime);
+               //Move();
+               GameObject[] targets;
 
-            targets = GameObject.FindGameObjectsWithTag("Enemy");
-            //Debug.Log("IDk");
-            if (Target != null)
-            {
-                //Debug.Log("HI");
-                foreach (GameObject Target in targets)
-                {
-                    float distance = Vector3.Distance(Target.transform.position, transform.position);
-
-                    if (distance <= detectionRange)
+               targets = GameObject.FindGameObjectsWithTag("Enemy");
+               //Debug.Log("IDk");
+               if (Target != null)
+               {
+                    //Debug.Log("HI");
+                    foreach (GameObject Target in targets)
                     {
-                        StartCoroutine(Homing());
+                         float distance = Vector3.Distance(Target.transform.position, transform.position);
+
+                         if (distance <= detectionRange)
+                         {
+                              StartCoroutine(Homing());
+                         }
                     }
-                }
-            }
-            HandleCollision();
-        }
-    }
+               }
+               HandleCollision();
+          }
+     }
 
 
 
      // fire ---------------------------------------------------------------------------------
-     public void Fire(Vector3 start, Vector3 dir, ulong originClientID)
+     public void Fire(Vector3 start, Vector3 dir, string launcherLayer, ulong originClientID)
      {
+          SetupLayer(launcherLayer);
+
           enabled = true;
           gameObject.SetActive(true);
 
@@ -119,6 +123,35 @@ public class Projectile : MonoBehaviour
 
           foreach (var particle in GetComponentsInChildren<ParticleSystem>())
                particle.Play();
+
+     }
+
+     int allMask;
+     int targetMask;
+     int wallMask;
+     void SetupLayer(string layer)
+     {
+          targetMask = wallMask = allMask = 0;
+
+          if (layer == "Player")
+          {
+               if (setting.hitHostile) targetMask |= LayerMask.GetMask("Enemy");
+               if (setting.hitFriendly) targetMask |= LayerMask.GetMask("Player");
+          }
+          else
+          {
+               if (setting.hitHostile) targetMask |= LayerMask.GetMask("Player");
+               if (setting.hitFriendly) targetMask |= LayerMask.GetMask("Enemy");
+          }
+
+          if (setting.hitSoftTerrain) targetMask |= LayerMask.GetMask("TerrainWithHP");
+
+          // wall, this will stop the projectile
+          if (setting.penetrateWall == false) wallMask |= LayerMask.GetMask("Default");
+
+          // merge
+          allMask |= targetMask;
+          allMask |= wallMask;
 
      }
 
@@ -147,12 +180,12 @@ public class Projectile : MonoBehaviour
           if (_distPerFrame > colliderRadius * 2)//for reasons i have no idea of 
           {
                // if we are moving super fast, and our collision radius is small, to provent missing an object (size be ~1 unit) in a update, use capsul cast
-               hit = Physics.OverlapCapsuleNonAlloc(_pos0, transform.position + colliderCenter, colliderRadius, _cache, setting.allMask);
+               hit = Physics.OverlapCapsuleNonAlloc(_pos0, transform.position + colliderCenter, colliderRadius, _cache, allMask);
           }
           else
           {
                // good old sphere cast
-               hit = Physics.OverlapSphereNonAlloc(transform.position + colliderCenter, colliderRadius, _cache, setting.allMask);
+               hit = Physics.OverlapSphereNonAlloc(transform.position + colliderCenter, colliderRadius, _cache, allMask);
           }
 
 
@@ -164,7 +197,7 @@ public class Projectile : MonoBehaviour
 
 
                // if wall
-               if ((otherMask & setting.wallMask) != 0)
+               if ((otherMask & wallMask) != 0)
                {
                     OnHitVFX(other.gameObject);
                     StuckToObject(other.transform, true);
@@ -173,7 +206,7 @@ public class Projectile : MonoBehaviour
 
 
                // if target
-               if ((otherMask & setting.targetMask) != 0)
+               if ((otherMask & targetMask) != 0)
                {
                     // if not creature
                     var hpClass = other.GetComponent<HPComponent>();
@@ -351,47 +384,47 @@ public class Projectile : MonoBehaviour
           Gizmos.DrawWireSphere(transform.position + colliderCenter, colliderRadius);
      }
 
-    //Homing -------------------------------------------------------------------
+     //Homing -------------------------------------------------------------------
      IEnumerator Homing()
      {
-         //time until looking for closest enemy
-         yield return new WaitForSeconds(homingDelay);
+          //time until looking for closest enemy
+          yield return new WaitForSeconds(homingDelay);
 
-         FindClosestEnemy();
+          FindClosestEnemy();
 
 
      }
      public GameObject FindClosestEnemy()
      {
-         GameObject[] gos;
-         gos = GameObject.FindGameObjectsWithTag("Enemy");
-         GameObject closest = null;
-         float distance = Mathf.Infinity;
-         Vector3 position = transform.position;
-         foreach (GameObject go in gos)
-         {
-             Vector3 diff = go.transform.position - position;
-             float curDistance = diff.sqrMagnitude;
-             if (curDistance < distance)
-             {
-                 
-                 closest = go;
-                 distance = curDistance;
-             } 
+          GameObject[] gos;
+          gos = GameObject.FindGameObjectsWithTag("Enemy");
+          GameObject closest = null;
+          float distance = Mathf.Infinity;
+          Vector3 position = transform.position;
+          foreach (GameObject go in gos)
+          {
+               Vector3 diff = go.transform.position - position;
+               float curDistance = diff.sqrMagnitude;
+               if (curDistance < distance)
+               {
+
+                    closest = go;
+                    distance = curDistance;
+               }
 
 
-         }
+          }
 
-         if (closest != null)
-         {
-             //move towards closest enemy
-             Vector3 direction = (closest.transform.position - transform.position).normalized;
-             Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotateSpeed);
-         }
- 
+          if (closest != null)
+          {
+               //move towards closest enemy
+               Vector3 direction = (closest.transform.position - transform.position).normalized;
+               Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+               transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotateSpeed);
+          }
 
-         return closest;
+
+          return closest;
      }
 }
 

@@ -29,7 +29,7 @@ public class ProjectileLauncher : NetworkBehaviour
      {
           InitPool();
           InitPoolVFX();
-          setting.InitLayerMask();
+          //setting.InitLayerMask();
      }
      void Update()
      {
@@ -61,18 +61,19 @@ public class ProjectileLauncher : NetworkBehaviour
                return;
 
 
-          Fire();
+          FireProjectile();
 
      }
 
      // fire projectile ---------------------------------------------------------------
-     public void Fire()
+     public void FireProjectile(string launcherLayer = "")
      {
           tFire = Time.time + setting.cooldown / 1000;
 
-          var data = new NetPackage();
+          var data = new Packet();
           data.originClientID = clientID;
           data.delay = setting.delay;
+          data.launcherLayer = launcherLayer;
 
           // position
           data.fireFrom = NetworkChara.myChara.transform.position;
@@ -100,11 +101,11 @@ public class ProjectileLauncher : NetworkBehaviour
 
           data.dir = data.dir.normalized;
 
-          _fire(data);
+          //_fire_projectile(data);
           OnFire_ServerRPC(data);
      }
 
-     async void _fire(NetPackage data, bool hasWaited = false)
+     async void _fire_projectile(Packet data, bool hasWaited = false)
      {
           if (data.delay > 0)
           {
@@ -125,29 +126,30 @@ public class ProjectileLauncher : NetworkBehaviour
           // fire
           var p = pool.Get();
           p.enabled = true;
-          p.Fire(data.fireFrom, data.dir, data.originClientID);
+          p.Fire(data.fireFrom, data.dir, data.launcherLayer, data.originClientID);
 
      }
 
 
      // RPC ---------------------------------------------------------------------------------
      [ServerRpc(RequireOwnership = false)]
-     void OnFire_ServerRPC(NetPackage data)
+     void OnFire_ServerRPC(Packet data)
      {
           OnFire_ClientRPC(data);
      }
      [ClientRpc]
-     void OnFire_ClientRPC(NetPackage data)
+     void OnFire_ClientRPC(Packet data)
      {
-          if (clientID != data.originClientID) // everyone except the origin caller
-               _fire(data);
+          //if (clientID != data.originClientID) // everyone except the origin caller
+          _fire_projectile(data);
      }
-     struct NetPackage : INetworkSerializable
+     struct Packet : INetworkSerializable
      {
           public ulong originClientID;
           public Vector3 fireFrom;
-          public float delay;
           public Vector3 dir;
+          public float delay;
+          public string launcherLayer;
 
           //    if a spell has not projectile,
           //    but ONLY targets ground
@@ -158,10 +160,11 @@ public class ProjectileLauncher : NetworkBehaviour
           void INetworkSerializable.NetworkSerialize<T>(BufferSerializer<T> serializer)
           {
                serializer.SerializeValue(ref originClientID);
-
                serializer.SerializeValue(ref fireFrom);
                serializer.SerializeValue(ref dir);
                serializer.SerializeValue(ref delay);
+               serializer.SerializeValue(ref launcherLayer);
+
                //serializer.SerializeValue(ref targetGroundPos);
           }
      }

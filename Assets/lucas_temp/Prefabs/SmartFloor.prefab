@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1026353629721739543}
   - component: {fileID: 5910642980177105161}
-  - component: {fileID: 569580683992961167}
   - component: {fileID: 2315579623798935282}
   - component: {fileID: 469496672079598475}
-  m_Layer: 0
+  - component: {fileID: 1523412572183969767}
+  m_Layer: 12
   m_Name: SmartFloor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,18 +48,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db46f9e1c9933954ba61367569e33253, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &569580683992961167
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7665195043516578330}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d90e869378cb87848bb586eadecaab8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  fall_on_destroy: 1
+  destroy_delay: 3000
+  destroy_VFX: {fileID: 0}
 --- !u!114 &2315579623798935282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,9 +63,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afc5f8b1abb81ee43b9fe9c6957f234d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TEST_SetMaxHp: 20
-  vsDefault: 100
-  vsSiege: 100
+  TEST_SetMaxHp: 5
+  VS_default: 100
+  VS_Siege: 100
 --- !u!114 &469496672079598475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,6 +86,27 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!65 &1523412572183969767
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7665195043516578330}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4, y: 1, z: 4}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7972890983813364131
 GameObject:
   m_ObjectHideFlags: 0
@@ -106,8 +118,7 @@ GameObject:
   - component: {fileID: 1361022084849815484}
   - component: {fileID: 5746422995048762417}
   - component: {fileID: 3277699841779470879}
-  - component: {fileID: 7583878898838611391}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -123,7 +134,7 @@ Transform:
   m_GameObject: {fileID: 7972890983813364131}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -8.5, z: 16}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 4, y: 1, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -179,24 +190,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &7583878898838611391
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7972890983813364131}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}

@@ -53,31 +53,40 @@ public class ProjectileEntry : ScriptableObject
 
 
      [Header(" - Other")]
-     public bool hitEnemy = true;
-     public bool hitWall = true;
-     public bool hitPlayer = false;
+     public bool hitHostile = true;
+     public bool hitFriendly = false;  // use object's layer (player/enemy) as its team
+     public bool hitSoftTerrain = true; // destroy-able floor or wall
+     public bool penetrateWall = false;
+
+
      [Range(0, 89)] public float maxUpwardsAgnle = 30;
      [Range(0, 89)] public float maxDownwardsAgnle = 0; //can we fire up/downwards?
      public int preheatPool = 0; // lag less when we use it. TODO: does this really help?
 
 
 
-     // not setting  ---------------------------------------------------------------------------------
-     [HideInInspector] public int allMask;
-     [HideInInspector] public int targetMask;
-     [HideInInspector] public int wallMask;
+     //// not setting  ---------------------------------------------------------------------------------
+     //[HideInInspector] public int allMask;
+     //[HideInInspector] public int targetMask;
+     //[HideInInspector] public int wallMask;
 
-     public void InitLayerMask()
-     {
-          targetMask = wallMask = allMask = 0;
+     //public void InitLayerMask()
+     //{
+     //     targetMask = wallMask = allMask = 0;
 
-          if (hitEnemy) targetMask |= LayerMask.GetMask("Enemy");
-          if (hitPlayer) targetMask |= LayerMask.GetMask("Player");
-          if (hitWall) wallMask |= LayerMask.GetMask("Default");
 
-          allMask |= targetMask;
-          allMask |= wallMask;
-     }
+     //     friendlyFire
+
+     //     if (hitEnemy) targetMask |= LayerMask.GetMask("Enemy");
+     //     if (friendlyFire) targetMask |= LayerMask.GetMask("Player");
+     //     if (hitWall) wallMask |= LayerMask.GetMask("Default");
+     //     if (hitSoftWall)
+
+     //          TerrainWithHP
+
+     //     allMask |= targetMask;
+     //     allMask |= wallMask;
+     //}
 
 
 }

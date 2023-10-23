@@ -16,6 +16,8 @@ public class TEST : NetworkBehaviour
 
      //public
      public bool quickTest = false;
+     public Action on_game_start;
+     public Action on_game_end;
 
 
      //private
@@ -58,11 +60,22 @@ public class TEST : NetworkBehaviour
      {
           SetupConnection(myIP); //for init other values, we don't use the ip part
           NetworkManager.Singleton.StartHost();
+
+          on_game_start?.Invoke();
+
      }
      public void StartClient(string serverIPv4)
      {
           SetupConnection(serverIPv4);
           NetworkManager.Singleton.StartClient();
+
+          on_game_start?.Invoke();
+     }
+     public void Shutdown()
+     {
+          NetworkManager.Singleton.Shutdown();
+
+          on_game_end?.Invoke();
      }
 
 
@@ -146,7 +159,8 @@ public class TEST : NetworkBehaviour
                     GUILayout.Box("You are Cinet. Connect to: " + serverIP, H);
 
                if (GUILayout.Button("Disconnect", H))
-                    NetworkManager.Singleton.Shutdown();
+                    Shutdown();
+
           }
 
           // info display

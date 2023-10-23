@@ -29,3 +29,15 @@ https://www.youtube.com/watch?v=eovjb5xn8y0
 sky box
 https://assetstore.unity.com/packages/2d/textures-materials/sky/10-skyboxes-pack-day-night-32236
 
+
+
+---------------------------------------------------------------------
+friendly fire 
+
+ - use gameobject's own layer, to check which TEAM it belongs
+ - player vs enemy
+ - others but won't fire: normal wall, destroy-able wall, default
+
+
+
+

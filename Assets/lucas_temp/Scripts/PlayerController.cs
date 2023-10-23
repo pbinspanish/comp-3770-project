@@ -15,38 +15,40 @@ public class PlayerController : MonoBehaviour
      public float groundedSphereCastRadius = 0.8f; //smaller then chara so bumping into wall don't count
 
      // private
-     // Rigidbody rb { get => NetworkChara.myChara.rb; }
-     // Collider col { get => NetworkChara.myChara.col; }
-     Rigidbody rb;
-     Collider col;
+     Rigidbody rb { get => isConnected ? NetworkChara.myChara.rb : this_rb; }
+     Collider col { get => isConnected ? NetworkChara.myChara.col : this_col; }
+     Rigidbody this_rb; //for standalone
+     Collider this_col; //for standalone
      Camera cam;
+     bool isConnected;
 
 
      void Start()
      {
           cam = Camera.main;
 
-          if (NetworkChara.myChara != null)
+          // subscribe to game start/end
+          var admin = FindObjectOfType<TEST>();
+          if (admin != null)
           {
-               rb = NetworkChara.myChara.rb;
-               col = NetworkChara.myChara.col;
+               admin.on_game_start += () => isConnected = true;
+               admin.on_game_end += () => isConnected = false;
           }
-          else
-          {
-               rb = GetComponentInChildren<Rigidbody>();
-               col = GetComponentInChildren<Collider>();
 
-               if (rb == null)
-                    rb = gameObject.AddComponent<Rigidbody>();
-               rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ; //freeze rotation
+          // setup rb and col for stand alone use
+          this_rb = GetComponentInChildren<Rigidbody>();
+          this_col = GetComponentInChildren<Collider>();
 
+          if (this_rb == null)
+               this_rb = gameObject.AddComponent<Rigidbody>();
+          this_rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ; //freeze rotation
 
-               if (col == null)
-                    col = gameObject.AddComponent<CapsuleCollider>();
-               var capsule = col as CapsuleCollider;
-               capsule.center = new Vector3(0, 1, 0);
-               capsule.height = 2;
-          }
+          if (this_col == null)
+               this_col = gameObject.AddComponent<CapsuleCollider>();
+          var capsule = this_col as CapsuleCollider;
+          capsule.center = new Vector3(0, 1, 0);
+          capsule.height = 2;
+
      }
      void Update()
      {
