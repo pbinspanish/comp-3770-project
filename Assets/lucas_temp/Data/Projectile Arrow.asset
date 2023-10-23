@@ -27,6 +27,10 @@ MonoBehaviour:
   forceFwdUp: {x: 100, y: 33}
   forceDirection: 0
   smoothForce: 0
+  isHoming: 1
+  homingDelay: 0.5
+  homingSpeed: 11
+  homingRotateSpeed: 5
   hitSameTarget: 0
   hitSameTargetEvery: 1000
   spawnFwdUp: {x: 1.5, y: 2}
@@ -34,12 +38,9 @@ MonoBehaviour:
   recycleVFX: 2
   stickToTarget: 30
   stickToWall: 30
-  hitEnemy: 1
-  hitWall: 1
-  hitPlayer: 0
+  hitFoe: 1
+  hitFriend: 0
+  hitSoftTerrain: 1
   maxUpwardsAgnle: 30
   maxDownwardsAgnle: 0
   preheatPool: 0
-  allMask: 2049
-  targetMask: 2048
-  wallMask: 1

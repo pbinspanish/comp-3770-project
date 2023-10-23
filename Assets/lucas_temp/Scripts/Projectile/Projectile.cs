@@ -5,7 +5,7 @@ using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 using UnityEngine.UI;
 using Unity.VisualScripting;
-
+using System.Runtime.InteropServices.WindowsRuntime;
 
 /// <summary>
 /// Script attached to a projectile. Handle collision, damage, force etc.
@@ -22,10 +22,10 @@ public class Projectile : MonoBehaviour
      [Header("Setting")]
      public Vector3 colliderCenter = new Vector3(0, 0, 0);
      public float colliderRadius = 1.5f;
-     public bool isHoming;
-     public float homingDelay;
-     public float rotateSpeed = 5.0f;
-     public float speed = 11.0f;
+     //public bool isHoming;
+     //public float homingDelay;
+     //public float rotateSpeed = 5.0f;
+     //public float speed = 11.0f;
 
 
      // private
@@ -55,7 +55,7 @@ public class Projectile : MonoBehaviour
           {
                EndOfUse();
           }
-          else if (inUse && !isHoming)
+          else if (inUse && !setting.isHoming)
           {
                // reset victim list? so we can hit them again
                if (setting.hitSameTarget && Time.time > tResetVictim)
@@ -68,11 +68,11 @@ public class Projectile : MonoBehaviour
                HandleCollision();
 
           }
-          else if (inUse && isHoming)
+          else if (inUse && setting.isHoming)
           {
                //Debug.Log("DSA");
                _pos0 = transform.position;
-               transform.position += transform.forward * (speed * Time.fixedDeltaTime);
+               transform.position += transform.forward * (setting.homingSpeed * Time.fixedDeltaTime);
                //Move();
                GameObject[] targets;
 
@@ -100,7 +100,7 @@ public class Projectile : MonoBehaviour
      // fire ---------------------------------------------------------------------------------
      public void Fire(Vector3 start, Vector3 dir, string launcherLayer, ulong originClientID)
      {
-          SetupLayer(launcherLayer);
+          SetupCollisionLayer(launcherLayer);
 
           enabled = true;
           gameObject.SetActive(true);
@@ -119,7 +119,7 @@ public class Projectile : MonoBehaviour
 
           velocity = dir.normalized * setting.speed;
 
-          _distPerFrame = setting.speed * Time.fixedDeltaTime; //cache speed
+          //_distPerFrame = setting.speed * Time.fixedDeltaTime; //cache speed
 
           foreach (var particle in GetComponentsInChildren<ParticleSystem>())
                particle.Play();
@@ -128,31 +128,10 @@ public class Projectile : MonoBehaviour
 
      int allMask;
      int targetMask;
-     int wallMask;
-     void SetupLayer(string layer)
+     void SetupCollisionLayer(string launcherLayer)
      {
-          targetMask = wallMask = allMask = 0;
-
-          if (layer == "Player")
-          {
-               if (setting.hitHostile) targetMask |= LayerMask.GetMask("Enemy");
-               if (setting.hitFriendly) targetMask |= LayerMask.GetMask("Player");
-          }
-          else
-          {
-               if (setting.hitHostile) targetMask |= LayerMask.GetMask("Player");
-               if (setting.hitFriendly) targetMask |= LayerMask.GetMask("Enemy");
-          }
-
-          if (setting.hitSoftTerrain) targetMask |= LayerMask.GetMask("TerrainWithHP");
-
-          // wall, this will stop the projectile
-          if (setting.penetrateWall == false) wallMask |= LayerMask.GetMask("Default");
-
-          // merge
-          allMask |= targetMask;
-          allMask |= wallMask;
-
+          targetMask = LayerMaskUtil.get_target_mask(setting, launcherLayer);
+          allMask = LayerMaskUtil.get_all_mask(setting, launcherLayer);
      }
 
 
@@ -169,41 +148,27 @@ public class Projectile : MonoBehaviour
      // detect collision ---------------------------------------------------------------------------------
      Collider[] _cache = new Collider[20];
      Vector3 _pos0; //cache
-     float _distPerFrame; //cache
      int _hitCount;
      float tResetVictim;
 
      void HandleCollision()
      {
-          var position = transform.localToWorldMatrix.MultiplyPoint(colliderCenter);
-          int hit = 0;
-          if (_distPerFrame > colliderRadius * 2)//for reasons i have no idea of 
-          {
-               // if we are moving super fast, and our collision radius is small, to provent missing an object (size be ~1 unit) in a update, use capsul cast
-               hit = Physics.OverlapCapsuleNonAlloc(_pos0, transform.position + colliderCenter, colliderRadius, _cache, allMask);
-          }
-          else
-          {
-               // good old sphere cast
-               hit = Physics.OverlapSphereNonAlloc(transform.position + colliderCenter, colliderRadius, _cache, allMask);
-          }
+          // detect collision
+          int count = Physics.OverlapCapsuleNonAlloc(_pos0, transform.position + colliderCenter, colliderRadius, _cache, allMask);
 
-
-          //check collisions
-          for (int i = 0; i < hit; i++)
+          // loop through all hits
+          for (int i = 0; i < count; i++)
           {
                Collider other = _cache[i];
-               int otherMask = 1 << other.gameObject.layer; //layer to layerMask
-
+               int otherMask = 1 << other.gameObject.layer; //layer of the thing we hit, to layerMask
 
                // if wall
-               if ((otherMask & wallMask) != 0)
+               if ((otherMask & LayerMaskUtil.wall_mask) != 0)
                {
                     OnHitVFX(other.gameObject);
                     StuckToObject(other.transform, true);
                     return; //end of use
                }
-
 
                // if target
                if ((otherMask & targetMask) != 0)
@@ -243,11 +208,8 @@ public class Projectile : MonoBehaviour
                     Damage(other.gameObject);
                     OnHitVFX(other.gameObject);
 
-                    //network
-                    launcher.AfterHit_ClientRPC(transform.position, other.transform.position);
 
-
-                    // reset victim?
+                    // reset victim list?
                     if (setting.hitSameTarget && tResetVictim == -1)
                          tResetVictim = Time.time + setting.hitSameTargetEvery / 1000;
 
@@ -259,8 +221,8 @@ public class Projectile : MonoBehaviour
                          return; //end of use
                     }
                }
-          }
 
+          }
 
      }
 
@@ -287,6 +249,7 @@ public class Projectile : MonoBehaviour
 
 
      // on hit ---------------------------------------------------------------------------------
+
      void OnHitVFX(GameObject target) //visual effect
      {
           if (log) Debug.Log("OnHitVFX()");
@@ -388,7 +351,7 @@ public class Projectile : MonoBehaviour
      IEnumerator Homing()
      {
           //time until looking for closest enemy
-          yield return new WaitForSeconds(homingDelay);
+          yield return new WaitForSeconds(setting.homingDelay);
 
           FindClosestEnemy();
 
@@ -420,7 +383,7 @@ public class Projectile : MonoBehaviour
                //move towards closest enemy
                Vector3 direction = (closest.transform.position - transform.position).normalized;
                Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-               transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotateSpeed);
+               transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * setting.homingRotateSpeed);
           }
 
 

@@ -38,6 +38,13 @@ public class ProjectileEntry : ScriptableObject
      public bool smoothForce = false;
 
 
+     [Header("Homing")]
+     public bool isHoming;
+     public float homingDelay;
+     public float homingSpeed = 11.0f;
+     public float homingRotateSpeed = 5.0f;
+
+
      [Header(" - AoE")]
      public bool hitSameTarget = false; // can we hit any same targets repeatedly? eg. a fire wall
      public float hitSameTargetEvery = 1000; //ms
@@ -53,10 +60,9 @@ public class ProjectileEntry : ScriptableObject
 
 
      [Header(" - Other")]
-     public bool hitHostile = true;
-     public bool hitFriendly = false;  // use object's layer (player/enemy) as its team
+     public bool hitFoe = true;
+     public bool hitFriend = false;  // use object's layer (player/enemy) as its team
      public bool hitSoftTerrain = true; // destroy-able floor or wall
-     public bool penetrateWall = false;
 
 
      [Range(0, 89)] public float maxUpwardsAgnle = 30;

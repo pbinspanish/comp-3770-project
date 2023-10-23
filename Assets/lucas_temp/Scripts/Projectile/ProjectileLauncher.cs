@@ -61,7 +61,7 @@ public class ProjectileLauncher : NetworkBehaviour
                return;
 
 
-          FireProjectile();
+          FireProjectile("Player"); //input is exclusive from player
 
      }
 
@@ -167,18 +167,6 @@ public class ProjectileLauncher : NetworkBehaviour
 
                //serializer.SerializeValue(ref targetGroundPos);
           }
-     }
-
-
-     // after hit ---------------------------------------------------------------------------------
-     [ClientRpc]
-     public void AfterHit_ClientRPC(Vector3 projectilePos, Vector3 targetPos)
-     {
-          if (!IsServer)
-               return;
-
-          //TODO
-          //if projectile not destroyed yet, destroy it
      }
 
 
