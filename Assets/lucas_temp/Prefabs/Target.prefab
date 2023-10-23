@@ -348,7 +348,7 @@ GameObject:
   - component: {fileID: 3818736101002967139}
   m_Layer: 11
   m_Name: Target
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -399,8 +399,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TEST_SetMaxHp: 20
-  vsDefault: 100
-  vsSiege: 100
+  VS_default: 100
+  VS_Siege: 100
 --- !u!114 &-4176742133287296833
 MonoBehaviour:
   m_ObjectHideFlags: 0

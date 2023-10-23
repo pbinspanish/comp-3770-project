@@ -22,10 +22,14 @@ public class Projectile : MonoBehaviour
      [Header("Setting")]
      public Vector3 colliderCenter = new Vector3(0, 0, 0);
      public float colliderRadius = 1.5f;
+     public bool isHoming;
+     public float homingDelay;
+     public float rotateSpeed = 5.0f;
+     public float speed = 11.0f;
 
 
-     // private
-     ProjectileEntry setting { get => launcher.setting; }
+    // private
+    ProjectileEntry setting { get => launcher.setting; }
      [HideInInspector] public ProjectileLauncher launcher;
      bool inUse = false; //if not inUse, then it won't move/collide, only wait for despawn
      float tDespawn;
@@ -34,15 +38,22 @@ public class Projectile : MonoBehaviour
      Vector3 velocity;
      ulong clientID { get => NetworkManager.Singleton.LocalClientId; }
      bool isServerObj { get => NetworkManager.Singleton.IsServer; }
+     [SerializeField] private float detectionRange = 10f;  //Detection range for Enemies
+     [SerializeField] private float damageRadius = 1f; //range of the projectile to hit
+     private GameObject Target;
 
+    private void Start()
+    {
+        Target = GameObject.FindGameObjectWithTag("Enemy");
+    }
 
-     void FixedUpdate()
+    void FixedUpdate()
      {
           if (Time.fixedTime > tDespawn)
           {
                EndOfUse();
           }
-          else if (inUse)
+          else if (inUse && !isHoming)
           {
                // reset victim list? so we can hit them again
                if (setting.hitSameTarget && Time.time > tResetVictim)
@@ -55,7 +66,32 @@ public class Projectile : MonoBehaviour
                HandleCollision();
 
           }
-     }
+        else if (inUse && isHoming)
+        {
+            //Debug.Log("DSA");
+            _pos0 = transform.position;
+            transform.position += transform.forward * (speed * Time.fixedDeltaTime);
+            //Move();
+            GameObject[] targets;
+
+            targets = GameObject.FindGameObjectsWithTag("Enemy");
+            //Debug.Log("IDk");
+            if (Target != null)
+            {
+                //Debug.Log("HI");
+                foreach (GameObject Target in targets)
+                {
+                    float distance = Vector3.Distance(Target.transform.position, transform.position);
+
+                    if (distance <= detectionRange)
+                    {
+                        StartCoroutine(Homing());
+                    }
+                }
+            }
+            HandleCollision();
+        }
+    }
 
 
 
@@ -108,7 +144,7 @@ public class Projectile : MonoBehaviour
      {
           var position = transform.localToWorldMatrix.MultiplyPoint(colliderCenter);
           int hit = 0;
-          if (_distPerFrame > colliderRadius * 2)
+          if (_distPerFrame > colliderRadius * 2)//for reasons i have no idea of 
           {
                // if we are moving super fast, and our collision radius is small, to provent missing an object (size be ~1 unit) in a update, use capsul cast
                hit = Physics.OverlapCapsuleNonAlloc(_pos0, transform.position + colliderCenter, colliderRadius, _cache, setting.allMask);
@@ -315,6 +351,47 @@ public class Projectile : MonoBehaviour
           Gizmos.DrawWireSphere(transform.position + colliderCenter, colliderRadius);
      }
 
+    //Homing -------------------------------------------------------------------
+     IEnumerator Homing()
+     {
+         //time until looking for closest enemy
+         yield return new WaitForSeconds(homingDelay);
 
+         FindClosestEnemy();
+
+
+     }
+     public GameObject FindClosestEnemy()
+     {
+         GameObject[] gos;
+         gos = GameObject.FindGameObjectsWithTag("Enemy");
+         GameObject closest = null;
+         float distance = Mathf.Infinity;
+         Vector3 position = transform.position;
+         foreach (GameObject go in gos)
+         {
+             Vector3 diff = go.transform.position - position;
+             float curDistance = diff.sqrMagnitude;
+             if (curDistance < distance)
+             {
+                 
+                 closest = go;
+                 distance = curDistance;
+             } 
+
+
+         }
+
+         if (closest != null)
+         {
+             //move towards closest enemy
+             Vector3 direction = (closest.transform.position - transform.position).normalized;
+             Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotateSpeed);
+         }
+ 
+
+         return closest;
+     }
 }
 
