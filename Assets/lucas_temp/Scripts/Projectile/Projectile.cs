@@ -20,12 +20,7 @@ public class Projectile : MonoBehaviour
 
      // public
      [Header("Setting")]
-     public Vector3 colliderCenter = new Vector3(0, 0, 0);
      public float colliderRadius = 1.5f;
-     //public bool isHoming;
-     //public float homingDelay;
-     //public float rotateSpeed = 5.0f;
-     //public float speed = 11.0f;
 
 
      // private
@@ -38,8 +33,6 @@ public class Projectile : MonoBehaviour
      Vector3 velocity;
      ulong clientID { get => NetworkManager.Singleton.LocalClientId; }
      bool isServerObj { get => NetworkManager.Singleton.IsServer; }
-     [SerializeField] private float detectionRange = 10f;  //Detection range for Enemies
-     [SerializeField] private float damageRadius = 1f; //range of the projectile to hit
      private GameObject Target;
 
 
@@ -85,7 +78,7 @@ public class Projectile : MonoBehaviour
                     {
                          float distance = Vector3.Distance(Target.transform.position, transform.position);
 
-                         if (distance <= detectionRange)
+                         if (distance <= setting.homingDetect)
                          {
                               StartCoroutine(Homing());
                          }
@@ -154,7 +147,7 @@ public class Projectile : MonoBehaviour
      void HandleCollision()
      {
           // detect collision
-          int count = Physics.OverlapCapsuleNonAlloc(_pos0, transform.position + colliderCenter, colliderRadius, _cache, allMask);
+          int count = Physics.OverlapCapsuleNonAlloc(_pos0, transform.position, colliderRadius, _cache, allMask);
 
           // loop through all hits
           for (int i = 0; i < count; i++)
@@ -259,7 +252,7 @@ public class Projectile : MonoBehaviour
 
           var vfx = launcher.GetVFX(this);
           vfx.gameObject.SetActive(true);
-          vfx.transform.position = transform.position + colliderCenter;
+          vfx.transform.position = transform.position;
 
           // in case you have particles
           var pList2 = vfx.GetComponentsInChildren<ParticleSystem>(); //this DOES includes <T> on the parent
@@ -341,10 +334,10 @@ public class Projectile : MonoBehaviour
           if (Application.isPlaying)
           {
                Gizmos.color = Color.blue;
-               Gizmos.DrawWireSphere(_pos0 + colliderCenter, colliderRadius);
+               Gizmos.DrawWireSphere(_pos0, colliderRadius);
           }
           Gizmos.color = Color.red;
-          Gizmos.DrawWireSphere(transform.position + colliderCenter, colliderRadius);
+          Gizmos.DrawWireSphere(transform.position, colliderRadius);
      }
 
      //Homing -------------------------------------------------------------------

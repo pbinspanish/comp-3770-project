@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Unity.IO.LowLevel.Unsafe;
 
 
 [RequireComponent(typeof(NPCController))]
@@ -24,15 +25,11 @@ public class AIBrain : MonoBehaviour
      // private
      List<AIState> stateList;
      AIState current;
-     static AIState idleState = new AIState(); //shared idle state, everybody do nothing
 
 
      void Awake()
      {
           stateList = new List<AIState>(GetComponents<AIState>());
-          stateList.Add(idleState); //lowest priority
-
-          current = idleState;
      }
 
      void Update()
@@ -115,6 +112,10 @@ public class AIBrain : MonoBehaviour
           curState__ = "CurState = " + current;
 
           AIState next = DecideNextState();
+
+          // idle?
+          if (next == null)
+               return;
 
           // change state?
           if (current != next)

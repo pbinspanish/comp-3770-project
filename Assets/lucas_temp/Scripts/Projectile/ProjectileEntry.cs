@@ -40,9 +40,10 @@ public class ProjectileEntry : ScriptableObject
 
      [Header("Homing")]
      public bool isHoming;
-     public float homingDelay;
+     public float homingDetect = 10f;  //Detection range for Enemies
      public float homingSpeed = 11.0f;
      public float homingRotateSpeed = 5.0f;
+     public float homingDelay;
 
 
      [Header(" - AoE")]

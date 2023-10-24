@@ -50,15 +50,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93025b6d4daae7e459f4df3b29e31ff3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliderCenter: {x: 0, y: 0, z: 0}
   colliderRadius: 0.15
-  isHoming: 1
-  homingDelay: 0
-  rotateSpeed: 5
-  speed: 11
   launcher: {fileID: 0}
-  detectionRange: 10
-  damageRadius: 1
 --- !u!1 &941370922707747247
 GameObject:
   m_ObjectHideFlags: 0
