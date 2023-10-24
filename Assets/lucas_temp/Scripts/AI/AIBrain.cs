@@ -6,7 +6,6 @@ using System.Linq;
 
 
 [RequireComponent(typeof(NPCController))]
-[RequireComponent(typeof(AIState_Idle))]
 public class AIBrain : MonoBehaviour
 {
 
@@ -22,15 +21,18 @@ public class AIBrain : MonoBehaviour
      // setting
      public float alarmRange = 20; //how far will AI spot you?
 
-     //public
-
+     // private
      List<AIState> stateList;
-     AIState curState;
+     AIState current;
+     static AIState idleState = new AIState(); //shared idle state, everybody do nothing
 
 
      void Awake()
      {
           stateList = new List<AIState>(GetComponents<AIState>());
+          stateList.Add(idleState); //lowest priority
+
+          current = idleState;
      }
 
      void Update()
@@ -110,28 +112,21 @@ public class AIBrain : MonoBehaviour
 
      void UpdateState()
      {
-          curState__ = "CurState = " + curState;
+          curState__ = "CurState = " + current;
 
-          AIState nextState = DecideNextState();
+          AIState next = DecideNextState();
 
-          // switch state
-          if (curState != nextState)
+          // change state?
+          if (current != next)
           {
-               if (curState)
-                    curState.OnExit();
-               curState = nextState;
-               curState.OnEnter();
+               current.OnExit();
+               current = next;
+               current.OnEnter();
           }
 
           // update
-          curState.UpdateState();
+          current.UpdateState();
      }
-
-     //void FixedUpdateState()
-     //{
-     //     if (current)
-     //          current.FixedUpdateState();
-     //}
 
      AIState DecideNextState()
      {
@@ -139,12 +134,10 @@ public class AIBrain : MonoBehaviour
                if (state.IsValid())
                     return state;
 
-          Debug.LogError("this should not happen");
-          return null;
+          return null; // = idle
      }
 
-
-     void OnDrawGizmos()
+     void OnDrawGizmosSelected()
      {
           Gizmos.color = Color.yellow;
           Gizmos.DrawWireSphere(transform.position, alarmRange);

@@ -3,20 +3,36 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[RequireComponent(typeof(AIBrain))]
-public abstract class AIState : MonoBehaviour
+public class AIState : MonoBehaviour
 {
 
-     //abstract
-     public abstract bool IsValid(); //before neter state, check valid
-                                     // eg.if this is AttackState, is there any enemy in melee range / in sight so we can chase?
+     // base class for all AIState
+     // eg. Attack, AlamrAlly, RunAway
 
-     public abstract void OnEnter(); //choose target here
 
-     public abstract void UpdateState(); //then update is called repeatly until...
-     //public abstract void FixedUpdateState();
+     public virtual bool IsValid()
+     {
+          // check if we should enter this state
+          // eg. have I spotted any target?
+          // eg. is my nuke-spell ready?
 
-     public abstract void OnExit(); //clean up here
+          return true;
+     }
+
+     public virtual void OnEnter()
+     {
+          // eg. choose a target here
+     }
+
+     public virtual void UpdateState()
+     {
+          // eg. looking for target
+     }
+
+     public virtual void OnExit()
+     {
+          //eg. stop a channeling spell
+     }
 
 
 

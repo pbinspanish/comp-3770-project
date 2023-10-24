@@ -17,10 +17,6 @@ public class Item : MonoBehaviour
           SetupColloder();
           UpdateImage();
      }
-     void Update()
-     {
-          FaceCamera();
-     }
      void OnValidate()
      {
           UpdateImage();
@@ -41,11 +37,6 @@ public class Item : MonoBehaviour
 
           //ren = GetComponentInChildren<SpriteRenderer>();
           //if (ren != null) ren.sprite = card.image;
-     }
-
-     void FaceCamera()
-     {
-          transform.LookAt(transform.position + Camera.main.transform.forward);
      }
 
      void OnTriggerEnter(Collider other)

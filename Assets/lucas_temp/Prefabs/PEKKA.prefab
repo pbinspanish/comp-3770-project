@@ -181,7 +181,6 @@ GameObject:
   - component: {fileID: 7508836375714196138}
   - component: {fileID: 7002670174249727832}
   - component: {fileID: 6721119304342462027}
-  - component: {fileID: 6814627128692598202}
   - component: {fileID: 8064580428112647956}
   - component: {fileID: 621353289357016049}
   - component: {fileID: 2097831090365779912}
@@ -312,18 +311,6 @@ MonoBehaviour:
   TEST_AtkRange: 5
   TEST_Atk: You are already dead
   TEST_AtkCD: 3.1
---- !u!114 &6814627128692598202
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6294235382854823595}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43a9576e089c8e348999bd7179e3eab2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8064580428112647956
 MonoBehaviour:
   m_ObjectHideFlags: 0
