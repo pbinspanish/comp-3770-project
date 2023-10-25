@@ -42,8 +42,8 @@ public class AIState : MonoBehaviour
      protected AIBrain brain { get { if (_brain == null) _brain = GetComponent<AIBrain>(); return _brain; } }
      AIBrain _brain;
 
-     protected NPCController controller { get { if (_ctrl == null) _ctrl = GetComponent<NPCController>(); return _ctrl; } }
-     NPCController _ctrl;
+     //protected NPCController controller { get { if (_ctrl == null) _ctrl = GetComponent<NPCController>(); return _ctrl; } }
+     //NPCController _ctrl;
 
 
 

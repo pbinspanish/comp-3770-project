@@ -29,7 +29,6 @@ public class ProjectileLauncher : NetworkBehaviour
      {
           InitPool();
           InitPoolVFX();
-          //setting.InitLayerMask();
      }
      void Update()
      {

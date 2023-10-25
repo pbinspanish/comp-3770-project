@@ -12,9 +12,13 @@ public class NPCController : MonoBehaviour
 
 
 
-     public void TEST_MoveTowards(NetworkChara target, float speedPct = 1f)
+     public void TEST_MoveTowards(NetworkChara target, float reach, float speedPct = 1f)
      {
-          //position
+          if (moveSpeed == 0)
+               return;
+          if (Vector3.Distance(target.transform.position, transform.position) < reach)
+               return;
+
           transform.position = Vector3.MoveTowards(
                transform.position,
                target.transform.position,
@@ -23,10 +27,13 @@ public class NPCController : MonoBehaviour
 
      public void TEST_RotateTowards(NetworkChara target)
      {
-          //rotation
+          if (rotateSpeed == 0)
+               return;
+
           var dir = target.transform.position - transform.position;
-          var targetRot = Quaternion.LookRotation(dir);
-          transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRot, rotateSpeed * Time.deltaTime);
+          dir.y = 0;
+          var rot = Quaternion.LookRotation(dir);
+          transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, rotateSpeed * Time.deltaTime);
      }
 
 

@@ -51,8 +51,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4aa2370450b7a65419cb834c24ed2173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPlayer: 1
-  isEnemy: 0
 --- !u!114 &415858238824442438
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,6 +64,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TEST_SetMaxHp: 100000
+  isPlayer: 1
+  isEnemy: 0
   VS_default: 100
   VS_Siege: 100
 --- !u!136 &7497088134396068365
@@ -171,7 +171,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enableMoveInput: 1
-  groundLayer: Default
   groundedSphereCastRadius: 0.8
 --- !u!1 &588694765373002116
 GameObject:

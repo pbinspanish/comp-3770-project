@@ -177,10 +177,9 @@ GameObject:
   - component: {fileID: 2906925790305001428}
   - component: {fileID: 657854890662556651}
   - component: {fileID: 915129428942252482}
-  - component: {fileID: 3728941071591657706}
   - component: {fileID: 7508836375714196138}
   - component: {fileID: 7002670174249727832}
-  - component: {fileID: 6721119304342462027}
+  - component: {fileID: 5165972144754446442}
   - component: {fileID: 8064580428112647956}
   - component: {fileID: 621353289357016049}
   - component: {fileID: 2097831090365779912}
@@ -241,20 +240,6 @@ MonoBehaviour:
   TEST_SetMaxHp: 1000
   VS_default: 100
   VS_Siege: 100
---- !u!114 &3728941071591657706
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6294235382854823595}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 841e9822cfb7a854da6996d28b55596b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 3
-  rotateSpeed: 90
 --- !u!114 &7508836375714196138
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -267,10 +252,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2757bd439bc9fb14aa174848345401be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curState__: 
-  log: 1
-  TEST_inUse: 1
+  log: 0
+  inUse: 1
   alarmRange: 22
+  moveSpeed: 3
+  rotateSpeed: 90
 --- !u!114 &7002670174249727832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,7 +278,7 @@ MonoBehaviour:
   lazerHitBoxRadius: 2
   lazerDamage: 1
   minHitInterval: 0.08
---- !u!114 &6721119304342462027
+--- !u!114 &5165972144754446442
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -301,16 +287,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 6294235382854823595}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f6c5f22a7fadb14695362d33f7261fb, type: 3}
+  m_Script: {fileID: 11500000, guid: 9db39956ed9b95c45b130bf289a380fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   switchTarget: 5
-  tLastAttack: 0
-  tSwitchTarget: 0
-  TEST_AtkDamage: 99
-  TEST_AtkRange: 5
-  TEST_Atk: You are already dead
-  TEST_AtkCD: 3.1
+  atkDamage: 99
+  atkRange: 5
+  atkCoolDown: 2.8
+  atkDelay: 0.8
+  atkRecover: 2.5
 --- !u!114 &8064580428112647956
 MonoBehaviour:
   m_ObjectHideFlags: 0

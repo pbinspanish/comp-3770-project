@@ -19,11 +19,11 @@ public class AIState_LazerBeam : AIState
 
 
      // private
-     NetworkChara target;
+     AITargetData target;
      Vector3 targetPos;
      float tNextCast;
      float tEnd;
-     AIState_Attack aiStateAttack;
+     AIState_NormalAttack aiStateAttack;
      LazerBeam lazer;
      bool maxCDTriggered;
      int damageMask;
@@ -33,7 +33,7 @@ public class AIState_LazerBeam : AIState
 
      void Awake()
      {
-          aiStateAttack = GetComponent<AIState_Attack>();
+          aiStateAttack = GetComponent<AIState_NormalAttack>();
           lazer = gameObject.GetComponentInChildren<LazerBeam>();
           damageMask = LayerMask.GetMask("Player");
      }
@@ -44,7 +44,7 @@ public class AIState_LazerBeam : AIState
                return false;
           if (Time.time < aiStateAttack.tLastAttack + triggerAfterNotAttackingFor)
                return false;
-          if (!brain.hasTarget)
+          if (brain.targets.Count == 0)
                return false;
 
           if (!maxCDTriggered)
@@ -64,7 +64,7 @@ public class AIState_LazerBeam : AIState
           if (lazer == null)
                lazer = brain.GetComponent<LazerBeam>();
 
-          target = brain.GetTarget_Furthest(float.MaxValue);
+          target = brain.Get_target(false);
           targetPos = target.transform.position;
 
           tEnd = Time.time + duration;
@@ -85,10 +85,6 @@ public class AIState_LazerBeam : AIState
 
           //shooting lazer, lazer chase target
           lazer.ShootAtPos(lazer.transform.position, targetPos, OnLazerHit);
-
-
-          //move slowly towards
-          controller.TEST_MoveTowards(target, moveWhileLazer);
      }
 
 

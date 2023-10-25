@@ -1,8 +1,32 @@
+
+
+AI targeting
+AI->Hpcomponent.OnDeath
+NetworkChara:
+	update movement
+	update HP
+
+
+siege damage!
+
+
+NetworkMover: update pos
+NetworkCreature: HP, is player/enemy, IFF(other)
+
+
+
+
+
+
+
+
 Task:
 fix CharaController - slip?
 fix CharaController - jump NULL?
 fix AI - NULL?
 spell range indicator (check Projector class)
+
+
 
 
 

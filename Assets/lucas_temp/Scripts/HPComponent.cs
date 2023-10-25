@@ -6,16 +6,21 @@ using UnityEngine;
 
 
 /// <summary>
-/// Handle hp for player or enemy
-/// [!!!] Must attach to root GameObject
+/// Handle hp for player / enemy / object
+/// [!] Must be on the same GameObject with colliders
 /// </summary>
 public class HPComponent : NetworkBehaviour
 {
 
-     // TEST
-     public int TEST_SetMaxHp = 20;
+     // for targeting
+     public static List<HPComponent> all = new List<HPComponent>();
 
-     // hp
+
+     // TEST
+     public string monitor;
+     public int TEST_Set_max_hp = 10;
+
+
      public int maxHP { get; private set; }
      public int hp { get; private set; }
 
@@ -29,12 +34,28 @@ public class HPComponent : NetworkBehaviour
 
      public override void OnNetworkSpawn()
      {
-          Config_hp(TEST_SetMaxHp, TEST_SetMaxHp);
+          Config_hp(TEST_Set_max_hp, TEST_Set_max_hp);
+          all.Add(this);
+
+          //check
+          Debug.Assert(TEST_Set_max_hp > 0);
+          if (isPlayer) Debug.Assert(gameObject.layer == LayerMask.NameToLayer("Player"));
+          if (isEnemy) Debug.Assert(gameObject.layer == LayerMask.NameToLayer("Enemy"));
      }
 
      public override void OnNetworkDespawn()
      {
-          //
+          all.Remove(this);
+     }
+
+     // friend or foe  ----------------------------------------------------------------------------
+
+     public bool isPlayer;
+     public bool isEnemy = true;
+
+     public bool IsFriend(bool otherIsPlayer)
+     {
+          return otherIsPlayer == isPlayer;
      }
 
 
@@ -100,11 +121,17 @@ public class HPComponent : NetworkBehaviour
           var was = hp;
           hp = Mathf.Clamp(hp + data.delta, 0, maxHP);
 
+          monitor = hp + "/" + maxHP;
           On_damage_or_heal?.Invoke(data.delta, was, hp); //event
           UIDamageTextMgr.DisplayDamageText(data.delta, gameObject); //ui
 
           if (was != 0 && hp == 0)
+          {
+               if (isEnemy)
+                    TEST_BecomeRagdoll();
+
                On_death_blow?.Invoke(); //event
+          }
      }
 
      struct DamageHealPacket : INetworkSerializable
@@ -131,6 +158,24 @@ public class HPComponent : NetworkBehaviour
                return VS_Siege;
 
           throw new Exception("unknown type - if this is not a typo, add a new coefficient");
+     }
+
+
+     // fun for NPC --------------------------------------------------------------------------------------------
+     void TEST_BecomeRagdoll()
+     {
+          var rb = GetComponent<Rigidbody>();
+          if (rb)
+          {
+               rb.constraints = 0; //80 = freezeXZ, 0 = no contraint
+               rb.mass /= 3f;
+          }
+
+          var fc = GetComponentInChildren<FaceCamera>();
+          if (fc)
+          {
+               fc.End_of_use();
+          }
      }
 
 

@@ -26,7 +26,7 @@ public class Projectile : MonoBehaviour
      // private
      ProjectileEntry setting { get => launcher.setting; }
      [HideInInspector] public ProjectileLauncher launcher;
-     bool inUse = false; //if not inUse, then it won't move/collide, only wait for despawn
+     bool isMoving = false; //if not inUse, then it won't move/collide, only wait for despawn
      float tDespawn;
      List<GameObject> victims = new List<GameObject>();
      ulong originClientID;
@@ -47,21 +47,27 @@ public class Projectile : MonoBehaviour
           if (Time.fixedTime > tDespawn)
           {
                EndOfUse();
+               return;
           }
-          else if (inUse && !setting.isHoming)
+
+          if (!isMoving)
+               return; //eg. I'm stuck to enemy
+
+
+          // reset victim list? so we can hit them again
+          if (setting.hitSameTarget && Time.time > tResetVictim)
           {
-               // reset victim list? so we can hit them again
-               if (setting.hitSameTarget && Time.time > tResetVictim)
-               {
-                    victims.Clear();
-                    tResetVictim = -1;
-               }
-
-               Move();
-               HandleCollision();
-
+               victims.Clear();
+               tResetVictim = -1;
           }
-          else if (inUse && setting.isHoming)
+
+
+          // move
+          if (!setting.isHoming)
+          {
+               Move();
+          }
+          else
           {
                //Debug.Log("DSA");
                _pos0 = transform.position;
@@ -84,8 +90,11 @@ public class Projectile : MonoBehaviour
                          }
                     }
                }
-               HandleCollision();
           }
+
+          // collide
+          HandleCollision();
+
      }
 
 
@@ -98,7 +107,7 @@ public class Projectile : MonoBehaviour
           enabled = true;
           gameObject.SetActive(true);
 
-          inUse = true;
+          isMoving = true;
 
           tDespawn = Time.time + setting.range / setting.speed;
 
@@ -231,7 +240,7 @@ public class Projectile : MonoBehaviour
                return;
 
           // stick to wall or enemy
-          inUse = false;
+          isMoving = false;
           velocity = Vector3.zero;
 
           if (!isWall)
@@ -318,7 +327,7 @@ public class Projectile : MonoBehaviour
      public void EndOfUse()
      {
           if (log) Debug.Log("EndOfUse()");
-          inUse = false;
+          isMoving = false;
           gameObject.SetActive(false);
 
           victims.Clear();
@@ -339,6 +348,8 @@ public class Projectile : MonoBehaviour
           Gizmos.color = Color.red;
           Gizmos.DrawWireSphere(transform.position, colliderRadius);
      }
+
+
 
      //Homing -------------------------------------------------------------------
      IEnumerator Homing()

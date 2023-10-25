@@ -20,7 +20,6 @@ public class PlayerMovement : MonoBehaviour
     [Header("Physics")]
     public float fallRate = 1f;
     public float jumpHeight = 7f;
-    private float gravity = -9.81f;
     private bool isGrounded; //is the player on the ground?
     private float upVelocity = -1f; //controls the up vector of player movement (positive to jump, negative to fall)
 

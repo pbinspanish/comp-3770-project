@@ -3,10 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using Unity.IO.LowLevel.Unsafe;
+using UnityEditor.Experimental.GraphView;
 
 
-[RequireComponent(typeof(NPCController))]
+[RequireComponent(typeof(NetworkChara))]
+[RequireComponent(typeof(HPComponent))]
 public class AIBrain : MonoBehaviour
 {
 
@@ -15,136 +16,194 @@ public class AIBrain : MonoBehaviour
      // 2) the order of AIState matters, 
 
      // debug
-     public string curState__;
      public bool log;
-     public bool TEST_inUse;
+     public bool AI_in_use = true;
 
-     // setting
-     public float alarmRange = 20; //how far will AI spot you?
+     [Header("Setting")]
+     public float spot_range = 20; //how far will AI spot you?
+     public float alert_nearby = 20; // alert nearby ally when spot enemy
 
      // private
-     List<AIState> stateList;
+     HPComponent hp;
+     List<AIState> states;
      AIState current;
+     bool hasAlert;
+     bool isAlive { get => hp.hp > 0; }
 
 
      void Awake()
      {
-          stateList = new List<AIState>(GetComponents<AIState>());
+          states = new List<AIState>();
+          states.AddRange(GetComponents<AIState>()); //find all state
+
+          hp = GetComponent<HPComponent>();
+          hp.On_death_blow += Die;
+
+          //check
+          Debug.Assert(states.Count > 0);
      }
 
      void Update()
      {
-          if (TEST_inUse)
+          if (AI_in_use)
           {
-               listUpdated = false;
-               UpdateState();
+               _new = false;
+               _sort = false;
+               Update_state();
           }
-     }
-
-     // Utility ----------------------------------------------------------------------
-     public bool hasTarget
-     {
-          get => knownEnemy.Count > 0 || TargetList.Count > 0;
-     }
-
-     Dictionary<NetworkChara, int> knownEnemy = new Dictionary<NetworkChara, int>(); //the int is not in use yet, maybe do a Hate list?
-     bool listUpdated;
-     List<(NetworkChara, float)> _targetList = new List<(NetworkChara, float)>();
-     public List<(NetworkChara, float)> TargetList
-     {
-          get
-          {
-               if (!listUpdated)
-               {
-                    listUpdated = true;
-                    _targetList.Clear();
-                    foreach (NetworkChara chara in NetworkChara.list)
-                    {
-                         if (!chara.isPlayer)
-                              continue;
-
-                         var dist = Vector3.Distance(transform.position, chara.transform.position);
-                         if (dist > alarmRange)
-                              continue;
-
-                         _targetList.Add((chara, dist));
-
-                         if (!knownEnemy.ContainsKey(chara))
-                              knownEnemy.Add(chara, 0);
-                    }
-               }
-
-               return _targetList;
-          }
-     }
-
-     public NetworkChara GetTarget_Closest()
-     {
-          if (TargetList.Count > 0)
-          {
-               return TargetList.OrderBy(x => x.Item2).First().Item1;
-          }
-          else
-          {
-               foreach (var target in knownEnemy)
-                    return target.Key; //we can't do Dictionary[0], so just give a random one
-          }
-
-          return null;
-     }
-
-     public NetworkChara GetTarget_Furthest(float maxRange)
-     {
-          TargetList.OrderBy(x => x.Item2); //this will refresh list of known
-          knownEnemy.OrderBy(x => Vector3.Distance(transform.position, x.Key.transform.position)); //know we just shuffle the know
-
-          if (knownEnemy.Count > 0)
-               return knownEnemy.Last().Key;
-
-          return null;
      }
 
 
      // state machine ----------------------------------------------------------------------
 
-     void UpdateState()
+     void Update_state()
      {
-          curState__ = "CurState = " + current;
+          AIState next = Decide_next_state();
 
-          AIState next = DecideNextState();
-
-          // idle?
-          if (next == null)
-               return;
-
-          // change state?
-          if (current != next)
+          // alert near by ally
+          if (!hasAlert && targets.Count > 0)
           {
-               current.OnExit();
-               current = next;
-               current.OnEnter();
+               hasAlert = true;
+               Alert_nearby();
           }
 
-          // update
-          current.UpdateState();
+          if (next == null)
+          {
+               current = null; // idle
+          }
+          else
+          {
+               // change state?
+               if (current != next)
+               {
+                    if (current)
+                         current.OnExit();
+                    current = next;
+                    current.OnEnter();
+               }
+
+               // update
+               current.UpdateState();
+          }
      }
 
-     AIState DecideNextState()
+     AIState Decide_next_state()
      {
-          foreach (var state in stateList)
+          foreach (var state in states)
                if (state.IsValid())
                     return state;
 
           return null; // = idle
      }
 
-     void OnDrawGizmosSelected()
+
+     // target util  ----------------------------------------------------------------------
+     public List<AITargetData> targets { get => Update_targets(); }
+     List<AITargetData> _targets = new List<AITargetData>();
+     bool _new;
+
+     List<AITargetData> Update_targets()
      {
-          Gizmos.color = Color.yellow;
-          Gizmos.DrawWireSphere(transform.position, alarmRange);
+          if (!_new)
+          {
+               _new = true;
+
+               foreach (var chara in HPComponent.all)
+               {
+                    // hostile?
+                    if (hp.IsFriend(chara.isPlayer))
+                         continue;
+
+                    // too far?
+                    var dist = Vector3.Distance(transform.position, chara.transform.position);
+                    if (dist > spot_range)
+                         continue;
+
+                    // add to list
+                    var data = _targets.Find(x => x.hp == chara);
+
+                    if (data == null)
+                    {
+                         data = new AITargetData();
+                         data.hp = chara;
+                         _targets.Add(data);
+                    }
+
+                    data.dist = dist;
+               }
+          }
+          return _targets;
+     }
+
+     bool _sort;
+     public AITargetData Get_target(bool true_closest___false_furthest = true)
+     {
+          if (targets.Count == 0)
+               return null;
+
+          if (!_sort)
+          {
+               _sort = true;
+               targets.OrderBy(x => x.dist);
+          }
+
+          return true_closest___false_furthest ? targets[0] : targets[targets.Count - 1];
      }
 
 
+
+     // die  ----------------------------------------------------------------------
+     void Die()
+     {
+          AI_in_use = false;
+     }
+
+
+     // alert ally  ----------------------------------------------------------------------
+
+     void Alert_nearby()
+     {
+          Debug.Log("Yeeeha! " + gameObject.name);
+     }
+
+
+     // TEST move and rorate ---------------------------------------------------------------------
+     // replace with navmash later
+     public float moveSpeed = 10f;
+     public float rotateSpeed = 100f;
+
+     public void TEST_Move_towards(Transform target, float range, float speedPct = 1f)
+     {
+          if (moveSpeed == 0)
+               return;
+          if (Vector3.Distance(target.position, transform.position) < range)
+               return;
+
+          transform.position = Vector3.MoveTowards(
+               transform.position,
+               target.position,
+               moveSpeed * speedPct * Time.deltaTime);
+     }
+
+     public void TEST_Rotate_towards(Transform target)
+     {
+          if (rotateSpeed == 0)
+               return;
+
+          var dir = target.position - transform.position;
+          dir.y = 0;
+          var rot = Quaternion.LookRotation(dir);
+          transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, rotateSpeed * Time.deltaTime);
+     }
+
+
+     // debug  ----------------------------------------------------------------------
+
+     void OnDrawGizmosSelected()
+     {
+          Gizmos.color = Color.yellow;
+          Gizmos.DrawWireSphere(transform.position, spot_range);
+     }
 
 }
 

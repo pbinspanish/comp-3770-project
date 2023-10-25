@@ -49,7 +49,6 @@ public class ProjectileEntry : ScriptableObject
      [Header(" - AoE")]
      public bool hitSameTarget = false; // can we hit any same targets repeatedly? eg. a fire wall
      public float hitSameTargetEvery = 1000; //ms
-     //public ExpireMode despawnMode = ExpireMode.Explode;
 
 
      [Header(" - Visual")]

@@ -2,72 +2,94 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.ProBuilder;
 
 
 /// <summary>
-/// Not the AI. But control movement of head and body
+/// Not AI. But control hydra's head and body
 /// </summary>
 [ExecuteInEditMode]
 public class Hydra : MonoBehaviour
-
 {
-     public bool gizmos;
-     public List<Transform> list; //in between head & root
-     public float max_dist = 10f;
-     Transform head { get => list[0]; } //will bite
-     Transform root { get => list[list.Count - 1]; } //not moving
+     public bool gizmos; //debug
+
+     public Transform mouth; // AI will move this part around
+     public Transform head; // the fist spine, follows the mouth with a offset
+     public Transform root; // the last spine, not moving
+     public float max_dist = 20f;
+
+     public List<Transform> bodys; //everything in between
+
 
      void Awake()
      {
-          list = new List<Transform>();
-
-          foreach (Transform child in transform)
-               list.Add(child);
-
-          if (list.Count < 3)
-          {
-               Debug.LogError("must contain at least 3 children : head + body(s) + root");
-               enabled = false;
-          }
+          Init();
      }
 
-     void OnValidate() //for editor
+     void LateUpdate()
      {
-          list = new List<Transform>();
-          foreach (Transform child in transform)
-               list.Add(child);
-     }
-
-     void Update()
-     {
-          Constrain_head();
+          Constrain_movement();
           Update_body();
      }
 
-     void Constrain_head()
+     void Init()
      {
-          var dist = Vector3.Distance(head.position, root.position);
+          bodys = new List<Transform>();
+          bodys.AddRange(transform); //add all children
 
-          if (dist > max_dist)
+          bodys.Remove(mouth);
+          bodys.Remove(head);
+          bodys.Remove(root);
+
+
+          if (bodys.Count < 3)
+               Debug.LogError("must have >= 3 children : head -> body(s) -> root");
+     }
+
+
+     // constrain head  -----------------------------------------------------------------------------------------
+
+     void Constrain_movement()
+     {
+          if (Vector3.Distance(mouth.position, root.position) > max_dist)
           {
-               var dir = head.position - root.position;
-               head.position = root.position + dir.normalized * max_dist;
+               var dir = mouth.position - root.position;
+               mouth.position = root.position + dir.normalized * max_dist;
           }
      }
 
 
-     public float lerp_strength = 2f;
+     // body move to catch up  -----------------------------------------------------------------------------------------
+     public float catch_up_lerp = 1.5f; //curve the body movement
+     public float suspend_after = 0.1f; //suspend the body curve after X sec
+     Vector3 pos0;
+     float tLastHeadMove;
 
      void Update_body()
      {
-          for (int i = 1; i < list.Count - 1; i++) //skip head & root
+          if (pos0 != mouth.position)
           {
-               var desiredPos = Vector3.Lerp(head.position, root.position, (float)i / (list.Count - 1));
-
-               var lerp = Mathf.Pow(lerp_strength, (list.Count - i)); //power seems most snake-like
-
-               list[i].position = Vector3.Lerp(list[i].position, desiredPos, lerp * Time.deltaTime);
+               pos0 = mouth.position;
+               tLastHeadMove = Time.time;
           }
+
+          if (Time.time < tLastHeadMove + suspend_after)
+               for (int i = 0; i < bodys.Count; i++)
+               {
+                    var desiredPos = Vector3.Lerp(head.position, root.position, (float)(i + 1) / (bodys.Count + 1));
+                    //in the lerp, both i and count +=1 because head is before bodys, and root is after bodys
+
+                    var lerp = Mathf.Pow(catch_up_lerp, (bodys.Count - i)); //power seems most snake-like
+
+                    bodys[i].position = Vector3.Lerp(bodys[i].position, desiredPos, lerp * Time.deltaTime);
+               }
+     }
+
+
+     // debug  -----------------------------------------------------------------------------------------
+     void OnValidate()
+     {
+          Init();
      }
 
      void OnDrawGizmos()
@@ -78,11 +100,13 @@ public class Hydra : MonoBehaviour
           Gizmos.color = Color.yellow;
           Gizmos.DrawWireSphere(root.position, max_dist);
 
-          for (int i = 1; i < list.Count; i++)
+          for (int i = 1; i < bodys.Count; i++)
           {
-               Gizmos.DrawLine(list[i].position, list[i - 1].position);
+               Gizmos.DrawLine(bodys[i].position, bodys[i - 1].position);
           }
      }
+
+
 
 
 

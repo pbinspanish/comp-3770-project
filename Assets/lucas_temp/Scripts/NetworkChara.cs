@@ -12,26 +12,21 @@ using UnityEngine.ProBuilder.MeshOperations;
 /// Controlled by owner, smooth movement on non-owner.
 /// Must attach to and spawn with the player/enemy GameObject.
 /// </summary>
-[RequireComponent(typeof(HPComponent))]
 public class NetworkChara : NetworkBehaviour
 {
 
-     // setup before use
-     [Header("Player")]
-     public bool isPlayer;
-     public bool isEnemy = true;
-
+     // public static
+     public static NetworkChara myChara; //charactor of this cliant
 
      // public
-     public static NetworkChara myChara; //ref for client's charactor
-     public static List<NetworkChara> list = new List<NetworkChara>(); //include player and enemy
-     public Rigidbody rb { get; private set; } //to control this charactor
+     public Rigidbody rb { get; private set; } //for controller
      public Collider col { get; private set; }
 
      // private
      NetworkVariable<Vector3> netPos = new(writePerm: NetworkVariableWritePermission.Owner);
      NetworkVariable<Quaternion> netRot = new(writePerm: NetworkVariableWritePermission.Owner);
      bool isSpawned;
+     HPComponent hp;
 
 
      // init ---------------------------------------------------------------------------------
@@ -39,34 +34,26 @@ public class NetworkChara : NetworkBehaviour
      {
           rb = GetComponent<Rigidbody>();
           col = GetComponent<Collider>();
+          hp = GetComponent<HPComponent>();
 
-          if (IsOwner && isPlayer)
+          if (hp != null && hp.isPlayer && IsOwner)
                if (myChara == null)
                     myChara = this;
                else
                     Debug.LogError("There should be only one player chara");
 
-          if (isPlayer)
-               gameObject.layer = LayerMask.NameToLayer("Player");
-          else if (isEnemy)
-          {
-               gameObject.layer = LayerMask.NameToLayer("Enemy");
-               GetComponentInParent<HPComponent>().On_death_blow += TEST_BecomeRagdoll; //just for fun
-          }
-
-          list.Add(this);
-
           isSpawned = true;
+
      }
      public override void OnNetworkDespawn()
      {
           if (IsOwner && myChara == this)
                myChara = null;
 
-          list.Remove(this);
-
           isSpawned = false;
+
      }
+
 
      void FixedUpdate()
      {
@@ -92,7 +79,7 @@ public class NetworkChara : NetworkBehaviour
      Vector3 _vel;
      SmoothSetting setting { get => SmoothSetting.inst; }
      Vector3 pos { get => transform.position; set => transform.position = value; }
-     float speedCap { get => isPlayer ? PlayerStatus.singleton.maxValocity : float.MaxValue; }
+     float speedCap { get => hp != null ? hp.isPlayer ? PlayerStatus.singleton.maxValocity : float.MaxValue : float.MaxValue; }
 
 
      void UpdateRot()
@@ -128,18 +115,6 @@ public class NetworkChara : NetworkBehaviour
           }
      }
 
-
-     // fun for NPC --------------------------------------------------------------------------------------------
-     void TEST_BecomeRagdoll()
-     {
-          var rb = GetComponent<Rigidbody>();
-
-          if (rb)
-          {
-               rb.constraints = 0; //80 = freezeXZ, 0 = no contraint
-               rb.mass /= 2f;
-          }
-     }
 
 
      // debug --------------------------------------------------------------------------------------------
