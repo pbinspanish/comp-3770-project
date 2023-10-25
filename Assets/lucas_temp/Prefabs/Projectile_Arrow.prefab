@@ -51,6 +51,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colliderRadius: 0.15
+  damageRadius: 0.15
+  wallCollideRadius: 0.15
   launcher: {fileID: 0}
 --- !u!1 &941370922707747247
 GameObject:

@@ -150,12 +150,6 @@ public class ProjectileLauncher : NetworkBehaviour
           public float delay;
           public string launcherLayer;
 
-          //    if a spell has not projectile,
-          //    but ONLY targets ground
-          //    then use the ground pos, which mask the visual latency of other clients
-          //    (but I probably should have a static ground spell class???)
-          //public Vector3 targetGroundPos; //TODO: maybe?
-
           void INetworkSerializable.NetworkSerialize<T>(BufferSerializer<T> serializer)
           {
                serializer.SerializeValue(ref originClientID);
@@ -163,8 +157,6 @@ public class ProjectileLauncher : NetworkBehaviour
                serializer.SerializeValue(ref dir);
                serializer.SerializeValue(ref delay);
                serializer.SerializeValue(ref launcherLayer);
-
-               //serializer.SerializeValue(ref targetGroundPos);
           }
      }
 

@@ -28,8 +28,8 @@ public class ProjectileEntry : ScriptableObject
      [Header(" - Launching")]
      public TriggerMode triggerMode = TriggerMode.KeyDown;
      public float delay = 0; //ms before launch
-     public float capSpeedOnDelay = -1; //move slower during delay, currently only apply to player
      public float cooldown = 20; //ms before launch again
+     public float capSpeedOnDelay = -1; //move slower during delay, currently only apply to player
 
 
      [Header(" - Force")]
@@ -63,36 +63,12 @@ public class ProjectileEntry : ScriptableObject
      public bool hitFoe = true;
      public bool hitFriend = false;  // use object's layer (player/enemy) as its team
      public bool hitSoftTerrain = true; // destroy-able floor or wall
+     public bool isHeal = false;
 
 
      [Range(0, 89)] public float maxUpwardsAgnle = 30;
      [Range(0, 89)] public float maxDownwardsAgnle = 0; //can we fire up/downwards?
      public int preheatPool = 0; // lag less when we use it. TODO: does this really help?
-
-
-
-     //// not setting  ---------------------------------------------------------------------------------
-     //[HideInInspector] public int allMask;
-     //[HideInInspector] public int targetMask;
-     //[HideInInspector] public int wallMask;
-
-     //public void InitLayerMask()
-     //{
-     //     targetMask = wallMask = allMask = 0;
-
-
-     //     friendlyFire
-
-     //     if (hitEnemy) targetMask |= LayerMask.GetMask("Enemy");
-     //     if (friendlyFire) targetMask |= LayerMask.GetMask("Player");
-     //     if (hitWall) wallMask |= LayerMask.GetMask("Default");
-     //     if (hitSoftWall)
-
-     //          TerrainWithHP
-
-     //     allMask |= targetMask;
-     //     allMask |= wallMask;
-     //}
 
 
 }
@@ -110,11 +86,5 @@ public enum ForceDir
      Foward, //eg. push or pull target, using projectile's forward direction
      AwayFromCenter, //eg. push away or suck in target, RELATIVE to the projectile center
 }
-
-//public enum ExpireMode
-//{
-//     Despawn,
-//     Explode, //for AOE
-//}
 
 

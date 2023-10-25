@@ -36,15 +36,15 @@ public class LayerMaskUtil
      }
 
 
-     public static int get_all_mask(ProjectileEntry setting, string launcherLayer)
-     {
-          int mask = 0; // = target_mask + wall
+     //public static int get_all_mask(ProjectileEntry setting, string launcherLayer)
+     //{
+     //     int mask = 0; // = target_mask + wall
 
-          mask |= get_target_mask(setting, launcherLayer);
-          mask |= wall_mask;
+     //     mask |= get_target_mask(setting, launcherLayer);
+     //     mask |= wall_mask;
 
-          return mask;
-     }
+     //     return mask;
+     //}
 
 
 }

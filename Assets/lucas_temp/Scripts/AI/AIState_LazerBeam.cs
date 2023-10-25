@@ -99,17 +99,12 @@ public class AIState_LazerBeam : AIState
           for (int i = 0; i < count; i++)
           {
                var hpClass = _cache[i].GetComponent<HPComponent>();
-               hpClass.Damage_or_heal(-lazerDamage);
+               hpClass.Damage(lazerDamage);
 
                tNextHit = Time.time + minHitInterval;
           }
      }
 
-
-     //public override void FixedUpdateState()
-     //{
-     //     //
-     //}
 
      public override void OnExit()
      {

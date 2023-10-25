@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 
 /// <summary>
@@ -99,15 +100,26 @@ public class HPComponent : NetworkBehaviour
 
      // damage or heal  ----------------------------------------------------------------------------
 
-     public void Damage_or_heal(float delta, string damageType = "")
+     public void Damage(int value, string damageType = "")
      {
-          Debug.Assert(delta != 0);
-
-          //delta: damage is - , healing is +
           var data = new DamageHealPacket();
-          data.delta = Mathf.FloorToInt(delta * GetDamageTypeCoefficient(damageType) / 100f);
+          data.delta = Mathf.FloorToInt(value * GetDamageTypeCoefficient(damageType) / 100f);
+          data.delta = -Mathf.Clamp(data.delta, 1, int.MaxValue); //damage is -
 
           Damage_or_heal_ServerRPC(data);
+
+          //check
+          Debug.Assert(value > 0);
+     }
+     public void Heal(int value)
+     {
+          var data = new DamageHealPacket();
+          data.delta = value;
+
+          Damage_or_heal_ServerRPC(data);
+
+          //check
+          Debug.Assert(value > 0);
      }
 
      [ServerRpc(RequireOwnership = false)]

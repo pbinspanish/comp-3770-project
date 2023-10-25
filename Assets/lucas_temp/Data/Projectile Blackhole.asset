@@ -19,14 +19,19 @@ MonoBehaviour:
   range: 30
   damage: 1
   dmgRandomRange: 0
-  maxHit: 1
+  maxHit: -1
   triggerMode: 0
   delay: 1200
-  capSpeedOnDelay: 1.5
   cooldown: 3000
+  capSpeedOnDelay: 1.5
   forceFwdUp: {x: -50, y: 150}
   forceDirection: 1
   smoothForce: 0
+  isHoming: 0
+  homingDetect: 10
+  homingSpeed: 11
+  homingRotateSpeed: 5
+  homingDelay: 0
   hitSameTarget: 1
   hitSameTargetEvery: 500
   spawnFwdUp: {x: 0, y: 2}
@@ -34,12 +39,10 @@ MonoBehaviour:
   recycleVFX: 2
   stickToTarget: 0
   stickToWall: 0
-  hitEnemy: 1
-  hitWall: 0
-  hitPlayer: 0
+  hitFoe: 1
+  hitFriend: 0
+  hitSoftTerrain: 1
+  isHeal: 0
   maxUpwardsAgnle: 0
   maxDownwardsAgnle: 0
   preheatPool: 0
-  allMask: 2048
-  targetMask: 2048
-  wallMask: 0

@@ -20,13 +20,13 @@ public class Projectile : MonoBehaviour
 
      // public
      [Header("Setting")]
-     public float colliderRadius = 1.5f;
+     public float damageRadius = 1.5f;
 
 
      // private
      ProjectileEntry setting { get => launcher.setting; }
      [HideInInspector] public ProjectileLauncher launcher;
-     bool isMoving = false; //if not inUse, then it won't move/collide, only wait for despawn
+     bool isMovingAndColliding = false; //if not inUse, then it won't move/collide, only wait for despawn
      float tDespawn;
      List<GameObject> victims = new List<GameObject>();
      ulong originClientID;
@@ -50,7 +50,7 @@ public class Projectile : MonoBehaviour
                return;
           }
 
-          if (!isMoving)
+          if (!isMovingAndColliding)
                return; //eg. I'm stuck to enemy
 
 
@@ -98,16 +98,14 @@ public class Projectile : MonoBehaviour
      }
 
 
-
      // fire ---------------------------------------------------------------------------------
      public void Fire(Vector3 start, Vector3 dir, string launcherLayer, ulong originClientID)
      {
-          SetupCollisionLayer(launcherLayer);
 
           enabled = true;
           gameObject.SetActive(true);
 
-          isMoving = true;
+          isMovingAndColliding = true;
 
           tDespawn = Time.time + setting.range / setting.speed;
 
@@ -119,21 +117,13 @@ public class Projectile : MonoBehaviour
           transform.position = start;
           transform.rotation = Quaternion.LookRotation(dir);
 
-          velocity = dir.normalized * setting.speed;
+          targetMask = LayerMaskUtil.get_target_mask(setting, launcherLayer); // setup collision mask
 
-          //_distPerFrame = setting.speed * Time.fixedDeltaTime; //cache speed
+          velocity = dir.normalized * setting.speed;
 
           foreach (var particle in GetComponentsInChildren<ParticleSystem>())
                particle.Play();
 
-     }
-
-     int allMask;
-     int targetMask;
-     void SetupCollisionLayer(string launcherLayer)
-     {
-          targetMask = LayerMaskUtil.get_target_mask(setting, launcherLayer);
-          allMask = LayerMaskUtil.get_all_mask(setting, launcherLayer);
      }
 
 
@@ -148,29 +138,31 @@ public class Projectile : MonoBehaviour
 
 
      // detect collision ---------------------------------------------------------------------------------
-     Collider[] _cache = new Collider[20];
+     Collider[] _cache = new Collider[50];
      Vector3 _pos0; //cache
      int _hitCount;
      float tResetVictim;
+     int targetMask;
 
      void HandleCollision()
      {
-          // detect collision
-          int count = Physics.OverlapCapsuleNonAlloc(_pos0, transform.position, colliderRadius, _cache, allMask);
+          // detect wall
+          var hitWall = Physics.Raycast(_pos0, transform.position - _pos0, setting.speed * Time.fixedDeltaTime, LayerMaskUtil.wall_mask);
+          if (hitWall)
+          {
+               OnHitVFX();
+               StuckToObject(null);
+               return; //end of use
+          }
 
-          // loop through all hits
+
+          // detect target
+          int count = Physics.OverlapCapsuleNonAlloc(_pos0, transform.position, damageRadius, _cache, targetMask);
+
           for (int i = 0; i < count; i++)
           {
                Collider other = _cache[i];
                int otherMask = 1 << other.gameObject.layer; //layer of the thing we hit, to layerMask
-
-               // if wall
-               if ((otherMask & LayerMaskUtil.wall_mask) != 0)
-               {
-                    OnHitVFX(other.gameObject);
-                    StuckToObject(other.transform, true);
-                    return; //end of use
-               }
 
                // if target
                if ((otherMask & targetMask) != 0)
@@ -187,15 +179,15 @@ public class Projectile : MonoBehaviour
                     if (setting.smoothForce)
                          Knock(other.gameObject, true);
 
-                    // throwing dead enemy around
-                    if (hpClass.hp == 0)
-                         Knock(other.gameObject, true);  // it looks cooler, if we apply constant force, even if setting = instant force
 
-                    // the dead don't block bullet or take damage
                     if (hpClass.hp == 0)
-                         continue;
+                    {
+                         Knock(other.gameObject, true); // throwing dead enemy around
+                         continue; // dead don't block bullet or take damage
+                    }
 
-                    // same for victim
+
+                    // victim don't block bullet or take damage
                     if (victims.Contains(other.gameObject))
                          continue;
 
@@ -208,7 +200,7 @@ public class Projectile : MonoBehaviour
                          Knock(other.gameObject);
 
                     Damage(other.gameObject);
-                    OnHitVFX(other.gameObject);
+                    OnHitVFX();
 
 
                     // reset victim list?
@@ -217,7 +209,7 @@ public class Projectile : MonoBehaviour
 
 
                     // finally
-                    if (_hitCount >= setting.maxHit)
+                    if (setting.maxHit > 0 && _hitCount >= setting.maxHit)
                     {
                          StuckToObject(other.transform);
                          return; //end of use
@@ -228,31 +220,26 @@ public class Projectile : MonoBehaviour
 
      }
 
-     void StuckToObject(Transform target, bool isWall = false)
+     void StuckToObject(Transform target)
      {
-          if (!target)
-          {
-               Debug.LogError("");
-               return;
-          }
-
-          if (setting.stickToTarget <= 0)
-               return;
+          //if (setting.stickToTarget <= 0)
+          //     return;
 
           // stick to wall or enemy
-          isMoving = false;
-          velocity = Vector3.zero;
+          isMovingAndColliding = false;
+          tDespawn = Time.fixedTime + (target == null ? setting.stickToWall : setting.stickToTarget);
 
-          if (!isWall)
-               transform.parent = target;
 
-          tDespawn = Time.fixedTime + (isWall ? setting.stickToWall : setting.stickToTarget);
+          //velocity = Vector3.zero;
+
+          if (target)
+               transform.parent = target;  // stick to enemy
      }
 
 
      // on hit ---------------------------------------------------------------------------------
 
-     void OnHitVFX(GameObject target) //visual effect
+     void OnHitVFX() //visual effect
      {
           if (log) Debug.Log("OnHitVFX()");
 
@@ -283,16 +270,16 @@ public class Projectile : MonoBehaviour
                return;
 
           // absolute value
-          int abs = Mathf.Abs(setting.damage) + Random.Range(-setting.dmgRandomRange, setting.dmgRandomRange + 1);
-          abs = Mathf.Clamp(abs, 1, int.MaxValue);
+          int value = setting.damage + Random.Range(-setting.dmgRandomRange, setting.dmgRandomRange + 1);
 
           // damage or heal
-          int sign = setting.damage > 0 ? -1 : 1; //yes, damage is -
-          int damageOrHeal = abs * sign;
+          var hp = target.GetComponent<HPComponent>();
 
+          if (setting.isHeal)
+               hp.Heal(value);
+          else
+               hp.Damage(value);
 
-          var hpClass = target.GetComponent<HPComponent>();
-          hpClass.Damage_or_heal(damageOrHeal);
      }
 
 
@@ -327,7 +314,7 @@ public class Projectile : MonoBehaviour
      public void EndOfUse()
      {
           if (log) Debug.Log("EndOfUse()");
-          isMoving = false;
+          isMovingAndColliding = false;
           gameObject.SetActive(false);
 
           victims.Clear();
@@ -343,12 +330,12 @@ public class Projectile : MonoBehaviour
           if (Application.isPlaying)
           {
                Gizmos.color = Color.blue;
-               Gizmos.DrawWireSphere(_pos0, colliderRadius);
+               Gizmos.DrawWireSphere(_pos0, damageRadius);
           }
-          Gizmos.color = Color.red;
-          Gizmos.DrawWireSphere(transform.position, colliderRadius);
-     }
 
+          Gizmos.color = Color.red;
+          Gizmos.DrawWireSphere(transform.position, damageRadius);
+     }
 
 
      //Homing -------------------------------------------------------------------

@@ -93,7 +93,7 @@ public class AIState_NormalAttack : AIState
                     return;
 
                // business
-               hp.Damage_or_heal(-atkDamage);
+               hp.Damage(atkDamage);
 
                if (log) Debug.Log("AIState_Attack | TEST_CastSpell()");
           }
