@@ -5,28 +5,31 @@ using System.Net;
 using System.Net.Sockets;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
-using Unity.VisualScripting;
 using UnityEngine;
 
 
 public class TEST : NetworkBehaviour
 {
-
+     // static
      public static TEST inst { get { if (_inst == null) _inst = FindObjectOfType<TEST>(); return _inst; } }
+     public static Action OnConnect;
+     public static Action OnDisconnect;
+     public static bool isConnected { get; private set; }
 
-     //public
-     public bool quickTest = false;
-     public Action on_game_start;
-     public Action on_game_end;
+     // public
+     public bool quickStart = false;
+     public bool clientHasDamageAutority = true; //TEST
 
 
-     //private
+     // private
      static TEST _inst;
      ulong clientID { get => NetworkManager.Singleton.LocalClientId; }
      PING pingClass;
 
      void Awake()
      {
+          transform.position = new Vector3(99999, 99999, 99999); //out of sight just in case we do some stupid thing
+
           _inputIP = GetLocalIPv4();
           pingClass = FindObjectOfType<PING>();
           UIDamageTextMgr.Init();
@@ -35,12 +38,11 @@ public class TEST : NetworkBehaviour
      {
           StartCoroutine(UpdateIP());
 
-          if (quickTest)
+          if (quickStart)
           {
                StartHost();
                _showGUI = false;
           }
-
      }
 
 
@@ -61,21 +63,23 @@ public class TEST : NetworkBehaviour
           SetupConnection(myIP); //for init other values, we don't use the ip part
           NetworkManager.Singleton.StartHost();
 
-          on_game_start?.Invoke();
-
+          isConnected = true;
+          OnConnect?.Invoke();
      }
      public void StartClient(string serverIPv4)
      {
           SetupConnection(serverIPv4);
           NetworkManager.Singleton.StartClient();
 
-          on_game_start?.Invoke();
+          isConnected = true;
+          OnConnect?.Invoke();
      }
      public void Shutdown()
      {
           NetworkManager.Singleton.Shutdown();
 
-          on_game_end?.Invoke();
+          isConnected = false;
+          OnDisconnect?.Invoke();
      }
 
 

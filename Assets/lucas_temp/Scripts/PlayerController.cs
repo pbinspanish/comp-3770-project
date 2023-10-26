@@ -3,7 +3,7 @@ using Unity.Netcode;
 using UnityEngine;
 
 
-[RequireComponent(typeof(PlayerStatus))]
+[RequireComponent(typeof(PlayerSetting))]
 public class PlayerController : MonoBehaviour
 {
      // get input and control PlayerChara
@@ -13,41 +13,13 @@ public class PlayerController : MonoBehaviour
      public bool enableMoveInput = true; //lose control when eg. knocked away / stunned
      public float groundedSphereCastRadius = 0.8f; //smaller then chara so bumping into wall don't count
 
-     // private
-     Rigidbody rb { get => isConnected ? NetworkChara.myChara.rb : this_rb; }
-     Collider col { get => isConnected ? NetworkChara.myChara.col : this_col; }
-     Rigidbody this_rb; //for standalone
-     Collider this_col; //for standalone
-     Camera cam;
-     bool isConnected;
-
 
      void Start()
      {
-          cam = Camera.main;
+          TEST.OnConnect += OnConnect;
+          TEST.OnDisconnect += OnDisconnect;
 
-          // subscribe
-          var admin = FindObjectOfType<TEST>();
-          if (admin != null)
-          {
-               admin.on_game_start += () => isConnected = true;
-               admin.on_game_end += () => isConnected = false;
-          }
-
-          // rb and col for standalone
-          this_rb = GetComponentInChildren<Rigidbody>();
-          this_col = GetComponentInChildren<Collider>();
-
-          if (this_rb == null)
-               this_rb = gameObject.AddComponent<Rigidbody>();
-          this_rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ; //freeze rotation
-
-          if (this_col == null)
-               this_col = gameObject.AddComponent<CapsuleCollider>();
-          var capsule = this_col as CapsuleCollider;
-          capsule.center = new Vector3(0, 1, 0);
-          capsule.height = 2;
-
+          SetupStandAlone();
      }
      void Update()
      {
@@ -60,19 +32,52 @@ public class PlayerController : MonoBehaviour
 
      void FixedUpdate()
      {
-          if (rb != null && col != null)
-          {
-               //reset flag first
-               flag_updateIsGrounded = false;
+          //reset flag first
+          flag_updateIsGrounded = false;
 
-               UpdateRotation();
-               UpdatePosition();
-               UpdateJump();
-          }
-          else
-          {
-               Debug.LogError("");
-          }
+          UpdateRotation();
+          UpdatePosition();
+          UpdateJump();
+
+          __isConnected = isConnected;
+     }
+
+
+     // init  ---------------------------------------------------------------------
+
+     // for network
+     Rigidbody net_rb;
+     Collider net_col;
+     bool isConnected { get => TEST.isConnected; }
+     public bool __isConnected;
+
+     void OnConnect()
+     {
+          net_rb = NetworChara.myChara.GetComponent<Rigidbody>();
+          net_col = NetworChara.myChara.GetComponent<Collider>();
+     }
+     void OnDisconnect()
+     {
+          //
+     }
+
+     // for standalone 
+     Rigidbody this_rb; //for standalone
+     Collider this_col; //for standalone
+     void SetupStandAlone()
+     {
+          this_rb = GetComponentInChildren<Rigidbody>();
+          this_col = GetComponentInChildren<Collider>();
+
+          if (this_rb == null)
+               this_rb = gameObject.AddComponent<Rigidbody>();
+          this_rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ; //freeze rotation
+
+          if (this_col == null)
+               this_col = gameObject.AddComponent<CapsuleCollider>();
+          var capsule = this_col as CapsuleCollider;
+          capsule.center = new Vector3(0, 1, 0);
+          capsule.height = 2;
      }
 
 
@@ -86,7 +91,7 @@ public class PlayerController : MonoBehaviour
           //var dir = Quaternion.Euler(rot) * Vector3.forward;
           //PlayerChara.me.transform.position += dir.normalized * blinkDist;
 
-          NetworkChara.myChara.transform.position += NetworkChara.myChara.transform.rotation * Vector3.forward * blinkDist;
+          NetworChara.myChara.transform.position += NetworChara.myChara.transform.rotation * Vector3.forward * blinkDist;
 
           Debug.Log("BLINK ");
      }
@@ -119,7 +124,11 @@ public class PlayerController : MonoBehaviour
 
 
      // move -------------------------------------------------------------------------------------
-     PlayerStatus status { get => PlayerStatus.singleton; }
+     Rigidbody rb { get => isConnected ? net_rb : this_rb; }
+     Collider col { get => isConnected ? net_col : this_col; }
+     Camera cam { get => Camera.main; }
+
+     PlayerSetting status { get => PlayerSetting.inst; }
      float acc { get => isGrounded ? status.acc : status.accAirborne; }
      float maxValocity { get => isRunning ? status.maxValocityRun : status.maxValocity; }
      float jumpVelocity { get => status.jumpVelocity; }
@@ -206,7 +215,6 @@ public class PlayerController : MonoBehaviour
 
 
      // check if grounded ----------------------------------------------------------------------------
-     string[] groundLayer = { "Default", "TerrainWithHP" };
      bool isGrounded { get => UpdateIsGrounded(); set => _isGrounded = value; }
      bool _isGrounded;
      float _small = 0.01f;
@@ -222,8 +230,7 @@ public class PlayerController : MonoBehaviour
                var origin = rb.transform.position + Vector3.up * (groundedSphereCastRadius + _small); //+a small number to avoid sphere touching the ground initially (it will ignore these obj)
                var dist = groundedSphereCastRadius + _small * 2; //add 1 back, add another 1 as allowed error
                                                                  // var dist =  _small * 2; //add 1 back, add another 1 as allowed error
-               var mask = LayerMask.GetMask(groundLayer);
-               _isGrounded = Physics.SphereCast(origin, groundedSphereCastRadius, Vector3.down, out _, dist, mask);
+               _isGrounded = Physics.SphereCast(origin, groundedSphereCastRadius, Vector3.down, out _, dist, LayerMaskUtil.wall_mask);
           }
 
           return _isGrounded;

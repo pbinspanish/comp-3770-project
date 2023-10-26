@@ -12,35 +12,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9004629b820795643b0fd64a4d2399f3, type: 3}
   m_Name: Projectile ArrowTEST
   m_EditorClassIdentifier: 
-  projectile: {fileID: 187653448068468399, guid: e86a8fb92fb9015458b421efdbf46dc6,
-    type: 3}
-  clientHasAutority: 1
+  prefab: {fileID: 187653448068468399, guid: e86a8fb92fb9015458b421efdbf46dc6, type: 3}
   speed: 70
   range: 100
   damage: 100
-  dmgRandomRange: 20
   maxHit: 1
-  triggerMode: 0
-  delay: 0
-  capSpeedOnDelay: -1
-  cooldown: 20
-  forceFwdUp: {x: 33, y: 100}
-  forceDirection: 0
-  smoothForce: 0
-  hitSameTarget: 0
-  hitSameTargetEvery: 1000
+  triggerMode: 1
   spawnFwdUp: {x: 1.5, y: 2}
+  delay: 0
+  cooldown: 20
+  _delay: 0
+  _cooldown: 20
+  forceFwdUp: {x: 33, y: 100}
+  forceDirection: 1
+  smoothForce: 0
+  isHoming: 0
+  homingDetect: 10
+  homingSpeed: 11
+  homingRotateSpeed: 5
+  homingDelay: 0
+  stickToTarget: 30
+  stickToWall: 30
   onHitVFX: {fileID: 5841584482562486449, guid: ce0c689300e17124294d5396a339f7c5,
     type: 3}
   recycleVFX: 2
-  stickToTarget: 30
-  stickToWall: 30
-  hitEnemy: 1
-  hitWall: 1
-  hitPlayer: 0
+  hitSameTarget: 0
+  hitSameTargetEvery: 1000
+  hitFoe: 1
+  hitFriend: 0
+  isHeal: 0
+  isSiege: 0
+  dmgRandomRange: 20
+  capSpeedOnDelay: -1
   maxUpwardsAgnle: 30
   maxDownwardsAgnle: 0
   preheatPool: 0
-  allMask: 2049
-  targetMask: 2048
-  wallMask: 1

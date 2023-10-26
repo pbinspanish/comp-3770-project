@@ -1,26 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
-using static UnityEditor.PlayerSettings;
-using static UnityEngine.Rendering.DebugUI;
 
 
 [CreateAssetMenu(menuName = "3770/UIDamageTextMgr")]
 public class UIDamageTextMgr : ScriptableObject
 {
 
-     public static UIDamageTextMgr inst { get => GetSingleton(); }
-
-     // public ---------------------------------------------------------------------------------
+     // public
      public UIDamageText prefab;
      public Color damageColor = Color.white;
+     public Color damageYouColor = Color.red;
      public Color healColor = Color.green;
      public float offset = 4.25f; //above head
      public float dynamicScale = 3;
      public int dynamicScaleAtDamage = 100; // big damage = big text
 
+
+     public static void DisplayDamageText(int value, GameObject obj, bool targetIsMe)
+     {
+          var ui = inst.pool.Get();
+          ui.Display(value, obj, Vector3.zero, GetColor(value, targetIsMe));
+     }
+     public static void DisplayDamageText(int value, Vector3 pos, bool targetIsMe)
+     {
+          var ui = inst.pool.Get();
+          ui.Display(value, null, pos, GetColor(value, targetIsMe));
+     }
 
      public static void Init()
      {
@@ -29,34 +36,17 @@ public class UIDamageTextMgr : ScriptableObject
           inst.init();
      }
 
-     public static void DisplayDamageText(int value, Vector3 pos)
-     {
-          var ui = inst.pool.Get();
-          ui.Display(value, pos);
-     }
-     public static void DisplayDamageText(int value, GameObject obj)
-     {
-          var ui = inst.pool.Get();
-          ui.Display(value, obj);
-     }
 
-     public void Example()
-     {
-          if (Input.GetKeyDown(KeyCode.Mouse0))
-          {
-               var damage = -100;
-               UIDamageTextMgr.DisplayDamageText(damage, new Vector3(0, 2, 0));
-          }
-          if (Input.GetKeyDown(KeyCode.Mouse1))
-          {
-               var heal = 100;
-               UIDamageTextMgr.DisplayDamageText(heal, new Vector3(0, 2, 0));
-          }
-     }
-
-
-     // init --------------------------------------------------------------------------------- 
+     // initial & singleton  --------------------------------------------------------------------------------- 
+     public static UIDamageTextMgr inst { get => GetSingleton(); }
      static UIDamageTextMgr _inst;
+
+     void init()
+     {
+          if (pool == null)
+               inst.InitPool();
+     }
+
      static UIDamageTextMgr GetSingleton()
      {
           if (_inst == null)
@@ -66,37 +56,9 @@ public class UIDamageTextMgr : ScriptableObject
           }
           return _inst;
      }
-     void init()
-     {
-          if (pool == null)
-               inst.InitPool();
-     }
-
-     Canvas canvas { get => inst.GetOrCreateCanvas(); }
-     Canvas _canvas;
-     Canvas GetOrCreateCanvas()
-     {
-          if (_canvas != null)
-               return _canvas;
 
 
-          // or find a ScreenSpaceOverlay canvas
-          var all = FindObjectsByType<Canvas>(FindObjectsSortMode.None);
-
-          foreach (var c in all)
-               if (c.renderMode == RenderMode.ScreenSpaceOverlay)
-                    return _canvas = c;
-
-          // or create one
-          var obj = new GameObject();
-          var newCanvas = obj.AddComponent<Canvas>();
-          newCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
-          return _canvas = newCanvas;
-
-     }
-
-
-     // pool ---------------------------------------------------------------------------------
+     // pool  ---------------------------------------------------------------------------------
      ObjectPool<UIDamageText> pool;
      void InitPool()
      {
@@ -125,5 +87,41 @@ public class UIDamageTextMgr : ScriptableObject
           pool.Release(ui);
      }
 
+
+     // UI  --------------------------------------------------------------------------------- 
+     Canvas canvas { get => inst.GetOrCreateCanvas(); }
+     Canvas _canvas;
+
+     Canvas GetOrCreateCanvas()
+     {
+          if (_canvas != null)
+               return _canvas;
+
+
+          // or find a ScreenSpaceOverlay canvas
+          var all = FindObjectsByType<Canvas>(FindObjectsSortMode.None);
+
+          foreach (var c in all)
+               if (c.renderMode == RenderMode.ScreenSpaceOverlay)
+                    return _canvas = c;
+
+          // or create one
+          var obj = new GameObject();
+          var newCanvas = obj.AddComponent<Canvas>();
+          newCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+          return _canvas = newCanvas;
+
+     }
+
+     static Color GetColor(int value, bool targetIsMe)
+     {
+          if (value > 0)
+               return inst.healColor;
+
+          if (targetIsMe)
+               return inst.damageYouColor;
+
+          return inst.damageColor;
+     }
 
 }

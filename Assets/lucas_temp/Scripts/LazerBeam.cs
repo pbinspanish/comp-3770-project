@@ -27,7 +27,8 @@ public class LazerBeam : MonoBehaviour
      {
           lazer = GetComponent<LineRenderer>();
           OnHitParticle = GetComponentInChildren<ParticleSystem>(true);
-          rayCastMask = LayerMask.GetMask("Player", "Default");
+          rayCastMask = LayerMaskUtil.Get_target_mask(CharaTeam.enemy, true, false, true);
+          rayCastMask |= LayerMaskUtil.wall_mask;
      }
      void Update()
      {

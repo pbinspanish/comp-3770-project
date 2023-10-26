@@ -2,25 +2,21 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.ProBuilder.MeshOperations;
 
 
-/// <summary>
-/// Controlled by owner, smooth movement on non-owner.
-/// Must attach to and spawn with the player/enemy GameObject.
-/// </summary>
-public class NetworkChara : NetworkBehaviour
+public class NetworChara : NetworkBehaviour
 {
 
-     // public static
-     public static NetworkChara myChara; //charactor of this cliant
+     // The physical body of a GameObject
+     // 1) sync pos / rotation
+     // 2) smooth
+     // 3) ref for player's chara
 
-     // public
-     public Rigidbody rb { get; private set; } //for controller
-     public Collider col { get; private set; }
+
+     public static NetworChara myChara; // charactor of this cliant, for player controller
+
 
      // private
      NetworkVariable<Vector3> netPos = new(writePerm: NetworkVariableWritePermission.Owner);
@@ -32,18 +28,14 @@ public class NetworkChara : NetworkBehaviour
      // init ---------------------------------------------------------------------------------
      public override void OnNetworkSpawn()
      {
-          rb = GetComponent<Rigidbody>();
-          col = GetComponent<Collider>();
           hp = GetComponent<HPComponent>();
-
-          if (hp != null && hp.isPlayer && IsOwner)
-               if (myChara == null)
-                    myChara = this;
-               else
-                    Debug.LogError("There should be only one player chara");
+          if (IsOwner && hp && hp.team == CharaTeam.player_main_chara)
+          {
+               Debug.Assert(myChara == null);
+               myChara = this;
+          }
 
           isSpawned = true;
-
      }
      public override void OnNetworkDespawn()
      {
@@ -51,7 +43,6 @@ public class NetworkChara : NetworkBehaviour
                myChara = null;
 
           isSpawned = false;
-
      }
 
 
@@ -79,7 +70,7 @@ public class NetworkChara : NetworkBehaviour
      Vector3 _vel;
      SmoothSetting setting { get => SmoothSetting.inst; }
      Vector3 pos { get => transform.position; set => transform.position = value; }
-     float speedCap { get => hp != null ? hp.isPlayer ? PlayerStatus.singleton.maxValocity : float.MaxValue : float.MaxValue; }
+     float speedCap { get => hp != null ? hp.team == CharaTeam.player_main_chara ? PlayerSetting.inst.maxValocity : float.MaxValue : float.MaxValue; }
 
 
      void UpdateRot()

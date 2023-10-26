@@ -12,37 +12,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9004629b820795643b0fd64a4d2399f3, type: 3}
   m_Name: Projectile Blackhole
   m_EditorClassIdentifier: 
-  projectile: {fileID: 2331716587167652985, guid: 9d9c4071069ec1c4f9367e56089bcb47,
-    type: 3}
-  clientHasAutority: 1
+  prefab: {fileID: 2331716587167652985, guid: 9d9c4071069ec1c4f9367e56089bcb47, type: 3}
   speed: 2
   range: 30
   damage: 1
-  dmgRandomRange: 0
   maxHit: -1
-  triggerMode: 0
+  triggerMode: 1
+  spawnFwdUp: {x: 0, y: 2}
   delay: 1200
   cooldown: 3000
-  capSpeedOnDelay: 1.5
-  forceFwdUp: {x: -50, y: 150}
-  forceDirection: 1
+  _delay: 1200
+  _cooldown: 3000
+  forceFwdUp: {x: -40, y: 110}
+  forceDirection: 2
   smoothForce: 0
   isHoming: 0
   homingDetect: 10
   homingSpeed: 11
   homingRotateSpeed: 5
   homingDelay: 0
-  hitSameTarget: 1
-  hitSameTargetEvery: 500
-  spawnFwdUp: {x: 0, y: 2}
-  onHitVFX: {fileID: 0}
-  recycleVFX: 2
   stickToTarget: 0
   stickToWall: 0
+  onHitVFX: {fileID: 0}
+  recycleVFX: 2
+  hitSameTarget: 1
+  hitSameTargetEvery: 400
   hitFoe: 1
   hitFriend: 0
-  hitSoftTerrain: 1
   isHeal: 0
+  isSiege: 1
+  dmgRandomRange: 0
+  capSpeedOnDelay: 1.5
   maxUpwardsAgnle: 0
   maxDownwardsAgnle: 0
-  preheatPool: 0
+  preheatPool: 1

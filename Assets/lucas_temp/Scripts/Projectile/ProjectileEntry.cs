@@ -3,33 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-/// <summary>
-/// Data for Projectile.
-/// </summary>
 [CreateAssetMenu(menuName = "3770/ProjectileEntry")]
 public class ProjectileEntry : ScriptableObject
 {
-
-     public Projectile projectile; //prefab
-
-
-     [Header(" - TEST")]
-     public bool clientHasAutority = false; //TEST
-
+     // data for Projectile
 
      [Header(" - Basic")]
+     public Projectile prefab;
      public float speed = 70;
      public float range = 100;
      public int damage = 1;
-     public int dmgRandomRange = 0; // -this < x < this. Randomly change damage by x
      public int maxHit = 1;
 
 
-     [Header(" - Launching")]
+     [Header(" - Launch")]
      public TriggerMode triggerMode = TriggerMode.KeyDown;
-     public float delay = 0; //ms before launch
-     public float cooldown = 20; //ms before launch again
-     public float capSpeedOnDelay = -1; //move slower during delay, currently only apply to player
+     public Vector2 spawnFwdUp = new Vector2(1.5f, 2f);
+     public int delay = 20; //ms before launch
+     public int cooldown = 20; //ms before launch again
 
 
      [Header(" - Force")]
@@ -38,7 +29,7 @@ public class ProjectileEntry : ScriptableObject
      public bool smoothForce = false;
 
 
-     [Header("Homing")]
+     [Header(" - Homing")]
      public bool isHoming;
      public float homingDetect = 10f;  //Detection range for Enemies
      public float homingSpeed = 11.0f;
@@ -46,29 +37,35 @@ public class ProjectileEntry : ScriptableObject
      public float homingDelay;
 
 
-     [Header(" - AoE")]
-     public bool hitSameTarget = false; // can we hit any same targets repeatedly? eg. a fire wall
-     public float hitSameTargetEvery = 1000; //ms
-
-
      [Header(" - Visual")]
-     public Vector2 spawnFwdUp = new Vector2(1.5f, 2f);
-     public GameObject onHitVFX; //prefab
-     public float recycleVFX = 2; //TODO: right now the strategy is auto recycle after X second 
      public float stickToTarget = 30f;
      public float stickToWall = 30f;
+     public GameObject onHitVFX; //prefab
+     public int recycleVFX = 2000; //ms, recycle after X second, TODO: maybe there is a better way?
+
+
+     [Header(" - AoE")]
+     public bool hitSameTarget = false; // can we hit the same targets repeatedly? eg. a fire wall
+     public float hitSameTargetEvery = 500; //ms
+
 
 
      [Header(" - Other")]
      public bool hitFoe = true;
      public bool hitFriend = false;  // use object's layer (player/enemy) as its team
-     public bool hitSoftTerrain = true; // destroy-able floor or wall
      public bool isHeal = false;
 
+     public bool isSiege = false; // some spell can damage soft terrain
 
-     [Range(0, 89)] public float maxUpwardsAgnle = 30;
-     [Range(0, 89)] public float maxDownwardsAgnle = 0; //can we fire up/downwards?
-     public int preheatPool = 0; // lag less when we use it. TODO: does this really help?
+     public int dmgRandomRange = 0; // -this < x < this. Randomly change damage by x
+
+     public float capSpeedOnDelay = -1; //cap move speed during firing delay, only apply to player
+
+
+     [Range(0, 89)] public float maxUpwardsAgnle = 30; //can we fire up/downwards?
+     [Range(0, 89)] public float maxDownwardsAgnle = 0;
+
+     public int preheatPool = 0; // pre heat the pool so maybe we lag less
 
 
 }
@@ -76,15 +73,15 @@ public class ProjectileEntry : ScriptableObject
 
 public enum TriggerMode
 {
-     KeyDown,
-     KeyUp,
-     FullyAuto,
+     KeyDown = 1,
+     KeyUp = 2,
+     FullyAuto = 3,
 }
 
 public enum ForceDir
 {
-     Foward, //eg. push or pull target, using projectile's forward direction
-     AwayFromCenter, //eg. push away or suck in target, RELATIVE to the projectile center
+     Foward = 1, //eg. push(+) or pull(-), using projectile's direction
+     AwayFromCenter = 2, //eg. push(+) or suck(-), RELATIVE to the projectile center
 }
 
 

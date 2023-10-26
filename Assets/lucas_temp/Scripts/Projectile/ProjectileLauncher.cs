@@ -16,13 +16,13 @@ public class ProjectileLauncher : NetworkBehaviour
 
      //publics
      public KeyCode hotkey = KeyCode.Mouse0; //replace with input system later
-     public string monitor;
+     public string debug;
      public ProjectileEntry setting;
 
 
      //private
      ulong clientID { get => NetworkManager.Singleton.LocalClientId; }
-     float tFire;
+     float tNextFire;
 
 
      void Awake()
@@ -32,9 +32,9 @@ public class ProjectileLauncher : NetworkBehaviour
      }
      void Update()
      {
-          monitor = "Pool: " + pool.CountActive + " Active | " + pool.CountAll + " Count";
+          debug = "Pool: " + pool.CountActive + " Active | " + pool.CountAll + " Count";
 
-          if (NetworkChara.myChara != null)
+          if (NetworChara.myChara != null)
           {
                HandleInput();
           }
@@ -42,7 +42,7 @@ public class ProjectileLauncher : NetworkBehaviour
 
      void HandleInput()
      {
-          if (Time.time < tFire)
+          if (Time.time < tNextFire)
                return;
 
           bool input = false;
@@ -60,28 +60,29 @@ public class ProjectileLauncher : NetworkBehaviour
                return;
 
 
-          FireProjectile("Player"); //input is exclusive from player
-
+          FireProjectile(CharaTeam.player_main_chara); //input is only from player
      }
 
+
      // fire projectile ---------------------------------------------------------------
-     public void FireProjectile(string launcherLayer = "")
+
+     public void FireProjectile(CharaTeam team)
      {
-          tFire = Time.time + setting.cooldown / 1000;
+          tNextFire = Time.time + setting.cooldown / 1000f;
 
           var data = new Packet();
           data.originClientID = clientID;
           data.delay = setting.delay;
-          data.launcherLayer = launcherLayer;
+          data.team = team;
 
           // position
-          data.fireFrom = NetworkChara.myChara.transform.position;
-          data.fireFrom += NetworkChara.myChara.transform.rotation * new Vector3(0, setting.spawnFwdUp.y, setting.spawnFwdUp.x);
+          data.fireFrom = NetworChara.myChara.transform.position;
+          data.fireFrom += NetworChara.myChara.transform.rotation * new Vector3(0, setting.spawnFwdUp.y, setting.spawnFwdUp.x);
 
 
           // direction
           data.dir = PlayerController.mouseHit
-               - NetworkChara.myChara.transform.position
+               - NetworChara.myChara.transform.position
                - new Vector3(0, setting.spawnFwdUp.y, 0); //compensate height, since we fire from hip, not from feet
 
           //gizmos_dir = data.dir; //debug
@@ -100,55 +101,66 @@ public class ProjectileLauncher : NetworkBehaviour
 
           data.dir = data.dir.normalized;
 
-          //_fire_projectile(data);
-          OnFire_ServerRPC(data);
+          _fire(data);
+          Fire_ServerRPC(data);
      }
 
-     async void _fire_projectile(Packet data, bool hasWaited = false)
+     [ServerRpc(RequireOwnership = false)]
+     void Fire_ServerRPC(Packet data)
+     {
+          Fire_ClientRPC(data);
+     }
+     [ClientRpc]
+     void Fire_ClientRPC(Packet data)
+     {
+          if (clientID != data.originClientID)
+               _fire(data);
+     }
+
+     async void _fire(Packet data)
      {
           if (data.delay > 0)
           {
-               // cap speed on origin client (others will sync pos)
-               if (setting.capSpeedOnDelay >= 0 && data.originClientID == clientID)
+               int appliedDelay = data.delay;
+
+               if (data.originClientID == clientID) //origin client
                {
-                    var controller = FindObjectOfType<PlayerController>();
-                    if (controller)
-                         controller.CapSpeed(setting.capSpeedOnDelay, data.delay / 1000);
+                    // cap speed
+                    if (setting.capSpeedOnDelay >= 0)
+                    {
+                         var controller = FindObjectOfType<PlayerController>();
+                         if (controller)
+                              controller.CapSpeed(setting.capSpeedOnDelay, data.delay / 1000);
+                    }
+               }
+               else //everyone else
+               {
+                    // it took some lantency for us to get this packet, so we can fire a bit earlier
+                    int lantency = 100; //ms, guessed
+                    if (!NetworkManager.Singleton.IsServer)
+                         lantency *= 2; //RTT x2 for other clients
+
+                    appliedDelay = Mathf.Clamp(appliedDelay - lantency, 0, int.MaxValue);
                }
 
-               // wait
-               var t = Time.time + data.delay / 1000;
-               while (Time.time < t)
-                    await Task.Yield();
+               await Task.Delay(appliedDelay);
           }
 
           // fire
           var p = pool.Get();
           p.enabled = true;
-          p.Fire(data.fireFrom, data.dir, data.launcherLayer, data.originClientID);
+          p.Fire(data.fireFrom, data.dir, data.team, data.originClientID);
 
      }
 
 
-     // RPC ---------------------------------------------------------------------------------
-     [ServerRpc(RequireOwnership = false)]
-     void OnFire_ServerRPC(Packet data)
-     {
-          OnFire_ClientRPC(data);
-     }
-     [ClientRpc]
-     void OnFire_ClientRPC(Packet data)
-     {
-          //if (clientID != data.originClientID) // everyone except the origin caller
-          _fire_projectile(data);
-     }
      struct Packet : INetworkSerializable
      {
           public ulong originClientID;
           public Vector3 fireFrom;
           public Vector3 dir;
-          public float delay;
-          public string launcherLayer;
+          public int delay;
+          public CharaTeam team;
 
           void INetworkSerializable.NetworkSerialize<T>(BufferSerializer<T> serializer)
           {
@@ -156,7 +168,7 @@ public class ProjectileLauncher : NetworkBehaviour
                serializer.SerializeValue(ref fireFrom);
                serializer.SerializeValue(ref dir);
                serializer.SerializeValue(ref delay);
-               serializer.SerializeValue(ref launcherLayer);
+               serializer.SerializeValue(ref team);
           }
      }
 
@@ -179,7 +191,7 @@ public class ProjectileLauncher : NetworkBehaviour
 
      Projectile CreateNew()
      {
-          var p = Instantiate(setting.projectile, transform);
+          var p = Instantiate(setting.prefab, transform);
           p.gameObject.SetActive(false);
           p.enabled = false;
 
@@ -199,6 +211,9 @@ public class ProjectileLauncher : NetworkBehaviour
      ObjectPool<GameObject> poolVFX;
      void InitPoolVFX()
      {
+          if (setting.onHitVFX == null)
+               return;
+
           var size = 200;
           var sizeCap = 500;
           poolVFX = new ObjectPool<GameObject>(CreateNewVFX, null, null, null, false, size, sizeCap);
@@ -228,14 +243,7 @@ public class ProjectileLauncher : NetworkBehaviour
 
      public async void PlanRecycleVFX(GameObject vfx)
      {
-          //StartCoroutine(RecycleVFX(vfx));
-
-          if (setting.recycleVFX > 0)
-          {
-               var t = Time.time + setting.recycleVFX;
-               while (Time.time < t)
-                    await Task.Yield();
-          }
+          await Task.Delay(setting.recycleVFX);
 
           vfx.SetActive(false);
           poolVFX.Release(vfx);

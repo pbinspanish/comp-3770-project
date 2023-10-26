@@ -12,7 +12,7 @@ public class NPCController : MonoBehaviour
 
 
 
-     public void TEST_MoveTowards(NetworkChara target, float reach, float speedPct = 1f)
+     public void TEST_MoveTowards(NetworChara target, float reach, float speedPct = 1f)
      {
           if (moveSpeed == 0)
                return;
@@ -25,7 +25,7 @@ public class NPCController : MonoBehaviour
                moveSpeed * speedPct * Time.deltaTime);
      }
 
-     public void TEST_RotateTowards(NetworkChara target)
+     public void TEST_RotateTowards(NetworChara target)
      {
           if (rotateSpeed == 0)
                return;

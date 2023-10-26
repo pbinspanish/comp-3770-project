@@ -9,13 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 97805024486415111}
-  - component: {fileID: 2741309332017232212}
-  - component: {fileID: 415858238824442438}
+  - component: {fileID: -3592162268800829645}
+  - component: {fileID: 6587917633594606768}
+  - component: {fileID: 747480884164551678}
   - component: {fileID: 7497088134396068365}
   - component: {fileID: 5501781927767710753}
-  - component: {fileID: -3592162268800829645}
-  - component: {fileID: -2696094992161251518}
-  - component: {fileID: -862338849232601123}
   m_Layer: 10
   m_Name: Player
   m_TagString: Untagged
@@ -39,7 +37,7 @@ Transform:
   - {fileID: 588694765804079488}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2741309332017232212
+--- !u!114 &-3592162268800829645
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -48,10 +46,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 97805024486415106}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4aa2370450b7a65419cb834c24ed2173, type: 3}
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &415858238824442438
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+--- !u!114 &6587917633594606768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 97805024486415106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0136162beda82e342942c8c2b0ea6f92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &747480884164551678
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -63,11 +81,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afc5f8b1abb81ee43b9fe9c6957f234d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TEST_SetMaxHp: 100000
-  isPlayer: 1
-  isEnemy: 0
-  VS_default: 100
-  VS_Siege: 100
+  debug: 
+  set_max_hp: 100
+  team: 10
+  requireSiegeAttack: 0
 --- !u!136 &7497088134396068365
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -118,60 +135,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 1
---- !u!114 &-3592162268800829645
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 97805024486415106}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 951099334
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
---- !u!114 &-2696094992161251518
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 97805024486415106}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea247ee5df6a383409eccd459f41431d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  acc: 80
-  accAirborne: 20
-  maxValocity: 8.8
-  maxValocityRun: 13.2
-  rotateLerp: 17.5
-  jumpVelocity: 10
-  jumpCount: 2
-  color: {r: 1, g: 0, b: 0, a: 1}
---- !u!114 &-862338849232601123
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 97805024486415106}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 506a07ed5a98cca49aff2432f43f88c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enableMoveInput: 1
-  groundedSphereCastRadius: 0.8
 --- !u!1 &588694765373002116
 GameObject:
   m_ObjectHideFlags: 0

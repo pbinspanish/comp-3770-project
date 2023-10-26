@@ -8,6 +8,7 @@ using UnityEngine;
 public class AIState_NormalAttack : AIState
 {
 
+     public bool gizmos;
      public float switchTarget = 5;
      public float tLastAttack { get; private set; } //how long have we been chasing but not attacking??
 
@@ -40,7 +41,7 @@ public class AIState_NormalAttack : AIState
                DecideTarget();
           }
 
-          brain.TEST_Rotate_towards(target.transform);
+          //brain.Rotate_towards_TEST(target.transform);
 
           bool inRange = atkRange > Vector3.Distance(transform.position, target.transform.position);
           if (isAtkReady && inRange)
@@ -49,7 +50,7 @@ public class AIState_NormalAttack : AIState
           }
           else
           {
-               brain.TEST_Move_towards(target.transform, atkRange);
+               brain.Move_towards(target.transform, atkRange);
           }
      }
 
@@ -101,6 +102,9 @@ public class AIState_NormalAttack : AIState
 
      void OnDrawGizmosSelected()
      {
+          if (!gizmos)
+               return;
+
           Gizmos.color = Color.red;
           Gizmos.DrawWireSphere(transform.position, atkRange);
      }

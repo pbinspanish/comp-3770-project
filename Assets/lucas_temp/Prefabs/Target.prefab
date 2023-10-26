@@ -341,9 +341,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 123118474145114239}
-  - component: {fileID: -6862582537063381952}
-  - component: {fileID: -6534389500668027287}
   - component: {fileID: -4176742133287296833}
+  - component: {fileID: 8386259375054029427}
+  - component: {fileID: -6534389500668027287}
   - component: {fileID: 2413194398610033754}
   - component: {fileID: 3818736101002967139}
   m_Layer: 11
@@ -372,35 +372,6 @@ Transform:
   - {fileID: 8708422663044977397}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-6862582537063381952
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9132037496341371136}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4aa2370450b7a65419cb834c24ed2173, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isPlayer: 0
-  isEnemy: 1
---- !u!114 &-6534389500668027287
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9132037496341371136}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afc5f8b1abb81ee43b9fe9c6957f234d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TEST_SetMaxHp: 20
-  VS_default: 100
-  VS_Siege: 100
 --- !u!114 &-4176742133287296833
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -421,6 +392,34 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &8386259375054029427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9132037496341371136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0136162beda82e342942c8c2b0ea6f92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-6534389500668027287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9132037496341371136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afc5f8b1abb81ee43b9fe9c6957f234d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debug: 
+  set_max_hp: 10
+  team: 20
+  requireSiegeAttack: 0
 --- !u!65 &2413194398610033754
 BoxCollider:
   m_ObjectHideFlags: 0

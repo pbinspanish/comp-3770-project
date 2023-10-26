@@ -6,6 +6,7 @@ using static UnityEngine.GraphicsBuffer;
 using UnityEngine.UI;
 using Unity.VisualScripting;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 
 /// <summary>
 /// Script attached to a projectile. Handle collision, damage, force etc.
@@ -13,26 +14,25 @@ using System.Runtime.InteropServices.WindowsRuntime;
 public class Projectile : MonoBehaviour
 {
 
-     //TODO: [TEST] currently let the firing client decide damage and knock, see how it works out
-     bool authority { get => setting.clientHasAutority ? (originClientID == clientID) : isServerObj; }
+
      bool log = false; //test
 
-
-     // public
      [Header("Setting")]
      public float damageRadius = 1.5f;
+     public ProjectileLauncher launcher { get; set; }
 
 
      // private
      ProjectileEntry setting { get => launcher.setting; }
-     [HideInInspector] public ProjectileLauncher launcher;
-     bool isMovingAndColliding = false; //if not inUse, then it won't move/collide, only wait for despawn
-     float tDespawn;
+     bool isMovingAndColliding = false; //if false, then it only wait for despawn
      List<GameObject> victims = new List<GameObject>();
-     ulong originClientID;
+     float tDespawn;
      Vector3 velocity;
+     // network
+     bool authority { get => TEST.inst.clientHasDamageAutority ? (originClientID == clientID) : NetworkManager.Singleton.IsServer; }
      ulong clientID { get => NetworkManager.Singleton.LocalClientId; }
-     bool isServerObj { get => NetworkManager.Singleton.IsServer; }
+     ulong originClientID;
+
      private GameObject Target;
 
 
@@ -99,31 +99,41 @@ public class Projectile : MonoBehaviour
 
 
      // fire ---------------------------------------------------------------------------------
-     public void Fire(Vector3 start, Vector3 dir, string launcherLayer, ulong originClientID)
-     {
+     int targetMask;
 
+     public void Fire(Vector3 start, Vector3 dir, CharaTeam team, ulong originClientID)
+     {
+          // flag
           enabled = true;
           gameObject.SetActive(true);
-
           isMovingAndColliding = true;
 
-          tDespawn = Time.time + setting.range / setting.speed;
-
+          // reset
           victims.Clear();
           _hitCount = 0;
+
+          // set up
+          tDespawn = Time.time + setting.range / setting.speed;
 
           this.originClientID = originClientID;
 
           transform.position = start;
           transform.rotation = Quaternion.LookRotation(dir);
 
-          targetMask = LayerMaskUtil.get_target_mask(setting, launcherLayer); // setup collision mask
+          targetMask = LayerMaskUtil.Get_target_mask(
+               team,
+               setting.hitFoe,
+               setting.hitFriend,
+               setting.isSiege); // collision mask
 
           velocity = dir.normalized * setting.speed;
 
+          // VFX
           foreach (var particle in GetComponentsInChildren<ParticleSystem>())
                particle.Play();
 
+          foreach (var trail in GetComponentsInChildren<TrailRenderer>())
+               trail.Clear();
      }
 
 
@@ -142,7 +152,6 @@ public class Projectile : MonoBehaviour
      Vector3 _pos0; //cache
      int _hitCount;
      float tResetVictim;
-     int targetMask;
 
      void HandleCollision()
      {
@@ -222,15 +231,9 @@ public class Projectile : MonoBehaviour
 
      void StuckToObject(Transform target)
      {
-          //if (setting.stickToTarget <= 0)
-          //     return;
-
           // stick to wall or enemy
           isMovingAndColliding = false;
           tDespawn = Time.fixedTime + (target == null ? setting.stickToWall : setting.stickToTarget);
-
-
-          //velocity = Vector3.zero;
 
           if (target)
                transform.parent = target;  // stick to enemy
@@ -269,17 +272,13 @@ public class Projectile : MonoBehaviour
           if (!authority)
                return;
 
-          // absolute value
-          int value = setting.damage + Random.Range(-setting.dmgRandomRange, setting.dmgRandomRange + 1);
+          int damageOrHeal = setting.damage + Random.Range(-setting.dmgRandomRange, setting.dmgRandomRange + 1);
 
-          // damage or heal
-          var hp = target.GetComponent<HPComponent>();
-
+          var hpClass = target.GetComponent<HPComponent>();
           if (setting.isHeal)
-               hp.Heal(value);
+               hpClass.Heal(damageOrHeal);
           else
-               hp.Damage(value);
-
+               hpClass.Damage(damageOrHeal, setting.isSiege);
      }
 
 
@@ -287,14 +286,15 @@ public class Projectile : MonoBehaviour
      {
           if (log) Debug.Log("Knock()");
 
-          if (!isServerObj)
-               return;
-          var _rb = target.GetComponent<Rigidbody>();
-          if (!_rb)
+          if (!NetworkManager.Singleton.IsServer) //sadly we can't let client handle force, Pos is sync by Server
                return;
 
-          //
-          Vector3 force = new Vector3();
+          var rb = target.GetComponent<Rigidbody>();
+          if (!rb)
+               return;
+
+          // good
+          var force = new Vector3();
           if (setting.forceDirection == ForceDir.Foward)
           {
                force = transform.forward * setting.forceFwdUp.x + Vector3.up * setting.forceFwdUp.y;
@@ -304,9 +304,21 @@ public class Projectile : MonoBehaviour
                force = (target.transform.position - transform.position).normalized * setting.forceFwdUp.x + Vector3.up * setting.forceFwdUp.y;
           }
 
-          force *= smooth ? Time.fixedDeltaTime : 1; //impulse or constantly apply
+          force *= smooth ? Time.fixedDeltaTime : 1; //impulse or constant
 
-          _rb.AddForce(force, UnityEngine.ForceMode.Force);
+          // TEST - navMeshAgent for AI
+          //var navMesh = target.GetComponent<TEST_NavMeshAgent>();
+          //if (navMesh)
+          //     navMesh.OnAddForce(force);
+
+          // TEST - new AI nevigation
+          var ai = target.GetComponent<AIBrain>();
+          if (ai)
+               ai.On_add_force();
+
+          // finally
+          rb.AddForce(force, ForceMode.Force);
+
      }
 
 

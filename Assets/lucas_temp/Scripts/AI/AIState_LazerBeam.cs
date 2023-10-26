@@ -35,7 +35,7 @@ public class AIState_LazerBeam : AIState
      {
           aiStateAttack = GetComponent<AIState_NormalAttack>();
           lazer = gameObject.GetComponentInChildren<LazerBeam>();
-          damageMask = LayerMask.GetMask("Player");
+          damageMask = LayerMaskUtil.Get_target_mask(CharaTeam.enemy, true, false, true);
      }
 
      public override bool IsValid()

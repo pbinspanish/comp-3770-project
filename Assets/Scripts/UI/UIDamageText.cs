@@ -1,14 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.ProBuilder.MeshOperations;
-using UnityEngine.UIElements;
-using static UnityEditor.PlayerSettings;
-using static UnityEngine.GraphicsBuffer;
-using static UnityEngine.Rendering.DebugUI;
-using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 
 /// <summary>
@@ -45,18 +38,12 @@ public class UIDamageText : MonoBehaviour
           }
      }
 
-     public void Display(int value, GameObject _target)
+     public void Display(int value, GameObject _target, Vector3 _pos, Color color)
      {
           target = _target; //follow gameObject
+          targetPos = _pos; //or don't move
 
-          _display(value);
-     }
-     public void Display(int value, Vector3 pos)
-     {
-          targetPos = pos; //text don't move
-          target = null;
-
-          _display(value);
+          _display(value, color);
      }
 
      float GetScale(int damageOrHealValue)
@@ -67,13 +54,15 @@ public class UIDamageText : MonoBehaviour
 
 
      // private ------------------------------------------------------------------
-     void _display(int value)
+     void _display(int value, Color color)
      {
           enabled = true;
           gameObject.SetActive(true);
 
           text.text = Mathf.Abs(value) + "";
-          text.color = value < 0 ? UIDamageTextMgr.inst.damageColor : UIDamageTextMgr.inst.healColor;
+          //text.color = value < 0 ? UIDamageTextMgr.inst.damageColor : UIDamageTextMgr.inst.healColor;
+          text.color = color;
+
           var scale = GetScale(value);
           transform.localScale = new Vector3(scale, scale, scale);
 

@@ -10,12 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 6501609292666453675}
   - component: {fileID: 2366646212000428961}
+  - component: {fileID: 4688122006013895824}
   - component: {fileID: 6891687788424362686}
   - component: {fileID: 4861375726421271171}
   - component: {fileID: 1431527495831023075}
-  - component: {fileID: 5258717110040685939}
+  - component: {fileID: 6966610005823023012}
   - component: {fileID: 3886064020759704344}
-  - component: {fileID: 2497734147969880179}
+  - component: {fileID: 9124903771375406104}
   m_Layer: 11
   m_Name: FlyingMob
   m_TagString: Untagged
@@ -59,6 +60,18 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &4688122006013895824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 24964186622298953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0136162beda82e342942c8c2b0ea6f92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6891687788424362686
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71,11 +84,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afc5f8b1abb81ee43b9fe9c6957f234d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TEST_SetMaxHp: 20
-  isPlayer: 0
-  isEnemy: 1
-  VS_default: 100
-  VS_Siege: 100
+  debug: 
+  set_max_hp: 1000
+  team: 20
+  requireSiegeAttack: 0
 --- !u!114 &4861375726421271171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88,10 +100,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2757bd439bc9fb14aa174848345401be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gizmos: 0
   log: 0
-  in_use: 1
-  spotRange: 20
-  alert_nearby_ally: 20
+  AI_in_use: 1
+  spot_range: 20
+  alert_nearby: 20
+  updatePosition: 0
+  updateRotation: 0
+  updateUpAxis: 0
   moveSpeed: 10
   rotateSpeed: 100
 --- !u!114 &1431527495831023075
@@ -106,14 +122,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9db39956ed9b95c45b130bf289a380fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gizmos: 0
   switchTarget: 5
   atkDamage: 1
   atkRange: 5
   atkCoolDown: 2.8
   atkDelay: 0.5
   atkRecover: 1.5
---- !u!135 &5258717110040685939
-SphereCollider:
+--- !u!136 &6966610005823023012
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -130,9 +147,11 @@ SphereCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 1.1
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 2
+  m_Radius: 1
+  m_Height: 3
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!54 &3886064020759704344
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -156,22 +175,32 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!114 &2497734147969880179
-MonoBehaviour:
+--- !u!195 &9124903771375406104
+NavMeshAgent:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 24964186622298953}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4aa2370450b7a65419cb834c24ed2173, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_Radius: 1.5
+  m_Speed: 10
+  m_Acceleration: 30
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 5
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &4657628493332226710
 GameObject:
   m_ObjectHideFlags: 0
@@ -199,7 +228,7 @@ Transform:
   m_GameObject: {fileID: 4657628493332226710}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.03, y: 0, z: 0}
+  m_LocalPosition: {x: -0.03, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

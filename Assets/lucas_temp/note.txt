@@ -1,41 +1,30 @@
 
-
-AI targeting
-AI->Hpcomponent.OnDeath
-NetworkChara:
-	update movement
-	update HP
-
-
-siege damage!
-
-
-NetworkMover: update pos
-NetworkCreature: HP, is player/enemy, IFF(other)
+intereact of Destroy() and OnNetworkDespawn() ??
 
 
 
+AI navmesh
+	Set avoidance priority to a small (high priority), to allow brush through crowds
+	how about de-coupling agent & transform? sounds slightly nicer
+		https://docs.huihoo.com/unity/5.5/Documentation/ScriptReference/AI.NavMeshAgent-nextPosition.html
 
 
+Navmesh vs Animation
+	https://docs.unity3d.com/Manual/nav-MixingComponents.html
 
 
+Enemy spawner
 
-Task:
-fix CharaController - slip?
-fix CharaController - jump NULL?
-fix AI - NULL?
+
 spell range indicator (check Projector class)
 
 
-
-
-
-
-
-
-decrease server packet timeout??? (might be worth it)
-
-
+network
+	TEST: decrease server packet timeout? (more traffic but better accuracy?)
+	networktime
+		https://docs-multiplayer.unity3d.com/netcode/current/advanced-topics/networktime-ticks/
+	general discussion
+		https://forum.unity.com/threads/synched-navmesh-agents.1262486/
 
 
 

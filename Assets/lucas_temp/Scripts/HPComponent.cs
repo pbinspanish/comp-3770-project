@@ -3,30 +3,35 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 
-/// <summary>
-/// Handle hp for player / enemy / object
-/// [!] Must be on the same GameObject with colliders
-/// </summary>
+public enum CharaTeam
+{
+     player_main_chara = 10,
+     enemy = 20,
+     terrain = 30, //NPC?
+}
+
 public class HPComponent : NetworkBehaviour
 {
 
-     // for targeting
-     public static List<HPComponent> all = new List<HPComponent>();
+     // - handle HP
+     // - layer mask for damage collision
+     // - identify friend or foe
 
+     public string debug;
 
-     // TEST
-     public string monitor;
-     public int TEST_Set_max_hp = 10;
+     // setting
+     public int set_max_hp = 10;
+     public CharaTeam team = CharaTeam.enemy;
+     public bool requireSiegeAttack; //soft terrain can only be damaged by siege attack
 
-
+     // public
+     public static List<HPComponent> all = new List<HPComponent>(); // for targeting
      public int maxHP { get; private set; }
      public int hp { get; private set; }
 
-     // event  
-     public Action<int, int, int> On_damage_or_heal; // (damage, hp was, hp is), eg you deal 999 damage to X who has 20 HP. Then damage=999, hp was 20, is 0
+     public Action<int, int, int> On_damage_or_heal; // (damage, hp was, hp is), eg. you deal 999 damage to X who has 20 HP. Then damage=999, hp was 20, is 0
      public Action<int, int> On_config_hp; // (hp, maxHP), for Init HP or passive +maxHP, or similar but isn't a heal
      public Action On_death_blow;
 
@@ -35,28 +40,18 @@ public class HPComponent : NetworkBehaviour
 
      public override void OnNetworkSpawn()
      {
-          Config_hp(TEST_Set_max_hp, TEST_Set_max_hp);
+          Config_hp(set_max_hp, set_max_hp);
           all.Add(this);
 
           //check
-          Debug.Assert(TEST_Set_max_hp > 0);
-          if (isPlayer) Debug.Assert(gameObject.layer == LayerMask.NameToLayer("Player"));
-          if (isEnemy) Debug.Assert(gameObject.layer == LayerMask.NameToLayer("Enemy"));
+          Debug.Assert(set_max_hp > 0);
+          if (team == CharaTeam.player_main_chara) Debug.Assert(gameObject.layer == LayerMask.NameToLayer("Player"));
+          if (team == CharaTeam.enemy) Debug.Assert(gameObject.layer == LayerMask.NameToLayer("Enemy"));
      }
 
      public override void OnNetworkDespawn()
      {
           all.Remove(this);
-     }
-
-     // friend or foe  ----------------------------------------------------------------------------
-
-     public bool isPlayer;
-     public bool isEnemy = true;
-
-     public bool IsFriend(bool otherIsPlayer)
-     {
-          return otherIsPlayer == isPlayer;
      }
 
 
@@ -100,12 +95,13 @@ public class HPComponent : NetworkBehaviour
 
      // damage or heal  ----------------------------------------------------------------------------
 
-     public void Damage(int value, string damageType = "")
+     public void Damage(int value, bool isSiege = false)
      {
-          var data = new DamageHealPacket();
-          data.delta = Mathf.FloorToInt(value * GetDamageTypeCoefficient(damageType) / 100f);
-          data.delta = -Mathf.Clamp(data.delta, 1, int.MaxValue); //damage is -
+          if (requireSiegeAttack && !isSiege)
+               return;
 
+          var data = new DamageHealPacket();
+          data.delta = -value; //damage is -
           Damage_or_heal_ServerRPC(data);
 
           //check
@@ -133,16 +129,16 @@ public class HPComponent : NetworkBehaviour
           var was = hp;
           hp = Mathf.Clamp(hp + data.delta, 0, maxHP);
 
-          monitor = hp + "/" + maxHP;
-          On_damage_or_heal?.Invoke(data.delta, was, hp); //event
-          UIDamageTextMgr.DisplayDamageText(data.delta, gameObject); //ui
+          debug = hp + "/" + maxHP; // debug
+          On_damage_or_heal?.Invoke(data.delta, was, hp); // event
+          UIDamageTextMgr.DisplayDamageText(data.delta, gameObject, team == CharaTeam.player_main_chara && IsOwner); // ui
 
-          if (was != 0 && hp == 0)
+          if (was != 0 && hp == 0) // dead?
           {
-               if (isEnemy)
+               if (team == CharaTeam.enemy)
                     TEST_BecomeRagdoll();
 
-               On_death_blow?.Invoke(); //event
+               On_death_blow?.Invoke(); // event
           }
      }
 
@@ -155,21 +151,11 @@ public class HPComponent : NetworkBehaviour
           }
      }
 
-     // damage type  ----------------------------------------------------------------------------
-     public float VS_default = 100; // VS different damage types. In percentage
-     public float VS_Siege = 100; // eg. boss destroy floor/terrain
 
-
-     float GetDamageTypeCoefficient(string _type)
+     // friend or foe  ----------------------------------------------------------------------------
+     public bool IsEnemy(CharaTeam team)
      {
-          _type = _type.ToLower(); //ignore up or lower case
-
-          if (_type == "" || _type == "default")
-               return VS_default;
-          else if (_type == "siege")
-               return VS_Siege;
-
-          throw new Exception("unknown type - if this is not a typo, add a new coefficient");
+          return this.team != team;
      }
 
 

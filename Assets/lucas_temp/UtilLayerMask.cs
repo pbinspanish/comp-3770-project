@@ -6,45 +6,28 @@ using UnityEngine.UI;
 
 public class LayerMaskUtil
 {
-     // calculate layer mask for you
 
-     // other class will use this too
-     // so this is extracted from Projectile.cs
+     public static int wall_mask { get => LayerMask.GetMask("Default", "TerrainWithHP"); }
 
-
-     public static int wall_mask { get => LayerMask.GetMask("Default"); }
-
-     public static int get_target_mask(ProjectileEntry setting, string launcherLayer)
+     public static int Get_target_mask(CharaTeam team, bool hitFoe, bool hitFriend, bool isSiege)
      {
           int mask = 0; // who will be hit?
 
-          if (launcherLayer == "Player")
+          if (team == CharaTeam.player_main_chara)
           {
-               if (setting.hitFoe) mask |= LayerMask.GetMask("Enemy");
-               if (setting.hitFriend) mask |= LayerMask.GetMask("Player");
+               if (hitFoe) mask |= LayerMask.GetMask("Enemy");
+               if (hitFriend) mask |= LayerMask.GetMask("Player");
           }
           else
           {
-               if (setting.hitFoe) mask |= LayerMask.GetMask("Player");
-               if (setting.hitFriend) mask |= LayerMask.GetMask("Enemy");
+               if (hitFoe) mask |= LayerMask.GetMask("Player");
+               if (hitFriend) mask |= LayerMask.GetMask("Enemy");
           }
 
-
-          if (setting.hitSoftTerrain) mask |= LayerMask.GetMask("TerrainWithHP");
+          if (isSiege) mask |= LayerMask.GetMask("TerrainWithHP");
 
           return mask;
      }
-
-
-     //public static int get_all_mask(ProjectileEntry setting, string launcherLayer)
-     //{
-     //     int mask = 0; // = target_mask + wall
-
-     //     mask |= get_target_mask(setting, launcherLayer);
-     //     mask |= wall_mask;
-
-     //     return mask;
-     //}
 
 
 }

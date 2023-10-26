@@ -471,7 +471,7 @@ Transform:
   m_GameObject: {fileID: 3357958420663656869}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.14778042, y: 4.60487, z: -0.22078991}
+  m_LocalPosition: {x: -0.21999931, y: 4.605, z: -0.8000002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -503,7 +503,7 @@ Transform:
   m_GameObject: {fileID: 4631044511182924612}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.03292656, y: 1.5332799, z: 0.006937027}
+  m_LocalPosition: {x: -0.06955814, y: 1.5348395, z: -0.24110317}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -955,7 +955,7 @@ Transform:
   m_GameObject: {fileID: 6133840502143628727}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.25156403, y: 6.14, z: -0.55903053}
+  m_LocalPosition: {x: -0.29333305, y: 6.14, z: -1.0666666}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1068,10 +1068,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4081800404813561864}
   - component: {fileID: 2114108508024507114}
+  - component: {fileID: 3878650937014153713}
   - component: {fileID: 2622730035440455010}
   - component: {fileID: 2880576471827448458}
   - component: {fileID: 1893758735600527883}
-  - component: {fileID: 3383348472748325640}
   - component: {fileID: 6419605446337920346}
   m_Layer: 11
   m_Name: Mouth / AI
@@ -1117,6 +1117,18 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &3878650937014153713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8433755264400390612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0136162beda82e342942c8c2b0ea6f92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2622730035440455010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1129,11 +1141,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afc5f8b1abb81ee43b9fe9c6957f234d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TEST_SetMaxHp: 20
-  isPlayer: 0
-  isEnemy: 1
-  VS_default: 100
-  VS_Siege: 100
+  debug: 
+  set_max_hp: 10
+  team: 20
+  requireSiegeAttack: 0
 --- !u!114 &2880576471827448458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1170,18 +1181,6 @@ MonoBehaviour:
   atkCoolDown: 2.8
   atkDelay: 0.5
   atkRecover: 1.5
---- !u!114 &3383348472748325640
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8433755264400390612}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4aa2370450b7a65419cb834c24ed2173, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!135 &6419605446337920346
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1228,7 +1227,7 @@ Transform:
   m_GameObject: {fileID: 8737911856664893574}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.37131214, y: 7.675, z: -1.0682106}
+  m_LocalPosition: {x: -0.36666584, y: 7.675, z: -1.333334}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1260,7 +1259,7 @@ Transform:
   m_GameObject: {fileID: 9115018759522124297}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.07991886, y: 3.0637524, z: -0.05033207}
+  m_LocalPosition: {x: -0.1453495, y: 3.0698767, z: -0.5238018}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
