@@ -53,8 +53,8 @@ public class PlayerController : MonoBehaviour
 
      void OnConnect()
      {
-          net_rb = NetworChara.myChara.GetComponent<Rigidbody>();
-          net_col = NetworChara.myChara.GetComponent<Collider>();
+          net_rb = NetworkChara.myChara.GetComponent<Rigidbody>();
+          net_col = NetworkChara.myChara.GetComponent<Collider>();
      }
      void OnDisconnect()
      {
@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
           //var dir = Quaternion.Euler(rot) * Vector3.forward;
           //PlayerChara.me.transform.position += dir.normalized * blinkDist;
 
-          NetworChara.myChara.transform.position += NetworChara.myChara.transform.rotation * Vector3.forward * blinkDist;
+          NetworkChara.myChara.transform.position += NetworkChara.myChara.transform.rotation * Vector3.forward * blinkDist;
 
           Debug.Log("BLINK ");
      }

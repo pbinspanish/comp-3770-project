@@ -29,9 +29,14 @@ public class AIState_NormalAttack : AIState
 
      public override void UpdateState()
      {
+          // recover from last action
           if (Time.time < tLastAttack + atkRecover)
+          {
+               //brain.Stop_move();
                return;
+          }
 
+          // pick target?
           if (target == null)
           {
                DecideTarget();
@@ -41,8 +46,7 @@ public class AIState_NormalAttack : AIState
                DecideTarget();
           }
 
-          //brain.Rotate_towards_TEST(target.transform);
-
+          // attack or chase
           bool inRange = atkRange > Vector3.Distance(transform.position, target.transform.position);
           if (isAtkReady && inRange)
           {
@@ -50,7 +54,8 @@ public class AIState_NormalAttack : AIState
           }
           else
           {
-               brain.Move_towards(target.transform, atkRange);
+               brain.Move(target.transform.position, atkRange);
+               //brain.Move_towards(target.transform, atkRange);
           }
      }
 

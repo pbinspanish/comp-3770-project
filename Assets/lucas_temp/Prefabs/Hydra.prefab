@@ -471,7 +471,7 @@ Transform:
   m_GameObject: {fileID: 3357958420663656869}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.21999931, y: 4.605, z: -0.8000002}
+  m_LocalPosition: {x: -0.22000027, y: 4.605, z: -0.8000002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -503,7 +503,7 @@ Transform:
   m_GameObject: {fileID: 4631044511182924612}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.06955814, y: 1.5348395, z: -0.24110317}
+  m_LocalPosition: {x: -0.0726881, y: 1.5349727, z: -0.26229668}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1068,9 +1068,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4081800404813561864}
   - component: {fileID: 2114108508024507114}
-  - component: {fileID: 3878650937014153713}
+  - component: {fileID: 3383348472748325640}
   - component: {fileID: 2622730035440455010}
-  - component: {fileID: 2880576471827448458}
+  - component: {fileID: 2217670146429485021}
   - component: {fileID: 1893758735600527883}
   - component: {fileID: 6419605446337920346}
   m_Layer: 11
@@ -1117,7 +1117,7 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &3878650937014153713
+--- !u!114 &3383348472748325640
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1126,9 +1126,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 8433755264400390612}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0136162beda82e342942c8c2b0ea6f92, type: 3}
+  m_Script: {fileID: 11500000, guid: 299011f3ed1273345b1bcb04961a82bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gizmos: 0
 --- !u!114 &2622730035440455010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1141,11 +1142,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afc5f8b1abb81ee43b9fe9c6957f234d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debug: 
+  monitor: 
   set_max_hp: 10
   team: 20
   requireSiegeAttack: 0
---- !u!114 &2880576471827448458
+--- !u!114 &2217670146429485021
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1154,15 +1155,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 8433755264400390612}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2757bd439bc9fb14aa174848345401be, type: 3}
+  m_Script: {fileID: 11500000, guid: 6af818745f280364bb82a4bbe8142f78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gizmos: 0
   log: 0
-  AI_in_use: 1
-  spot_range: 15
+  enable_offline_AI: 1
+  move_speed: 100
+  acc: 200
+  rotate_speed: 240
+  mass: 1
+  spot_range: 20
   alert_nearby: 20
-  moveSpeed: 100
-  rotateSpeed: 90
+  ghost_max_dist: 0.5
+  ghost_jitter_filter: 0.1
+  ghost_rotate_slerp: 4
 --- !u!114 &1893758735600527883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1175,6 +1182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9db39956ed9b95c45b130bf289a380fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gizmos: 0
   switchTarget: 5
   atkDamage: 30
   atkRange: 1.36
@@ -1227,7 +1235,7 @@ Transform:
   m_GameObject: {fileID: 8737911856664893574}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.36666584, y: 7.675, z: -1.333334}
+  m_LocalPosition: {x: -0.3666668, y: 7.675, z: -1.333334}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1259,7 +1267,7 @@ Transform:
   m_GameObject: {fileID: 9115018759522124297}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.1453495, y: 3.0698767, z: -0.5238018}
+  m_LocalPosition: {x: -0.1466217, y: 3.0699954, z: -0.53300285}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

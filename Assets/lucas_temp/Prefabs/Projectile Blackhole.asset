@@ -21,11 +21,9 @@ MonoBehaviour:
   spawnFwdUp: {x: 0, y: 2}
   delay: 1200
   cooldown: 3000
-  _delay: 1200
-  _cooldown: 3000
-  forceFwdUp: {x: -40, y: 110}
+  forceFwdUp: {x: -10, y: 1}
   forceDirection: 2
-  smoothForce: 0
+  smoothForce: 1
   isHoming: 0
   homingDetect: 10
   homingSpeed: 11
@@ -36,7 +34,7 @@ MonoBehaviour:
   onHitVFX: {fileID: 0}
   recycleVFX: 2
   hitSameTarget: 1
-  hitSameTargetEvery: 400
+  hitSameTargetEvery: 500
   hitFoe: 1
   hitFriend: 0
   isHeal: 0

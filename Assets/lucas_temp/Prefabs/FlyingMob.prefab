@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6501609292666453675}
   - component: {fileID: 2366646212000428961}
-  - component: {fileID: 4688122006013895824}
+  - component: {fileID: 2497734147969880179}
   - component: {fileID: 6891687788424362686}
-  - component: {fileID: 4861375726421271171}
+  - component: {fileID: 4045542434033317446}
   - component: {fileID: 1431527495831023075}
   - component: {fileID: 6966610005823023012}
   - component: {fileID: 3886064020759704344}
@@ -23,7 +23,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6501609292666453675
 Transform:
   m_ObjectHideFlags: 0
@@ -60,7 +60,7 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &4688122006013895824
+--- !u!114 &2497734147969880179
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -69,9 +69,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 24964186622298953}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0136162beda82e342942c8c2b0ea6f92, type: 3}
+  m_Script: {fileID: 11500000, guid: 299011f3ed1273345b1bcb04961a82bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gizmos: 0
 --- !u!114 &6891687788424362686
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84,11 +85,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afc5f8b1abb81ee43b9fe9c6957f234d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debug: 
+  monitor: 
   set_max_hp: 1000
   team: 20
   requireSiegeAttack: 0
---- !u!114 &4861375726421271171
+--- !u!114 &4045542434033317446
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,19 +98,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 24964186622298953}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2757bd439bc9fb14aa174848345401be, type: 3}
+  m_Script: {fileID: 11500000, guid: 6af818745f280364bb82a4bbe8142f78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   gizmos: 0
   log: 0
-  AI_in_use: 1
+  enable_offline_AI: 1
+  move_speed: 22
+  acc: 44
+  rotate_speed: 360
+  mass: 0.5
   spot_range: 20
   alert_nearby: 20
-  updatePosition: 0
-  updateRotation: 0
-  updateUpAxis: 0
-  moveSpeed: 10
-  rotateSpeed: 100
+  ghost_max_dist: 0.5
+  ghost_jitter_filter: 0.1
+  ghost_rotate_slerp: 4
 --- !u!114 &1431527495831023075
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,9 +129,9 @@ MonoBehaviour:
   switchTarget: 5
   atkDamage: 1
   atkRange: 5
-  atkCoolDown: 2.8
-  atkDelay: 0.5
-  atkRecover: 1.5
+  atkCoolDown: 2
+  atkDelay: 0.2
+  atkRecover: 2
 --- !u!136 &6966610005823023012
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -177,7 +180,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!195 &9124903771375406104
 NavMeshAgent:

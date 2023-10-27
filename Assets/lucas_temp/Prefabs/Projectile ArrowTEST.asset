@@ -21,9 +21,7 @@ MonoBehaviour:
   spawnFwdUp: {x: 1.5, y: 2}
   delay: 0
   cooldown: 20
-  _delay: 0
-  _cooldown: 20
-  forceFwdUp: {x: 33, y: 100}
+  forceFwdUp: {x: 1, y: 1}
   forceDirection: 1
   smoothForce: 0
   isHoming: 0

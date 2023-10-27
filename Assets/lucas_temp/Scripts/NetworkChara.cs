@@ -2,38 +2,40 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
-using UnityEditor;
 using UnityEngine;
 
 
-public class NetworChara : NetworkBehaviour
+public class NetworkChara : NetworkBehaviour
 {
 
-     // The physical body of a GameObject
-     // 1) sync pos / rotation
-     // 2) smooth
-     // 3) ref for player's chara
+     // Anything that moves - player / enemy / flying axe trap
+     // - sync pos / rotation
+     // - smooth
 
 
-     public static NetworChara myChara; // charactor of this cliant, for player controller
+     // TEMP
+     public static NetworkChara myChara; //TODO: charactor of this cliant, for player controller. swap to other way later
+     HPComponent hp; //TODO
+     public bool gizmos;
 
 
      // private
      NetworkVariable<Vector3> netPos = new(writePerm: NetworkVariableWritePermission.Owner);
      NetworkVariable<Quaternion> netRot = new(writePerm: NetworkVariableWritePermission.Owner);
      bool isSpawned;
-     HPComponent hp;
 
 
      // init ---------------------------------------------------------------------------------
      public override void OnNetworkSpawn()
      {
+          // is this player's main chara?
           hp = GetComponent<HPComponent>();
           if (IsOwner && hp && hp.team == CharaTeam.player_main_chara)
           {
                Debug.Assert(myChara == null);
                myChara = this;
           }
+
 
           isSpawned = true;
      }
@@ -111,6 +113,8 @@ public class NetworChara : NetworkBehaviour
      // debug --------------------------------------------------------------------------------------------
      void OnDrawGizmos()
      {
+          if (!gizmos)
+               return;
           if (Vector3.Distance(transform.position, netPos.Value) > 0.1f)
           {
                Gizmos.color = Color.cyan;

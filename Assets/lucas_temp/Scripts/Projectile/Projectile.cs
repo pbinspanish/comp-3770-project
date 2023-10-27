@@ -32,6 +32,7 @@ public class Projectile : MonoBehaviour
      bool authority { get => TEST.inst.clientHasDamageAutority ? (originClientID == clientID) : NetworkManager.Singleton.IsServer; }
      ulong clientID { get => NetworkManager.Singleton.LocalClientId; }
      ulong originClientID;
+     int attackerID;
 
      private GameObject Target;
 
@@ -100,8 +101,14 @@ public class Projectile : MonoBehaviour
 
      // fire ---------------------------------------------------------------------------------
      int targetMask;
+     int launcherID;
 
-     public void Fire(Vector3 start, Vector3 dir, CharaTeam team, ulong originClientID)
+     public void Fire(ProjectilePacket packet)
+     //{
+     //     Fire(packet.fireFrom, packet.dir, packet.team, packet.originClientID);
+     //}
+
+     //public void Fire(Vector3 start, Vector3 dir, CharaTeam team, ulong originClientID, )
      {
           // flag
           enabled = true;
@@ -115,18 +122,19 @@ public class Projectile : MonoBehaviour
           // set up
           tDespawn = Time.time + setting.range / setting.speed;
 
-          this.originClientID = originClientID;
+          originClientID = packet.originClientID;
+          attackerID = packet.attackerID;
 
-          transform.position = start;
-          transform.rotation = Quaternion.LookRotation(dir);
+          transform.position = packet.start;
+          transform.rotation = Quaternion.LookRotation(packet.dir);
 
           targetMask = LayerMaskUtil.Get_target_mask(
-               team,
+               packet.team,
                setting.hitFoe,
                setting.hitFriend,
                setting.isSiege); // collision mask
 
-          velocity = dir.normalized * setting.speed;
+          velocity = packet.dir.normalized * setting.speed;
 
           // VFX
           foreach (var particle in GetComponentsInChildren<ParticleSystem>())
@@ -186,12 +194,12 @@ public class Projectile : MonoBehaviour
 
                     // (!) apply constant force / every update
                     if (setting.smoothForce)
-                         Knock(other.gameObject, true);
+                         ApplyForce(other.gameObject, true);
 
 
                     if (hpClass.hp == 0)
                     {
-                         Knock(other.gameObject, true); // throwing dead enemy around
+                         ApplyForce(other.gameObject, true); // throwing dead enemy around
                          continue; // dead don't block bullet or take damage
                     }
 
@@ -206,7 +214,7 @@ public class Projectile : MonoBehaviour
 
                     // (!) apply instant force / only once a while
                     if (!setting.smoothForce)
-                         Knock(other.gameObject);
+                         ApplyForce(other.gameObject);
 
                     Damage(other.gameObject);
                     OnHitVFX();
@@ -278,11 +286,11 @@ public class Projectile : MonoBehaviour
           if (setting.isHeal)
                hpClass.Heal(damageOrHeal);
           else
-               hpClass.Damage(damageOrHeal, setting.isSiege);
+               hpClass.Damage(damageOrHeal, attackerID, setting.isSiege);
      }
 
 
-     void Knock(GameObject target, bool smooth = false)
+     void ApplyForce(GameObject target, bool smooth = false)
      {
           if (log) Debug.Log("Knock()");
 
@@ -301,23 +309,27 @@ public class Projectile : MonoBehaviour
           }
           else if (setting.forceDirection == ForceDir.AwayFromCenter)
           {
-               force = (target.transform.position - transform.position).normalized * setting.forceFwdUp.x + Vector3.up * setting.forceFwdUp.y;
+               var dirXZ = (target.transform.position - transform.position).normalized;
+               dirXZ.y = 0; //chara's Y=0, but bullet has Y>0, this cause unintended up-suck force
+               force = dirXZ * setting.forceFwdUp.x + Vector3.up * setting.forceFwdUp.y;
           }
 
           force *= smooth ? Time.fixedDeltaTime : 1; //impulse or constant
+          Debug.Log("force0 = " + force);
 
-          // TEST - navMeshAgent for AI
-          //var navMesh = target.GetComponent<TEST_NavMeshAgent>();
-          //if (navMesh)
-          //     navMesh.OnAddForce(force);
-
-          // TEST - new AI nevigation
-          var ai = target.GetComponent<AIBrain>();
-          if (ai)
-               ai.On_add_force();
 
           // finally
-          rb.AddForce(force, ForceMode.Force);
+          rb.AddForce(force, ForceMode.Impulse);
+
+          //var ai = target.GetComponent<AIBrain>();
+          //if (ai)
+          //{
+          //     ai.Add_force(force);
+          //}
+          //else
+          //{
+          //     rb.AddForce(force, ForceMode.Impulse);
+          //}
 
      }
 

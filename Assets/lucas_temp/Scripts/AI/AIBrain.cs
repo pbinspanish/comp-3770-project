@@ -2,41 +2,53 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
-using UnityEditor.Experimental.GraphView;
 using System.Threading.Tasks;
 using Unity.Netcode;
 using UnityEngine.AI;
-using static UnityEngine.GraphicsBuffer;
-using static UnityEditor.PlayerSettings;
+using System.Linq;
 
-[RequireComponent(typeof(NetworChara))]
+
+[RequireComponent(typeof(NetworkChara))]
 [RequireComponent(typeof(HPComponent))]
 public class AIBrain : MonoBehaviour
 {
 
      // How to use:
      // 1) attach an AIState component to GameObject
-     // 2) the order of AIState matters, 
-
+     // 2) the order of AIState = priority
 
      // static
      public static int tDespoawn = 5; //sec
 
 
-     // public
+     //public
      public bool gizmos;
      public bool log;
-     public bool AI_in_use = true;
+     public bool enable_offline_AI = true; //switch on AI when not connected
+
+
      [Header("Setting")]
+     public float move_speed = 10f;
+     public float acc = 20f;
+     public float rotate_speed = 120f;
+     public float mass = 1f; //usually 1, larger mass = less vulnerable to force
+
+
+     [Header("Alert")]
      public float spot_range = 20; //how far will AI spot you?
      public float alert_nearby = 20; // alert nearby ally when spot enemy
+
+
+     // public
+     public bool is_idle { get => current == null; }
 
 
      // private
      List<AIState> states;
      AIState current;
      HPComponent hp;
+     Rigidbody rb;
+     NavMeshAgent ghost;
 
 
      void Awake()
@@ -45,13 +57,19 @@ public class AIBrain : MonoBehaviour
           states.AddRange(GetComponents<AIState>()); //find all state
 
           hp = GetComponent<HPComponent>();
+          hp.On_damage_or_heal += On_surprise_attack;
           hp.On_death_blow += Die;
 
-          TEST.OnConnect += On_connect;
-          TEST.OnDisconnect += On_disconnect;
-
           rb = GetComponent<Rigidbody>();
-          agent = GetComponent<NavMeshAgent>();
+
+          ghost = GetComponentInChildren<NavMeshAgent>();
+          ghost.transform.parent = null; //detach ghost
+          ghost.acceleration = float.MaxValue;
+
+          TEST.OnConnect += On_connect;
+          TEST.OnDisconnect += On_local_mode;
+
+          On_local_mode();
 
           //check
           Debug.Assert(states.Count > 0);
@@ -66,27 +84,36 @@ public class AIBrain : MonoBehaviour
           Alert_nearby();
      }
 
-     public bool updatePosition;
-     public bool updateRotation;
-     public bool updateUpAxis;
-
-
      void FixedUpdate()
      {
-          updatePosition = agent.updatePosition;
-          updateRotation = agent.updateRotation;
-          updateUpAxis = agent.updateUpAxis;
+          if (is_moving)
+          {
+               ghost.isStopped = false;
 
-
-          if (Time.time < t_enable_agent)
-               Use_agent_and_kinematic(false);
-          else if (rb.velocity != Vector3.zero)
-               Use_agent_and_kinematic(false);
+               Update_pos();
+               Update_rotation();
+          }
           else
           {
-               Use_agent_and_kinematic(true);
-               Update_agent();
+               ghost.isStopped = true;
           }
+
+          is_moving = false;
+     }
+
+     void OnDestroy()
+     {
+          Destroy(ghost);
+     }
+
+     // network  ----------------------------------------------------------------------
+     void On_connect()
+     {
+          enabled = ghost.enabled = NetworkManager.Singleton.IsServer;
+     }
+     void On_local_mode()
+     {
+          enabled = ghost.enabled = enable_offline_AI;
      }
 
      // state machine ----------------------------------------------------------------------
@@ -96,7 +123,7 @@ public class AIBrain : MonoBehaviour
 
           if (next == null)
           {
-               current = null; // idle
+               current = null; //dile
           }
           else
           {
@@ -112,6 +139,7 @@ public class AIBrain : MonoBehaviour
                // update
                current.UpdateState();
           }
+
      }
 
      AIState Decide_next_state()
@@ -125,16 +153,15 @@ public class AIBrain : MonoBehaviour
 
 
      // target util  ----------------------------------------------------------------------
-     public List<AITargetData> targets { get => Update_targets(); }
+     public List<AITargetData> targets { get => Update_target_list(); }
      List<AITargetData> _targets = new List<AITargetData>();
 
      bool _updated;
-     List<AITargetData> Update_targets()
+     List<AITargetData> Update_target_list()
      {
           if (!_updated)
           {
                _updated = true;
-
                foreach (var chara in HPComponent.all)
                {
                     // hostile?
@@ -146,17 +173,17 @@ public class AIBrain : MonoBehaviour
                     if (dist > spot_range)
                          continue;
 
-                    // add to list
-                    var data = _targets.Find(x => x.hp == chara);
-
-                    if (data == null)
+                    // good
+                    var found = _targets.Find(x => x.hp == chara);
+                    if (found == null) // new target?
                     {
-                         data = new AITargetData();
-                         data.hp = chara;
-                         _targets.Add(data);
+                         found = new AITargetData();
+                         found.hp = chara;
+                         _targets.Add(found);
                     }
 
-                    data.dist = dist;
+                    // update dist
+                    found.dist = dist;
                }
           }
           return _targets;
@@ -178,22 +205,7 @@ public class AIBrain : MonoBehaviour
      }
 
 
-     // die  ----------------------------------------------------------------------
-     async void Die()
-     {
-          AI_in_use = false;
-
-          await Task.Delay(tDespoawn * 1000);
-          Despawn();
-     }
-
-     void Despawn()
-     {
-          Destroy(gameObject);
-     }
-
-
-     // alert nearby  ----------------------------------------------------------------------
+     // alert  ----------------------------------------------------------------------
      bool hasAlert;
      void Alert_nearby()
      {
@@ -204,89 +216,108 @@ public class AIBrain : MonoBehaviour
           }
      }
 
-
-     // network  ----------------------------------------------------------------------
-     //bool isConnected { get => TEST.isConnected; }
-     void On_connect()
+     void On_surprise_attack(int value, int hpWas, int hpIs, int attackID)
      {
-          enabled = agent.enabled = NetworkManager.Singleton.IsServer;
+          if (is_idle && value < 0)
+          {
+               var attacker = HPComponent.all.Find(x => x.id == attackID);
+
+               if (attacker == null)
+                    return;
+
+               if (!_targets.Exists(x => x.hp.id == attackID))
+               {
+                    var data = new AITargetData();
+                    data.hp = attacker;
+                    _targets.Add(data);
+               }
+               else
+               {
+                    Debug.LogError("this should not happen??");
+               }
+          }
      }
-     void On_disconnect()
+
+
+     // die  ----------------------------------------------------------------------
+     async void Die()
      {
-          enabled = agent.enabled = AI_in_use; //switch to local
+          await Task.Delay(tDespoawn * 1000);
+          Despawn();
+     }
+
+     void Despawn()
+     {
+          Destroy(gameObject);
      }
 
 
-     // move with navMesh  ---------------------------------------------------------------------
-     public float moveSpeed = 10f;
-     public float rotateSpeed = 100f;
-     public float acc = 20f;
-     float reach = 20f;
-
-     NavMeshAgent agent;
+     // using navMesh  ---------------------------------------------------------------------
+     bool is_moving;
      Vector3 target_pos;
-     Transform chase_after;
-     int move_mode; //1 = Vector3, 2 = Transform
-
-     public void Move_towards(Vector3 pos, float _reach)
+     float speed_pct;
+     public void Move(Vector3 pos, float stopping_distance, float _speed_pct = 100)
      {
-          target_pos = pos; //in Update()
-          reach = _reach;
+          is_moving = true;
+          target_pos = pos;
+          speed_pct = _speed_pct;
 
-          move_mode = 1;
+          //if (Vector3.Distance(pos, transform.position) < stopping_distance)
+          //     return;
+
+          //var speed = move_speed * speed_pct / 100 * Time.deltaTime;
+          //transform.position = Vector3.MoveTowards(transform.position, pos, speed);
      }
-     public void Move_towards(Transform _target, float _reach)
-     {
-          chase_after = _target; //in Update()
-          reach = _reach;
+     //public void Rotate_towards_TEST(Transform target)
+     //{
+     //     var dir = target.position - transform.position;
+     //     dir.y = 0;
+     //     var rot = Quaternion.LookRotation(dir);
+     //     transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, rotate_speed * Time.deltaTime);
+     //}
 
-          move_mode = 2;
-     }
-     void Update_agent()
-     {
-          if (move_mode == 2) //in FixedUpdate()
-               target_pos = chase_after.position;
+     public float ghost_max_dist = 0.5f;
+     public float ghost_jitter_filter = 0.1f;
+     public float ghost_rotate_slerp = 4f;
 
-          if (transform.position == target_pos)
+     void Update_pos()
+     {
+          ghost.destination = target_pos;
+          ghost.speed = move_speed * speed_pct / 100;
+
+          // if ghost too far, snap back
+          var dist = Vector3.Distance(transform.position, ghost.transform.position);
+          if (dist > ghost_max_dist)
           {
-               agent.isStopped = true;
-               move_mode = -1;
+               ghost.transform.position =
+                    transform.position
+                    + (ghost.transform.position - transform.position).normalized * ghost_max_dist;
           }
-          else
+
+          // apply pos
+          if (dist > ghost_jitter_filter)
           {
-               agent.isStopped = false;
-               agent.destination = target_pos;
-
-               agent.stoppingDistance = reach;
-               agent.speed = moveSpeed;
-               agent.angularSpeed = rotateSpeed;
-               agent.acceleration = acc;
+               var speed = move_speed * speed_pct / 100 * Time.fixedDeltaTime;
+               transform.position = Vector3.MoveTowards(transform.position, ghost.nextPosition, speed);
           }
+
+          // reset
+          speed_pct = 100;
      }
 
-
-     // physics with navMesh  ---------------------------------------------------------------------
-     Rigidbody rb;
-     float disable_agent_duration = 0.1f;
-     float t_enable_agent;
-     public void On_add_force()
+     void Update_rotation()
      {
-          t_enable_agent = Time.time + disable_agent_duration;
-          Use_agent_and_kinematic(false);
+          var to_player = Quaternion.LookRotation(target_pos - transform.position);
+          var to_corner = Quaternion.LookRotation(ghost.steeringTarget - transform.position);
+          to_player = Quaternion.Lerp(to_player, to_corner, 0.5f); //average
+
+          transform.rotation = Quaternion.Slerp(transform.rotation, to_player, ghost_rotate_slerp * Time.fixedDeltaTime);
      }
 
-     void Use_agent_and_kinematic(bool b)
-     {
-          rb.isKinematic = b;
-          agent.enabled = b;
 
-          //if (b)
-          //     agent.nextPosition = transform.position;
-     }
 
 
      // debug  ----------------------------------------------------------------------
-
      void OnDrawGizmosSelected()
      {
           if (!gizmos)
@@ -296,37 +327,17 @@ public class AIBrain : MonoBehaviour
           Gizmos.DrawWireSphere(transform.position, spot_range);
      }
 
+
+
+
+
+
+
 }
 
 
 
 
-
-// TEST move and rorate ---------------------------------------------------------------------
-
-//public void Move_towards_TEST(Transform target, float range, float speedPct = 1f)
-//{
-//     if (moveSpeed == 0)
-//          return;
-//     if (Vector3.Distance(target.position, transform.position) < range)
-//          return;
-
-//     transform.position = Vector3.MoveTowards(
-//          transform.position,
-//          target.position,
-//          moveSpeed * speedPct * Time.deltaTime);
-//}
-
-//public void Rotate_towards_TEST(Transform target)
-//{
-//     if (rotateSpeed == 0)
-//          return;
-
-//     var dir = target.position - transform.position;
-//     dir.y = 0;
-//     var rot = Quaternion.LookRotation(dir);
-//     transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, rotateSpeed * Time.deltaTime);
-//}
 
 
 

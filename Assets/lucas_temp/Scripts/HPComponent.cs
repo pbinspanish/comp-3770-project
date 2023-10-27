@@ -12,41 +12,56 @@ public enum CharaTeam
      terrain = 30, //NPC?
 }
 
+
 public class HPComponent : NetworkBehaviour
 {
 
+     // Anything that has HP - player / NPC / breakable wall
      // - handle HP
+     // - friend or foe
      // - layer mask for damage collision
-     // - identify friend or foe
+     // - network ID (bonus!)
 
-     public string debug;
+
+     public string monitor;
 
      // setting
      public int set_max_hp = 10;
      public CharaTeam team = CharaTeam.enemy;
      public bool requireSiegeAttack; //soft terrain can only be damaged by siege attack
 
-     // public
+     // static
      public static List<HPComponent> all = new List<HPComponent>(); // for targeting
+
+     // public
      public int maxHP { get; private set; }
      public int hp { get; private set; }
-
-     public Action<int, int, int> On_damage_or_heal; // (damage, hp was, hp is), eg. you deal 999 damage to X who has 20 HP. Then damage=999, hp was 20, is 0
+     public Action<int, int, int, int> On_damage_or_heal; // (damage, hp was, hp is, attackerID), eg. you deal 999 damage to X who has 20 HP. Then damage=999, hp was 20, is 0
      public Action<int, int> On_config_hp; // (hp, maxHP), for Init HP or passive +maxHP, or similar but isn't a heal
      public Action On_death_blow;
+     public int id { get => _id.Value; }
+
+
+     // private
+     NetworkVariable<int> _id = new NetworkVariable<int>();
 
 
      // initial  ----------------------------------------------------------------------------
 
      public override void OnNetworkSpawn()
      {
-          Config_hp(set_max_hp, set_max_hp);
+          if (IsServer)
+               _id.Value = GetHashCode();
+
+          Config_hp(set_max_hp, set_max_hp); //initial hp
+
           all.Add(this);
 
           //check
           Debug.Assert(set_max_hp > 0);
-          if (team == CharaTeam.player_main_chara) Debug.Assert(gameObject.layer == LayerMask.NameToLayer("Player"));
-          if (team == CharaTeam.enemy) Debug.Assert(gameObject.layer == LayerMask.NameToLayer("Enemy"));
+          if (team == CharaTeam.player_main_chara) if (gameObject.layer != LayerMask.NameToLayer("Player")) Debug.LogError(gameObject.name);
+          if (team == CharaTeam.enemy) if (gameObject.layer != LayerMask.NameToLayer("Enemy")) Debug.LogError(gameObject.name);
+          if (team == CharaTeam.terrain) if (gameObject.layer != LayerMask.NameToLayer("TerrainWithHP")) Debug.LogError(gameObject.name);
      }
 
      public override void OnNetworkDespawn()
@@ -95,13 +110,15 @@ public class HPComponent : NetworkBehaviour
 
      // damage or heal  ----------------------------------------------------------------------------
 
-     public void Damage(int value, bool isSiege = false)
+     /// <summary> If player is attacking, include attackerID or AI wouldn't know who </summary>
+     public void Damage(int value, int attackerID = -1, bool isSiege = false)
      {
           if (requireSiegeAttack && !isSiege)
                return;
 
           var data = new DamageHealPacket();
           data.delta = -value; //damage is -
+          data.attackerID = attackerID;
           Damage_or_heal_ServerRPC(data);
 
           //check
@@ -111,7 +128,7 @@ public class HPComponent : NetworkBehaviour
      {
           var data = new DamageHealPacket();
           data.delta = value;
-
+          data.attackerID = -1;
           Damage_or_heal_ServerRPC(data);
 
           //check
@@ -129,8 +146,8 @@ public class HPComponent : NetworkBehaviour
           var was = hp;
           hp = Mathf.Clamp(hp + data.delta, 0, maxHP);
 
-          debug = hp + "/" + maxHP; // debug
-          On_damage_or_heal?.Invoke(data.delta, was, hp); // event
+          monitor = hp + "/" + maxHP; // debug
+          On_damage_or_heal?.Invoke(data.delta, was, hp, data.attackerID); // event
           UIDamageTextMgr.DisplayDamageText(data.delta, gameObject, team == CharaTeam.player_main_chara && IsOwner); // ui
 
           if (was != 0 && hp == 0) // dead?
@@ -145,9 +162,11 @@ public class HPComponent : NetworkBehaviour
      struct DamageHealPacket : INetworkSerializable
      {
           public int delta;
+          public int attackerID;
           void INetworkSerializable.NetworkSerialize<T>(BufferSerializer<T> serializer)
           {
                serializer.SerializeValue(ref delta);
+               serializer.SerializeValue(ref attackerID);
           }
      }
 

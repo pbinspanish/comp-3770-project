@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6689819152590511506}
   - component: {fileID: 3562455844059271409}
   - component: {fileID: 2989459132654949902}
+  - component: {fileID: 9078712803710622276}
   m_Layer: 0
   m_Name: Admin
   m_TagString: Untagged
@@ -142,3 +143,15 @@ MonoBehaviour:
   rotateLerp: 17.5
   jumpVelocity: 9.5
   jumpCount: 2
+--- !u!114 &9078712803710622276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8058470694820835937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e7448294e3fc6d4bad7a3677f4d4132, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

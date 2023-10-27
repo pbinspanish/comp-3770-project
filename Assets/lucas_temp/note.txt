@@ -1,49 +1,65 @@
 
 intereact of Destroy() and OnNetworkDespawn() ??
 
+Path of Exile
+	https://www.youtube.com/results?search_query=path+exile
 
 
-AI navmesh
-	Set avoidance priority to a small (high priority), to allow brush through crowds
-	how about de-coupling agent & transform? sounds slightly nicer
-		https://docs.huihoo.com/unity/5.5/Documentation/ScriptReference/AI.NavMeshAgent-nextPosition.html
 
 
-Navmesh vs Animation
-	https://docs.unity3d.com/Manual/nav-MixingComponents.html
 
+
+network  -------------------------------------------------------------------------------
 
 Enemy spawner
 
 
-spell range indicator (check Projector class)
+networktime
+	https://docs-multiplayer.unity3d.com/netcode/current/advanced-topics/networktime-ticks/
 
 
-network
-	TEST: decrease server packet timeout? (more traffic but better accuracy?)
-	networktime
-		https://docs-multiplayer.unity3d.com/netcode/current/advanced-topics/networktime-ticks/
-	general discussion
-		https://forum.unity.com/threads/synched-navmesh-agents.1262486/
+TEST: decrease server packet timeout? (more traffic but better accuracy?)
+
+
+some nice discussion
+	https://forum.unity.com/threads/synched-navmesh-agents.1262486/
 
 
 
-Client-Server Strategy:
+
+Navmesh  -------------------------------------------------------------------------------
+
+Squuze throw crowds
+	Set avoidance priority to a small (high priority), to allow brush through crowds
+
+how about de-coupling agent & transform? sounds slightly nicer
+	https://docs.huihoo.com/unity/5.5/Documentation/ScriptReference/AI.NavMeshAgent-nextPosition.html
 
 
-player pos/rot
-	Authority=Server
-	local: allow deviate, snap back at X value
-	server: lerp up to date position
+Navmesh vs Animation
+	https://docs.unity3d.com/Manual/nav-MixingComponents.html
+	
 
+
+Visual  -------------------------------------------------------------------------------
+
+
+spell range indicator (Projector class?)
 
 
 Post Processing
-https://www.youtube.com/watch?v=bkPe1hxOmbI
+	https://www.youtube.com/watch?v=bkPe1hxOmbI
+
 Lazer Beam
-https://www.youtube.com/watch?v=p47XrPFq1U0
+	https://www.youtube.com/watch?v=p47XrPFq1U0
+
+sky box
+https://assetstore.unity.com/packages/2d/textures-materials/sky/10-skyboxes-pack-day-night-32236
 
 
+
+
+C#  -------------------------------------------------------------------------------
 
 Async
 https://www.youtube.com/watch?v=WY-mk-ZGAq8
@@ -51,17 +67,6 @@ https://www.youtube.com/watch?v=WY-mk-ZGAq8
 decrease assemble time
 https://www.youtube.com/watch?v=eovjb5xn8y0
 
-sky box
-https://assetstore.unity.com/packages/2d/textures-materials/sky/10-skyboxes-pack-day-night-32236
-
-
-
----------------------------------------------------------------------
-friendly fire 
-
- - use gameobject's own layer, to check which TEAM it belongs
- - player vs enemy
- - others but won't fire: normal wall, destroy-able wall, default
 
 
 

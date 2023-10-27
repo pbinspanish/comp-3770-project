@@ -34,7 +34,7 @@ public class ProjectileLauncher : NetworkBehaviour
      {
           debug = "Pool: " + pool.CountActive + " Active | " + pool.CountAll + " Count";
 
-          if (NetworChara.myChara != null)
+          if (NetworkChara.myChara != null)
           {
                HandleInput();
           }
@@ -59,30 +59,31 @@ public class ProjectileLauncher : NetworkBehaviour
           if (!input)
                return;
 
-
-          FireProjectile(CharaTeam.player_main_chara); //input is only from player
+          var playerID = NetworkChara.myChara.GetComponent<HPComponent>().id;
+          FireProjectile(CharaTeam.player_main_chara, playerID); //input is only from player
      }
 
 
      // fire projectile ---------------------------------------------------------------
 
-     public void FireProjectile(CharaTeam team)
+     public void FireProjectile(CharaTeam team, int attackerID = 0)
      {
           tNextFire = Time.time + setting.cooldown / 1000f;
 
-          var data = new Packet();
+          var data = new ProjectilePacket();
           data.originClientID = clientID;
+          data.attackerID = attackerID; // for AI to identify player, 0 = not in use
           data.delay = setting.delay;
           data.team = team;
 
           // position
-          data.fireFrom = NetworChara.myChara.transform.position;
-          data.fireFrom += NetworChara.myChara.transform.rotation * new Vector3(0, setting.spawnFwdUp.y, setting.spawnFwdUp.x);
+          data.start = NetworkChara.myChara.transform.position;
+          data.start += NetworkChara.myChara.transform.rotation * new Vector3(0, setting.spawnFwdUp.y, setting.spawnFwdUp.x);
 
 
           // direction
           data.dir = PlayerController.mouseHit
-               - NetworChara.myChara.transform.position
+               - NetworkChara.myChara.transform.position
                - new Vector3(0, setting.spawnFwdUp.y, 0); //compensate height, since we fire from hip, not from feet
 
           //gizmos_dir = data.dir; //debug
@@ -106,18 +107,18 @@ public class ProjectileLauncher : NetworkBehaviour
      }
 
      [ServerRpc(RequireOwnership = false)]
-     void Fire_ServerRPC(Packet data)
+     void Fire_ServerRPC(ProjectilePacket data)
      {
           Fire_ClientRPC(data);
      }
      [ClientRpc]
-     void Fire_ClientRPC(Packet data)
+     void Fire_ClientRPC(ProjectilePacket data)
      {
           if (clientID != data.originClientID)
                _fire(data);
      }
 
-     async void _fire(Packet data)
+     async void _fire(ProjectilePacket data)
      {
           if (data.delay > 0)
           {
@@ -149,27 +150,9 @@ public class ProjectileLauncher : NetworkBehaviour
           // fire
           var p = pool.Get();
           p.enabled = true;
-          p.Fire(data.fireFrom, data.dir, data.team, data.originClientID);
+          //p.Fire(data.fireFrom, data.dir, data.team, data.originClientID);
+          p.Fire(data);
 
-     }
-
-
-     struct Packet : INetworkSerializable
-     {
-          public ulong originClientID;
-          public Vector3 fireFrom;
-          public Vector3 dir;
-          public int delay;
-          public CharaTeam team;
-
-          void INetworkSerializable.NetworkSerialize<T>(BufferSerializer<T> serializer)
-          {
-               serializer.SerializeValue(ref originClientID);
-               serializer.SerializeValue(ref fireFrom);
-               serializer.SerializeValue(ref dir);
-               serializer.SerializeValue(ref delay);
-               serializer.SerializeValue(ref team);
-          }
      }
 
 
@@ -278,6 +261,27 @@ public class ProjectileLauncher : NetworkBehaviour
      //}
 
 
-
 }
 
+
+public struct ProjectilePacket : INetworkSerializable
+{
+     public ulong originClientID;
+     public CharaTeam team;
+     public int attackerID;
+
+     public Vector3 start;
+     public Vector3 dir;
+     public int delay;
+
+
+     void INetworkSerializable.NetworkSerialize<T>(BufferSerializer<T> serializer)
+     {
+          serializer.SerializeValue(ref originClientID);
+          serializer.SerializeValue(ref attackerID);
+          serializer.SerializeValue(ref start);
+          serializer.SerializeValue(ref dir);
+          serializer.SerializeValue(ref delay);
+          serializer.SerializeValue(ref team);
+     }
+}

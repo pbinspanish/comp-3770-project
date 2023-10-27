@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 97805024486415111}
   - component: {fileID: -3592162268800829645}
-  - component: {fileID: 6587917633594606768}
+  - component: {fileID: 8041433674625631349}
   - component: {fileID: 747480884164551678}
   - component: {fileID: 7497088134396068365}
   - component: {fileID: 5501781927767710753}
@@ -57,7 +57,7 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &6587917633594606768
+--- !u!114 &8041433674625631349
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -66,9 +66,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 97805024486415106}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0136162beda82e342942c8c2b0ea6f92, type: 3}
+  m_Script: {fileID: 11500000, guid: 299011f3ed1273345b1bcb04961a82bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gizmos: 0
 --- !u!114 &747480884164551678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,7 +82,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afc5f8b1abb81ee43b9fe9c6957f234d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debug: 
+  monitor: 
   set_max_hp: 100
   team: 10
   requireSiegeAttack: 0

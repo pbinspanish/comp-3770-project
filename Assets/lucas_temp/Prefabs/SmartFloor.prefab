@@ -63,9 +63,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afc5f8b1abb81ee43b9fe9c6957f234d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TEST_SetMaxHp: 5
-  VS_default: 100
-  VS_Siege: 100
+  monitor: 
+  set_max_hp: 30
+  team: 30
+  requireSiegeAttack: 0
 --- !u!114 &469496672079598475
 MonoBehaviour:
   m_ObjectHideFlags: 0

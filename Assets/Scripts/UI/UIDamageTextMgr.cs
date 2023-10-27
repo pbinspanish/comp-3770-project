@@ -69,10 +69,10 @@ public class UIDamageTextMgr : ScriptableObject
 
      UIDamageText CreateNewUI()
      {
-          var gameObject = Instantiate(prefab.gameObject, canvas.transform);
-          var ui = gameObject.GetComponent<UIDamageText>();
+          var obj = Instantiate(prefab.gameObject, canvas.transform);
+          var ui = obj.GetComponent<UIDamageText>();
 
-          gameObject.SetActive(false);
+          obj.SetActive(false);
           ui.enabled = false;
           ui.mgr = this;
 

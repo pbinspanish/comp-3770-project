@@ -11,10 +11,17 @@ public class TEST_NavMeshAgent : MonoBehaviour
 {
 
      public Vector3 velAgent__;
-
+     public bool gizmos;
 
      [Header("Chase Player")]
      public bool chasePlayer;
+
+     [Header("Ghost Agent")]
+     public NavMeshAgent ghost;
+     public bool chasePlayer_ghost_agent;
+     public bool pause_move_update;
+     public float snap_dist = 0.5f;
+
 
      [Header("Warp")]
      public Transform warpPosition;
@@ -32,6 +39,9 @@ public class TEST_NavMeshAgent : MonoBehaviour
      public bool use_velocity;
 
      [Header("???")]
+     public Vector3 destination;
+     public Vector3 agentPos;
+     public Vector3 nextPos;
      public bool click_resetPath;
      public float remainingDistance;
      public bool hasPath;
@@ -39,6 +49,7 @@ public class TEST_NavMeshAgent : MonoBehaviour
      public bool isPathStale;
      public NavMeshPathStatus pathStatus;
      public bool isStopped;
+     public Vector3 rb_velocity;
 
      //private
      NavMeshAgent agent;
@@ -48,33 +59,39 @@ public class TEST_NavMeshAgent : MonoBehaviour
 
      void Awake()
      {
-          //if (NetworkManager.Singleton.IsServer)
-          //{
-
-          //}
-
           agent = GetComponent<NavMeshAgent>();
           rb = GetComponent<Rigidbody>();
+
+          ghost.transform.parent = null; //detach ghost
      }
 
 
      void FixedUpdate()
      {
-          if (Time.time < tAddForce + forceMinDuration)
-               Use_agent_and_kinematic(false);
-          else if (rb.velocity != Vector3.zero)
-               Use_agent_and_kinematic(false);
-          else
-               Use_agent_and_kinematic(true);
+          //if (Time.time < tAddForce + forceMinDuration)
+          //     Use_agent_and_kinematic(false);
+          //else if (rb.velocity != Vector3.zero)
+          //     Use_agent_and_kinematic(false);
+          //else
+          //     Use_agent_and_kinematic(true);
+
+          rb_velocity = rb.velocity;
+
+          if (chasePlayer_ghost_agent)
+          {
+               Ghost_agent();
+          }
+
      }
 
 
      void Update()
      {
+          if (!agent || agent.enabled == false)
+               return;
+
           velAgent__ = agent.velocity;
 
-          if (agent.enabled == false)
-               return;
 
           //stop
           if (SetVel0) //stop without inertia
@@ -100,17 +117,10 @@ public class TEST_NavMeshAgent : MonoBehaviour
                agent.velocity = velocity;
           }
 
-          //destination
+          //go to places
           if (chasePlayer)
           {
-               foreach (var thing in FindObjectsOfType<HPComponent>())
-               {
-                    if (thing.team == CharaTeam.player_main_chara)
-                    {
-                         player = thing;
-                         break;
-                    }
-               }
+               player = Getplayer();
                agent.destination = player.transform.position;
           }
           else if (click_nextPos) //teleport, to closest pos if destination is not connected to NavMesh
@@ -124,7 +134,9 @@ public class TEST_NavMeshAgent : MonoBehaviour
                agent.Warp(warpPosition.position);
           }
 
-
+          destination = agent.destination;
+          agentPos = agent.transform.position;
+          nextPos = agent.nextPosition;
           remainingDistance = agent.remainingDistance;
           hasPath = agent.hasPath;
           pathPending = agent.pathPending;
@@ -139,6 +151,15 @@ public class TEST_NavMeshAgent : MonoBehaviour
                agent.ResetPath();
           }
 
+     }
+
+     HPComponent Getplayer()
+     {
+          foreach (var thing in FindObjectsOfType<HPComponent>())
+               if (thing.team == CharaTeam.player_main_chara)
+                    return thing;
+
+          return null;
      }
 
 
@@ -161,5 +182,80 @@ public class TEST_NavMeshAgent : MonoBehaviour
           //if (b)
           //     agent.nextPosition = transform.position;
      }
+
+     public float ghost_dist;
+     public float ignore_ghost_dist = 0.1f;
+     public float ghost_rotate_slerp = 4f;
+
+     void Ghost_agent()
+     {
+          //target pos
+          player = Getplayer();
+          ghost.destination = player.transform.position;
+
+          //catch up
+          ghost_dist = Vector3.Distance(transform.position, ghost.transform.position);
+          var dir = ghost.transform.position - transform.position;
+
+          if (ghost_dist > snap_dist)
+          {
+               //ghost.transform.position =   transform.position; //and recalculate path
+               ghost.transform.position = transform.position + dir.normalized * snap_dist; //and recalculate path
+          }
+
+          //pos
+          if (!pause_move_update)
+               if (ghost_dist > ignore_ghost_dist)
+               {
+                    transform.position = Vector3.MoveTowards(transform.position, ghost.nextPosition, ghost.speed * Time.fixedDeltaTime);
+               }
+
+
+          //rot
+          var to_player = Quaternion.LookRotation(player.transform.position - transform.position);
+          var to_corner = Quaternion.LookRotation(ghost.steeringTarget - transform.position);
+          to_player = Quaternion.Lerp(to_player, to_corner, 0.5f); //average
+
+          transform.rotation = Quaternion.Slerp(transform.rotation, to_player, ghost_rotate_slerp * Time.fixedDeltaTime);
+
+     }
+
+
+     void OnDrawGizmos()
+     {
+          if (!Application.isPlaying)
+               return;
+
+          if (!gizmos)
+               return;
+
+
+          Gizmos.color = Color.cyan;
+          Gizmos.DrawWireSphere(ghost.transform.position, 0.3f);
+
+
+          Gizmos.color = Color.red;
+          Gizmos.DrawWireSphere(ghost.destination, 0.23f);
+          for (int i = 0; i < ghost.path.corners.Length; i++)
+          {
+               Gizmos.color = Color.green;
+               Gizmos.DrawWireSphere(ghost.path.corners[i], 0.25f);
+               if (i > 0)
+               {
+                    Gizmos.color = Color.red;
+                    Gizmos.DrawLine(ghost.path.corners[i], ghost.path.corners[i - 1]);
+               }
+          }
+
+     }
+
+
+
+
+
+
+
+
+
 
 }

@@ -65,8 +65,8 @@ public class CameraMgr : MonoBehaviour
           }
 
           // position - apply to root
-          if (NetworChara.myChara != null)
-               root.position = NetworChara.myChara.transform.position + offset;
+          if (NetworkChara.myChara != null)
+               root.position = NetworkChara.myChara.transform.position + offset;
 
           // distance to middle parent - apply to camera
           camMain.transform.localPosition = new Vector3(0, 0, dist);
