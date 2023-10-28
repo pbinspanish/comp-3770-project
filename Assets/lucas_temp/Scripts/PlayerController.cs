@@ -1,7 +1,8 @@
 using TMPro;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
-
+using UnityEngine.Assertions.Must;
 
 [RequireComponent(typeof(PlayerSetting))]
 public class PlayerController : MonoBehaviour
@@ -25,21 +26,24 @@ public class PlayerController : MonoBehaviour
      {
           if (rb != null && col != null)
           {
-               if (Input.GetKeyDown(KeyCode.Alpha3)) Blink(); //TEST
+               if (Input.GetKeyDown(KeyCode.Alpha5)) TEST_Blink(); //TEST
+
                UpdateInput();
           }
      }
 
      void FixedUpdate()
      {
-          //reset flag first
-          flag_updateIsGrounded = false;
+          _checkGrounded = false; //reset flag first
+
+          if (Time.time > tSlowEnd) //slow timer
+               speedMultiple = 100;
+
+          BeSlippery(!isGrounded); //prevent sticking to the wall in air
 
           UpdateRotation();
           UpdatePosition();
           UpdateJump();
-
-          __isConnected = isConnected;
      }
 
 
@@ -49,7 +53,6 @@ public class PlayerController : MonoBehaviour
      Rigidbody net_rb;
      Collider net_col;
      bool isConnected { get => TEST.isConnected; }
-     public bool __isConnected;
 
      void OnConnect()
      {
@@ -84,23 +87,21 @@ public class PlayerController : MonoBehaviour
      // TEST ---------------------------------------------------------------------
 
      float blinkDist = 20;
-     void Blink()
+     void TEST_Blink()
      {
-          //var rot = PlayerChara.me.transform.rotation.eulerAngles;
-          //rot.y = 0; //blink in XZ plane
-          //var dir = Quaternion.Euler(rot) * Vector3.forward;
-          //PlayerChara.me.transform.position += dir.normalized * blinkDist;
+          var dir = cam.transform.rotation * Vector3.forward;
+          dir.y = 0;
 
-          NetworkChara.myChara.transform.position += NetworkChara.myChara.transform.rotation * Vector3.forward * blinkDist;
+          NetworkChara.myChara.transform.position += dir * blinkDist;
 
-          Debug.Log("BLINK ");
+          Debug.Log("BLINK");
      }
 
 
 
      // input ----------------------------------------------------------------------------------
-     float inputX; //left right
-     float inputZ; //forward
+     float inputH; //left right
+     float inputV; //forward
      bool inputJump;
      bool isRunning = false;
 
@@ -108,15 +109,15 @@ public class PlayerController : MonoBehaviour
      {
           if (enableMoveInput)
           {
-               inputX = Input.GetAxisRaw("Horizontal");
-               inputZ = Input.GetAxisRaw("Vertical");
+               inputH = Input.GetAxisRaw("Horizontal");
+               inputV = Input.GetAxisRaw("Vertical");
                isRunning = Input.GetKey(KeyCode.LeftShift);
                if (!inputJump) inputJump = Input.GetKeyDown(KeyCode.Space);
           }
           else
           {
-               inputX = 0;
-               inputZ = 0;
+               inputH = 0;
+               inputV = 0;
                isRunning = false;
                inputJump = false;
           }
@@ -129,36 +130,32 @@ public class PlayerController : MonoBehaviour
      Camera cam { get => Camera.main; }
 
      PlayerSetting status { get => PlayerSetting.inst; }
-     float acc { get => isGrounded ? status.acc : status.accAirborne; }
-     float maxValocity { get => isRunning ? status.maxValocityRun : status.maxValocity; }
-     float jumpVelocity { get => status.jumpVelocity; }
+     float maxSpeed { get => speedMultiple / 100f * (isGrounded ? isRunning ? status.maxSpeedRun : status.maxSpeed : status.maxSpeed); }
+     float accStrength { get => isGrounded ? status.accStrength : status.accStrengthAir; } //acceleration as a ratio to maxSpeed. 4=car, 10=ninja (physic friction=5)
+     float magic = 5.5f; //since we are lerping, and with friction, +1 is needed to reach maxSpeed
      float rotateLerp { get => status.rotateLerp; }
-     int jumpCount { get => status.jumpCount; }
+     float jumpVelocity { get => status.jumpVelocity; }
+     int jumpCount { get => status.jumpCount; } //2 = double jump
      int jumpRemain;
 
+
+     public float fun;
+     public float maxSPD;
      void UpdatePosition()
      {
-          // XZ = velocity on the ground
-          var vel = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+          fun = speedMultiple;
+          maxSPD = maxSpeed;
 
-          if (cam != null)
-          {
-               var h = inputX * cam.transform.right;
-               var v = inputZ * cam.transform.forward;
-               var dir = v + h;
+          if (inputH == 0 && inputV == 0)
+               return;
 
-               vel += dir.normalized * acc * Time.fixedDeltaTime;
-          }
-          else
-          {
-               vel += new Vector3(inputX, 0, inputZ).normalized * acc * Time.fixedDeltaTime;
-          }
+          var dir = (inputH * cam.transform.right + inputV * cam.transform.forward).normalized;
+          var desired_velocity = dir * (maxSpeed + magic);
+          var acc = (desired_velocity - rb.velocity) / Time.fixedDeltaTime;
+          acc.y = 0;
+          acc = Vector3.ClampMagnitude(acc, maxSpeed * accStrength);
 
-
-          //apply
-          float clamp = (Time.time < tCapSpeed) ? capSpeed : maxValocity;
-          vel = Vector3.ClampMagnitude(vel, clamp);
-          rb.velocity = new Vector3(vel.x, rb.velocity.y, vel.z);
+          rb.AddForce(acc, ForceMode.Acceleration);
      }
 
      void UpdateJump()
@@ -174,11 +171,10 @@ public class PlayerController : MonoBehaviour
                     jumpRemain--;
                     isGrounded = false;
 
-                    rb.velocity = new Vector3(rb.velocity.x, jumpVelocity, rb.velocity.z); //reset old Y velocity
+                    rb.AddForce(jumpVelocity * Vector3.up, ForceMode.VelocityChange);
                }
           }
 
-          BeSlippery(!isGrounded); //prevent sticking to the wall in air
      }
 
      void UpdateRotation()
@@ -205,27 +201,29 @@ public class PlayerController : MonoBehaviour
 
 
      // slow debuff  ---------------------------------------------------------------------------------
-     float capSpeed;
-     float tCapSpeed;
-     public void CapSpeed(float speed, float sec)
+     float speedMultiple = 100;
+     float tSlowEnd;
+     public void Slow(float _speedMultiple, float sec)
      {
-          capSpeed = speed;
-          tCapSpeed = Time.time + sec;
+          if (_speedMultiple < speedMultiple) //only apply the stronger slow
+          {
+               speedMultiple = Mathf.Clamp(_speedMultiple, 0, 100);
+               tSlowEnd = Time.time + sec;
+          }
      }
 
 
      // check if grounded ----------------------------------------------------------------------------
      bool isGrounded { get => UpdateIsGrounded(); set => _isGrounded = value; }
      bool _isGrounded;
+     bool _checkGrounded;
      float _small = 0.01f;
-     bool flag_updateIsGrounded;
-
 
      bool UpdateIsGrounded()
      {
-          if (!flag_updateIsGrounded)
+          if (!_checkGrounded)
           {
-               flag_updateIsGrounded = true;
+               _checkGrounded = true;
 
                var origin = rb.transform.position + Vector3.up * (groundedSphereCastRadius + _small); //+a small number to avoid sphere touching the ground initially (it will ignore these obj)
                var dist = groundedSphereCastRadius + _small * 2; //add 1 back, add another 1 as allowed error
@@ -238,11 +236,11 @@ public class PlayerController : MonoBehaviour
 
 
      // prevent sticking to wall in air ----------------------------------------------------------------------------
-
+     float friction = 5f;
      void BeSlippery(bool slip)
      {
-          col.material.dynamicFriction = slip ? 0 : 0.6f;
-          col.material.staticFriction = slip ? 0 : 0.6f;
+          col.material.dynamicFriction = slip ? 0 : friction;
+          col.material.staticFriction = slip ? 0 : friction;
           col.material.frictionCombine = slip ? PhysicMaterialCombine.Minimum : PhysicMaterialCombine.Average;
      }
 

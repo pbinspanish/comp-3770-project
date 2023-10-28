@@ -165,23 +165,20 @@ public class TEST_NavMeshAgent : MonoBehaviour
 
      // mix with physics  -------------------------------------------------------
 
-     float tAddForce;
-     float forceMinDuration = 0.1f;
+     //float tAddForce;
+     //float forceMinDuration = 0.1f;
 
-     public void OnAddForce(Vector3 _force)
-     {
-          tAddForce = Time.time;
-          Use_agent_and_kinematic(false);
-     }
+     //public void OnAddForce(Vector3 _force)
+     //{
+     //     tAddForce = Time.time;
+     //     Use_agent_and_kinematic(false);
+     //}
 
-     void Use_agent_and_kinematic(bool b)
-     {
-          rb.isKinematic = b;
-          agent.enabled = b;
-
-          //if (b)
-          //     agent.nextPosition = transform.position;
-     }
+     //void Use_agent_and_kinematic(bool b)
+     //{
+     //     rb.isKinematic = b;
+     //     agent.enabled = b;
+     //}
 
      public float ghost_dist;
      public float ignore_ghost_dist = 0.1f;

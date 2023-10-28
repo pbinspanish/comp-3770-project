@@ -19,9 +19,9 @@ MonoBehaviour:
   maxHit: 3
   triggerMode: 1
   spawnFwdUp: {x: 1.5, y: 2}
-  delay: 150
+  delay: 50
   cooldown: 150
-  forceFwdUp: {x: 5, y: 5}
+  forceFwdUp: {x: 2, y: 5}
   forceDirection: 1
   smoothForce: 0
   isHoming: 0
@@ -32,7 +32,7 @@ MonoBehaviour:
   stickToTarget: 30
   stickToWall: 30
   onHitVFX: {fileID: 0}
-  recycleVFX: 2
+  recycleVFX: 2000
   hitSameTarget: 0
   hitSameTargetEvery: 1000
   hitFoe: 1
@@ -40,7 +40,7 @@ MonoBehaviour:
   isHeal: 0
   isSiege: 0
   dmgRandomRange: 0
-  capSpeedOnDelay: 3
+  speedWhenFiring: 100
   maxUpwardsAgnle: 30
   maxDownwardsAgnle: 0
   preheatPool: 0

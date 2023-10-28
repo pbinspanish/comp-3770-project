@@ -26,13 +26,13 @@ MonoBehaviour:
   smoothForce: 0
   isHoming: 1
   homingDetect: 10
-  homingSpeed: 30
+  homingSpeed: 20
   homingRotateSpeed: 5
   homingDelay: 0.5
   stickToTarget: 30
   stickToWall: 30
   onHitVFX: {fileID: 0}
-  recycleVFX: 2
+  recycleVFX: 2000
   hitSameTarget: 0
   hitSameTargetEvery: 1000
   hitFoe: 1
@@ -40,7 +40,7 @@ MonoBehaviour:
   isHeal: 0
   isSiege: 0
   dmgRandomRange: 0
-  capSpeedOnDelay: -1
+  speedWhenFiring: 100
   maxUpwardsAgnle: 30
   maxDownwardsAgnle: 0
   preheatPool: 0

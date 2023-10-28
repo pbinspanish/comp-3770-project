@@ -315,21 +315,16 @@ public class Projectile : MonoBehaviour
           }
 
           force *= smooth ? Time.fixedDeltaTime : 1; //impulse or constant
-          Debug.Log("force0 = " + force);
-
+          Debug.Log("force = " + force + "  |  mag = " + force.magnitude);
 
           // finally
-          rb.AddForce(force, ForceMode.Impulse);
-
           //var ai = target.GetComponent<AIBrain>();
           //if (ai)
-          //{
-          //     ai.Add_force(force);
-          //}
+          //     ai.Apply_force(force);
           //else
-          //{
           //     rb.AddForce(force, ForceMode.Impulse);
-          //}
+
+          rb.AddForce(force, ForceMode.Impulse);
 
      }
 

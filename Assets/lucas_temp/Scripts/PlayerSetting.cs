@@ -10,13 +10,16 @@ public class PlayerSetting : MonoBehaviour
      static PlayerSetting _inst;
 
 
-     public float acc = 80;
-     public float accAirborne = 20;
-     public float maxValocity = 8.8f;
-     public float maxValocityRun = 13.2f;
+     public float maxSpeed = 8.8f;
+     public float maxSpeedRun = 13.2f;
+     public float accStrength = 8;
+     public float accStrengthAir = 3;
+
      public float rotateLerp = 17.5f;
+
      public float jumpVelocity = 10f;
-     public int jumpCount = 2; //2 = double jump
+     public int jumpCount = 2;
+
 
 
 }

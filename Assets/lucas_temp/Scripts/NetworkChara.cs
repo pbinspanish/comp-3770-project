@@ -72,7 +72,7 @@ public class NetworkChara : NetworkBehaviour
      Vector3 _vel;
      SmoothSetting setting { get => SmoothSetting.inst; }
      Vector3 pos { get => transform.position; set => transform.position = value; }
-     float speedCap { get => hp != null ? hp.team == CharaTeam.player_main_chara ? PlayerSetting.inst.maxValocity : float.MaxValue : float.MaxValue; }
+     float speedCap { get => hp != null ? hp.team == CharaTeam.player_main_chara ? PlayerSetting.inst.maxSpeed : float.MaxValue : float.MaxValue; }
 
 
      void UpdateRot()

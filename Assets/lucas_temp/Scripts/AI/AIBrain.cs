@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 using Unity.Netcode;
 using UnityEngine.AI;
 using System.Linq;
-
+using Unity.VisualScripting;
+using JetBrains.Annotations;
 
 [RequireComponent(typeof(NetworkChara))]
 [RequireComponent(typeof(HPComponent))]
@@ -21,17 +22,18 @@ public class AIBrain : MonoBehaviour
      public static int tDespoawn = 5; //sec
 
 
-     //public
-     public bool gizmos;
-     public bool log;
+     // debug
+     public string _monitor;
+     public bool _gizmos;
+     public bool _log;
+
      public bool enable_offline_AI = true; //switch on AI when not connected
 
-
+     //public
      [Header("Setting")]
      public float move_speed = 10f;
-     public float acc = 20f;
+     public float maxAcc = 20f; //agent dont use this acc, it has infinite acc to stay a bit ahead of us
      public float rotate_speed = 120f;
-     public float mass = 1f; //usually 1, larger mass = less vulnerable to force
 
 
      [Header("Alert")]
@@ -44,11 +46,11 @@ public class AIBrain : MonoBehaviour
 
 
      // private
+     public HPComponent hp { get; private set; }
      List<AIState> states;
      AIState current;
-     HPComponent hp;
      Rigidbody rb;
-     NavMeshAgent ghost;
+     NavMeshAgent agent;
 
 
      void Awake()
@@ -62,13 +64,20 @@ public class AIBrain : MonoBehaviour
 
           rb = GetComponent<Rigidbody>();
 
-          ghost = GetComponentInChildren<NavMeshAgent>();
-          ghost.transform.parent = null; //detach ghost
-          ghost.acceleration = float.MaxValue;
+          var physicMaterial = GetComponent<Collider>().material;
+          physicMaterial.dynamicFriction = 0;
+          physicMaterial.staticFriction = 0;
+          physicMaterial.frictionCombine = PhysicMaterialCombine.Minimum;
+
+          agent = GetComponentInChildren<NavMeshAgent>();
+          agent.transform.parent = null; //detached 'ghost' agent
+          agent.acceleration = float.MaxValue;
 
           TEST.OnConnect += On_connect;
           TEST.OnDisconnect += On_local_mode;
 
+          update_pos = false;
+          update_rot = false;
           On_local_mode();
 
           //check
@@ -86,35 +95,28 @@ public class AIBrain : MonoBehaviour
 
      void FixedUpdate()
      {
-          if (is_moving)
-          {
-               ghost.isStopped = false;
+          Update_pos();
+          Update_rotation();
 
-               Update_pos();
-               Update_rotation();
-          }
-          else
-          {
-               ghost.isStopped = true;
-          }
-
-          is_moving = false;
+          //force = Vector3.ClampMagnitude(force, force.sqrMagnitude * drag * Time.fixedDeltaTime); //force decay
      }
 
      void OnDestroy()
      {
-          Destroy(ghost);
+          Destroy(agent);
      }
+
 
      // network  ----------------------------------------------------------------------
      void On_connect()
      {
-          enabled = ghost.enabled = NetworkManager.Singleton.IsServer;
+          enabled = agent.enabled = NetworkManager.Singleton.IsServer;
      }
      void On_local_mode()
      {
-          enabled = ghost.enabled = enable_offline_AI;
+          enabled = agent.enabled = enable_offline_AI;
      }
+
 
      // state machine ----------------------------------------------------------------------
      void Update_state()
@@ -140,6 +142,7 @@ public class AIBrain : MonoBehaviour
                current.UpdateState();
           }
 
+          _monitor = current == null ? "Idle" : current.GetType().ToString();
      }
 
      AIState Decide_next_state()
@@ -152,7 +155,7 @@ public class AIBrain : MonoBehaviour
      }
 
 
-     // target util  ----------------------------------------------------------------------
+     // target list  ----------------------------------------------------------------------
      public List<AITargetData> targets { get => Update_target_list(); }
      List<AITargetData> _targets = new List<AITargetData>();
 
@@ -243,88 +246,148 @@ public class AIBrain : MonoBehaviour
      async void Die()
      {
           await Task.Delay(tDespoawn * 1000);
-          Despawn();
-     }
-
-     void Despawn()
-     {
           Destroy(gameObject);
      }
 
 
      // using navMesh  ---------------------------------------------------------------------
-     bool is_moving;
-     Vector3 target_pos;
-     float speed_pct;
-     public void Move(Vector3 pos, float stopping_distance, float _speed_pct = 100)
+     public bool update_rot { get; set; }
+     public bool update_pos { get; set; }
+     public float agent_pos_devation = 0.5f;
+     public float agent_rot_devation = 10f; //degree
+     public float agent_jitter_filter = 0.1f;
+     public float agent_rotate_slerp = 4f;
+
+     public void Set_move_target(Vector3 pos, float stopping_distance)
      {
-          is_moving = true;
-          target_pos = pos;
-          speed_pct = _speed_pct;
+          update_pos = true;
 
-          //if (Vector3.Distance(pos, transform.position) < stopping_distance)
-          //     return;
-
-          //var speed = move_speed * speed_pct / 100 * Time.deltaTime;
-          //transform.position = Vector3.MoveTowards(transform.position, pos, speed);
+          agent.destination = pos;
+          agent.stoppingDistance = stopping_distance;
+          agent.speed = move_speed;
+          agent.angularSpeed = rotate_speed;
      }
-     //public void Rotate_towards_TEST(Transform target)
-     //{
-     //     var dir = target.position - transform.position;
-     //     dir.y = 0;
-     //     var rot = Quaternion.LookRotation(dir);
-     //     transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, rotate_speed * Time.deltaTime);
-     //}
-
-     public float ghost_max_dist = 0.5f;
-     public float ghost_jitter_filter = 0.1f;
-     public float ghost_rotate_slerp = 4f;
 
      void Update_pos()
      {
-          ghost.destination = target_pos;
-          ghost.speed = move_speed * speed_pct / 100;
+          //log
+          rb_velocity = rb.velocity;
+          rb_velocity_mag = rb.velocity.magnitude;
 
-          // if ghost too far, snap back
-          var dist = Vector3.Distance(transform.position, ghost.transform.position);
-          if (dist > ghost_max_dist)
+          if (!update_pos)
+               return;
+
+          // if agent deviate too far, snap back
+          var dist = Vector3.Distance(transform.position, agent.transform.position);
+          if (dist > agent_pos_devation)
           {
-               ghost.transform.position =
+               agent.transform.position =
                     transform.position
-                    + (ghost.transform.position - transform.position).normalized * ghost_max_dist;
+                    + (agent.transform.position - transform.position).normalized * agent_pos_devation;
           }
 
-          // apply pos
-          if (dist > ghost_jitter_filter)
+          // move
+          if (dist > agent_jitter_filter)
           {
-               var speed = move_speed * speed_pct / 100 * Time.fixedDeltaTime;
-               transform.position = Vector3.MoveTowards(transform.position, ghost.nextPosition, speed);
-          }
+               //V1
+               //transform.position = Vector3.MoveTowards(transform.position, agent.transform.position, move_speed * Time.fixedDeltaTime);
 
-          // reset
-          speed_pct = 100;
+
+               //V2
+               //var dir = (agent.nextPosition - transform.position).normalized;
+               //vel += dir * acc * Time.fixedDeltaTime;
+               //vel = Vector3.ClampMagnitude(vel, move_speed);
+
+               //rb_velocity = rb.velocity = vel + force; //apply
+
+
+               //V3
+               var vel_desired = (agent.nextPosition - transform.position).normalized * move_speed;
+               var acc = vel_desired - rb.velocity;
+               acc.y = 0;
+               acc = Vector3.ClampMagnitude(acc, maxAcc);
+
+
+               acc__ = acc;
+               accMag__ = acc.magnitude;
+               vel_desired__ = vel_desired;
+               vel_desired_mag__ = vel_desired.magnitude;
+
+               rb.AddForce(acc, ForceMode.Acceleration);
+          }
      }
+
+     public Vector3 vel_desired__;
+     public float vel_desired_mag__;
+
+     public Vector3 acc__;
+     public float accMag__;
+
+     public Vector3 rb_velocity;
+     public float rb_velocity_mag;
+
 
      void Update_rotation()
      {
-          var to_player = Quaternion.LookRotation(target_pos - transform.position);
-          var to_corner = Quaternion.LookRotation(ghost.steeringTarget - transform.position);
+          if (!update_rot)
+               return;
+
+          // if rotation deviate too far, snap back
+          var angle = Quaternion.Angle(transform.rotation, agent.transform.rotation);
+          if (angle > agent_rot_devation)
+          {
+               //agent.transform.rotation = Quaternion.Lerp(agent.transform.rotation, transform.rotation, 0.5f);
+               agent.transform.rotation = transform.rotation;
+          }
+
+          var to_player = Quaternion.LookRotation(agent.destination - transform.position);
+          var to_corner = Quaternion.LookRotation(agent.steeringTarget - transform.position);
           to_player = Quaternion.Lerp(to_player, to_corner, 0.5f); //average
 
-          transform.rotation = Quaternion.Slerp(transform.rotation, to_player, ghost_rotate_slerp * Time.fixedDeltaTime);
+          transform.rotation = Quaternion.Slerp(transform.rotation, to_player, agent_rotate_slerp * Time.fixedDeltaTime);
      }
 
 
 
 
      // debug  ----------------------------------------------------------------------
-     void OnDrawGizmosSelected()
+     void OnDrawGizmos()
      {
-          if (!gizmos)
+          if (!Application.isPlaying)
                return;
 
+          if (!_gizmos)
+               return;
+
+          // alert range
           Gizmos.color = Color.yellow;
           Gizmos.DrawWireSphere(transform.position, spot_range);
+
+
+          // nav agent
+          Gizmos.color = Color.cyan;
+          Gizmos.DrawWireSphere(agent.transform.position, 0.3f);
+
+
+          Gizmos.color = Color.red;
+          Gizmos.DrawWireSphere(agent.destination, 0.23f);
+          for (int i = 0; i < agent.path.corners.Length; i++)
+          {
+               Gizmos.color = Color.green;
+               Gizmos.DrawWireSphere(agent.path.corners[i], 0.25f);
+               if (i > 0)
+               {
+                    Gizmos.color = Color.red;
+                    Gizmos.DrawLine(agent.path.corners[i], agent.path.corners[i - 1]);
+               }
+          }
+
+
+
+
+
+
+
      }
 
 

@@ -7,10 +7,12 @@ using UnityEngine;
 
 public class AIState_NormalAttack : AIState
 {
+     // debug
+     public string _monitor;
+     public bool _gizmos;
 
-     public bool gizmos;
+     [Header("Setting")]
      public float switchTarget = 5;
-     public float tLastAttack { get; private set; } //how long have we been chasing but not attacking??
 
      // private
      AITargetData target;
@@ -29,89 +31,144 @@ public class AIState_NormalAttack : AIState
 
      public override void UpdateState()
      {
-          // recover from last action
-          if (Time.time < tLastAttack + atkRecover)
-          {
-               //brain.Stop_move();
-               return;
-          }
-
-          // pick target?
-          if (target == null)
-          {
+          if (target == null || Time.time > tSwitchTarget) // pick a target
                DecideTarget();
-          }
-          else if (Time.time > tSwitchTarget)
-          {
-               DecideTarget();
-          }
 
-          // attack or chase
-          bool inRange = atkRange > Vector3.Distance(transform.position, target.transform.position);
-          if (isAtkReady && inRange)
-          {
-               TEST_Attack(target.hp);
-          }
-          else
-          {
-               brain.Move(target.transform.position, atkRange);
-               //brain.Move_towards(target.transform, atkRange);
-          }
+          AttackOrChase();
      }
 
      public override void OnExit()
      {
           target = null;
+          brain.update_pos = false;
+          brain.update_rot = false;
 
-          if (log) Debug.Log("AIState_Attack | OnExitState()");
+          if (log) Debug.Log("OnExitState() = AIState_NormalAttack");
+          _monitor = "";
      }
 
 
-     // private  ---------------------------------------------------------------------
+     // decide target  ---------------------------------------------------------------------
+
      void DecideTarget()
      {
           target = brain.Get_target();
           tSwitchTarget = Time.time + switchTarget;
 
-          if (log) if (target != null) Debug.Log("AIState_Attack | DecideTarget() | target = " + target.hp.name);
+          if (log) if (target != null) Debug.Log("DecideTarget() = " + target.hp.name);
      }
 
-     // TEST attack ---------------------------------------------------------------------
-     [Header("TEST")]
-     public int atkDamage = 1;
-     public float atkRange = 5;
-     public float atkCoolDown = 2.8f;
-     public float atkDelay = 0.5f; //delay before an attack connect
-     public float atkRecover = 1.5f; //delay after an attack, then you can start moving again
-     bool isAtkReady { get => Time.time > tLastAttack + atkCoolDown; }
 
-     async void TEST_Attack(HPComponent hp)
+     // attack  ---------------------------------------------------------------------
+     [Header("TEST Attack")] //TODO: replace with melee spell or something later
+     public int attackDamage = 1;
+     public float attackRange = 5;
+     public float attackCoolDown = 2.8f;
+     public float hitDelay = 0.5f; //delay before hit
+     public float actionRecover = 1.5f; //time before you can start moving again after an attack
+     public bool move_while_attacking;
+
+     public float tLastAttack { get; private set; }
+     float tHit;
+     float tRecover;
+     float tNextAtk;
+     bool pending_hit;
+
+     void AttackOrChase()
      {
-          if (isAtkReady)
+          // order of event:
+
+          // if hit < recover: AI will stop during and after the attack
+          //    (    rotate    )                (        move/rotate
+          //    |--------------[!]--------------|---------------|-------
+          // initial           hit           recover       allow nextAtk 
+
+          // if hit > recover: AI will only stop during pre-hit
+          //    (            rotate            ) (       move/rotate
+          //    |---------------|--------------[!]--------------|-------
+          // initial         recover           hit         allow nextAtk 
+
+          // if hit > recover, and allow_move_while_attack, AI will be chasing you non-stop
+
+          if (Time.time < tHit) // swinging the sword?
           {
-               // delay
-               tLastAttack = Time.time;
-               await Task.Delay((int)(atkDelay * 1000));
+               _monitor = "swing";
 
-               // am I still alive?
-               var myHP = GetComponent<HPComponent>();
-               if (myHP && myHP.hp == 0)
-                    return;
+               Set_move_target();
 
-               // business
-               hp.Damage(atkDamage);
+               brain.update_pos = move_while_attacking;
+               brain.update_rot = true;
+          }
+          else
+          {
+               if (pending_hit) // sword hit?
+               {
+                    if (log) Debug.Log("TEST_Attack() = " + target.hp.name);
 
-               if (log) Debug.Log("AIState_Attack | TEST_CastSpell()");
+                    pending_hit = false;
+                    if (brain.hp.hp > 0) // am I still alive?
+                         TEST_Attack(target.hp);
+               }
+
+               if (Time.time < tRecover) // recovering from action?
+               {
+                    _monitor = "recover";
+                    brain.update_pos = false;
+                    brain.update_rot = false;
+               }
+               else
+               {
+                    //initial attack?
+                    var dist = Vector3.Distance(transform.position, target.transform.position);
+                    if (dist < attackRange)
+                    {
+                         if (Time.time > tNextAtk)
+                         {
+                              tLastAttack = Time.time;
+                              tHit = Time.time + hitDelay;
+                              tRecover = Time.time + actionRecover;
+                              tNextAtk = Time.time + attackCoolDown;
+
+                              pending_hit = true;
+
+                              return; //good
+                         }
+                    }
+
+                    // chase
+                    _monitor = "chasing";
+
+                    Set_move_target();
+                    brain.update_rot = true;
+                    brain.update_pos = true;
+               }
           }
      }
 
+     void TEST_Attack(HPComponent hp)
+     {
+          hp.Damage(attackDamage);
+     }
+
+     void Set_move_target()
+     {
+          brain.Set_move_target(target.transform.position, attackRange * 0.98f); //a bit error space
+     }
+
+
+
+
+
+
+     // debug ---------------------------------------------------------------------
+
      void OnDrawGizmosSelected()
      {
-          if (!gizmos)
+          if (!_gizmos)
                return;
 
           Gizmos.color = Color.red;
-          Gizmos.DrawWireSphere(transform.position, atkRange);
+          Gizmos.DrawWireSphere(transform.position, attackRange);
      }
 
 

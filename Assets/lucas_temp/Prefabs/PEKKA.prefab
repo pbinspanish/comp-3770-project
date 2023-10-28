@@ -40,8 +40,8 @@ NavMeshAgent:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3659089170990161467}
   m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.84
+  m_AgentTypeID: -1372625422
+  m_Radius: 3
   m_Speed: 3.5
   m_Acceleration: 1e+38
   avoidancePriority: 50
@@ -50,7 +50,7 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 3
+  m_Height: 2
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
@@ -157,18 +157,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6af818745f280364bb82a4bbe8142f78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gizmos: 0
-  log: 0
+  _monitor: 
+  _gizmos: 1
+  _log: 0
   enable_offline_AI: 1
   move_speed: 3
-  acc: 8
+  maxAcc: 20
   rotate_speed: 160
-  mass: 10
   spot_range: 20
   alert_nearby: 20
-  ghost_max_dist: 0.5
-  ghost_jitter_filter: 0.1
-  ghost_rotate_slerp: 4
+  agent_pos_devation: 0.5
+  agent_rot_devation: 10
+  agent_jitter_filter: 0.1
+  agent_rotate_slerp: 4
+  vel_desired__: {x: 0, y: 0, z: 0}
+  vel_desired_mag__: 0
+  acc__: {x: 0, y: 0, z: 0}
+  accMag__: 0
+  rb_velocity: {x: 0, y: 0, z: 0}
+  rb_velocity_mag: 0
 --- !u!114 &7002670174249727832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,13 +209,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9db39956ed9b95c45b130bf289a380fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gizmos: 0
+  _monitor: 
+  _gizmos: 1
   switchTarget: 5
-  atkDamage: 99
-  atkRange: 5
-  atkCoolDown: 2.8
-  atkDelay: 0.8
-  atkRecover: 2.5
+  attackDamage: 99
+  attackRange: 7
+  attackCoolDown: 2.8
+  hitDelay: 0.5
+  actionRecover: 1.5
+  move_while_attacking: 0
 --- !u!136 &7465873444661503786
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -240,7 +249,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6294235382854823595}
   serializedVersion: 4
-  m_Mass: 5
+  m_Mass: 10
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -257,7 +266,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!1001 &282157458748853650
 PrefabInstance:

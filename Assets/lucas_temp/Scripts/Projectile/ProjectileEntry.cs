@@ -20,7 +20,7 @@ public class ProjectileEntry : ScriptableObject
      public TriggerMode triggerMode = TriggerMode.KeyDown;
      public Vector2 spawnFwdUp = new Vector2(1.5f, 2f);
      public int delay = 20; //ms before launch
-     public int cooldown = 20; //ms before launch again
+     public int cooldown = 150; //ms before launch again
 
 
      [Header(" - Force")]
@@ -46,7 +46,7 @@ public class ProjectileEntry : ScriptableObject
 
      [Header(" - AoE")]
      public bool hitSameTarget = false; // can we hit the same targets repeatedly? eg. a fire wall
-     public float hitSameTargetEvery = 500; //ms
+     public float hitSameTargetEvery = 1000; //ms
 
 
 
@@ -54,18 +54,20 @@ public class ProjectileEntry : ScriptableObject
      public bool hitFoe = true;
      public bool hitFriend = false;  // use object's layer (player/enemy) as its team
      public bool isHeal = false;
-
      public bool isSiege = false; // some spell can damage soft terrain
 
      public int dmgRandomRange = 0; // -this < x < this. Randomly change damage by x
-
-     public float capSpeedOnDelay = -1; //cap move speed during firing delay, only apply to player
-
+     public float speedWhenFiring = 100; //move speed during pre-fire delay, percentage, only for player, Note: with friction a very low speed = not moving at all
+     public int burst = 1; //how many projectiles to fire at once, when >1 this will fire in all directions
 
      [Range(0, 89)] public float maxUpwardsAgnle = 30; //can we fire up/downwards?
      [Range(0, 89)] public float maxDownwardsAgnle = 0;
 
      public int preheatPool = 0; // pre heat the pool so maybe we lag less
+
+
+
+
 
 
 }

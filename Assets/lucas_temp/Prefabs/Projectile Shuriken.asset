@@ -10,37 +10,38 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9004629b820795643b0fd64a4d2399f3, type: 3}
-  m_Name: Projectile Blackhole
+  m_Name: Projectile Shuriken
   m_EditorClassIdentifier: 
-  prefab: {fileID: 2331716587167652985, guid: 9d9c4071069ec1c4f9367e56089bcb47, type: 3}
-  speed: 2
-  range: 30
+  prefab: {fileID: 1447996289843748124, guid: 747895ba747233246b8a3c6e16ccccb4, type: 3}
+  speed: 70
+  range: 200
   damage: 1
-  maxHit: -1
+  maxHit: 1
   triggerMode: 1
-  spawnFwdUp: {x: 5, y: 2}
-  delay: 1200
-  cooldown: 3000
-  forceFwdUp: {x: -6, y: 2}
-  forceDirection: 2
+  spawnFwdUp: {x: 1.5, y: 2}
+  delay: 0
+  cooldown: 40
+  forceFwdUp: {x: 0, y: 0}
+  forceDirection: 1
   smoothForce: 0
-  isHoming: 0
+  isHoming: 1
   homingDetect: 10
-  homingSpeed: 11
-  homingRotateSpeed: 5
-  homingDelay: 0
-  stickToTarget: 0
-  stickToWall: 0
+  homingSpeed: 20
+  homingRotateSpeed: 1
+  homingDelay: 0.1
+  stickToTarget: 30
+  stickToWall: 30
   onHitVFX: {fileID: 0}
   recycleVFX: 2000
-  hitSameTarget: 1
-  hitSameTargetEvery: 500
+  hitSameTarget: 0
+  hitSameTargetEvery: 1000
   hitFoe: 1
   hitFriend: 0
   isHeal: 0
-  isSiege: 1
+  isSiege: 0
   dmgRandomRange: 0
-  speedWhenFiring: 35
-  maxUpwardsAgnle: 0
+  speedWhenFiring: 100
+  burst: 30
+  maxUpwardsAgnle: 30
   maxDownwardsAgnle: 0
-  preheatPool: 1
+  preheatPool: 0

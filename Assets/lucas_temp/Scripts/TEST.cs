@@ -46,6 +46,14 @@ public class TEST : NetworkBehaviour
      }
 
 
+     public ProjectileLauncher launcher;
+     void Update()
+     {
+          if (Input.GetKeyDown(KeyCode.Q))
+               launcher.FireProjectile_AI(new Vector3(0, 1, 0), new Vector3(1, 0, 1), CharaTeam.player_main_chara);
+     }
+
+
      // set up connection ----------------------------------------------------------------------------
 
      UnityTransport uTransport { get => NetworkManager.Singleton.GetComponent<UnityTransport>(); }

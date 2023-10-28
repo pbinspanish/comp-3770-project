@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -59,34 +60,46 @@ public class ProjectileLauncher : NetworkBehaviour
           if (!input)
                return;
 
-          var playerID = NetworkChara.myChara.GetComponent<HPComponent>().id;
-          FireProjectile(CharaTeam.player_main_chara, playerID); //input is only from player
+          FireProjectile_Player();
      }
 
 
      // fire projectile ---------------------------------------------------------------
 
-     public void FireProjectile(CharaTeam team, int attackerID = 0)
+     public void FireProjectile_AI(Vector3 start, Vector3 dir, CharaTeam team)
+     {
+          FireProjectile(start, dir, team, clientID, 0); //this AI should be run by the server, so this clientID is server's ID
+     }
+
+     public void FireProjectile_Player()
+     {
+          var attackerID = NetworkChara.myChara.GetComponent<HPComponent>().id; //this player's ID
+
+          // position
+          var start = NetworkChara.myChara.transform.position;
+          start += NetworkChara.myChara.transform.rotation * new Vector3(0, setting.spawnFwdUp.y, setting.spawnFwdUp.x);
+
+          // direction
+          var dir = PlayerController.mouseHit
+               - NetworkChara.myChara.transform.position
+               - new Vector3(0, setting.spawnFwdUp.y, 0); //compensate height, since we fire from hip, not from feet
+
+          FireProjectile(start, dir, CharaTeam.player_main_chara, clientID, attackerID);
+     }
+
+
+
+     public void FireProjectile(Vector3 start, Vector3 dir, CharaTeam team, ulong originClientID, int attackerID)
      {
           tNextFire = Time.time + setting.cooldown / 1000f;
 
           var data = new ProjectilePacket();
-          data.originClientID = clientID;
+          data.originClientID = originClientID;
           data.attackerID = attackerID; // for AI to identify player, 0 = not in use
-          data.delay = setting.delay;
           data.team = team;
+          data.start = start;
+          data.dir = dir;
 
-          // position
-          data.start = NetworkChara.myChara.transform.position;
-          data.start += NetworkChara.myChara.transform.rotation * new Vector3(0, setting.spawnFwdUp.y, setting.spawnFwdUp.x);
-
-
-          // direction
-          data.dir = PlayerController.mouseHit
-               - NetworkChara.myChara.transform.position
-               - new Vector3(0, setting.spawnFwdUp.y, 0); //compensate height, since we fire from hip, not from feet
-
-          //gizmos_dir = data.dir; //debug
           if (setting.maxDownwardsAgnle == 0 && setting.maxUpwardsAgnle == 0)
           {
                data.dir.y = 0;
@@ -106,6 +119,9 @@ public class ProjectileLauncher : NetworkBehaviour
           Fire_ServerRPC(data);
      }
 
+
+
+
      [ServerRpc(RequireOwnership = false)]
      void Fire_ServerRPC(ProjectilePacket data)
      {
@@ -120,18 +136,18 @@ public class ProjectileLauncher : NetworkBehaviour
 
      async void _fire(ProjectilePacket data)
      {
-          if (data.delay > 0)
+          if (setting.delay > 0)
           {
-               int appliedDelay = data.delay;
+               int appliedDelay = setting.delay;
 
                if (data.originClientID == clientID) //origin client
                {
                     // cap speed
-                    if (setting.capSpeedOnDelay >= 0)
+                    if (setting.speedWhenFiring >= 0)
                     {
                          var controller = FindObjectOfType<PlayerController>();
                          if (controller)
-                              controller.CapSpeed(setting.capSpeedOnDelay, data.delay / 1000);
+                              controller.Slow(setting.speedWhenFiring, setting.delay / 1000);
                     }
                }
                else //everyone else
@@ -148,11 +164,24 @@ public class ProjectileLauncher : NetworkBehaviour
           }
 
           // fire
-          var p = pool.Get();
-          p.enabled = true;
-          //p.Fire(data.fireFrom, data.dir, data.team, data.originClientID);
-          p.Fire(data);
+          if (setting.burst == 1)
+          {
+               var p = pool.Get();
+               p.enabled = true;
+               p.Fire(data);
+          }
+          else
+          {
+               for (int i = 0; i < setting.burst; i++)
+               {
+                    var p = pool.Get();
+                    p.enabled = true;
+                    data.dir = Quaternion.Euler(0, 360f / setting.burst * (i + 1), 0) * Vector3.forward;
 
+                    await Task.Delay(10);
+                    p.Fire(data);
+               }
+          }
      }
 
 
@@ -230,6 +259,7 @@ public class ProjectileLauncher : NetworkBehaviour
 
           vfx.SetActive(false);
           poolVFX.Release(vfx);
+
      }
 
 
@@ -272,7 +302,6 @@ public struct ProjectilePacket : INetworkSerializable
 
      public Vector3 start;
      public Vector3 dir;
-     public int delay;
 
 
      void INetworkSerializable.NetworkSerialize<T>(BufferSerializer<T> serializer)
@@ -281,7 +310,6 @@ public struct ProjectilePacket : INetworkSerializable
           serializer.SerializeValue(ref attackerID);
           serializer.SerializeValue(ref start);
           serializer.SerializeValue(ref dir);
-          serializer.SerializeValue(ref delay);
           serializer.SerializeValue(ref team);
      }
 }

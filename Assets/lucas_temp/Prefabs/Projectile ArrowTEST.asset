@@ -33,7 +33,7 @@ MonoBehaviour:
   stickToWall: 30
   onHitVFX: {fileID: 5841584482562486449, guid: ce0c689300e17124294d5396a339f7c5,
     type: 3}
-  recycleVFX: 2
+  recycleVFX: 2000
   hitSameTarget: 0
   hitSameTargetEvery: 1000
   hitFoe: 1
@@ -41,7 +41,7 @@ MonoBehaviour:
   isHeal: 0
   isSiege: 0
   dmgRandomRange: 20
-  capSpeedOnDelay: -1
+  speedWhenFiring: 100
   maxUpwardsAgnle: 30
   maxDownwardsAgnle: 0
   preheatPool: 0

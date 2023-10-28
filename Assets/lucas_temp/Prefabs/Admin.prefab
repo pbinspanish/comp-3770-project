@@ -123,7 +123,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enableMoveInput: 1
   groundedSphereCastRadius: 0.8
-  __isConnected: 0
 --- !u!114 &2989459132654949902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,10 +135,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea247ee5df6a383409eccd459f41431d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acc: 80
-  accAirborne: 20
-  maxValocity: 8.8
-  maxValocityRun: 13.2
+  maxSpeed: 8.8
+  maxSpeedRun: 13.2
+  accStrength: 8
+  accStrengthAir: 3
   rotateLerp: 17.5
   jumpVelocity: 9.5
   jumpCount: 2

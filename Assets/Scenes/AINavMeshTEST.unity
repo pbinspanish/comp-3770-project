@@ -220,50 +220,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FlyingMob2 (12)
       objectReference: {fileID: 0}
-    - target: {fileID: 24964186622298953, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkDelay
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkRecover
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkCoolDown
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 2366646212000428961, guid: 28bb3b2022b5fe24cb91241a2084bcee,
         type: 3}
       propertyPath: GlobalObjectIdHash
       value: 2129830174
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: acc
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: gizmos_len
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: move_speed
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: rotate_speed
-      value: 240
       objectReference: {fileID: 0}
     - target: {fileID: 6501609292666453675, guid: 28bb3b2022b5fe24cb91241a2084bcee,
         type: 3}
@@ -314,11 +274,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6772445874693165377, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: forceMinDuration
-      value: 0.3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -692,50 +647,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FlyingMob2 (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 24964186622298953, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkDelay
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkRecover
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkCoolDown
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 2366646212000428961, guid: 28bb3b2022b5fe24cb91241a2084bcee,
         type: 3}
       propertyPath: GlobalObjectIdHash
       value: 1671596172
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: acc
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: gizmos_len
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: move_speed
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: rotate_speed
-      value: 240
       objectReference: {fileID: 0}
     - target: {fileID: 6501609292666453675, guid: 28bb3b2022b5fe24cb91241a2084bcee,
         type: 3}
@@ -786,11 +701,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6772445874693165377, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: forceMinDuration
-      value: 0.3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1206,50 +1116,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FlyingMob2 (11)
       objectReference: {fileID: 0}
-    - target: {fileID: 24964186622298953, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkDelay
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkRecover
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkCoolDown
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 2366646212000428961, guid: 28bb3b2022b5fe24cb91241a2084bcee,
         type: 3}
       propertyPath: GlobalObjectIdHash
       value: 4043628813
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: acc
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: gizmos_len
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: move_speed
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: rotate_speed
-      value: 240
       objectReference: {fileID: 0}
     - target: {fileID: 6501609292666453675, guid: 28bb3b2022b5fe24cb91241a2084bcee,
         type: 3}
@@ -2014,50 +1884,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FlyingMob2 (14)
       objectReference: {fileID: 0}
-    - target: {fileID: 24964186622298953, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkDelay
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkRecover
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkCoolDown
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 2366646212000428961, guid: 28bb3b2022b5fe24cb91241a2084bcee,
         type: 3}
       propertyPath: GlobalObjectIdHash
       value: 283299052
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: acc
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: gizmos_len
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: move_speed
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: rotate_speed
-      value: 240
       objectReference: {fileID: 0}
     - target: {fileID: 6501609292666453675, guid: 28bb3b2022b5fe24cb91241a2084bcee,
         type: 3}
@@ -2108,11 +1938,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6772445874693165377, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: forceMinDuration
-      value: 0.3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2474,50 +2299,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FlyingMob2 (7)
       objectReference: {fileID: 0}
-    - target: {fileID: 24964186622298953, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkDelay
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkRecover
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkCoolDown
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 2366646212000428961, guid: 28bb3b2022b5fe24cb91241a2084bcee,
         type: 3}
       propertyPath: GlobalObjectIdHash
       value: 3650581364
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: acc
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: gizmos_len
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: move_speed
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: rotate_speed
-      value: 240
       objectReference: {fileID: 0}
     - target: {fileID: 6501609292666453675, guid: 28bb3b2022b5fe24cb91241a2084bcee,
         type: 3}
@@ -3697,6 +3482,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3855244470720748352, guid: 935459978ccc7cb419e77a9afe52c6d3,
+        type: 3}
+      propertyPath: launcher
+      value: 
+      objectReference: {fileID: 1036568398}
     - target: {fileID: 6689819152590511506, guid: 935459978ccc7cb419e77a9afe52c6d3,
         type: 3}
       propertyPath: GlobalObjectIdHash
@@ -3890,50 +3680,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FlyingMob2 (6)
       objectReference: {fileID: 0}
-    - target: {fileID: 24964186622298953, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkDelay
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkRecover
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkCoolDown
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 2366646212000428961, guid: 28bb3b2022b5fe24cb91241a2084bcee,
         type: 3}
       propertyPath: GlobalObjectIdHash
       value: 3570313734
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: acc
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: gizmos_len
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: move_speed
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: rotate_speed
-      value: 240
       objectReference: {fileID: 0}
     - target: {fileID: 6501609292666453675, guid: 28bb3b2022b5fe24cb91241a2084bcee,
         type: 3}
@@ -4074,6 +3824,50 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 543278469}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &551691156
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 551691157}
+  - component: {fileID: 551691158}
+  m_Layer: 0
+  m_Name: eg
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &551691157
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 551691156}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.007124, y: 4.327814, z: 0.115646325}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &551691158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 551691156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2d3159105624864e8e6380c1810e919, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &568436071
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4087,50 +3881,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FlyingMob2 (5)
       objectReference: {fileID: 0}
-    - target: {fileID: 24964186622298953, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkDelay
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkRecover
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkCoolDown
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 2366646212000428961, guid: 28bb3b2022b5fe24cb91241a2084bcee,
         type: 3}
       propertyPath: GlobalObjectIdHash
       value: 3708019838
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: acc
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: gizmos_len
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: move_speed
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: rotate_speed
-      value: 240
       objectReference: {fileID: 0}
     - target: {fileID: 6501609292666453675, guid: 28bb3b2022b5fe24cb91241a2084bcee,
         type: 3}
@@ -4182,13 +3936,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6772445874693165377, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: forceMinDuration
-      value: 0.3
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 2497734147969880179, guid: 28bb3b2022b5fe24cb91241a2084bcee, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -4578,50 +4326,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FlyingMob2 (16)
       objectReference: {fileID: 0}
-    - target: {fileID: 24964186622298953, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkDelay
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkRecover
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkCoolDown
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 2366646212000428961, guid: 28bb3b2022b5fe24cb91241a2084bcee,
         type: 3}
       propertyPath: GlobalObjectIdHash
       value: 574380632
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: acc
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: gizmos_len
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: move_speed
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: rotate_speed
-      value: 240
       objectReference: {fileID: 0}
     - target: {fileID: 6501609292666453675, guid: 28bb3b2022b5fe24cb91241a2084bcee,
         type: 3}
@@ -6066,11 +5774,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: FlyingMob2 (2)
       objectReference: {fileID: 0}
-    - target: {fileID: 24964186622298953, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2366646212000428961, guid: 28bb3b2022b5fe24cb91241a2084bcee,
         type: 3}
       propertyPath: GlobalObjectIdHash
@@ -6140,6 +5843,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 735300717}
+  - component: {fileID: 735300719}
   - component: {fileID: 735300718}
   m_Layer: 0
   m_Name: Terrain
@@ -6199,7 +5903,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AgentTypeID: 0
+  m_AgentTypeID: -1372625422
   m_CollectObjects: 2
   m_Size: {x: 10, y: 10, z: 10}
   m_Center: {x: 0, y: 2, z: 0}
@@ -6214,9 +5918,40 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.33333334
+  m_VoxelSize: 1
   m_MinRegionArea: 50
   m_NavMeshData: {fileID: 23800000, guid: 2a8b646a37f863f40a3c5b9bc0031743, type: 2}
+  m_BuildHeightMesh: 0
+--- !u!114 &735300719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 735300716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.33333334
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: d810b545339b4e8429a59036a2716fb7, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1001 &774574006
 PrefabInstance:
@@ -6315,50 +6050,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FlyingMob2 (13)
       objectReference: {fileID: 0}
-    - target: {fileID: 24964186622298953, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkDelay
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkRecover
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkCoolDown
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 2366646212000428961, guid: 28bb3b2022b5fe24cb91241a2084bcee,
         type: 3}
       propertyPath: GlobalObjectIdHash
       value: 941910788
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: acc
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: gizmos_len
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: move_speed
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: rotate_speed
-      value: 240
       objectReference: {fileID: 0}
     - target: {fileID: 6501609292666453675, guid: 28bb3b2022b5fe24cb91241a2084bcee,
         type: 3}
@@ -6409,11 +6104,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6772445874693165377, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: forceMinDuration
-      value: 0.3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7224,50 +6914,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FlyingMob2 (9)
       objectReference: {fileID: 0}
-    - target: {fileID: 24964186622298953, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkDelay
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkRecover
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkCoolDown
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 2366646212000428961, guid: 28bb3b2022b5fe24cb91241a2084bcee,
         type: 3}
       propertyPath: GlobalObjectIdHash
       value: 1531720216
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: acc
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: gizmos_len
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: move_speed
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: rotate_speed
-      value: 240
       objectReference: {fileID: 0}
     - target: {fileID: 6501609292666453675, guid: 28bb3b2022b5fe24cb91241a2084bcee,
         type: 3}
@@ -7318,16 +6968,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6772445874693165377, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: nextPosition
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6772445874693165377, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: warpPosition
-      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7625,50 +7265,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FlyingMob2 (10)
       objectReference: {fileID: 0}
-    - target: {fileID: 24964186622298953, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkDelay
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkRecover
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkCoolDown
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 2366646212000428961, guid: 28bb3b2022b5fe24cb91241a2084bcee,
         type: 3}
       propertyPath: GlobalObjectIdHash
       value: 4294022759
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: acc
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: gizmos_len
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: move_speed
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: rotate_speed
-      value: 240
       objectReference: {fileID: 0}
     - target: {fileID: 6501609292666453675, guid: 28bb3b2022b5fe24cb91241a2084bcee,
         type: 3}
@@ -7719,16 +7319,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6772445874693165377, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: goTo
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6772445874693165377, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: teleportTo
-      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7987,6 +7577,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 984421821}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1036568398 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3134616314041413000, guid: c13cba26fb0e1fb47a3c0e6b31d50529,
+    type: 3}
+  m_PrefabInstance: {fileID: 2085618049}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e23ad3d825a38d240a2db79e591d160b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1044243950
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9670,96 +9272,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1193839628}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1218110303
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1218110305}
-  - component: {fileID: 1218110306}
-  - component: {fileID: 1218110304}
-  - component: {fileID: 1218110307}
-  m_Layer: 0
-  m_Name: TruePhysicsNavAgent
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1218110304
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1218110303}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 260d75fdb42bbc0488b603bc3fd89bb7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  chasePlayer: 0
---- !u!4 &1218110305
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1218110303}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.5, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1324719548}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1218110306
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1218110303}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3295455546
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
---- !u!195 &1218110307
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1218110303}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.7
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!1 &1233595334
 GameObject:
   m_ObjectHideFlags: 0
@@ -10216,173 +9728,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1324573272}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1324719547
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1324719548}
-  - component: {fileID: 1324719550}
-  - component: {fileID: 1324719549}
-  m_Layer: 0
-  m_Name: physics
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1324719548
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1324719547}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1328614928}
-  m_Father: {fileID: 1218110305}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &1324719549
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1324719547}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!136 &1324719550
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1324719547}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
---- !u!1 &1328614927
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1328614928}
-  - component: {fileID: 1328614931}
-  - component: {fileID: 1328614930}
-  m_Layer: 0
-  m_Name: Capsule
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1328614928
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1328614927}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1324719548}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &1328614930
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1328614927}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &1328614931
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1328614927}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1348595665
 GameObject:
   m_ObjectHideFlags: 0
@@ -11524,50 +10869,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FlyingMob2 (15)
       objectReference: {fileID: 0}
-    - target: {fileID: 24964186622298953, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkDelay
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkRecover
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkCoolDown
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 2366646212000428961, guid: 28bb3b2022b5fe24cb91241a2084bcee,
         type: 3}
       propertyPath: GlobalObjectIdHash
       value: 3292188825
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: acc
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: gizmos_len
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: move_speed
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: rotate_speed
-      value: 240
       objectReference: {fileID: 0}
     - target: {fileID: 6501609292666453675, guid: 28bb3b2022b5fe24cb91241a2084bcee,
         type: 3}
@@ -11619,13 +10924,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6772445874693165377, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: forceMinDuration
-      value: 0.3
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 2497734147969880179, guid: 28bb3b2022b5fe24cb91241a2084bcee, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -12266,50 +11565,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FlyingMob2
       objectReference: {fileID: 0}
-    - target: {fileID: 24964186622298953, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkDelay
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkRecover
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkCoolDown
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 2366646212000428961, guid: 28bb3b2022b5fe24cb91241a2084bcee,
         type: 3}
       propertyPath: GlobalObjectIdHash
       value: 2766333247
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: acc
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: gizmos_len
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: move_speed
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: rotate_speed
-      value: 240
       objectReference: {fileID: 0}
     - target: {fileID: 6501609292666453675, guid: 28bb3b2022b5fe24cb91241a2084bcee,
         type: 3}
@@ -12360,11 +11619,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6772445874693165377, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: forceMinDuration
-      value: 0.3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12961,50 +12215,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FlyingMob2 (4)
       objectReference: {fileID: 0}
-    - target: {fileID: 24964186622298953, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkDelay
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkRecover
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431527495831023075, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: atkCoolDown
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 2366646212000428961, guid: 28bb3b2022b5fe24cb91241a2084bcee,
         type: 3}
       propertyPath: GlobalObjectIdHash
       value: 266845789
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: acc
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: gizmos_len
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: move_speed
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 4861375726421271171, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: rotate_speed
-      value: 240
       objectReference: {fileID: 0}
     - target: {fileID: 6501609292666453675, guid: 28bb3b2022b5fe24cb91241a2084bcee,
         type: 3}
@@ -13055,11 +12269,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6772445874693165377, guid: 28bb3b2022b5fe24cb91241a2084bcee,
-        type: 3}
-      propertyPath: forceMinDuration
-      value: 0.3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14266,4 +13475,4 @@ SceneRoots:
   - {fileID: 259893080}
   - {fileID: 1981592437}
   - {fileID: 1827106232}
-  - {fileID: 1218110305}
+  - {fileID: 551691157}
