@@ -9,6 +9,7 @@ public class AIState_TEST : AIState
      public float duration = 3; //once enter, how long does it last?
      public float coolDown = 10; //once exit, the earliest time of next enter?
      public bool startWithMaxCoolDown;
+     public bool __log;
      //eg. say this is NukeAllPlayer, with coolDown=100
      //do we start the battle with coolDown 0 (nuke them RIGHT NOW) or 100 (nuke them later)?
 
@@ -38,12 +39,12 @@ public class AIState_TEST : AIState
           {
                maxCDTriggered = true;
                tNextActive = coolDown;
-               if (log) Debug.Log("AIState_TEST.OnEnterState() but startWithMaxCoolDown");
+               if (__log) Debug.Log("AIState_TEST.OnEnterState() but startWithMaxCoolDown");
                return;
           }
 
           tStayHere = Time.time + duration;
-          if (log) Debug.Log("AIState_TEST.OnEnterState()");
+          if (__log) Debug.Log("AIState_TEST.OnEnterState()");
 
      }
 
@@ -62,7 +63,7 @@ public class AIState_TEST : AIState
 
      public override void OnExit()
      {
-          if (log) Debug.Log("AIState_TEST.OnExitState()");
+          if (__log) Debug.Log("AIState_TEST.OnExitState()");
      }
 
 

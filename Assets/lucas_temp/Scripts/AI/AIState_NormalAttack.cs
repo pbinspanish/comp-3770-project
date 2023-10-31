@@ -8,8 +8,9 @@ using UnityEngine;
 public class AIState_NormalAttack : AIState
 {
      // debug
-     public string _monitor;
-     public bool _gizmos;
+     public string __monitor;
+     public bool __log;
+     public bool __gizmos;
 
      [Header("Setting")]
      public float switchTarget = 5;
@@ -40,11 +41,11 @@ public class AIState_NormalAttack : AIState
      public override void OnExit()
      {
           target = null;
-          brain.update_pos = false;
-          brain.update_rot = false;
+          //brain.update_pos = false;
+          //brain.update_rot = false;
 
-          if (log) Debug.Log("OnExitState() = AIState_NormalAttack");
-          _monitor = "";
+          if (__log) Debug.Log("OnExitState() = AIState_NormalAttack");
+          __monitor = "";
      }
 
 
@@ -55,7 +56,7 @@ public class AIState_NormalAttack : AIState
           target = brain.Get_target();
           tSwitchTarget = Time.time + switchTarget;
 
-          if (log) if (target != null) Debug.Log("DecideTarget() = " + target.hp.name);
+          if (__log) if (target != null) Debug.Log("DecideTarget() = " + target.hp.name);
      }
 
 
@@ -92,7 +93,7 @@ public class AIState_NormalAttack : AIState
 
           if (Time.time < tHit) // swinging the sword?
           {
-               _monitor = "swing";
+               __monitor = "swing";
 
                Set_move_target();
 
@@ -103,7 +104,7 @@ public class AIState_NormalAttack : AIState
           {
                if (pending_hit) // sword hit?
                {
-                    if (log) Debug.Log("TEST_Attack() = " + target.hp.name);
+                    if (__log) Debug.Log("TEST_Attack() = " + target.hp.name);
 
                     pending_hit = false;
                     if (brain.hp.hp > 0) // am I still alive?
@@ -112,7 +113,7 @@ public class AIState_NormalAttack : AIState
 
                if (Time.time < tRecover) // recovering from action?
                {
-                    _monitor = "recover";
+                    __monitor = "recover";
                     brain.update_pos = false;
                     brain.update_rot = false;
                }
@@ -136,7 +137,7 @@ public class AIState_NormalAttack : AIState
                     }
 
                     // chase
-                    _monitor = "chasing";
+                    __monitor = "chasing";
 
                     Set_move_target();
                     brain.update_rot = true;
@@ -164,7 +165,7 @@ public class AIState_NormalAttack : AIState
 
      void OnDrawGizmosSelected()
      {
-          if (!_gizmos)
+          if (!__gizmos)
                return;
 
           Gizmos.color = Color.red;

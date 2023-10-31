@@ -87,8 +87,6 @@ public class ProjectileLauncher : NetworkBehaviour
           FireProjectile(start, dir, CharaTeam.player_main_chara, clientID, attackerID);
      }
 
-
-
      public void FireProjectile(Vector3 start, Vector3 dir, CharaTeam team, ulong originClientID, int attackerID)
      {
           tNextFire = Time.time + setting.cooldown / 1000f;

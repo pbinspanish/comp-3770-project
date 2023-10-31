@@ -157,25 +157,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6af818745f280364bb82a4bbe8142f78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _monitor: 
-  _gizmos: 1
-  _log: 0
-  enable_offline_AI: 1
+  __monitor: 
+  __gizmos: 1
+  __offline_AI: 1
   move_speed: 3
   maxAcc: 20
   rotate_speed: 160
   spot_range: 20
   alert_nearby: 20
-  agent_pos_devation: 0.5
-  agent_rot_devation: 10
-  agent_jitter_filter: 0.1
-  agent_rotate_slerp: 4
-  vel_desired__: {x: 0, y: 0, z: 0}
-  vel_desired_mag__: 0
-  acc__: {x: 0, y: 0, z: 0}
-  accMag__: 0
-  rb_velocity: {x: 0, y: 0, z: 0}
-  rb_velocity_mag: 0
+  update_rot: 0
+  update_pos: 0
+  __vel_desired: {x: 0, y: 0, z: 0}
+  __vel_desired_mag: 0
+  __rb_vel: {x: 0, y: 0, z: 0}
+  __rb_vel_mag: 0
+  __acc: {x: 0, y: 0, z: 0}
+  __accMag: 0
 --- !u!114 &7002670174249727832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,6 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2cbcde40d3a84547ab160190f8c3011, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  __log: 1
   triggerAfterNotAttackingFor: 5
   duration: 8.5
   coolDown: 30
@@ -209,8 +207,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9db39956ed9b95c45b130bf289a380fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _monitor: 
-  _gizmos: 1
+  __monitor: 
+  __log: 0
+  __gizmos: 0
   switchTarget: 5
   attackDamage: 99
   attackRange: 7

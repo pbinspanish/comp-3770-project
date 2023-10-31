@@ -7,6 +7,9 @@ using UnityEngine;
 public class AIState_LazerBeam : AIState
 {
 
+     public bool __log;
+
+     [Space(10)]
      public float triggerAfterNotAttackingFor = 5f; //sec
      public float duration = 6.5f;
      public float coolDown = 60f;
@@ -16,6 +19,7 @@ public class AIState_LazerBeam : AIState
      public float lazerHitBoxRadius = 2f;
      public int lazerDamage = 1;
      public float minHitInterval = 0.1f;
+
 
 
      // private
@@ -51,7 +55,7 @@ public class AIState_LazerBeam : AIState
           {
                maxCDTriggered = true;
                tNextCast = Time.time + verginCoolDown;
-               if (log) Debug.Log("AIState_LazerBeam.IsValid()  ->  coolDownVergin");
+               if (__log) Debug.Log("AIState_LazerBeam.IsValid()  ->  coolDownVergin");
                return false;
           }
 
@@ -109,7 +113,7 @@ public class AIState_LazerBeam : AIState
      public override void OnExit()
      {
           lazer.Stop();
-          if (log) Debug.Log("AIState_LazerBeam.OnExitState()");
+          if (__log) Debug.Log("AIState_LazerBeam.OnExitState()");
      }
 
 

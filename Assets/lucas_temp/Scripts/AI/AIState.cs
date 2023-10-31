@@ -39,8 +39,6 @@ public class AIState : MonoBehaviour
      //protected
      protected AIBrain brain { get { if (_brain == null) _brain = GetComponent<AIBrain>(); return _brain; } }
      AIBrain _brain;
-     protected bool log { get => brain._log; }
-
 
 
 }

@@ -104,11 +104,6 @@ public class Projectile : MonoBehaviour
      int launcherID;
 
      public void Fire(ProjectilePacket packet)
-     //{
-     //     Fire(packet.fireFrom, packet.dir, packet.team, packet.originClientID);
-     //}
-
-     //public void Fire(Vector3 start, Vector3 dir, CharaTeam team, ulong originClientID, )
      {
           // flag
           enabled = true;

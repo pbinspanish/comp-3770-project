@@ -8,6 +8,7 @@ using UnityEngine.AI;
 using System.Linq;
 using Unity.VisualScripting;
 using JetBrains.Annotations;
+using UnityEngine.Rendering.PostProcessing;
 
 [RequireComponent(typeof(NetworkChara))]
 [RequireComponent(typeof(HPComponent))]
@@ -15,38 +16,36 @@ public class AIBrain : MonoBehaviour
 {
 
      // How to use:
-     // 1) attach an AIState component to GameObject
-     // 2) the order of AIState = priority
+     // 1) attach any AIState to the same GameObject, eg. AIState_NormalAttack
+     // 2) the order of those state is priority, see Update_state_machine()
+     // 3) handle navMesh agent
 
      // static
      public static int tDespoawn = 5; //sec
 
 
-     // debug
-     public string _monitor;
-     public bool _gizmos;
-     public bool _log;
+     // test
+     public string __monitor;
+     public bool __gizmos;
+     public bool __offline_AI = true; //switch on AI when not connected
 
-     public bool enable_offline_AI = true; //switch on AI when not connected
-
-     //public
-     [Header("Setting")]
+     // setting
+     [Header("Move")]
      public float move_speed = 10f;
      public float maxAcc = 20f; //agent dont use this acc, it has infinite acc to stay a bit ahead of us
      public float rotate_speed = 120f;
-
-
      [Header("Alert")]
      public float spot_range = 20; //how far will AI spot you?
      public float alert_nearby = 20; // alert nearby ally when spot enemy
 
 
      // public
-     public bool is_idle { get => current == null; }
+     [HideInInspector] public bool update_rot;
+     [HideInInspector] public bool update_pos;
+     public HPComponent hp { get; private set; }
 
 
      // private
-     public HPComponent hp { get; private set; }
      List<AIState> states;
      AIState current;
      Rigidbody rb;
@@ -55,6 +54,8 @@ public class AIBrain : MonoBehaviour
 
      void Awake()
      {
+          rb = GetComponent<Rigidbody>();
+
           states = new List<AIState>();
           states.AddRange(GetComponents<AIState>()); //find all state
 
@@ -62,12 +63,10 @@ public class AIBrain : MonoBehaviour
           hp.On_damage_or_heal += On_surprise_attack;
           hp.On_death_blow += Die;
 
-          rb = GetComponent<Rigidbody>();
-
-          var physicMaterial = GetComponent<Collider>().material;
-          physicMaterial.dynamicFriction = 0;
-          physicMaterial.staticFriction = 0;
-          physicMaterial.frictionCombine = PhysicMaterialCombine.Minimum;
+          var phy_mat = GetComponent<Collider>().material; //disable friction
+          phy_mat.dynamicFriction = 0;
+          phy_mat.staticFriction = 0;
+          phy_mat.frictionCombine = PhysicMaterialCombine.Minimum;
 
           agent = GetComponentInChildren<NavMeshAgent>();
           agent.transform.parent = null; //detached 'ghost' agent
@@ -76,12 +75,12 @@ public class AIBrain : MonoBehaviour
           TEST.OnConnect += On_connect;
           TEST.OnDisconnect += On_local_mode;
 
-          update_pos = false;
-          update_rot = false;
+          //update_pos = false;
+          //update_rot = false;
+
           On_local_mode();
 
-          //check
-          Debug.Assert(states.Count > 0);
+          Debug.Assert(states.Count > 0); //check
      }
 
      void Update()
@@ -89,7 +88,7 @@ public class AIBrain : MonoBehaviour
           _updated = false; //reset flags
           _sorted = false;
 
-          Update_state();
+          Update_state_machine();
           Alert_nearby();
      }
 
@@ -97,8 +96,6 @@ public class AIBrain : MonoBehaviour
      {
           Update_pos();
           Update_rotation();
-
-          //force = Vector3.ClampMagnitude(force, force.sqrMagnitude * drag * Time.fixedDeltaTime); //force decay
      }
 
      void OnDestroy()
@@ -114,12 +111,12 @@ public class AIBrain : MonoBehaviour
      }
      void On_local_mode()
      {
-          enabled = agent.enabled = enable_offline_AI;
+          enabled = agent.enabled = __offline_AI;
      }
 
 
      // state machine ----------------------------------------------------------------------
-     void Update_state()
+     void Update_state_machine()
      {
           AIState next = Decide_next_state();
 
@@ -129,11 +126,15 @@ public class AIBrain : MonoBehaviour
           }
           else
           {
-               // change state?
-               if (current != next)
+               if (current != next) //change state?
                {
+                    //clean up
                     if (current)
                          current.OnExit();
+                    update_pos = false;
+                    update_rot = false;
+
+                    //next
                     current = next;
                     current.OnEnter();
                }
@@ -142,7 +143,7 @@ public class AIBrain : MonoBehaviour
                current.UpdateState();
           }
 
-          _monitor = current == null ? "Idle" : current.GetType().ToString();
+          __monitor = current == null ? "Idle" : current.GetType().ToString();
      }
 
      AIState Decide_next_state()
@@ -221,7 +222,7 @@ public class AIBrain : MonoBehaviour
 
      void On_surprise_attack(int value, int hpWas, int hpIs, int attackID)
      {
-          if (is_idle && value < 0)
+          if (current == null && value < 0)
           {
                var attacker = HPComponent.all.Find(x => x.id == attackID);
 
@@ -251,12 +252,11 @@ public class AIBrain : MonoBehaviour
 
 
      // using navMesh  ---------------------------------------------------------------------
-     public bool update_rot { get; set; }
-     public bool update_pos { get; set; }
-     public float agent_pos_devation = 0.5f;
-     public float agent_rot_devation = 10f; //degree
-     public float agent_jitter_filter = 0.1f;
-     public float agent_rotate_slerp = 4f;
+
+     float agent_pos_devation = 0.5f;
+     float agent_rot_devation = 10f; //degree
+     float agent_jitter_filter = 0.1f; //agent's NextPos is simulated, and it always jitters a bit
+     float agent_rotate_slerp = 4f;
 
      public void Set_move_target(Vector3 pos, float stopping_distance)
      {
@@ -270,12 +270,14 @@ public class AIBrain : MonoBehaviour
 
      void Update_pos()
      {
-          //log
-          rb_velocity = rb.velocity;
-          rb_velocity_mag = rb.velocity.magnitude;
+          __rb_vel = rb.velocity;
+          __rb_vel_mag = rb.velocity.magnitude;
 
           if (!update_pos)
+          {
+               rb.velocity = Vector3.zero;
                return;
+          }
 
           // if agent deviate too far, snap back
           var dist = Vector3.Distance(transform.position, agent.transform.position);
@@ -289,42 +291,20 @@ public class AIBrain : MonoBehaviour
           // move
           if (dist > agent_jitter_filter)
           {
-               //V1
-               //transform.position = Vector3.MoveTowards(transform.position, agent.transform.position, move_speed * Time.fixedDeltaTime);
-
-
-               //V2
-               //var dir = (agent.nextPosition - transform.position).normalized;
-               //vel += dir * acc * Time.fixedDeltaTime;
-               //vel = Vector3.ClampMagnitude(vel, move_speed);
-
-               //rb_velocity = rb.velocity = vel + force; //apply
-
-
-               //V3
                var vel_desired = (agent.nextPosition - transform.position).normalized * move_speed;
                var acc = vel_desired - rb.velocity;
                acc.y = 0;
                acc = Vector3.ClampMagnitude(acc, maxAcc);
 
-
-               acc__ = acc;
-               accMag__ = acc.magnitude;
-               vel_desired__ = vel_desired;
-               vel_desired_mag__ = vel_desired.magnitude;
-
                rb.AddForce(acc, ForceMode.Acceleration);
+
+               __acc = acc;
+               __accMag = acc.magnitude;
+               __vel_desired = vel_desired;
+               __vel_desired_mag = vel_desired.magnitude;
           }
      }
 
-     public Vector3 vel_desired__;
-     public float vel_desired_mag__;
-
-     public Vector3 acc__;
-     public float accMag__;
-
-     public Vector3 rb_velocity;
-     public float rb_velocity_mag;
 
 
      void Update_rotation()
@@ -335,28 +315,39 @@ public class AIBrain : MonoBehaviour
           // if rotation deviate too far, snap back
           var angle = Quaternion.Angle(transform.rotation, agent.transform.rotation);
           if (angle > agent_rot_devation)
-          {
-               //agent.transform.rotation = Quaternion.Lerp(agent.transform.rotation, transform.rotation, 0.5f);
                agent.transform.rotation = transform.rotation;
-          }
 
+          // some average
           var to_player = Quaternion.LookRotation(agent.destination - transform.position);
           var to_corner = Quaternion.LookRotation(agent.steeringTarget - transform.position);
-          to_player = Quaternion.Lerp(to_player, to_corner, 0.5f); //average
+          var rot = Quaternion.Lerp(to_player, to_corner, 0.5f);
 
-          transform.rotation = Quaternion.Slerp(transform.rotation, to_player, agent_rotate_slerp * Time.fixedDeltaTime);
+          // apply
+          transform.rotation = Quaternion.Slerp(transform.rotation, rot, agent_rotate_slerp * Time.fixedDeltaTime);
      }
 
 
 
 
      // debug  ----------------------------------------------------------------------
+     [Header("debug")]
+     public Vector3 __vel_desired;
+     public float __vel_desired_mag;
+
+     public Vector3 __rb_vel;
+     public float __rb_vel_mag;
+
+     public Vector3 __acc;
+     public float __accMag;
+
+
+
      void OnDrawGizmos()
      {
           if (!Application.isPlaying)
                return;
 
-          if (!_gizmos)
+          if (!__gizmos)
                return;
 
           // alert range
@@ -365,27 +356,16 @@ public class AIBrain : MonoBehaviour
 
 
           // nav agent
-          Gizmos.color = Color.cyan;
-          Gizmos.DrawWireSphere(agent.transform.position, 0.3f);
-
-
           Gizmos.color = Color.red;
-          Gizmos.DrawWireSphere(agent.destination, 0.23f);
+          Gizmos.DrawLine(transform.position, agent.transform.position);
+
+          Gizmos.color = Color.green;
           for (int i = 0; i < agent.path.corners.Length; i++)
           {
-               Gizmos.color = Color.green;
                Gizmos.DrawWireSphere(agent.path.corners[i], 0.25f);
                if (i > 0)
-               {
-                    Gizmos.color = Color.red;
                     Gizmos.DrawLine(agent.path.corners[i], agent.path.corners[i - 1]);
-               }
           }
-
-
-
-
-
 
 
      }
