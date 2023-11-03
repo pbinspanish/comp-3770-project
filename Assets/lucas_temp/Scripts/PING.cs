@@ -50,7 +50,7 @@ public class PING : NetworkBehaviour
 
      void Ping()
      {
-          if (IsServer)
+          if (NetworkManager.Singleton.IsServer)
                return;
 
           if (Time.realtimeSinceStartup >= tNextPing)
@@ -72,7 +72,7 @@ public class PING : NetworkBehaviour
      [ClientRpc]
      void Pong_ClientRPC(int _pingID, ulong receiver)
      {
-          if (IsServer || clientID != receiver)
+          if (NetworkManager.Singleton.IsServer || clientID != receiver)
                return;
 
           var pingTime = pingList[_pingID];

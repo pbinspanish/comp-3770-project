@@ -26,7 +26,7 @@ public class TEST_NetSpawn : NetworkBehaviour
 
      void Update()
      {
-          if (IsServer)
+          if (NetworkManager.Singleton.IsServer)
                netFloat.Value = Time.time;
 
           //netFloat.Value = Time.time;
@@ -48,7 +48,7 @@ public class TEST_NetSpawn : NetworkBehaviour
      [ServerRpc(RequireOwnership = false)]
      public void to_be_sure_of_time_ServerRpc()
      {
-          if (IsServer)
+          if (NetworkManager.Singleton.IsServer)
                Debug.Log("----------------");
      }
 

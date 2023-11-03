@@ -30,24 +30,14 @@ public class TEST_NetworkBenchmark : NetworkBehaviour
      public float serverTime0;
      public float serverTime_inF0;
 
-
-
-
      float U0;
      float F0;
      float U_inF0;
      float F_inU0;
 
-     // these seems bugged?
-     public bool __isClient;
-     public bool __isServer;
-
-
      void Update()
      {
           serverTime0 = serverTime.Value;
-          __isClient = IsClient;
-          __isServer = IsServer;
 
           if (click_to_reset)
           {
@@ -65,7 +55,7 @@ public class TEST_NetworkBenchmark : NetworkBehaviour
                F_inU0 = 0;
           }
 
-          if (IsServer)
+          if (NetworkManager.Singleton.IsServer)
           {
                serverTime.Value = Time.time;
 
@@ -77,7 +67,7 @@ public class TEST_NetworkBenchmark : NetworkBehaviour
                }
           }
 
-          if (IsClient)
+          if (NetworkManager.Singleton.IsClient)
           {
                if (U0 != U.Value)
                {
@@ -96,7 +86,7 @@ public class TEST_NetworkBenchmark : NetworkBehaviour
      {
           serverTime_inF0 = serverTime.Value;
 
-          if (IsServer)
+          if (NetworkManager.Singleton.IsServer)
           {
                clientCount = NetworkManager.Singleton.ConnectedClients.Count;
                if (clientCount > 1)
@@ -105,7 +95,8 @@ public class TEST_NetworkBenchmark : NetworkBehaviour
                     serverTick_F++;
                }
           }
-          else
+
+          if (NetworkManager.Singleton.IsClient)
           {
                if (F0 != F.Value)
                {

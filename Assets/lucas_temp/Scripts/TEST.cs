@@ -14,6 +14,10 @@ public class TEST : NetworkBehaviour
      public static TEST inst { get { if (_inst == null) _inst = FindObjectOfType<TEST>(); return _inst; } }
      public static Action OnConnect;
      public static Action OnDisconnect;
+     public static bool isServer { get => NetworkManager.Singleton.IsServer; }
+     public static bool isClient { get => NetworkManager.Singleton.IsClient; }
+     public static bool hasClient { get => isServer ? (NetworkManager.Singleton.ConnectedClients.Count > 1) : false; }
+
 
      // public
      public bool quickStart = false;
@@ -42,14 +46,6 @@ public class TEST : NetworkBehaviour
                StartHost();
                _showGUI = false;
           }
-     }
-
-
-     public ProjectileLauncher launcher;
-     void Update()
-     {
-          if (Input.GetKeyDown(KeyCode.Q))
-               launcher.FireProjectile_AI(new Vector3(0, 1, 0), new Vector3(1, 0, 1), CharaTeam.player_main_chara);
      }
 
 

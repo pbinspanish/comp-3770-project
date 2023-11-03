@@ -50,7 +50,7 @@ public class HPComponent : NetworkBehaviour
 
      public override void OnNetworkSpawn()
      {
-          if (IsServer)
+          if (NetworkManager.Singleton.IsServer)
                _id.Value = GetHashCode();
 
           Config_hp(set_max_hp, set_max_hp); //initial hp

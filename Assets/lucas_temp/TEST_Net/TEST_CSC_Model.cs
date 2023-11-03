@@ -66,7 +66,7 @@ public class TEST_CSC_Model : NetworkBehaviour
 
           TEST.GUILog("Client " + clientID + " - Fire(): (0) Start");
 
-          if (IsClient)
+          if (NetworkManager.Singleton.IsClient)
           {
                //TEST.GUILog("Client " + clientID + ": " + "Fire(): (0) Start");
 
@@ -94,7 +94,7 @@ public class TEST_CSC_Model : NetworkBehaviour
                Fire_VFX();
           }
 
-          if (IsServer) Invoke("OnHit", 2);// TODO: TEST CHEATING! replace with a real collider
+          if (NetworkManager.Singleton.IsServer) Invoke("OnHit", 2);// TODO: TEST CHEATING! replace with a real collider
      }
 
      void Fire_VFX()
@@ -104,7 +104,7 @@ public class TEST_CSC_Model : NetworkBehaviour
 
      public void OnHit()
      {
-          if (!IsServer)
+          if (!NetworkManager.Singleton.IsServer)
           {
                // TODO:
                // here allow client show HP loss instantly

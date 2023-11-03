@@ -16,7 +16,7 @@ public class PackageTEST : NetworkBehaviour
 
      void FixedUpdate()
      {
-          if (IsServer)
+          if (NetworkManager.Singleton.IsServer)
                a_number_that_changes.Value = Time.fixedTime;
 
           avgPackagePerSec = package_count / (Time.fixedTime - tStart);
