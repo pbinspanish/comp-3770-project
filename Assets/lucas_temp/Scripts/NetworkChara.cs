@@ -13,11 +13,14 @@ public class NetworkChara : NetworkBehaviour
      // - smooth
 
 
-     // TEMP
-     public static NetworkChara myChara; //TODO: charactor of this cliant, for player controller. swap to other way later
-     HPComponent hp; //TODO
+     // TEST
      public bool gizmos;
 
+     //
+     public static NetworkChara myChara;
+     public Rigidbody rb;
+     public Collider col;
+     HPComponent hp;
 
      // private
      NetworkVariable<Vector3> netPos = new(writePerm: NetworkVariableWritePermission.Owner);
@@ -28,23 +31,25 @@ public class NetworkChara : NetworkBehaviour
      // init ---------------------------------------------------------------------------------
      public override void OnNetworkSpawn()
      {
-          // is this player's main chara?
+          rb = GetComponent<Rigidbody>();
+          col = GetComponent<Collider>();
           hp = GetComponent<HPComponent>();
+
+          // is this player's main chara?
           if (IsOwner && hp && hp.team == CharaTeam.player_main_chara)
           {
                Debug.Assert(myChara == null);
                myChara = this;
-          }
 
+               Debug.Log("YES I FIND ME");
+          }
 
           isSpawned = true;
      }
      public override void OnNetworkDespawn()
      {
-          if (IsOwner && myChara == this)
+          if (myChara == this)
                myChara = null;
-
-          isSpawned = false;
      }
 
 

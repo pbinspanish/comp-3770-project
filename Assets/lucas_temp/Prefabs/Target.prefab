@@ -398,7 +398,6 @@ GameObject:
   - component: {fileID: -4176742133287296833}
   - component: {fileID: 5431420462564756995}
   - component: {fileID: -6534389500668027287}
-  - component: {fileID: 2081615329444632970}
   - component: {fileID: 5307351758254711415}
   - component: {fileID: 3818736101002967139}
   m_Layer: 11
@@ -461,6 +460,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gizmos: 0
+  rb: {fileID: 0}
+  col: {fileID: 0}
 --- !u!114 &-6534389500668027287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -477,48 +478,6 @@ MonoBehaviour:
   set_max_hp: 1000
   team: 20
   requireSiegeAttack: 0
---- !u!114 &2081615329444632970
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9132037496341371136}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f4ea8039fc623042b9dcd8227cbbf9e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  velAgent__: {x: 0, y: 0, z: 0}
-  gizmos: 1
-  chasePlayer: 0
-  ghost: {fileID: 3702686310551307354}
-  chasePlayer_ghost_agent: 1
-  pause_move_update: 0
-  snap_dist: 0.5
-  warpPosition: {fileID: 0}
-  click_warp: 0
-  nextPosition: {fileID: 0}
-  click_nextPos: 0
-  SetVel0: 0
-  StopNow: 0
-  BREAK: 0
-  velocity: {x: 0, y: 0, z: 0}
-  use_velocity: 0
-  destination: {x: 0, y: 0, z: 0}
-  agentPos: {x: 0, y: 0, z: 0}
-  nextPos: {x: 0, y: 0, z: 0}
-  click_resetPath: 0
-  remainingDistance: 0
-  hasPath: 0
-  pathPending: 0
-  isPathStale: 0
-  pathStatus: 0
-  isStopped: 0
-  rb_velocity: {x: 0, y: 0, z: 0}
-  ghost_dist: 0
-  ignore_ghost_dist: 0.1
-  ghost_rotate_slerp: 4
 --- !u!136 &5307351758254711415
 CapsuleCollider:
   m_ObjectHideFlags: 0

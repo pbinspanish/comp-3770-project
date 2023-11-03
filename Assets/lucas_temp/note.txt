@@ -1,6 +1,10 @@
 
 intereact of Destroy() and OnNetworkDespawn() ??
 
+
+loadScene() -> but only networkObj is sync?
+
+
 Path of Exile
 	https://www.youtube.com/results?search_query=path+exile
 
@@ -9,7 +13,10 @@ Path of Exile
 
 
 
-network  -------------------------------------------------------------------------------
+Server/Client  -------------------------------------------------------------------------------
+Preserve the fun experience for multiple players. (ie what underlies does not matter)
+https://www.youtube.com/watch?v=h47zZrqjgLc&t=33s
+
 
 Enemy spawner
 

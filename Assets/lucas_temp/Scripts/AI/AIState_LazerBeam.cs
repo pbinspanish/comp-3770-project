@@ -9,56 +9,68 @@ public class AIState_LazerBeam : AIState
 
      public bool __log;
 
+
      [Space(10)]
      public float triggerAfterNotAttackingFor = 5f; //sec
-     public float duration = 6.5f;
+     public float duration = 8.5f;
      public float coolDown = 60f;
      public float verginCoolDown = 20f; //sec                    
      public float lazerMoveSpeed = 9.5f;
-     public float moveWhileLazer = 0.25f; //percentage speed                             
      public float lazerHitBoxRadius = 2f;
      public int lazerDamage = 1;
-     public float minHitInterval = 0.1f;
+     public float hitInterval = 0.1f;
 
 
 
      // private
      AITargetData target;
      Vector3 targetPos;
-     float tNextCast;
-     float tEnd;
      AIState_NormalAttack aiStateAttack;
      LazerBeam lazer;
-     bool maxCDTriggered;
+     bool verginCDTriggered;
      int damageMask;
      Collider[] _cache = new Collider[20];
      float tNextHit;
+     int allMask;
+
+
+     float tStart;
+     float tEnd { get => tStart + duration; }
+     float tReady { get => tStart + duration + coolDown; }
+     bool isReady { get => Time.time > tReady; }
+     bool isShooting { get => Time.time < tEnd; }
+     bool isCoolingDown { get => Time.time > tEnd && Time.time < tReady; }
 
 
      void Awake()
      {
           aiStateAttack = GetComponent<AIState_NormalAttack>();
           lazer = gameObject.GetComponentInChildren<LazerBeam>();
+
+          // 
           damageMask = LayerMaskUtil.Get_target_mask(CharaTeam.enemy, true, false, true);
+          allMask = damageMask;
+          allMask |= LayerMaskUtil.wall_mask;
+
      }
 
      public override bool IsValid()
      {
-          if (Time.time < tNextCast)
+          if (Time.time < tReady)
                return false;
           if (Time.time < aiStateAttack.tLastAttack + triggerAfterNotAttackingFor)
                return false;
           if (brain.targets.Count == 0)
                return false;
 
-          if (!maxCDTriggered)
+          if (!verginCDTriggered)
           {
-               maxCDTriggered = true;
-               tNextCast = Time.time + verginCoolDown;
+               verginCDTriggered = true;
+               tStart = Time.time + verginCoolDown - duration - coolDown;
+               //tReady = Time.time + verginCoolDown;
                if (__log) Debug.Log("AIState_LazerBeam.IsValid()  ->  coolDownVergin");
                return false;
           }
-
 
           return true;
      }
@@ -71,24 +83,22 @@ public class AIState_LazerBeam : AIState
           target = brain.Get_target(false);
           targetPos = target.transform.position;
 
-          tEnd = Time.time + duration;
+          tStart = Time.time;
      }
+
 
      public override void UpdateState()
      {
-          if (Time.time > tEnd)
-          {
-               tNextCast = Time.time + coolDown;
+          if (!isShooting)
                return;
-          }
 
           targetPos = Vector3.MoveTowards(
-               targetPos,
-               target.transform.position,
-               lazerMoveSpeed * Time.deltaTime);
+          targetPos,
+          target.transform.position,
+          lazerMoveSpeed * Time.deltaTime);
 
           //shooting lazer, lazer chase target
-          lazer.ShootAtPos(lazer.transform.position, targetPos, OnLazerHit);
+          lazer.ShootAtPos(lazer.transform.position, targetPos, allMask, OnLazerHit);
      }
 
 
@@ -97,15 +107,13 @@ public class AIState_LazerBeam : AIState
      {
           if (Time.time < tNextHit)
                return;
+          tNextHit = Time.time + hitInterval;
 
           var count = Physics.OverlapSphereNonAlloc(pos, lazerHitBoxRadius, _cache, damageMask);
-
           for (int i = 0; i < count; i++)
           {
                var hpClass = _cache[i].GetComponent<HPComponent>();
                hpClass.Damage(lazerDamage);
-
-               tNextHit = Time.time + minHitInterval;
           }
      }
 

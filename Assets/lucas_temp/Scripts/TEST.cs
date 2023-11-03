@@ -14,7 +14,6 @@ public class TEST : NetworkBehaviour
      public static TEST inst { get { if (_inst == null) _inst = FindObjectOfType<TEST>(); return _inst; } }
      public static Action OnConnect;
      public static Action OnDisconnect;
-     public static bool isConnected { get; private set; }
 
      // public
      public bool quickStart = false;
@@ -71,7 +70,6 @@ public class TEST : NetworkBehaviour
           SetupConnection(myIP); //for init other values, we don't use the ip part
           NetworkManager.Singleton.StartHost();
 
-          isConnected = true;
           OnConnect?.Invoke();
      }
      public void StartClient(string serverIPv4)
@@ -79,14 +77,12 @@ public class TEST : NetworkBehaviour
           SetupConnection(serverIPv4);
           NetworkManager.Singleton.StartClient();
 
-          isConnected = true;
           OnConnect?.Invoke();
      }
      public void Shutdown()
      {
           NetworkManager.Singleton.Shutdown();
 
-          isConnected = false;
           OnDisconnect?.Invoke();
      }
 

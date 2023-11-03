@@ -17,9 +17,6 @@ public class PlayerController : MonoBehaviour
 
      void Start()
      {
-          TEST.OnConnect += OnConnect;
-          TEST.OnDisconnect += OnDisconnect;
-
           SetupStandAlone();
      }
      void Update()
@@ -50,19 +47,9 @@ public class PlayerController : MonoBehaviour
      // init  ---------------------------------------------------------------------
 
      // for network
-     Rigidbody net_rb;
-     Collider net_col;
-     bool isConnected { get => TEST.isConnected; }
+     Rigidbody net_rb { get => NetworkChara.myChara ? NetworkChara.myChara.rb : null; }
+     Collider net_col { get => NetworkChara.myChara ? NetworkChara.myChara.col : null; }
 
-     void OnConnect()
-     {
-          net_rb = NetworkChara.myChara.GetComponent<Rigidbody>();
-          net_col = NetworkChara.myChara.GetComponent<Collider>();
-     }
-     void OnDisconnect()
-     {
-          //
-     }
 
      // for standalone 
      Rigidbody this_rb; //for standalone
@@ -125,8 +112,8 @@ public class PlayerController : MonoBehaviour
 
 
      // move -------------------------------------------------------------------------------------
-     Rigidbody rb { get => isConnected ? net_rb : this_rb; }
-     Collider col { get => isConnected ? net_col : this_col; }
+     Rigidbody rb { get => net_rb ? net_rb : this_rb; }
+     Collider col { get => net_col ? net_col : this_col; }
      Camera cam { get => Camera.main; }
 
      PlayerSetting status { get => PlayerSetting.inst; }

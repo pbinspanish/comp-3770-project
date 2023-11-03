@@ -3500,8 +3500,30 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8058470694820835937, guid: 935459978ccc7cb419e77a9afe52c6d3,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 503537652}
   m_SourcePrefab: {fileID: 100100000, guid: 935459978ccc7cb419e77a9afe52c6d3, type: 3}
+--- !u!1 &503537651 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8058470694820835937, guid: 935459978ccc7cb419e77a9afe52c6d3,
+    type: 3}
+  m_PrefabInstance: {fileID: 503537650}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &503537652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 503537651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eefc888814a2e42428ea79aaee780b1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &527699648
 Mesh:
   m_ObjectHideFlags: 0
@@ -7954,6 +7976,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1109586142780305564, guid: 676c52c6ba263f34f8669b9338a68e92,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2906925790305001428, guid: 676c52c6ba263f34f8669b9338a68e92,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -8004,10 +8031,55 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6134832569639977554, guid: 676c52c6ba263f34f8669b9338a68e92,
+        type: 3}
+      propertyPath: TEST_MouseLazer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6294235382854823595, guid: 676c52c6ba263f34f8669b9338a68e92,
         type: 3}
       propertyPath: m_Name
       value: PEKKA
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002670174249727832, guid: 676c52c6ba263f34f8669b9338a68e92,
+        type: 3}
+      propertyPath: __log
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002670174249727832, guid: 676c52c6ba263f34f8669b9338a68e92,
+        type: 3}
+      propertyPath: coolDown
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002670174249727832, guid: 676c52c6ba263f34f8669b9338a68e92,
+        type: 3}
+      propertyPath: duration
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002670174249727832, guid: 676c52c6ba263f34f8669b9338a68e92,
+        type: 3}
+      propertyPath: lazerMoveSpeed
+      value: 9.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002670174249727832, guid: 676c52c6ba263f34f8669b9338a68e92,
+        type: 3}
+      propertyPath: minHitInterval
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002670174249727832, guid: 676c52c6ba263f34f8669b9338a68e92,
+        type: 3}
+      propertyPath: moveWhileLazer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002670174249727832, guid: 676c52c6ba263f34f8669b9338a68e92,
+        type: 3}
+      propertyPath: verginCoolDown
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002670174249727832, guid: 676c52c6ba263f34f8669b9338a68e92,
+        type: 3}
+      propertyPath: triggerAfterNotAttackingFor
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8064580428112647956, guid: 676c52c6ba263f34f8669b9338a68e92,
         type: 3}

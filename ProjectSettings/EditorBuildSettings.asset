@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/AINavMeshTEST.unity
     guid: 9fce94f1ca9ee5840a3b1a6ba31401cc
+  - enabled: 1
+    path: Assets/Scenes/TEST_NetworkBenchmark.unity
+    guid: 31b0106820f4d0348af1fed278e78740
   m_configObjects: {}

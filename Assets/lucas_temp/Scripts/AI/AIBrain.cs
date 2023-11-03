@@ -72,11 +72,8 @@ public class AIBrain : MonoBehaviour
           agent.transform.parent = null; //detached 'ghost' agent
           agent.acceleration = float.MaxValue;
 
-          TEST.OnConnect += On_connect;
+          TEST.OnConnect += On_connect; //TODO: maybe buggy, TEST connect early(~10 frames) before NetMono spawned
           TEST.OnDisconnect += On_local_mode;
-
-          //update_pos = false;
-          //update_rot = false;
 
           On_local_mode();
 
