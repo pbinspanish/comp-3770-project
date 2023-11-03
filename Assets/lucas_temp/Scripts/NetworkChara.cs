@@ -40,8 +40,6 @@ public class NetworkChara : NetworkBehaviour
           {
                Debug.Assert(myChara == null);
                myChara = this;
-
-               Debug.Log("YES I FIND ME");
           }
 
           isSpawned = true;
