@@ -15,6 +15,7 @@ Path of Exile
 
 Server/Client  -------------------------------------------------------------------------------
 Preserve the fun experience for multiple players. (ie what underlies does not matter)
+Always ask: where am I hiding the lag?
 https://www.youtube.com/watch?v=h47zZrqjgLc&t=33s
 
 

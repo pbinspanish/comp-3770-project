@@ -16,6 +16,7 @@ public class TEST : NetworkBehaviour
      public static Action OnDisconnect;
      public static bool isServer { get => NetworkManager.Singleton.IsServer; }
      public static bool isClient { get => NetworkManager.Singleton.IsClient; }
+     public static bool isOnlyClient { get => !isServer && NetworkManager.Singleton.IsClient; }
      public static bool hasClient { get => isServer ? (NetworkManager.Singleton.ConnectedClients.Count > 1) : false; }
 
 
