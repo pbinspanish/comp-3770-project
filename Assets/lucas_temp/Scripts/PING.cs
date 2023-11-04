@@ -15,42 +15,37 @@ public class PING : NetworkBehaviour
      ulong clientID { get => NetworkManager.Singleton.LocalClientId; }
 
 
-
      //private
      List<int> _remove = new List<int>();
 
      public override void OnNetworkSpawn()
      {
-          //clientRPCParams = new ClientRpcParams() { Send = new ClientRpcSendParams() { TargetClientIds = new[] { OwnerClientId } } };
-          //clientRPCParams = new ClientRpcParams() { Send = new ClientRpcSendParams() { TargetClientIds = new[] { clientID } } };
-          //Debug.Log("clientID " + clientID);
-
+          pingList.Clear();
      }
 
      void Update()
      {
-          Ping();
-          //PacketTest();
-
           if (click_to_reset)
           {
                click_to_reset = false;
                RTT = 0;
                RTTmax = 0;
-               //PacketLoss = 0;
-               //PacketLossRate = 0;
           }
+
+          Ping();
      }
 
      //private  ----------------------------------------------------------------------------
      Dictionary<int, float> pingList = new Dictionary<int, float>();
      public int pingID;
      float tNextPing;
-     ClientRpcParams clientRPCParams;
 
      void Ping()
      {
-          if (NetworkManager.Singleton.IsServer)
+          if (!IsSpawned)
+               return; //this class attacked to managers, so it can start Update() before 'Spawned'
+
+          if (!NetworkManager.Singleton.IsClient)
                return;
 
           if (Time.realtimeSinceStartup >= tNextPing)
@@ -85,44 +80,6 @@ public class PING : NetworkBehaviour
           if (rtt > RTTmax)
                RTTmax = rtt;
      }
-
-
-     ////private  ----------------------------------------------------------------------------
-     //public float packetInterval = 0.1f;
-     //public float PacketLoss;
-     //public float PacketLossRate;
-
-     //float tNextPacket;
-     //int packetID;
-     //int receivedPacket;
-     //ulong clientID { get => NetworkManager.Singleton.LocalClientId; }
-     //void PacketTest()
-     //{
-     //     if (IsServer)
-     //     {
-     //          if (Time.realtimeSinceStartup >= tNextPacket)
-     //          {
-     //               tNextPacket = Time.realtimeSinceStartup + packetInterval;
-     //               ReceivePacket_ClientRPC(packetID);
-     //               packetID++;
-     //          }
-     //     }
-     //}
-     //[ClientRpc]
-     //void ReceivePacket_ClientRPC()
-     //{
-     //     if (IsServer)
-     //          return;
-
-     //     receivedPacket++;
-     //     PacketReply_ServerRPC(clientID);
-     //}
-     //[ServerRpc(RequireOwnership = false)]
-     //void PacketReply_ServerRPC(int _packetID)
-     //{
-
-     //}
-
 
 
 

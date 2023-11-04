@@ -57,11 +57,11 @@ public class TEST_NetworkBenchmark : NetworkBehaviour
 
           if (NetworkManager.Singleton.IsServer)
           {
-               serverTime.Value = Time.time;
-
                clientCount = NetworkManager.Singleton.ConnectedClients.Count;
                if (clientCount > 1)
                {
+                    serverTime.Value = Time.time;
+
                     U.Value++;
                     serverTick++;
                }

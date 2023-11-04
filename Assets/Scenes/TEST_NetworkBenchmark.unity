@@ -477,8 +477,6 @@ MonoBehaviour:
     m_InternalValue: 0
   serverTime0: 0
   serverTime_inF0: 0
-  __isClient: 0
-  __isServer: 0
 --- !u!4 &1775520039
 Transform:
   m_ObjectHideFlags: 0
