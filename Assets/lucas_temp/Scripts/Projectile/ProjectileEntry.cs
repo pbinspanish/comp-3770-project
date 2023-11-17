@@ -35,9 +35,10 @@ public class ProjectileEntry : ScriptableObject
      public float homingSpeed = 11.0f;
      public float homingRotateSpeed = 5.0f;
      public float homingDelay;
+     public string homingTarget;
 
 
-     [Header(" - Visual")]
+    [Header(" - Visual")]
      public float stickToTarget = 30f;
      public float stickToWall = 30f;
      public GameObject onHitVFX; //prefab
@@ -59,6 +60,9 @@ public class ProjectileEntry : ScriptableObject
      public int dmgRandomRange = 0; // -this < x < this. Randomly change damage by x
      public float speedWhenFiring = 100; //move speed during pre-fire delay, percentage, only for player, Note: with friction a very low speed = not moving at all
      public int burst = 1; //how many projectiles to fire at once, when >1 this will fire in all directions
+     public bool spiral = true; //checks to see how you want to fire bullets in all directions, spiral or just all at once
+     public bool rotation = false;//this is more for AI handling, do you want the shooting pattern to be done in rotation or not?
+     public float spinSpeed = 5.0f;//this will be the speed for rotation
 
      [Range(0, 89)] public float maxUpwardsAgnle = 30; //can we fire up/downwards?
      [Range(0, 89)] public float maxDownwardsAgnle = 0;

@@ -170,16 +170,39 @@ public class ProjectileLauncher : NetworkBehaviour
           }
           else
           {
-               for (int i = 0; i < setting.burst; i++)
-               {
+            if (!setting.rotation)
+            {
+                for (int i = 0; i < setting.burst; i++)
+                {
                     var p = pool.Get();
                     p.enabled = true;
                     data.dir = Quaternion.Euler(0, 360f / setting.burst * (i + 1), 0) * Vector3.forward;
 
-                    await Task.Delay(10);
+                    if (setting.spiral)
+                    {
+                        await Task.Delay(10);
+                    }
                     p.Fire(data);
-               }
-          }
+                }
+            }
+            else
+            {
+                //ProjectilePacket temp;
+                Vector3 temp = data.dir;
+                for (int i = 0; i < setting.burst; i++)
+                {
+                    var p = pool.Get();
+                    p.enabled = true;
+                    data.dir = Quaternion.Euler(0, 360f / setting.burst * (i + 1), 0) * temp;
+
+                    if (setting.spiral)
+                    {
+                        await Task.Delay(10);
+                    }
+                    p.Fire(data);
+                }
+            }
+        }
      }
 
 

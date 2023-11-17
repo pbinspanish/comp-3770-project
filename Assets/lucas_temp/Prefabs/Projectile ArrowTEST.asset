@@ -29,6 +29,7 @@ MonoBehaviour:
   homingSpeed: 11
   homingRotateSpeed: 5
   homingDelay: 0
+  homingTarget: 
   stickToTarget: 30
   stickToWall: 30
   onHitVFX: {fileID: 5841584482562486449, guid: ce0c689300e17124294d5396a339f7c5,
@@ -42,6 +43,10 @@ MonoBehaviour:
   isSiege: 0
   dmgRandomRange: 20
   speedWhenFiring: 100
+  burst: 1
+  spiral: 1
+  rotation: 0
+  spinSpeed: 5
   maxUpwardsAgnle: 30
   maxDownwardsAgnle: 0
   preheatPool: 0

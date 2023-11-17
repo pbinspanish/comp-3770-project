@@ -362,37 +362,39 @@ public class Projectile : MonoBehaviour
 
 
      }
-     public GameObject FindClosestEnemy()
-     {
-          GameObject[] gos;
-          gos = GameObject.FindGameObjectsWithTag("Enemy");
-          GameObject closest = null;
-          float distance = Mathf.Infinity;
-          Vector3 position = transform.position;
-          foreach (GameObject go in gos)
-          {
-               Vector3 diff = go.transform.position - position;
-               float curDistance = diff.sqrMagnitude;
-               if (curDistance < distance)
-               {
+    public GameObject FindClosestEnemy()
+    {
+        GameObject[] gos;
+        gos = GameObject.FindGameObjectsWithTag(setting.homingTarget);
+        GameObject closest = null;
+        float distance = Mathf.Infinity;
+        Vector3 position = transform.position;
+        foreach (GameObject go in gos)
+        {
+            if (go.GetComponent<HPComponent>().hp > 0)
+            {
+                Vector3 diff = go.transform.position - position;
+                float curDistance = diff.sqrMagnitude;
+                if (curDistance < distance)
+                {
 
                     closest = go;
                     distance = curDistance;
-               }
+                }
+            }
+
+        }
+
+        if (closest != null)
+        {
+            //move towards closest enemy
+            Vector3 direction = (closest.transform.position - transform.position).normalized + Vector3.up * 0.1f;
+            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, direction.y, direction.z));
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * setting.homingRotateSpeed);
+        }
 
 
-          }
-
-          if (closest != null)
-          {
-               //move towards closest enemy
-               Vector3 direction = (closest.transform.position - transform.position).normalized;
-               Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-               transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * setting.homingRotateSpeed);
-          }
-
-
-          return closest;
-     }
+        return closest;
+    }
 }
 

@@ -27,8 +27,9 @@ MonoBehaviour:
   isHoming: 1
   homingDetect: 10
   homingSpeed: 20
-  homingRotateSpeed: 5
+  homingRotateSpeed: 10
   homingDelay: 0.5
+  homingTarget: Enemy
   stickToTarget: 30
   stickToWall: 30
   onHitVFX: {fileID: 0}
@@ -41,6 +42,10 @@ MonoBehaviour:
   isSiege: 0
   dmgRandomRange: 0
   speedWhenFiring: 100
+  burst: 1
+  spiral: 1
+  rotation: 0
+  spinSpeed: 5
   maxUpwardsAgnle: 30
   maxDownwardsAgnle: 0
   preheatPool: 0
