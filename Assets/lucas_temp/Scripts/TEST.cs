@@ -6,7 +6,7 @@ using System.Net.Sockets;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 public class TEST : NetworkBehaviour
 {
@@ -14,10 +14,12 @@ public class TEST : NetworkBehaviour
      public static TEST inst { get { if (_inst == null) _inst = FindObjectOfType<TEST>(); return _inst; } }
      public static Action OnConnect;
      public static Action OnDisconnect;
-     public static bool isServer { get => NetworkManager.Singleton.IsServer; }
-     public static bool isClient { get => NetworkManager.Singleton.IsClient; }
-     public static bool isOnlyClient { get => !isServer && NetworkManager.Singleton.IsClient; }
-     public static bool hasClient { get => isServer ? (NetworkManager.Singleton.ConnectedClients.Count > 1) : false; }
+     public static bool isServer__ { get => NetworkManager.Singleton.IsServer; }
+     public static bool isClient__ { get => NetworkManager.Singleton.IsClient; }
+     public static bool isOnlyClient__ { get => !isServer__ && NetworkManager.Singleton.IsClient; }
+     public static bool hasClient__ { get => isServer__ ? (NetworkManager.Singleton.ConnectedClients.Count > 1) : false; }
+     public static ulong clientID { get => NetworkManager.Singleton.LocalClientId; }
+
 
 
      // public
@@ -27,7 +29,6 @@ public class TEST : NetworkBehaviour
 
      // private
      static TEST _inst;
-     ulong clientID { get => NetworkManager.Singleton.LocalClientId; }
      PING pingClass;
 
      void Awake()
@@ -80,6 +81,9 @@ public class TEST : NetworkBehaviour
      {
           NetworkManager.Singleton.Shutdown();
 
+          SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+          //NetworkManager.Singleton.SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
+
           OnDisconnect?.Invoke();
      }
 
@@ -97,7 +101,7 @@ public class TEST : NetworkBehaviour
           }
      }
 
-     string GetLocalIPv4()
+     public string GetLocalIPv4()
      {
           var host = Dns.GetHostEntry(Dns.GetHostName());
           foreach (var ip in host.AddressList)
@@ -123,7 +127,7 @@ public class TEST : NetworkBehaviour
      // OnGUI ----------------------------------------------------------------------------
 
      string _inputIP;
-     bool _showGUI = true;
+     bool _showGUI = false;
 
      void OnGUI()
      {

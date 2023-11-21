@@ -21,7 +21,6 @@ public class Projectile : MonoBehaviour
      public float damageRadius = 1.5f;
      public ProjectileLauncher launcher { get; set; }
 
-
      // private
      ProjectileEntry setting { get => launcher.setting; }
      bool isMovingAndColliding = false; //if false, then it only wait for despawn
@@ -310,7 +309,7 @@ public class Projectile : MonoBehaviour
           }
 
           force *= smooth ? Time.fixedDeltaTime : 1; //impulse or constant
-          Debug.Log("force = " + force + "  |  mag = " + force.magnitude);
+          //Debug.Log("force = " + force + "  |  mag = " + force.magnitude);
 
           // finally
           //var ai = target.GetComponent<AIBrain>();

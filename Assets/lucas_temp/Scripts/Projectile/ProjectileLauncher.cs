@@ -118,8 +118,6 @@ public class ProjectileLauncher : NetworkBehaviour
      }
 
 
-
-
      [ServerRpc(RequireOwnership = false)]
      void Fire_ServerRPC(ProjectilePacket data)
      {

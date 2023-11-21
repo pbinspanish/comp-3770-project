@@ -11,6 +11,45 @@ Path of Exile
 
 
 
+Drink a potion  -------------------------------------------------------------------------------
+gu gu gu <- heal 30% in the progress, and move speed keep slow down till reach 0%
+guuuuu <- instantly 70% at the end, and remove debuff. haaaa that hits the spot
+
+
+Day and night
+-------------------------------------------------------------------------------
+at night the forest become dangerous
+leviathan come out
+dive deep into forest during day, and leave before night comes
+
+
+Book of Burning
+-------------------------------------------------------------------------------
+A book with burning page
+Fires a seri
+
+
+Overheating Blade
+-------------------------------------------------------------------------------
+Attack increase to 5000% as you continue attack
+will also start to hurt you at max speed
+
+
+Dimansions of weapon
+-------------------------------------------------------------------------------
+
+non-
+attach to ground / target
+
+
+
+
+
+debug window  -------------------------------------------------------------------------------
+RRT
+server tick (how server perform under preassure? CPU and bandwidth)
+seperate NetVar and RPC
+
 
 
 Server/Client  -------------------------------------------------------------------------------

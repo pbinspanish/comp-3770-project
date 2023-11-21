@@ -12,6 +12,7 @@ public class CameraMgr : MonoBehaviour
      public Camera camMain;
      public Camera camSpectator;
 
+     [Header("Setting")]
      public bool lockRotation;
 
      public Vector3 offset = new Vector3(0, 2f, 0);
@@ -25,8 +26,7 @@ public class CameraMgr : MonoBehaviour
      Transform root { get => camMain.transform.parent; } //we move,rorate root obj, and main camera is a child of this
      float rotX;
      float rotY;
-     bool specMode;
-
+     [HideInInspector] public bool inUse;
 
 
      void Awake()
@@ -36,17 +36,16 @@ public class CameraMgr : MonoBehaviour
 
      void Start()
      {
-          SetSpectatorMode(false);
-
           rotX = root.transform.eulerAngles.x;
           rotY = root.transform.eulerAngles.y;
           dist = camMain.transform.localPosition.z;
      }
-     void OnValidate()
-     {
-          UpdateMainCam(); ;
-     }
+
      void Update()
+     {
+          UpdateMainCam();
+     }
+     void OnValidate()
      {
           UpdateMainCam();
      }
@@ -73,18 +72,6 @@ public class CameraMgr : MonoBehaviour
           camMain.fieldOfView = FOV;
      }
 
-     public void SetSpectatorMode(bool flag)
-     {
-          specMode = flag;
-
-          camMain.gameObject.SetActive(!flag);
-          camSpectator.gameObject.SetActive(flag);
-     }
-
-     //public void ToggleSpectatorMode()
-     //{
-     //     SetSpectatorMode(!specMode);
-     //}
 
 
 }

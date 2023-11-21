@@ -50,7 +50,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0347ee182f80b7942abb928a67fa8437, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  quickStart: 1
+  _isServer: 0
+  _isClient: 0
+  quickStart: 0
   clientHasDamageAutority: 1
 --- !u!114 &4896992468041592634
 MonoBehaviour:

@@ -26,6 +26,7 @@ public class NetworkChara : NetworkBehaviour
      NetworkVariable<Vector3> netPos = new(writePerm: NetworkVariableWritePermission.Owner);
      NetworkVariable<Quaternion> netRot = new(writePerm: NetworkVariableWritePermission.Owner);
      bool isSpawned;
+     //static bool spawn_at_lobby = true;
 
 
      // init ---------------------------------------------------------------------------------
@@ -38,12 +39,17 @@ public class NetworkChara : NetworkBehaviour
           // is this player's main chara?
           if (IsOwner && hp && hp.team == CharaTeam.player_main_chara)
           {
-               Debug.Assert(myChara == null);
+               Debug.Log("on spawn");
+
+               if (Lobby.inst)
+                    transform.position = Lobby.inst.Get_spawn_pos();
+
                myChara = this;
           }
 
           isSpawned = true;
      }
+
      public override void OnNetworkDespawn()
      {
           if (myChara == this)
@@ -53,11 +59,20 @@ public class NetworkChara : NetworkBehaviour
 
      void FixedUpdate()
      {
+          if (!TEST.isClient__)
+               return;
+
           if (!isSpawned)
                return;
 
           if (IsOwner)
           {
+               if (netPos == null) Debug.Log(netPos);
+               if (netPos.Value == null) Debug.Log(netPos.Value);
+               if (netRot == null) Debug.Log(netRot);
+               if (netRot.Value == null) Debug.Log(netRot.Value);
+               if (transform == null) Debug.Log(transform);
+
                //Server controls all NPC, Player control his own PC
                netRot.Value = transform.rotation;
                netPos.Value = transform.position;
@@ -110,7 +125,6 @@ public class NetworkChara : NetworkBehaviour
                pos = netPos.Value; //no smooth
           }
      }
-
 
 
      // debug --------------------------------------------------------------------------------------------
