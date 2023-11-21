@@ -401,8 +401,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1880556723616090028}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 4.5}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 28, y: -114.5, z: -230}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -415,7 +415,7 @@ Transform:
   - {fileID: 2854718938187476567}
   - {fileID: 5818783704010935674}
   - {fileID: 4670527464653127860}
-  m_Father: {fileID: 2254626597123615839}
+  m_Father: {fileID: 3645436979166411814}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1972952109952264182
 GameObject:
@@ -427,6 +427,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3645436979166411814}
   - component: {fileID: 3055224911851806671}
+  - component: {fileID: 2221656978043283930}
   m_Layer: 0
   m_Name: Lobby
   m_TagString: Untagged
@@ -449,6 +450,7 @@ Transform:
   m_Children:
   - {fileID: 2254626597123615839}
   - {fileID: 1109333277497671995}
+  - {fileID: 6398855871334206866}
   - {fileID: 3533758184854951176}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -465,9 +467,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   __gizmos: 1
-  lobby_pos: {fileID: 2254626597123615839}
-  start_pos: {fileID: 1109333277497671995}
-  spawn_area: {x: 16, y: 8}
+  lobby_zone: {fileID: 2254626597123615839}
+  start_zone: {fileID: 1109333277497671995}
+  zone_size: {x: 16, y: 8}
   connectUI_root: {fileID: 225261493940729377}
   b_host: {fileID: 2330081287600212437}
   b_connect: {fileID: 2474673289143580335}
@@ -475,6 +477,26 @@ MonoBehaviour:
   lobbyUI_root: {fileID: 8405607026259323095}
   b_start_game: {fileID: 5775408086939810856}
   b_leave_lobby: {fileID: 4493375337432066770}
+--- !u!114 &2221656978043283930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1972952109952264182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &2683322653198947006
 GameObject:
   m_ObjectHideFlags: 0
@@ -2356,8 +2378,7 @@ Transform:
   m_LocalPosition: {x: 28, y: -114.5, z: -234.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 6398855871334206866}
+  m_Children: []
   m_Father: {fileID: 3645436979166411814}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7837240217959119937

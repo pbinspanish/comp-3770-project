@@ -13,9 +13,9 @@ public class Lobby : NetworkBehaviour
      public bool __gizmos;
 
      [Header("Start Area")]
-     public Transform lobby_pos;
-     public Transform start_pos;
-     public Vector2 spawn_area;
+     public Transform lobby_zone;
+     public Transform start_zone;
+     public Vector2 zone_size;
 
      [Header("UI")]
      public GameObject connectUI_root;
@@ -62,18 +62,18 @@ public class Lobby : NetworkBehaviour
 
      Vector3 Get_lobby_pos()
      {
-          var pos = lobby_pos.position;
-          pos.x += Random.Range(-spawn_area.x, spawn_area.x) / 2f;
-          pos.z += Random.Range(-spawn_area.y, spawn_area.y) / 2f;
+          var pos = lobby_zone.position;
+          pos.x += Random.Range(-zone_size.x, zone_size.x) / 2f;
+          pos.z += Random.Range(-zone_size.y, zone_size.y) / 2f;
 
           return pos;
      }
 
      Vector3 Get_start_pos()
      {
-          var pos = start_pos.position;
-          pos.x += Random.Range(-spawn_area.x, spawn_area.x) / 2f;
-          pos.z += Random.Range(-spawn_area.y, spawn_area.y) / 2f;
+          var pos = start_zone.position;
+          pos.x += Random.Range(-zone_size.x, zone_size.x) / 2f;
+          pos.z += Random.Range(-zone_size.y, zone_size.y) / 2f;
 
           return pos;
      }
@@ -141,14 +141,14 @@ public class Lobby : NetworkBehaviour
           if (!__gizmos)
                return;
 
-          var size = new Vector3(spawn_area.x, 0.1f, spawn_area.y);
+          var size = new Vector3(zone_size.x, 0.1f, zone_size.y);
 
           Gizmos.color = Color.cyan;
-          Gizmos.DrawWireCube(lobby_pos.position, size);
-          Gizmos.DrawLine(lobby_pos.position, start_pos.position);
+          Gizmos.DrawWireCube(lobby_zone.position, size);
+          Gizmos.DrawLine(lobby_zone.position, start_zone.position);
 
           Gizmos.color = Color.yellow;
-          Gizmos.DrawWireCube(start_pos.position, size);
+          Gizmos.DrawWireCube(start_zone.position, size);
      }
 
 
