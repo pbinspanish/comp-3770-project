@@ -10,7 +10,6 @@ public class CameraMgr : MonoBehaviour
      public static CameraMgr inst;
 
      public Camera camMain;
-     public Camera camSpectator;
 
      [Header("Setting")]
      public bool lockRotation;

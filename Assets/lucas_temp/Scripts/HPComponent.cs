@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 
 public enum CharaTeam
@@ -31,7 +32,7 @@ public class HPComponent : NetworkBehaviour
      public bool requireSiegeAttack; //soft terrain can only be damaged by siege attack
 
      // static
-     public static List<HPComponent> all = new List<HPComponent>(); // for targeting
+     public static List<HPComponent> players = new List<HPComponent>();
 
      // public
      public int maxHP { get; private set; }
@@ -40,6 +41,7 @@ public class HPComponent : NetworkBehaviour
      public Action<int, int> On_config_hp; // (hp, maxHP), for Init HP or passive +maxHP, or similar but isn't a heal
      public Action On_death_blow;
      public int id { get => _id.Value; }
+     public float t_last_damaged;
 
 
      // private
@@ -55,9 +57,12 @@ public class HPComponent : NetworkBehaviour
 
           Config_hp(set_max_hp, set_max_hp); //initial hp
 
-          all.Add(this);
+          // list
+          //all.Add(this);
+          if (team == CharaTeam.player_main_chara)
+               players.Add(this);
 
-          //check
+          // check
           Debug.Assert(set_max_hp > 0);
           if (team == CharaTeam.player_main_chara) if (gameObject.layer != LayerMask.NameToLayer("Player")) Debug.LogError(gameObject.name);
           if (team == CharaTeam.enemy) if (gameObject.layer != LayerMask.NameToLayer("Enemy")) Debug.LogError(gameObject.name);
@@ -66,7 +71,9 @@ public class HPComponent : NetworkBehaviour
 
      public override void OnNetworkDespawn()
      {
-          all.Remove(this);
+          //all.Remove(this);
+          if (players.Contains(this))
+               players.Remove(this);
      }
 
 
@@ -143,6 +150,9 @@ public class HPComponent : NetworkBehaviour
      [ClientRpc]
      void Damage_or_heal_ClientRPC(DamageHealPacket data)
      {
+          if (data.delta < 0)
+               t_last_damaged = Time.time;
+
           var was = hp;
           hp = Mathf.Clamp(hp + data.delta, 0, maxHP);
 

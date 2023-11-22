@@ -22,6 +22,7 @@ public class AIBrain : MonoBehaviour
 
      // static
      public static int tDespoawn = 5; //sec
+     public static List<AIBrain> all = new List<AIBrain>();
 
 
      // test
@@ -72,6 +73,8 @@ public class AIBrain : MonoBehaviour
           agent.transform.parent = null; //detached 'ghost' agent
           agent.acceleration = float.MaxValue;
 
+          all.Add(this);
+
           TEST.OnConnect += On_connect; //TODO: maybe buggy, TEST connect early(~10 frames) before NetMono spawned
           TEST.OnDisconnect += On_local_mode;
 
@@ -97,6 +100,7 @@ public class AIBrain : MonoBehaviour
 
      void OnDestroy()
      {
+          all.Remove(this);
           Destroy(agent);
      }
 
@@ -163,7 +167,7 @@ public class AIBrain : MonoBehaviour
           if (!_updated)
           {
                _updated = true;
-               foreach (var chara in HPComponent.all)
+               foreach (var chara in HPComponent.players)
                {
                     // hostile?
                     if (!hp.IsEnemy(chara.team))
@@ -221,7 +225,7 @@ public class AIBrain : MonoBehaviour
      {
           if (current == null && value < 0)
           {
-               var attacker = HPComponent.all.Find(x => x.id == attackID);
+               var attacker = HPComponent.players.Find(x => x.id == attackID);
 
                if (attacker == null)
                     return;
@@ -248,6 +252,12 @@ public class AIBrain : MonoBehaviour
      }
 
 
+     // teleport  ----------------------------------------------------------------------
+     public static void OnTeleport(HPComponent player)
+     {
+          foreach (var ai in all)
+               ai._targets.RemoveAll(x => x.hp == player);
+     }
 
 
      // void TravelOrMovie(bool _travel)
