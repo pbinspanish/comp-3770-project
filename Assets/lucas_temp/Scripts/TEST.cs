@@ -45,6 +45,9 @@ public class TEST : NetworkBehaviour
 
           if (quickStart)
           {
+               var lobby = FindObjectOfType<Lobby>();
+               lobby.gameObject.SetActive(false);
+
                StartHost();
                _showGUI = false;
           }
