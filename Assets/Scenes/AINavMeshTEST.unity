@@ -2507,8 +2507,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 1900000517971896433, guid: a4f17a8c0915baf4aa2bd3f0d8cf83c3, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a4f17a8c0915baf4aa2bd3f0d8cf83c3, type: 3}
@@ -3482,11 +3481,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3855244470720748352, guid: 935459978ccc7cb419e77a9afe52c6d3,
-        type: 3}
-      propertyPath: quickStart
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6689819152590511506, guid: 935459978ccc7cb419e77a9afe52c6d3,
         type: 3}
@@ -13147,11 +13141,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Lobby
-      objectReference: {fileID: 0}
-    - target: {fileID: 1972952109952264182, guid: 0ab9ef4beed23594bb99f29568907cbc,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2221656978043283930, guid: 0ab9ef4beed23594bb99f29568907cbc,
         type: 3}
