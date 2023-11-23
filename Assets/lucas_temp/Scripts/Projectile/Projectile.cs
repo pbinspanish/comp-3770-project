@@ -9,7 +9,8 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 
 /// <summary>
-/// Script attached to a projectile. Handle collision, damage, force etc.
+/// Attached to projectile, fly with it
+/// Handle collision, damage, force etc
 /// </summary>
 public class Projectile : MonoBehaviour
 {

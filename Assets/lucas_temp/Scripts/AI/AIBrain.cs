@@ -260,28 +260,6 @@ public class AIBrain : MonoBehaviour
      }
 
 
-     // void TravelOrMovie(bool _travel)
-     // {
-     //      if (_travel)
-     //      {
-     //           go_to_singapore(); // 
-     //      }
-     //      else
-     //      {
-     //           for (int i = 0l; i < 100; i++)
-     //                play_movie(); //
-     //      }
-     // }
-
-
-
-
-
-
-
-
-
-
      // using navMesh  ---------------------------------------------------------------------
 
      float agent_pos_devation = 0.5f;
@@ -336,8 +314,6 @@ public class AIBrain : MonoBehaviour
           }
      }
 
-
-
      void Update_rotation()
      {
           if (!update_rot)
@@ -356,8 +332,6 @@ public class AIBrain : MonoBehaviour
           // apply
           transform.rotation = Quaternion.Slerp(transform.rotation, rot, agent_rotate_slerp * Time.fixedDeltaTime);
      }
-
-
 
 
      // debug  ----------------------------------------------------------------------

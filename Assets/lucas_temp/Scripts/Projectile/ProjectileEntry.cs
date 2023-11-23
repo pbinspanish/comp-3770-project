@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+/// <summary>
+/// Data class for Projectile
+/// 
+/// To create new one, right click in project folder > Create > 3770 > ProjectileEntry 
+/// (see CreateAssetMenu)
+/// </summary>
 [CreateAssetMenu(menuName = "3770/ProjectileEntry")]
 public class ProjectileEntry : ScriptableObject
 {

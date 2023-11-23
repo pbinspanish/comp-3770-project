@@ -10,7 +10,8 @@ using UnityEngine.Pool;
 
 
 /// <summary>
-/// Creates and Fire() Projectile.
+/// Manager class for projectile
+/// Create(), Fire()
 /// </summary>
 public class ProjectileLauncher : NetworkBehaviour
 {
