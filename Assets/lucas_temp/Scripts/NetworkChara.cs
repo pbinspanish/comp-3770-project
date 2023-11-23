@@ -12,6 +12,7 @@ public class NetworkChara : NetworkBehaviour
      // - sync pos / rotation
      // - smooth
 
+     public static Action OnPlayerSpawn;
 
      // TEST
      public bool gizmos;
@@ -39,12 +40,9 @@ public class NetworkChara : NetworkBehaviour
           // is this player's main chara?
           if (IsOwner && hp && hp.team == CharaTeam.player_main_chara)
           {
-               //Debug.Log("on spawn");
-
-               if (Lobby.inst)
-                    transform.position = Lobby.inst.Get_spawn_pos();
-
                myChara = this;
+
+               OnPlayerSpawn?.Invoke();
           }
 
           isSpawned = true;

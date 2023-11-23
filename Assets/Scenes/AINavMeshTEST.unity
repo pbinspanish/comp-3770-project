@@ -13142,6 +13142,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Lobby
       objectReference: {fileID: 0}
+    - target: {fileID: 1972952109952264182, guid: 0ab9ef4beed23594bb99f29568907cbc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2221656978043283930, guid: 0ab9ef4beed23594bb99f29568907cbc,
         type: 3}
       propertyPath: GlobalObjectIdHash

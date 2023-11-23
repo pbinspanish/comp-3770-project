@@ -34,6 +34,8 @@ public class Lobby : NetworkBehaviour
      void Awake()
      {
           inst = this;
+
+          NetworkChara.OnPlayerSpawn += OnPlayerSpawn;
      }
 
      void Start()
@@ -51,6 +53,11 @@ public class Lobby : NetworkBehaviour
      }
 
      // spawn  ----------------------------------------------------------
+     void OnPlayerSpawn()
+     {
+          if (gameObject.activeSelf)
+               transform.position = Get_spawn_pos();
+     }
 
      public Vector3 Get_spawn_pos()
      {
