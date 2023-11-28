@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/lucas_temp/TEST_NetworkBenchmark.unity
     guid: 31b0106820f4d0348af1fed278e78740
+  - enabled: 1
+    path: Assets/Curtis/Scenes/TestVillage.unity
+    guid: 79d1879cf5fe82849b4004922f575132
   m_configObjects: {}
