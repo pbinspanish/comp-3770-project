@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.3069224, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3485,7 +3485,7 @@ PrefabInstance:
     - target: {fileID: 3855244470720748352, guid: 935459978ccc7cb419e77a9afe52c6d3,
         type: 3}
       propertyPath: quickStart
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6689819152590511506, guid: 935459978ccc7cb419e77a9afe52c6d3,
         type: 3}
@@ -13276,6 +13276,16 @@ PrefabInstance:
     - target: {fileID: 22785626737918758, guid: 58addecc6aacbb142a756141aa4dcb6b,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5370361774016633361, guid: 58addecc6aacbb142a756141aa4dcb6b,
+        type: 3}
+      propertyPath: DebugSimulator.PacketDelayMS
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5370361774016633361, guid: 58addecc6aacbb142a756141aa4dcb6b,
+        type: 3}
+      propertyPath: DebugSimulator.PacketJitterMS
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6301504172262496024, guid: 58addecc6aacbb142a756141aa4dcb6b,

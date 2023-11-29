@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Curtis/Scenes/TestVillage.unity
     guid: 79d1879cf5fe82849b4004922f575132
+  - enabled: 1
+    path: Assets/Curtis/Scenes/TestBossArena.unity
+    guid: cb1293bbd0cd4f843a65d148bb095a58
   m_configObjects: {}
