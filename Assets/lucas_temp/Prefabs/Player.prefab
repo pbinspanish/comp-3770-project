@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 747480884164551678}
   - component: {fileID: 7497088134396068365}
   - component: {fileID: 5501781927767710753}
+  - component: {fileID: 1691463027276038917}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -88,6 +89,7 @@ MonoBehaviour:
   set_max_hp: 100
   team: 10
   requireSiegeAttack: 0
+  t_last_damaged: 0
 --- !u!136 &7497088134396068365
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -138,6 +140,23 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 1
+--- !u!114 &1691463027276038917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 97805024486415106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3310e3391a6923e4fae284a219fe8c92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1
+  attackRange: 1000000
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &588694765373002116
 GameObject:
   m_ObjectHideFlags: 0
