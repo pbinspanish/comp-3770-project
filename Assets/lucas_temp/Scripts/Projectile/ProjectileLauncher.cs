@@ -81,7 +81,7 @@ public class ProjectileLauncher : NetworkBehaviour
           start += NetworkChara.myChara.transform.rotation * new Vector3(0, setting.spawnFwdUp.y, setting.spawnFwdUp.x);
 
           // direction
-          var dir = PlayerController.mouseHit
+          var dir = PlayerMove.mouseHit
                - NetworkChara.myChara.transform.position
                - new Vector3(0, setting.spawnFwdUp.y, 0); //compensate height, since we fire from hip, not from feet
 
@@ -142,7 +142,7 @@ public class ProjectileLauncher : NetworkBehaviour
                     // cap speed
                     if (setting.speedWhenFiring >= 0)
                     {
-                         var controller = FindObjectOfType<PlayerController>();
+                         var controller = FindObjectOfType<PlayerMove>();
                          if (controller)
                               controller.Slow(setting.speedWhenFiring, setting.delay / 1000);
                     }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using Unity.Burst.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
@@ -17,8 +18,8 @@ public class PlayerMove : MonoBehaviour
 
     [Header("Movement")]
     public bool canMove = true;
-    private float walkSpeed = 100f;
-    private float runSpeed = 200f;
+    public float walkSpeed = 100f;
+    public float runSpeed = 200f;
     private float currentSpeed;
     private float rotationSpeed = 10f;
     public Vector3 movementDirection; //controls movement
@@ -40,11 +41,13 @@ public class PlayerMove : MonoBehaviour
     //debugging
     private UnityEngine.Color color;
 
+    public static Vector3 mouseHit;
+
     // Start is called before the first frame update
     void Start()
     {
-        player = GetComponent<Rigidbody>(); //reference
-        playerCollider = GetComponent<CapsuleCollider>();
+        player = GetComponentInParent<Rigidbody>(); //reference
+        playerCollider = GetComponentInParent<CapsuleCollider>();
         Cursor.visible = true; //make sure mouse cursor is visible
     }
 
@@ -102,10 +105,12 @@ public class PlayerMove : MonoBehaviour
     void setRotation() //player rotates to face mouse cursor
     {
         Ray mouse = playerCamera.ScreenPointToRay(Input.mousePosition); //get mouse position by casting a ray in the world
-        Physics.Raycast(mouse, out var hit);
-        Vector3 mouseHit = hit.point; //get the point where the ray hit something
-        Vector3 direction = mouseHit - player.transform.position; //direction to rotate is the point where the mouse hit offsetted by the player's position
-        desiredRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z)); //set player's desired rotation ignoring the up axis to avoid tilting
+        if (Physics.Raycast(mouse, out var hit))
+        {
+            mouseHit = hit.point; //get the point where the ray hit something
+            Vector3 direction = mouseHit - player.transform.position; //direction to rotate is the point where the mouse hit offsetted by the player's position
+            desiredRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z)); //set player's desired rotation ignoring the up axis to avoid tilting
+        }
     }
 
     void setMoveSpeed() //set walking and running speed
@@ -190,5 +195,17 @@ public class PlayerMove : MonoBehaviour
         color = isGrounded ? UnityEngine.Color.red : UnityEngine.Color.green; //red ray if grounded, green ray if not grounded
         Debug.DrawRay(playerCollider.bounds.center, Vector3.down * playerCollider.bounds.extents.y, color); //dray casted ray
         Debug.Log(checkSlope());
+    }
+
+    // slow debuff - Projectile Launcher
+    float speedMultiple = 100;
+    float tSlowEnd;
+    public void Slow(float _speedMultiple, float sec)
+    {
+        if (_speedMultiple < speedMultiple) //only apply the stronger slow
+        {
+            speedMultiple = Mathf.Clamp(_speedMultiple, 0, 100);
+            tSlowEnd = Time.time + sec;
+        }
     }
 }
