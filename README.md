@@ -1,5 +1,7 @@
 # COMP-3770 Project
 > Curtis Chang | Nathan Galasso | Josiah Henson | Bilal Mohamad Ali Ahmad | Yuan Zhang
+
+[Game Design Document (Restricted Access)](https://docs.google.com/document/d/14VHR3YcfHk5-rpNE5ljGWnuejXGoGuUif0aiK2jIzVw/edit?usp=sharing)
 ## Installation
 ### Prerequisites
 1. Install [Unity](https://unity.com/) editor version **2022.3.10f1 LTS**.
