@@ -10,7 +10,6 @@ public class CameraMgr : MonoBehaviour
      public static CameraMgr inst;
 
      public Camera camMain;
-    public Transform player;
 
      [Header("Setting")]
      public bool lockRotation;
@@ -65,7 +64,7 @@ public class CameraMgr : MonoBehaviour
 
           // position - apply to root
           //if (NetworkChara.myChara != null)
-               root.position = player.position + offset;
+               //root.position = player.position + offset;
 
           // distance to middle parent - apply to camera
           camMain.transform.localPosition = new Vector3(0, 0, dist);
