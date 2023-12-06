@@ -1,0 +1,109 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!28 &-5450145922003958643
+Texture2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: _Grad_GradientTexture_Texture_{"mode":0,"colorKeys":[{"color":{"r":0.0,"g":0.0,"b":0.0,"a":1.0},"time":0.0},{"color":{"r":0.07915108650922775,"g":0.07895266264677048,"b":0.07890218496322632,"a":1.0},"time":0.09706263989210129},{"color":{"r":0.007011384703218937,"g":0.0028265793807804586,"b":0.0017620234284549952,"a":1.0},"time":0.3353017568588257},{"color":{"r":0.006899005267769098,"g":0.0027812744956463577,"b":0.0017337814206257463,"a":1.0},"time":0.4294193983078003},{"color":{"r":0.006224557291716337,"g":0.002509376732632518,"b":0.0015642866492271424,"a":1.0},"time":0.582360565662384},{"color":{"r":0.0,"g":0.0,"b":0.0,"a":1.0},"time":0.6235294342041016},{"color":{"r":0.05345427989959717,"g":0.021549632772803308,"b":0.013433536514639855,"a":1.0},"time":0.773525595664978},{"color":{"r":0.9339622855186462,"g":0.9316208958625794,"b":0.9310252666473389,"a":1.0},"time":0.9588311314582825}],"alphaKeys":[{"alpha":1.0,"time":0.0},{"alpha":1.0,"time":0.7470664381980896},{"alpha":1.0,"time":0.7676509022712708}]}
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 2
+  m_Width: 256
+  m_Height: 1
+  m_CompleteImageSize: 1024
+  m_MipsStripped: 0
+  m_TextureFormat: 5
+  m_MipCount: 1
+  m_IsReadable: 1
+  m_IsPreProcessed: 0
+  m_IgnoreMipmapLimit: 0
+  m_MipmapLimitGroupName: 
+  m_StreamingMipmaps: 0
+  m_StreamingMipmapsPriority: 0
+  m_VTOnly: 0
+  m_AlphaIsTransparency: 0
+  m_ImageCount: 1
+  m_TextureDimension: 2
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_LightmapFormat: 0
+  m_ColorSpace: 0
+  m_PlatformBlob: 
+  image data: 1024
+  _typelessdata: ff000000ff010101ff020202ff020202ff030303ff040404ff050505ff060606ff070707ff070707ff080808ff090909ff0a0a0aff0b0b0bff0b0b0bff0c0c0cff0d0d0dff0e0e0eff0f0f0fff0f0f0fff101010ff111111ff121212ff131313ff141414ff141414ff141414ff141313ff131313ff131313ff131212ff121212ff121212ff121111ff111111ff111111ff111110ff101010ff101010ff101010ff100f0fff0f0f0fff0f0f0fff0f0e0eff0e0e0eff0e0e0eff0e0d0dff0d0d0dff0d0d0dff0d0c0cff0d0c0cff0c0c0cff0c0b0bff0c0b0bff0b0b0bff0b0a0aff0b0a0aff0a0a0aff0a0a09ff0a0909ff0a0909ff090908ff090808ff090808ff080807ff080707ff080707ff070706ff070606ff070606ff060605ff060505ff060505ff060504ff050404ff050404ff050404ff040303ff040303ff040303ff030202ff030202ff030202ff030201ff020101ff020101ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff020100ff010100ff010000ff010000ff010000ff010000ff010000ff000000ff000000ff000000ff000000ff000000ff010000ff010000ff010100ff020100ff020101ff020101ff030101ff030101ff040101ff040201ff040201ff050201ff050201ff050201ff060201ff060202ff060302ff070302ff070302ff070302ff080302ff080302ff090302ff090402ff090402ff0a0402ff0a0403ff0a0403ff0b0403ff0b0403ff0b0503ff0c0503ff0c0503ff0c0503ff0d0503ff0d0503ff0e0503ff110907ff160e0cff1b1311ff1f1816ff241d1bff292220ff2e2725ff322c2aff37302fff3c3534ff413a39ff453f3eff4a4443ff4f4948ff544e4cff585351ff5d5856ff625d5bff676260ff6b6665ff706b6aff75706fff7a7574ff7e7a79ff837f7eff888483ff8d8988ff918e8dff969392ff9b9897ffa09d9cffa5a1a1ffa9a6a6ffaeababffb3b0b0ffb8b5b4ffbcbab9ffc1bfbeffc6c4c3ffcbc9c8ffcfcecdffd4d3d2ffd9d7d7ffdedcdcffe2e1e1ffe7e6e6ffecebebffeeeeedffeeeeedffeeeeedffeeeeedffeeeeedffeeeeedffeeeeedffeeeeedffeeeeedffeeeeedffeeeeed
+  m_StreamData:
+    serializedVersion: 2
+    offset: 0
+    size: 0
+    path: 
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: GradientURP
+  m_Shader: {fileID: -6465566751694194690, guid: 1aec67c7bb7b81b44a0d1a808c072b04,
+    type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Grad_GradientTexture:
+        m_Texture: {fileID: -5450145922003958643}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _QueueControl: -1
+    - _QueueOffset: 0
+    m_Colors: []
+  m_BuildTextureStacks: []
+--- !u!114 &7707163432961974808
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 7

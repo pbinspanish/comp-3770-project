@@ -29,4 +29,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Curtis/Scenes/TestStage1.unity
     guid: 083da6fd2b5997d41b5513a91fc1c427
+  - enabled: 1
+    path: Assets/Curtis/Scenes/TestStage2.unity
+    guid: 6e89334c6802442458d098e66a271f4b
   m_configObjects: {}
