@@ -628,12 +628,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2895109828117318099, guid: 0eabe7653a6af92409436cfd15aaf0e5,
         type: 3}
+      propertyPath: mainMenu
+      value: 
+      objectReference: {fileID: 143723405}
+    - target: {fileID: 2895109828117318099, guid: 0eabe7653a6af92409436cfd15aaf0e5,
+        type: 3}
       propertyPath: menuPrefab
       value: 
       objectReference: {fileID: 143723405}
     - target: {fileID: 2895109828117318099, guid: 0eabe7653a6af92409436cfd15aaf0e5,
         type: 3}
       propertyPath: playerStart
+      value: 
+      objectReference: {fileID: 1974428171}
+    - target: {fileID: 2895109828117318099, guid: 0eabe7653a6af92409436cfd15aaf0e5,
+        type: 3}
+      propertyPath: playerStartPosition
       value: 
       objectReference: {fileID: 1974428171}
     - target: {fileID: 2962772826722777084, guid: 0eabe7653a6af92409436cfd15aaf0e5,
