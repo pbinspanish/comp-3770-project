@@ -103,7 +103,7 @@ public class Projectile : MonoBehaviour
      int targetMask;
      int launcherID;
 
-     public void Fire(ProjectilePacket packet)
+     public void Fire(CharaTeam team,Vector3 start,Vector3 dir)
      {
           // flag
           enabled = true;
@@ -116,20 +116,22 @@ public class Projectile : MonoBehaviour
 
           // set up
           tDespawn = Time.time + setting.range / setting.speed;
-
-          originClientID = packet.originClientID;
-          attackerID = packet.attackerID;
-
-          transform.position = packet.start;
-          transform.rotation = Quaternion.LookRotation(packet.dir);
-
+          start.y+=1;
+          transform.position = start;
+          
+          transform.rotation = Quaternion.LookRotation(dir);
+          Quaternion target = Quaternion.LookRotation(dir);
+          target.x=0;
+          // target.y=0;
+          target.z=0;
+          transform.rotation = target;
           targetMask = LayerMaskUtil.Get_target_mask(
-               packet.team,
+               team,
                setting.hitFoe,
                setting.hitFriend,
                setting.isSiege); // collision mask
 
-          velocity = packet.dir.normalized * setting.speed;
+          velocity = dir.normalized * setting.speed;
 
           // VFX
           foreach (var particle in GetComponentsInChildren<ParticleSystem>())
@@ -281,7 +283,7 @@ public class Projectile : MonoBehaviour
           if (setting.isHeal)
                hpClass.Heal(damageOrHeal);
           else
-               hpClass.Damage(damageOrHeal, attackerID, setting.isSiege);
+               hpClass.Damage(damageOrHeal);
      }
 
 

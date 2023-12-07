@@ -5,13 +5,13 @@ using UnityEngine;
 public class MainMenuController : MonoBehaviour
 {
     public GameObject menuPrefab;
-    public GameObject playerPrefab;
+    public GameObject playerPrefab; 
     public Transform playerStart;
 
     public void StartGameButton_OnPress()
     {
         Instantiate(playerPrefab, playerStart.position, playerStart.rotation);
-
+        
         Destroy(menuPrefab);
     }
 

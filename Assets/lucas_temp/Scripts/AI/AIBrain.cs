@@ -10,7 +10,6 @@ using Unity.VisualScripting;
 using JetBrains.Annotations;
 using UnityEngine.Rendering.PostProcessing;
 
-[RequireComponent(typeof(NetworkChara))]
 [RequireComponent(typeof(HPComponent))]
 public class AIBrain : MonoBehaviour
 {
@@ -61,7 +60,7 @@ public class AIBrain : MonoBehaviour
           states.AddRange(GetComponents<AIState>()); //find all state
 
           hp = GetComponent<HPComponent>();
-          hp.On_damage_or_heal += On_surprise_attack;
+
           hp.On_death_blow += Die;
 
           var phy_mat = GetComponent<Collider>().material; //disable friction
@@ -75,7 +74,6 @@ public class AIBrain : MonoBehaviour
 
           all.Add(this);
 
-          TEST.OnConnect += On_connect; //TODO: maybe buggy, TEST connect early(~10 frames) before NetMono spawned
           TEST.OnDisconnect += On_local_mode;
 
           On_local_mode();
@@ -221,27 +219,7 @@ public class AIBrain : MonoBehaviour
           }
      }
 
-     void On_surprise_attack(int value, int hpWas, int hpIs, int attackID)
-     {
-          if (current == null && value < 0)
-          {
-               var attacker = HPComponent.players.Find(x => x.id == attackID);
 
-               if (attacker == null)
-                    return;
-
-               if (!_targets.Exists(x => x.hp.id == attackID))
-               {
-                    var data = new AITargetData();
-                    data.hp = attacker;
-                    _targets.Add(data);
-               }
-               else
-               {
-                    Debug.LogError("this should not happen??");
-               }
-          }
-     }
 
 
      // die  ----------------------------------------------------------------------

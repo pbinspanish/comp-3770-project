@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 747480884164551678}
   - component: {fileID: 7497088134396068365}
   - component: {fileID: 5501781927767710753}
-  - component: {fileID: 1691463027276038917}
+  - component: {fileID: -5196632289083142934}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -140,7 +140,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 1
---- !u!114 &1691463027276038917
+--- !u!114 &-5196632289083142934
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
-  attackRange: 1000000
+  attackRange: 20
   enemyLayer:
     serializedVersion: 2
     m_Bits: 0
