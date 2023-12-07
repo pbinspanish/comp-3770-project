@@ -25,6 +25,8 @@ public class ProjectileLauncher : MonoBehaviour
 
      public Vector3 start;
      public Vector3 dir;
+
+     public GameObject world;
      void Start(){
 
      }
@@ -163,7 +165,7 @@ public class ProjectileLauncher : MonoBehaviour
 
      Projectile CreateNew()
      {
-          var p = Instantiate(setting.prefab, transform);
+          var p = Instantiate(setting.prefab,world.transform);
           p.gameObject.SetActive(false);
           p.enabled = false;
 
@@ -199,7 +201,7 @@ public class ProjectileLauncher : MonoBehaviour
 
      GameObject CreateNewVFX()
      {
-          var vfx = Instantiate(setting.onHitVFX, transform);
+          var vfx = Instantiate(setting.onHitVFX,world.transform);
           vfx.gameObject.SetActive(false);
 
           return vfx;
@@ -207,7 +209,7 @@ public class ProjectileLauncher : MonoBehaviour
 
      public GameObject GetVFX(Projectile p)
      {
-          if (p.launcher == this && setting.onHitVFX != null)
+          if (p.launcher == world && setting.onHitVFX != null)
                return poolVFX.Get();
 
           return null;

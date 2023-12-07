@@ -836,6 +836,7 @@ MonoBehaviour:
   team: 10
   start: {x: 0, y: 0, z: 0}
   dir: {x: 0, y: 0, z: 0}
+  world: {fileID: 1119239583764863348, guid: 7680b3343f1258c4da55749b4ad30cb2, type: 3}
 --- !u!4 &822270836702012934 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5ffd42eb850ac704ab3cb2b63f25378b,

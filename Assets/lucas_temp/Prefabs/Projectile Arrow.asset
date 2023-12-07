@@ -30,10 +30,10 @@ MonoBehaviour:
   homingRotateSpeed: 10
   homingDelay: 0.5
   homingTarget: Enemy
-  stickToTarget: 30
-  stickToWall: 30
+  stickToTarget: 10
+  stickToWall: 10
   onHitVFX: {fileID: 0}
-  recycleVFX: 2000
+  recycleVFX: 0
   hitSameTarget: 0
   hitSameTargetEvery: 1000
   hitFoe: 1
@@ -42,7 +42,7 @@ MonoBehaviour:
   isSiege: 0
   dmgRandomRange: 0
   speedWhenFiring: 100
-  burst: 1
+  burst: 10
   spiral: 1
   rotation: 0
   spinSpeed: 5
