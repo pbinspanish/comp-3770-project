@@ -15,7 +15,6 @@ using System.Threading.Tasks;
 public class Projectile : MonoBehaviour
 {
 
-
      bool log = false; //test
 
      [Header("Setting")]
@@ -33,8 +32,9 @@ public class Projectile : MonoBehaviour
      ulong clientID { get => NetworkManager.Singleton.LocalClientId; }
      ulong originClientID;
      int attackerID;
+     //public GameObject world;
 
-     private GameObject Target;
+    private GameObject Target;
 
 
      void Start()
@@ -166,6 +166,7 @@ public class Projectile : MonoBehaviour
           {
                OnHitVFX();
                StuckToObject(null);
+               Destroy(gameObject);
                return; //end of use
           }
 
@@ -226,6 +227,7 @@ public class Projectile : MonoBehaviour
                     if (setting.maxHit > 0 && _hitCount >= setting.maxHit)
                     {
                          StuckToObject(other.transform);
+                         Destroy(gameObject);
                          return; //end of use
                     }
                }
@@ -241,7 +243,9 @@ public class Projectile : MonoBehaviour
           tDespawn = Time.fixedTime + (target == null ? setting.stickToWall : setting.stickToTarget);
 
           if (target)
-               transform.parent = target;  // stick to enemy
+              transform.parent = target;  // stick to enemy
+          else
+              Destroy(this);
      }
 
 
@@ -334,9 +338,10 @@ public class Projectile : MonoBehaviour
           gameObject.SetActive(false);
 
           victims.Clear();
-          transform.parent = launcher.transform;
+          //transform.parent = launcher.transform;
 
-          launcher.Recycle(this);
+          //launcher.Recycle(this);
+          //Destroy(game);
      }
 
 
