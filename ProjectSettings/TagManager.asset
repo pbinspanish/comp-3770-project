@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Enemy
   - InvisibleWall
+  - Checkpoint
+  - Trap
   layers:
   - Default
   - TransparentFX

@@ -4,12 +4,13 @@ using System.Drawing;
 using Unity.Burst.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
+//using UnityEngine.UIElements;
 
 public class PlayerMove : MonoBehaviour
 {
     [Header("References")]
     public Camera playerCamera; //used to move player forward in the direction facing the camera
-    private Rigidbody player; //player rigidbody
+    private static Rigidbody player; //player rigidbody
     private CapsuleCollider playerCollider; //player collider used to check if the player is grounded
 
     //Input
@@ -42,12 +43,14 @@ public class PlayerMove : MonoBehaviour
     private UnityEngine.Color color;
 
     public static Vector3 mouseHit;
+    private static Vector3 spawnPosition;
 
     // Start is called before the first frame update
     void Start()
     {
         player = GetComponentInParent<Rigidbody>(); //reference
         playerCollider = GetComponentInParent<CapsuleCollider>();
+        spawnPosition = transform.position;
         Cursor.visible = true; //make sure mouse cursor is visible
     }
 
@@ -196,6 +199,36 @@ public class PlayerMove : MonoBehaviour
         Debug.DrawRay(playerCollider.bounds.center, Vector3.down * playerCollider.bounds.extents.y, color); //dray casted ray
         Debug.Log(checkSlope());
     }
+
+    public static void respawn()
+    {
+        player.transform.position = spawnPosition;
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Checkpoint"))
+        {
+            spawnPosition = other.transform.position;
+        }
+
+        if (other.gameObject.CompareTag("Respawn"))
+        {
+            respawn();
+        }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Trap"))
+        {
+            HP.damage(50f);
+        }
+    }
+
+
+
+
 
     // slow debuff - Projectile Launcher
     float speedMultiple = 100;
