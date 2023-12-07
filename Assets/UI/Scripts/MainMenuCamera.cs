@@ -2,24 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This class contains the logic for controlling the camera on the main menu screen.
+/// The camera will move back and forth from the starting position to the distance
+/// in the variable distance.
+/// </summary>
 public class MainMenuCamera : MonoBehaviour
 {
-    //distance to move
-    public float distance = 3f;
-    //speed of movement
-    public float speed = 1;
-    //move in the position direction?
-    private bool movePositive = true;
-    //move
-    private float move;
+    #region Variables
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    public float distance = 3f;         // distance to move
+    public float speed = 1;             // movement speed
+    private bool movePositive = true;   // what direction to move
+    private float move;                 // z-axis movement magnitude
 
-    }
+    #endregion
 
-    // Update is called once per frame
+    #region Methods
+    
     void FixedUpdate()
     {
         //if moving in the positive direction, increase speed by offset*deltaTime
@@ -54,4 +54,6 @@ public class MainMenuCamera : MonoBehaviour
             Debug.Log("below 3");
         }
     }
+
+    #endregion
 }
