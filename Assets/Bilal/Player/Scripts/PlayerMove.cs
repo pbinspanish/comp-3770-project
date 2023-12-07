@@ -44,7 +44,6 @@ public class PlayerMove : MonoBehaviour
 
     public static Vector3 mouseHit;
     private static Vector3 spawnPosition;
-    public HP objectHP;
 
     // Start is called before the first frame update
     void Start()
@@ -223,7 +222,7 @@ public class PlayerMove : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Trap"))
         {
-            objectHP.damage(50f);
+            HP.damage(50f);
         }
     }
 

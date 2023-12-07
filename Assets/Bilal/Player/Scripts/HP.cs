@@ -35,7 +35,6 @@ public class HP : MonoBehaviour
         if (thisObject.CompareTag("Player"))
         {
             PlayerMove.respawn();
-            health = 100f;
         }
         else
         {

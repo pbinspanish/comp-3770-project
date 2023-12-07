@@ -674,10 +674,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8203912187476670962}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5ffd42eb850ac704ab3cb2b63f25378b,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2071954047002608917}
   m_SourcePrefab: {fileID: 100100000, guid: 5ffd42eb850ac704ab3cb2b63f25378b, type: 3}
 --- !u!1 &9739837736828092 stripped
 GameObject:
@@ -774,7 +770,6 @@ MonoBehaviour:
   runSpeed: 400
   movementDirection: {x: 0, y: 0, z: 0}
   isGrounded: 0
-  objectHP: {fileID: 2071954047002608917}
 --- !u!114 &7050963775638103854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -841,22 +836,7 @@ MonoBehaviour:
   team: 10
   start: {x: 0, y: 0, z: 0}
   dir: {x: 0, y: 0, z: 0}
-<<<<<<< Updated upstream
   world: {fileID: 1119239583764863348, guid: 7680b3343f1258c4da55749b4ad30cb2, type: 3}
-=======
---- !u!114 &2071954047002608917
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9739837736828092}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82504bb3168fddc48899e05efed791cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
->>>>>>> Stashed changes
 --- !u!4 &822270836702012934 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5ffd42eb850ac704ab3cb2b63f25378b,
