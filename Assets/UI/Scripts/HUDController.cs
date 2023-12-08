@@ -8,11 +8,19 @@ public class HUDController : MonoBehaviour
 {
     #region Variables
 
+    // Health Variables
     public int minHealth = 0;
     public int maxHealth = 100;
     public int currentHealth = 100;
     public TextMeshProUGUI healthValue;
     public Slider healthSlider;
+
+    // Dialogue Variables
+    public TextMeshProUGUI dialogueText;
+    public TextMeshProUGUI speakerText;
+    public AudioSource dialogueAudio;
+    public GameObject dialoguePanel;        // The gameobject to be shown/hidden that contains the dialogue box
+    public float charactersPerSecond = 5;
 
     #endregion
 
@@ -36,6 +44,37 @@ public class HUDController : MonoBehaviour
     {
         healthSlider.value = currentHealth;
         healthValue.text = currentHealth.ToString() + "/" + maxHealth.ToString();
+    }
+
+    /// <summary>
+    /// Shows the dialogue box.
+    /// </summary>
+    /// <param name="dialogue">The text of the dialogue to display.</param>
+    /// <param name="voiceLine">The audio clip to play matching the dialogue.</param>
+    /// <param name="speaker">The name of the character speaking the dialogue.</param>
+    public void ShowDialogue(string dialogue, AudioClip voiceLine, string speaker)
+    {
+        speakerText.text = speaker;
+        dialogueText.text = dialogue;
+        dialogueAudio.clip = voiceLine;
+
+        dialogueAudio.Play();
+
+        dialoguePanel.SetActive(true);
+    }
+
+    /// <summary>
+    /// Hides the dialogue box.
+    /// </summary>
+    public void HideDialogue()
+    {
+        speakerText.text = null;
+        dialogueText.text = null;
+        dialogueAudio.clip = null;
+
+        dialogueAudio.Stop();
+
+        dialoguePanel.SetActive(false);
     }
 
     #endregion
