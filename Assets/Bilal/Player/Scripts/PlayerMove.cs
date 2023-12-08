@@ -222,7 +222,8 @@ public class PlayerMove : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Trap"))
         {
-            HP.damage(50f);
+            //HP.damage(50f);
+            gameObject.GetComponent<HP>().damage(50f);
         }
     }
 

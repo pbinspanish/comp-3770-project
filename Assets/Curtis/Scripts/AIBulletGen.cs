@@ -42,7 +42,7 @@ public class AIBulletGen : MonoBehaviour
             orgRotation = Quaternion.Euler(0, rotationSpeed, 0) * orgRotation;
             orgRotation = Quaternion.Euler(0, 180, 0) * orgRotation;
         }
-        if (GetComponent<HPComponent>().hp <= 0)
+        if (GetComponent<HP>().health <= 0)
         {
             CancelInvoke();
         }
