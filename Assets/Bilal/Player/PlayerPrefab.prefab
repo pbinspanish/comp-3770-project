@@ -837,7 +837,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
-  thisObject: {fileID: 0}
+  maxHealth: 100
+  treatAsPlayer: 1
 --- !u!114 &8605795689849857561
 MonoBehaviour:
   m_ObjectHideFlags: 0

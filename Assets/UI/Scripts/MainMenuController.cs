@@ -22,11 +22,10 @@ public class MainMenuController : MonoBehaviour
     /// </summary>
     public void StartGameButton_OnPress()
     {
+        FindObjectsByType<HUDController>(FindObjectsInactive.Include, FindObjectsSortMode.None)[0].gameObject.SetActive(true);
         Instantiate(playerPrefab, playerStartPosition.position, playerStartPosition.rotation);
-
         Destroy(mainMenu);
 
-        FindObjectsByType<HUDController>(FindObjectsInactive.Include, FindObjectsSortMode.None)[0].gameObject.SetActive(true);
     }
 
     /// <summary>

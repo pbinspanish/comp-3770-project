@@ -58,8 +58,6 @@ public class PlayerMove : MonoBehaviour
     {
         canMove = !GetComponent<DialogueInitiator>().isInConversation; // disable movement if the player is in a conversation
 
-        Debug.Log("Player: can move is - " + GetComponent<DialogueInitiator>().isInConversation);
-
         if (canMove) { getInput(); } //get input if canMove is true
         //debug();
     }
@@ -226,8 +224,7 @@ public class PlayerMove : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Trap"))
         {
-            //HP.damage(50f);
-            gameObject.GetComponent<HP>().damage(50f);
+            GetComponent<HP>().DealDamage(5.0f);
         }
     }
 

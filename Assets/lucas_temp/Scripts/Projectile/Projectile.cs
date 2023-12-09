@@ -302,7 +302,7 @@ public class Projectile : MonoBehaviour
           /*if (setting.isHeal)
                hpClass.Heal(damageOrHeal);
           */
-           hpClass.damage(damageOrHeal);
+           hpClass.DealDamage(damageOrHeal);
      }
 
 
