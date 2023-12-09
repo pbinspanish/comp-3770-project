@@ -25,6 +25,8 @@ public class MainMenuController : MonoBehaviour
         Instantiate(playerPrefab, playerStartPosition.position, playerStartPosition.rotation);
 
         Destroy(mainMenu);
+
+        FindObjectsByType<HUDController>(FindObjectsInactive.Include, FindObjectsSortMode.None)[0].gameObject.SetActive(true);
     }
 
     /// <summary>

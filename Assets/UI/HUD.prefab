@@ -1590,60 +1590,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &5672169842858360600
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8941125772135520339}
-  - component: {fileID: 8519962219900036127}
-  m_Layer: 0
-  m_Name: HUDController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8941125772135520339
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5672169842858360600}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3230314657559911365}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8519962219900036127
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5672169842858360600}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6823062eae4b0104e90e550b89312c3a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minHealth: 0
-  maxHealth: 100
-  currentHealth: 100
-  healthValue: {fileID: 6724363791114009534}
-  healthSlider: {fileID: 4412312970413412202}
-  dialogueText: {fileID: 3776757366580995990}
-  speakerText: {fileID: 3116891215860856845}
-  dialogueAudio: {fileID: 3393684046426227826}
-  dialoguePanel: {fileID: 1153811864011595994}
-  charactersPerSecond: 5
 --- !u!1 &6134592317706703640
 GameObject:
   m_ObjectHideFlags: 0
@@ -1974,6 +1920,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3230314657559911365}
+  - component: {fileID: 8090903459244079416}
   m_Layer: 0
   m_Name: HUD
   m_TagString: Untagged
@@ -1995,9 +1942,30 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5397629580293359530}
-  - {fileID: 8941125772135520339}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8090903459244079416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8647850870716171860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6823062eae4b0104e90e550b89312c3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minHealth: 0
+  maxHealth: 100
+  currentHealth: 100
+  healthValue: {fileID: 6724363791114009534}
+  healthSlider: {fileID: 4412312970413412202}
+  dialogueText: {fileID: 3776757366580995990}
+  speakerText: {fileID: 3116891215860856845}
+  dialogueAudio: {fileID: 3393684046426227826}
+  dialoguePanel: {fileID: 1153811864011595994}
+  charactersPerSecond: 5
 --- !u!1 &9128273451012510104
 GameObject:
   m_ObjectHideFlags: 0
