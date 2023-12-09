@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -87,18 +88,18 @@ public class EnemyAI : MonoBehaviour
     private void ChasePlayer()
     {
         agent.SetDestination(player.position);
+        lookAtPlayer();
     }
 
     private void AttackPlayer()
     {
         agent.SetDestination(transform.position);
-
-        transform.LookAt(player);
+        lookAtPlayer();
 
         if (!alreadyAttacked)
         {
             //melee attack (basically just deals damage to the player since we're in attack range)
-            player.GetComponent<HP>().DealDamage(attackDamage);
+            GetComponent<PlayerAnimate>().meleePunch(player.GetComponent<CapsuleCollider>(), attackDamage);
 
 
             alreadyAttacked = true;
@@ -106,6 +107,13 @@ public class EnemyAI : MonoBehaviour
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
     }
+
+    void lookAtPlayer()
+    {
+        var targetRotation = Quaternion.LookRotation(player.position - transform.position);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 5 * Time.deltaTime);
+    }
+
     private void ResetAttack()
     {
         alreadyAttacked = false;

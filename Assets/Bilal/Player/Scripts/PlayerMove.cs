@@ -172,7 +172,7 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    bool checkGround() //return if the player is grounded
+    public bool checkGround() //return if the player is grounded
     {
         Vector3 origin = playerCollider.bounds.center; //origin of the ray is the center of the player collider
         float distance = playerCollider.bounds.extents.y + 0.01f; //cast the ray to a distance of half the player collider + 0.01f error handler

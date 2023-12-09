@@ -27,7 +27,8 @@ public class MeleeAttack : MonoBehaviour
         Collider[] hitEnemies = Physics.OverlapSphere(attackPosition, attackRange, enemyLayer);
         foreach (Collider enemy in hitEnemies)
         {
-            enemy.GetComponent<HP>().DealDamage(damage);
+            //enemy.GetComponent<HP>().DealDamage(damage);
+            GetComponent<PlayerAnimate>().meleePunch(enemy, damage);
         }
     }
 
