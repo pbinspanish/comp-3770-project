@@ -59,6 +59,10 @@ public class PlayerMove : MonoBehaviour
         canMove = !GetComponent<DialogueInitiator>().isInConversation; // disable movement if the player is in a conversation
 
         if (canMove) { getInput(); } //get input if canMove is true
+        else{
+            currentSpeed = 0;
+            player.velocity = Vector3.zero;
+        }
         //debug();
     }
 
