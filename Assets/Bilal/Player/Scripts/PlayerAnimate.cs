@@ -24,12 +24,18 @@ public class PlayerAnimate : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        animationDirection = movement.movementDirection.normalized;
-        animationDirection = transform.InverseTransformDirection(animationDirection);
+        if(GetComponent<DialogueInitiator>().isInConversation){
+            animationDirection = Vector3.zero;
+        }
+        else{
+            animationDirection = movement.movementDirection.normalized;
+            animationDirection = transform.InverseTransformDirection(animationDirection);
+        }
+        
 
         float vertical = Mathf.Round(animationDirection.z);
         float horizontal = Mathf.Round(animationDirection.x);
-
+        
         if (Input.GetKey(KeyCode.LeftShift))
         {
             vertical *= 2f;
