@@ -65,8 +65,11 @@ public class ProjectileLauncher : MonoBehaviour
 
      // fire projectile ---------------------------------------------------------------
 
-     public void FireProjectile_AI(Vector3 start, Vector3 dir, CharaTeam team)
+     public void FireProjectile_AI(Vector3 org, Vector3 direction, CharaTeam team)
      {
+
+          start=org;
+          dir=direction;
           FireProjectile(start, dir, team); //this AI should be run by the server, so this clientID is server's ID
      }
 
@@ -110,6 +113,9 @@ public class ProjectileLauncher : MonoBehaviour
 
      void _fire()
      {
+          if(gameObject.CompareTag("Enemy")){
+            Debug.Log("Attempting");
+          }
           // fire
           if (setting.burst == 1)
           {

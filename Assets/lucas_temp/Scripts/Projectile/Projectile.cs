@@ -106,6 +106,7 @@ public class Projectile : MonoBehaviour
      public void Fire(CharaTeam team,Vector3 start,Vector3 dir)
      {
           // flag
+          //Debug.Log(gameObject.name);
           enabled = true;
           gameObject.SetActive(true);
           isMovingAndColliding = true;
@@ -170,23 +171,26 @@ public class Projectile : MonoBehaviour
                return; //end of use
           }
 
-
+          //Debug.Log("hi am i here? in line 173?");
           // detect target
           int count = Physics.OverlapCapsuleNonAlloc(_pos0, transform.position, damageRadius, _cache, targetMask);
 
           for (int i = 0; i < count; i++)
           {
+               //Debug.Log("maybe i got into the for loop?");
                Collider other = _cache[i];
                int otherMask = 1 << other.gameObject.layer; //layer of the thing we hit, to layerMask
 
                // if target
                if ((otherMask & targetMask) != 0)
                {
+                    //Debug.Log("hello I am under the if statement, please help me");
                     // if not creature
-                    var hpClass = other.GetComponent<HPComponent>();
+                    var hpClass = other.GetComponent<HP>();
                     if (hpClass == null)
                     {
                          Debug.LogError("Something in this layer but has no HP?? " + other.name);
+                         //Debug.Log("Yea idk why i'm here");
                          continue;
                     }
 
@@ -195,40 +199,48 @@ public class Projectile : MonoBehaviour
                          ApplyForce(other.gameObject, true);
 
 
-                    if (hpClass.hp == 0)
+                    if (hpClass.health <= 0)
                     {
+                         //Debug.Log("Que miras bobo");
                          ApplyForce(other.gameObject, true); // throwing dead enemy around
                          continue; // dead don't block bullet or take damage
                     }
 
 
                     // victim don't block bullet or take damage
-                    if (victims.Contains(other.gameObject))
-                         continue;
+                    Debug.Log("nan dayo");
+                    if (other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("Player")) {
+                         Debug.Log("nani kore");
+                         //continue;
 
-                    // good
-                    _hitCount++;
-                    victims.Add(other.gameObject);
+                         // good
+                         Debug.Log("BAKANA");
+                         _hitCount++;
+                         victims.Add(other.gameObject);
 
-                    // (!) apply instant force / only once a while
-                    if (!setting.smoothForce)
-                         ApplyForce(other.gameObject);
+                         // (!) apply instant force / only once a while
+                         //if (!setting.smoothForce)
+                         //ApplyForce(other.gameObject);
 
-                    Damage(other.gameObject);
-                    OnHitVFX();
-
-
-                    // reset victim list?
-                    if (setting.hitSameTarget && tResetVictim == -1)
-                         tResetVictim = Time.time + setting.hitSameTargetEvery / 1000;
+                         Debug.Log("hi i'm supposed to be damaging something");
+                         Debug.Log(other.gameObject.name);
+                         Damage(other.gameObject);
+                         Debug.Log("Que Miras Bobo");
+                         OnHitVFX();
 
 
-                    // finally
-                    if (setting.maxHit > 0 && _hitCount >= setting.maxHit)
-                    {
-                         StuckToObject(other.transform);
-                         Destroy(gameObject);
-                         return; //end of use
+                         // reset victim list?
+                         if (setting.hitSameTarget && tResetVictim == -1)
+                             tResetVictim = Time.time + setting.hitSameTargetEvery / 1000;
+
+
+                        // finally
+                         if (setting.maxHit > 0 && _hitCount >= setting.maxHit)
+                         {
+                             StuckToObject(other.transform);
+                             Destroy(gameObject);
+                             return; //end of use
+                         }
                     }
                }
 
@@ -276,18 +288,21 @@ public class Projectile : MonoBehaviour
 
      void Damage(GameObject target)
      {
-          if (log) Debug.Log("Damage()");
+          Debug.Log("hi i'm in damage");
+          //if (log) Debug.Log("Damage()");
 
-          if (!authority)
+          /*if (!authority) { 
+               Debug.Log("kys");
                return;
+           }*/
 
-          int damageOrHeal = setting.damage + Random.Range(-setting.dmgRandomRange, setting.dmgRandomRange + 1);
-
-          var hpClass = target.GetComponent<HPComponent>();
-          if (setting.isHeal)
+          int damageOrHeal = setting.damage /*+ Random.Range(-setting.dmgRandomRange, setting.dmgRandomRange + 1)*/;
+          Debug.Log(damageOrHeal);
+          var hpClass = target.GetComponent<HP>();
+          /*if (setting.isHeal)
                hpClass.Heal(damageOrHeal);
-          else
-               hpClass.Damage(damageOrHeal);
+          */
+           hpClass.damage(damageOrHeal);
      }
 
 
@@ -338,6 +353,7 @@ public class Projectile : MonoBehaviour
           gameObject.SetActive(false);
 
           victims.Clear();
+          Destroy(gameObject);
           //transform.parent = launcher.transform;
 
           //launcher.Recycle(this);

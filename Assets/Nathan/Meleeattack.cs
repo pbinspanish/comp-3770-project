@@ -22,11 +22,12 @@ public class MeleeAttack : MonoBehaviour
 
     void PerformMeleeAttack()
     {
+        //Debug.Log("i'm Attacking");
         Vector3 attackPosition = transform.position + transform.forward * attackRange;
         Collider[] hitEnemies = Physics.OverlapSphere(attackPosition, attackRange, enemyLayer);
         foreach (Collider enemy in hitEnemies)
         {
-            enemy.GetComponent<HPComponent>().Damage(1);
+            enemy.GetComponent<HP>().damage(damage);
         }
     }
 

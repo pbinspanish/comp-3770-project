@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class HP : MonoBehaviour
 {
-    public static float health = 100f;
-    private static GameObject thisObject;
+    public float health = 100f;
+    public GameObject thisObject;
 
 
     // Start is called before the first frame update
@@ -20,8 +20,9 @@ public class HP : MonoBehaviour
         
     }
 
-    public static void damage (float strength)
+    public void damage (float strength)
     {
+        Debug.Log("HI i'm damaging");
         health -= strength;
 
         if (health <= 0 )
@@ -30,7 +31,7 @@ public class HP : MonoBehaviour
         }
     }
 
-    public static void die(GameObject thisObject)
+    public void die(GameObject thisObject)
     {
         if (thisObject.CompareTag("Player"))
         {

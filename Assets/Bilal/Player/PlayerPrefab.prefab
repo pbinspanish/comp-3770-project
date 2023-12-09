@@ -194,7 +194,7 @@ GameObject:
   - component: {fileID: 2499180843070264323}
   m_Layer: 0
   m_Name: PlayerPrefab
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -669,10 +669,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5ffd42eb850ac704ab3cb2b63f25378b,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2013225061411159774}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5ffd42eb850ac704ab3cb2b63f25378b,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 8203912187476670962}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5ffd42eb850ac704ab3cb2b63f25378b,
         type: 3}
@@ -806,23 +802,6 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 0
---- !u!114 &2013225061411159774
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9739837736828092}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afc5f8b1abb81ee43b9fe9c6957f234d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  monitor: 
-  set_max_hp: 200
-  team: 10
-  requireSiegeAttack: 0
-  t_last_damaged: 0
 --- !u!114 &8203912187476670962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -853,6 +832,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6eb30026e0eca24a93509e17ef5c7e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 100
+  thisObject: {fileID: 0}
 --- !u!4 &822270836702012934 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5ffd42eb850ac704ab3cb2b63f25378b,

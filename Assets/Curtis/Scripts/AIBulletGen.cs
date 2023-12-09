@@ -14,6 +14,7 @@ public class AIBulletGen : MonoBehaviour
     public bool reverse = false;//not rotation reverse, think bullet instantiates from outside that goes into middle
     public float radius = 10.0f;//basically how far the bullets instantiate from the middle
     public float delay = 0;
+    public Vector3 offset;
     //WEE WOO WEE WOO DON'T HANDLE THE ABOVE TWO HERE WEE WOO WEE WOO
     //public int col;
     //public List<Vector3> orgRotation = new List<Vector3>();
@@ -42,20 +43,22 @@ public class AIBulletGen : MonoBehaviour
             orgRotation = Quaternion.Euler(0, rotationSpeed, 0) * orgRotation;
             orgRotation = Quaternion.Euler(0, 180, 0) * orgRotation;
         }
-        if (GetComponent<HPComponent>().hp <= 0)
+        if (GetComponent<HP>().health <= 0)
         {
             CancelInvoke();
         }
     }
     void fire()
     {
+        Debug.Log("AI do be firing");
         if (!reverse)
         {
-            launcher.FireProjectile_AI(transform.position, orgRotation, CharaTeam.enemy);
+            Debug.Log("Happening");
+            launcher.FireProjectile_AI(gameObject.transform.position, orgRotation, CharaTeam.enemy);
         }
         else
         {
-            launcher.FireProjectile_AI(transform.position + radius * orgRotation, orgRotation, CharaTeam.enemy);//DO NOT FUCKING HANDLE REVERSE IN HERE, IT BRICKS EVERYTHING
+            launcher.FireProjectile_AI(gameObject.transform.position + radius * orgRotation, orgRotation, CharaTeam.enemy);//DO NOT FUCKING HANDLE REVERSE IN HERE, IT BRICKS EVERYTHING
         }
 
 
