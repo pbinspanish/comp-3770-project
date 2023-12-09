@@ -15,8 +15,8 @@ public class DialogueInitiator : MonoBehaviour
     public bool hasConversationEnded = false;                       // true if there are no remaining lines of dialogue in the active conversation, false otherwise 
     public DialogueInteractable currentDialogueInteractable = null; // the current DialogueInteractable the DialogueInitator is either talking with or able to talk to
                                                                     // if this value is null there is no DialogueInteractable the DialogueInitiator can talk to
-    private GameObject interactionIndicator;                         // the parent object for the interaction indicator in the UI
-    private TextMeshProUGUI interactionIndicatorNameField;           // the name field for the interaction indicator
+    private GameObject interactionIndicator;                        // the parent object for the interaction indicator in the UI
+    private TextMeshProUGUI interactionIndicatorNameField;          // the name field for the interaction indicator
 
     #endregion
 
@@ -25,9 +25,9 @@ public class DialogueInitiator : MonoBehaviour
     private void Start()
     {
         interactionIndicator = GameObject.Find("InteractionIndicator");
-        interactionIndicator.SetActive(false);
+        interactionIndicatorNameField = GameObject.Find("InteractionIndicatorLabel").GetComponent<TextMeshProUGUI>();
 
-        interactionIndicatorNameField = GameObject.Find("InteractionIndicatorNameField").GetComponent<TextMeshProUGUI>();
+        interactionIndicator.SetActive(false);
     }
 
     /// <summary>
@@ -37,6 +37,7 @@ public class DialogueInitiator : MonoBehaviour
     /// <param name="other"></param>
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Dialogue: initiator entered trigger.");
         if (other.GetComponent<DialogueInteractable>() != null)
         {
             currentDialogueInteractable = other.GetComponent<DialogueInteractable>();
@@ -53,6 +54,7 @@ public class DialogueInitiator : MonoBehaviour
     /// <param name="other"></param>
     private void OnTriggerExit(Collider other)
     {
+        Debug.Log("Dialogue: initator exited trigger");
         currentDialogueInteractable = null;
 
         interactionIndicator.SetActive(false);
@@ -64,21 +66,29 @@ public class DialogueInitiator : MonoBehaviour
     private void Update()
     {
         // enter or continue the conversation if the player presses the F key
-        if (Input.GetKey(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F))
         {
+            Debug.Log("Dialogue: initiator pressed F");
             // start, continue, or end the conversation if able
             if (currentDialogueInteractable != null)
             {
+                Debug.Log("Dialogue: initiator can converse");
                 // end the conversation
                 if (hasConversationEnded)
                 {
+                    Debug.Log("Dialogue: initiator ending conversation");
                     currentDialogueInteractable.EndDialogue();
                     hasConversationEnded = false;               // reset for the next conversation
                 }
                 else
                 {
+                    Debug.Log("Dialogue: initiator staring or continuing conversation");
                     // start or continue the conversation
                     if (currentDialogueInteractable.ContinueDialogue())
+                    {
+                        hasConversationEnded = false;
+                    }
+                    else
                     {
                         hasConversationEnded = true;
                     }

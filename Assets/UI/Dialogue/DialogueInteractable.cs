@@ -35,6 +35,7 @@ public class DialogueInteractable : MonoBehaviour
     /// <returns>True if there is dialogue remaining, false if the displayed line is the last in the conversation.</returns>
     public bool ContinueDialogue()
     {
+        Debug.Log("Dialogue: interactable continuing conversation");
         activeHUD.ShowDialogue(currentDialogue.dialogueText[currentDialogueLocation], currentDialogue.dialogueAudio[currentDialogueLocation], interactableName);
 
         currentDialogueLocation++;
@@ -54,6 +55,7 @@ public class DialogueInteractable : MonoBehaviour
     /// </summary>
     public void EndDialogue()
     {
+        Debug.Log("Dialogue: interactable ending conversation");
         activeHUD.HideDialogue();
         currentDialogueLocation = 0;
 
