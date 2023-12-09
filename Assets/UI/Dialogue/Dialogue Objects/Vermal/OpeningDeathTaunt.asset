@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 625e41a8b040f944f8f17bfb9c6eb82f, type: 3}
+  m_Name: OpeningDeathTaunt
+  m_EditorClassIdentifier: 
+  dialogueText:
+  - FOOLISH BOY! YOU KNOW NOT THE POWERS YOU MEDDLE WITH!
+  - YOUR FATHER NOW UNDERSTANDS, BUT WE BOTH UNDERSTAND THE PREDICAMENT HE IS IN
+    NOW, *LAUGHS*.
+  - I SUGGEST YOU LEAVE, BOY, LEST YOU END UP LIKE YOUR FATHER THERE.
+  dialogueAudio:
+  - {fileID: 8300000, guid: b5ef7aa673a327046b57322df02a60a3, type: 3}
+  - {fileID: 8300000, guid: ee2a4ef0d4874f44ba61a30f86c8d1b6, type: 3}
+  - {fileID: 8300000, guid: 416f6434c8f41504498c3f35fdc6d1be, type: 3}

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 625e41a8b040f944f8f17bfb9c6eb82f, type: 3}
+  m_Name: VermalFinalFightTaunt
+  m_EditorClassIdentifier: 
+  dialogueText:
+  - "SO, YOU\u2019VE COME TO JOIN YOUR FATHER HAVE YOU? I ADMIRE YOUR STUPIDITY.
+    IT WOULD HAVE SERVED YOU WELL TO COWER IN YOUR VILLAGE AND DIE LIKE THE REST
+    OF THEM."
+  - "YOU\u2019VE FORCED MY HAND, I\u2019LL HAVE TO MAKE YOUR DEATH NICE AND PAINFUL
+    TO STOP ANYONE ELSE FROM MAKING THE SAME MISTAKE."
+  - "LET\u2019S SEE YOU PUT UP A GOOD FIGHT, AT LEAST."
+  dialogueAudio:
+  - {fileID: 8300000, guid: 55aacb4805a26d74a80bb78fae998981, type: 3}
+  - {fileID: 8300000, guid: 0b179a69c71d2f84795922d882f22761, type: 3}
+  - {fileID: 8300000, guid: 04d08f670c6d6a5498749d3368905236, type: 3}
