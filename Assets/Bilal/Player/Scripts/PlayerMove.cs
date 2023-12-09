@@ -220,13 +220,6 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Trap"))
-        {
-            GetComponent<HP>().DealDamage(5.0f);
-        }
-    }
 
 
 
