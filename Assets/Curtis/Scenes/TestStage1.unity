@@ -1086,7 +1086,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactableName: josiah (the idiot)
-  currentDialogue: {fileID: 11400000, guid: 045d80cbb9a138942bb798dd0b56d701, type: 2}
+  currentDialogue: {fileID: 11400000, guid: 859e3411c9d1e0c4fa01791a53d036ef, type: 2}
 --- !u!1001 &1103880791
 PrefabInstance:
   m_ObjectHideFlags: 0
