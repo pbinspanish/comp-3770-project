@@ -56,6 +56,10 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
+        canMove = !GetComponent<DialogueInitiator>().isInConversation; // disable movement if the player is in a conversation
+
+        Debug.Log("Player: can move is - " + GetComponent<DialogueInitiator>().isInConversation);
+
         if (canMove) { getInput(); } //get input if canMove is true
         //debug();
     }

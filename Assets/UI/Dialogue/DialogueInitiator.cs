@@ -74,9 +74,11 @@ public class DialogueInitiator : MonoBehaviour
                 {
                     currentDialogueInteractable.EndDialogue();
                     hasConversationEnded = false;               // reset for the next conversation
+                    isInConversation = false;
                 }
                 else
                 {
+                    isInConversation = true;
                     // start or continue the conversation
                     if (currentDialogueInteractable.ContinueDialogue())
                     {

@@ -58,6 +58,8 @@ public class ProjectileLauncher : MonoBehaviour
 
           if (!input)
                return;
+          
+          if (GetComponent<DialogueInitiator>().isInConversation) return; // don't fire a projectile if we're talking
 
           FireProjectile_Player();
      }
