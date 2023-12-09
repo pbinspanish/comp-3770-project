@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 625e41a8b040f944f8f17bfb9c6eb82f, type: 3}
+  m_Name: AretbrotDeath
+  m_EditorClassIdentifier: 
+  dialogueText:
+  - "My boy, is that you? Oh, praise Bront you\u2019re alright! "
+  - "Please, leave me be. Vermal\u2019s demons wounded me badly, I won\u2019t make
+    it."
+  - "Take my weapon, son. I know I trained you well. Finish what I couldn\u2019t,
+    but stay safe.\r"
+  dialogueAudio:
+  - {fileID: 8300000, guid: 15dc716b973bf214083c8e21553cfae1, type: 3}
+  - {fileID: 8300000, guid: 7813108eb487cb84f8552eb56369b953, type: 3}
+  - {fileID: 8300000, guid: 6e7a95ce1b577164a93a4006bf62cf27, type: 3}

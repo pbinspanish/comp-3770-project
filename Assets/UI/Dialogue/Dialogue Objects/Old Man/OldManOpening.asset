@@ -13,22 +13,40 @@ MonoBehaviour:
   m_Name: OldManOpening
   m_EditorClassIdentifier: 
   dialogueText:
-  - They attacked just after night struck. I'm surprised you managed to sleep through
-    it.
+  - 'Wake Up.
+
+'
+  - "Wake Up!\r"
+  - ...
+  - WAKE UP!
+  - 'Thank goodness, you''re finally awake! Come, quickly now. We''ve not a moment
+    to waste, things are looking quite dire at the moment.
+
+'
+  - "They attacked just after night struck. I'm surprised you managed to sleep through
+    it.\r"
   - There have been passing rumours of Vermal's armies ravaging the land. It seems
     the King's armies weren't enough to stop his forces...
-  - 'Our own Aretbrot, your father, fell defending the village. Even despite his
-    knightly training, those vile creatures took him and retreated back into the
-    woods. '
-  - 'This isn''t good! Those beasts could return at any moment, and we would be useless
-    to stop them. '
+  - Our own Aretbrot, your father, fell defending the village. Even despite his knightly
+    training, those vile creatures took him and retreated back into the woods.
+  - This isn't good! Those beasts could return at any moment, and we would be useless
+    to stop them.
   - We need you to deal with them. I saw them take Aretbrot into the woods north
     of here. You could head that way to find where they took him. If you're lucky,
     he might have dropped his sword in case anyone came looking for him. Praise be
     to Bront those creatures didn't notice.
+  - 'I believe in you. With your skills and talent, you could surpass even Aretbrot''s
+    abilities and defeat them all. Now go! Vermal''s devils won''t wait while you
+    stand around! '
   dialogueAudio:
-  - {fileID: 8300000, guid: d7a9a81ac1d582a43af1793add6d429f, type: 3}
-  - {fileID: 8300000, guid: 19262cbcc27ee7d489cc7f57bf729831, type: 3}
-  - {fileID: 8300000, guid: d8c53fe72fe1f9b47983d19a3a566f6e, type: 3}
-  - {fileID: 8300000, guid: f6e6abc90b4a2d54a819de699b8586a3, type: 3}
-  - {fileID: 8300000, guid: dc5cc58cacb2b11418ea04e91e707374, type: 3}
+  - {fileID: 8300000, guid: 6de33bc34c59bdc43817d903964eaef5, type: 3}
+  - {fileID: 8300000, guid: 0128e0af00acb0e46b089892e7092c17, type: 3}
+  - {fileID: 8300000, guid: cae8ba853c93e954bb79e9b8ff3eaa98, type: 3}
+  - {fileID: 8300000, guid: 79f2ff8bcf16e5f48a3f53800ee4cccb, type: 3}
+  - {fileID: 8300000, guid: a0332d586ca836940a5daa50c521346b, type: 3}
+  - {fileID: 8300000, guid: 0f4cace23e61bd84282e23fef48e4ec4, type: 3}
+  - {fileID: 8300000, guid: 4cc4409664898884680ab07e6a41cbf1, type: 3}
+  - {fileID: 8300000, guid: 6802bf8fff5a8e448b68513cf79f021c, type: 3}
+  - {fileID: 8300000, guid: 0d6dd711b63c06f4d82f0f41ba03c3ca, type: 3}
+  - {fileID: 8300000, guid: e95c7a7eab7502f42a9bd57cff643b63, type: 3}
+  - {fileID: 8300000, guid: d4522cfbabfaf404a8116c5e4a2b85e0, type: 3}

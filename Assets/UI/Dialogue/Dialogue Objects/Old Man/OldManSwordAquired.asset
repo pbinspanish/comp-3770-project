@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 625e41a8b040f944f8f17bfb9c6eb82f, type: 3}
+  m_Name: OldManSwordAquired
+  m_EditorClassIdentifier: 
+  dialogueText:
+  - "I\u2019d recognize that blade anywhere. I take it you succeeded then. Well done!"
+  - "I always knew you had the potential to live up to Aretbrot, and it seems you\u2019ve
+    done a great job of proving I was right."
+  - "We\u2019re not out of the woods yet, however. Vermal\u2019s armies still ravage
+    the areas around here, and we can\u2019t allow that to go on. Did you find any
+    clues as to his whereabouts?"
+  - "Ah, I see. Vermal went further north, and left an impenetrable wall of thorns
+    behind him. And your sword couldn\u2019t cut them? Terrifying. I wonder what
+    you could use to get through those."
+  - "That\u2019s it! Rumour has it there is an enchantment of flame somewhere around
+    here. I know Aretbrot would often spend time looking in the forests around here
+    for it."
+  - 'Unfortunately the forest to the east, the beach to the south and the mine to
+    the north are all blocked off. See if you can explore around and try to find
+    this enchantment, maybe to the west. '
+  - "Go on off now, there isn\u2019t a moment to waste!"
+  dialogueAudio:
+  - {fileID: 8300000, guid: ac7607d8af7acf0498a293aa1b1bba04, type: 3}
+  - {fileID: 8300000, guid: df29a0561dff0dc4eb86a085e15b7f58, type: 3}
+  - {fileID: 8300000, guid: 89714f5e99be7c24aab35ff59bf1c5be, type: 3}
+  - {fileID: 8300000, guid: 5b095f0904c363a49a0118447fb9aeb6, type: 3}
+  - {fileID: 8300000, guid: 27fc35717e346814bbf70449f9c59242, type: 3}
+  - {fileID: 8300000, guid: 6bf35e2562d84cd4b87f8cdad3ff7e0c, type: 3}
+  - {fileID: 8300000, guid: 6b7a9207af33e6c48b932a5f533107c9, type: 3}
