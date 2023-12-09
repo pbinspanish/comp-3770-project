@@ -37,7 +37,6 @@ public class DialogueInitiator : MonoBehaviour
     /// <param name="other"></param>
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Dialogue: initiator entered trigger.");
         if (other.GetComponent<DialogueInteractable>() != null)
         {
             currentDialogueInteractable = other.GetComponent<DialogueInteractable>();
@@ -54,7 +53,6 @@ public class DialogueInitiator : MonoBehaviour
     /// <param name="other"></param>
     private void OnTriggerExit(Collider other)
     {
-        Debug.Log("Dialogue: initator exited trigger");
         currentDialogueInteractable = null;
 
         interactionIndicator.SetActive(false);
@@ -68,21 +66,17 @@ public class DialogueInitiator : MonoBehaviour
         // enter or continue the conversation if the player presses the F key
         if (Input.GetKeyDown(KeyCode.F))
         {
-            Debug.Log("Dialogue: initiator pressed F");
             // start, continue, or end the conversation if able
             if (currentDialogueInteractable != null)
             {
-                Debug.Log("Dialogue: initiator can converse");
                 // end the conversation
                 if (hasConversationEnded)
                 {
-                    Debug.Log("Dialogue: initiator ending conversation");
                     currentDialogueInteractable.EndDialogue();
                     hasConversationEnded = false;               // reset for the next conversation
                 }
                 else
                 {
-                    Debug.Log("Dialogue: initiator staring or continuing conversation");
                     // start or continue the conversation
                     if (currentDialogueInteractable.ContinueDialogue())
                     {
