@@ -26,6 +26,7 @@ public class granny : MonoBehaviour
             GetComponent<AudioSource>().Play();
 
             gran.gameObject.GetComponent<Animator>().SetBool("Dance", true);
+            other.gameObject.GetComponent<Animator>().SetBool("Dance", true);
         }
     }
 }
