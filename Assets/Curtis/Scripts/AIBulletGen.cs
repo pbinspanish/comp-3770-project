@@ -34,12 +34,18 @@ public class AIBulletGen : MonoBehaviour
     {
         if (GameObject.FindGameObjectWithTag("Player") != null && !summoned)
         {
-            Debug.Log(parent.GetComponent<EnemyAI>().playerInSightRange);
+            Debug.Log("boolean"+(bool)(parent.GetComponent<EnemyAI>().playerInSightRange==false));
             if ((parent.GetComponent<EnemyAI>().playerInSightRange|| parent.GetComponent<EnemyAI>().playerInAttackRange)&&parent.GetComponent<HP>().health<=health) {
                 Debug.Log("Ich Nichten Lichten");
                 InvokeRepeating("fire", delay, fireRate);
                 summoned = true;
             }
+        }
+        if (parent.GetComponent<HP>().health <= 0 || parent.GetComponent<EnemyAI>().playerInSightRange == false)
+        {
+            Debug.Log("Hi i'm gonna stop");
+            CancelInvoke();
+            summoned = false;
         }
         if (!reverse)
         {
@@ -49,11 +55,6 @@ public class AIBulletGen : MonoBehaviour
         {
             orgRotation = Quaternion.Euler(0, rotationSpeed, 0) * orgRotation;
             orgRotation = Quaternion.Euler(0, 180, 0) * orgRotation;
-        }
-        if (GetComponent<HP>().health <= 0||(!parent.GetComponent<EnemyAI>().playerInSightRange&&!parent.GetComponent<EnemyAI>().playerInAttackRange))
-        {
-            CancelInvoke();
-            summoned = false;
         }
     }
     void fire()

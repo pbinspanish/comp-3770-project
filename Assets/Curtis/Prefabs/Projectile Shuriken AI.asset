@@ -42,7 +42,7 @@ MonoBehaviour:
   isSiege: 0
   dmgRandomRange: 0
   speedWhenFiring: 100
-  burst: 20
+  burst: 30
   spiral: 0
   rotation: 0
   spinSpeed: 5
