@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Projectile Shuriken AI Rotating 1
   m_EditorClassIdentifier: 
   prefab: {fileID: 1447996289843748124, guid: 747895ba747233246b8a3c6e16ccccb4, type: 3}
-  speed: 20
+  speed: 10
   range: 200
-  damage: 1
+  damage: 2
   maxHit: 1
   triggerMode: 1
   spawnFwdUp: {x: 1.5, y: 2}

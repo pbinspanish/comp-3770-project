@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Projectile Shuriken AI
   m_EditorClassIdentifier: 
   prefab: {fileID: 1447996289843748124, guid: 747895ba747233246b8a3c6e16ccccb4, type: 3}
-  speed: 20
+  speed: 10
   range: 200
-  damage: 1
+  damage: 2
   maxHit: 1
   triggerMode: 1
   spawnFwdUp: {x: 1.5, y: 2}
@@ -24,7 +24,7 @@ MonoBehaviour:
   forceFwdUp: {x: 0, y: 0}
   forceDirection: 1
   smoothForce: 0
-  isHoming: 1
+  isHoming: 0
   homingDetect: 5
   homingSpeed: 20
   homingRotateSpeed: 1
@@ -42,7 +42,7 @@ MonoBehaviour:
   isSiege: 0
   dmgRandomRange: 0
   speedWhenFiring: 100
-  burst: 50
+  burst: 20
   spiral: 0
   rotation: 0
   spinSpeed: 5
