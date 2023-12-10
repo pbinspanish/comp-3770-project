@@ -8,10 +8,10 @@ using static UnityEditor.Searcher.SearcherWindow.Alignment;
 public class PlayerAnimate : MonoBehaviour
 {
     [Header("References")]
-    public PlayerMove movement;
     private float speed;
     public float walkSpeed = 1f;
     public float runSpeed = 1.3f;
+    public float enemySpeed = 1f;
     private Animator playerAnimator;
 
     //Animation Movement Direction
@@ -36,7 +36,7 @@ public class PlayerAnimate : MonoBehaviour
             }
             else
             {
-                animationDirection = movement.movementDirection.normalized;
+                animationDirection = GetComponent<PlayerMove>().movementDirection.normalized;
                 animationDirection = transform.InverseTransformDirection(animationDirection);
 
                 float vertical = Mathf.Round(animationDirection.z);
@@ -56,13 +56,14 @@ public class PlayerAnimate : MonoBehaviour
                 playerAnimator.speed = speed;
                 playerAnimator.SetFloat("Vertical", vertical, 0.05f, Time.deltaTime);
                 playerAnimator.SetFloat("Horizontal", horizontal, 0.05f, Time.deltaTime);
-                playerAnimator.SetBool("isGrounded", movement.isGrounded);
+                playerAnimator.SetBool("isGrounded", GetComponent<PlayerMove>().isGrounded);
             }
         }
         else
         {
             if (GetComponent<NavMeshAgent>().velocity.magnitude > 0)
             {
+                playerAnimator.speed = enemySpeed;
                 playerAnimator.SetFloat("Vertical", 1f, 0.05f, Time.deltaTime);
                 playerAnimator.SetFloat("Horizontal", 0f, 0.05f, Time.deltaTime);
             }
@@ -87,8 +88,7 @@ public class PlayerAnimate : MonoBehaviour
         {
             punch = true;
             GetComponent<Animator>().SetBool("Punch", punch);
+            target.GetComponent<HP>().DealDamage(attackDamage);
         }
-
-        target.GetComponent<HP>().DealDamage(attackDamage);
     }
 }
