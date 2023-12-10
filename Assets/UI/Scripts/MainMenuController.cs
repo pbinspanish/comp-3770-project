@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -23,9 +24,8 @@ public class MainMenuController : MonoBehaviour
     public void StartGameButton_OnPress()
     {
         FindObjectsByType<HUDController>(FindObjectsInactive.Include, FindObjectsSortMode.None)[0].gameObject.SetActive(true);
-        Instantiate(playerPrefab, playerStartPosition.position, playerStartPosition.rotation);
+        GameObject player = Instantiate(playerPrefab, playerStartPosition.position, playerStartPosition.rotation);
         Destroy(mainMenu);
-
     }
 
     /// <summary>
