@@ -5,6 +5,7 @@ using UnityEngine;
 public class granny : MonoBehaviour
 {
     public Transform gran;
+    private GameObject player;
 
     // Start is called before the first frame update
     void Start()
@@ -22,11 +23,18 @@ public class granny : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player") && !GetComponent<AudioSource>().isPlaying)
         {
+            player = other.gameObject;
+
             Debug.Log("Play");
             GetComponent<AudioSource>().Play();
 
             gran.gameObject.GetComponent<Animator>().SetBool("Dance", true);
-            other.gameObject.GetComponent<Animator>().SetBool("Dance", true);
+            player.GetComponent<Animator>().SetBool("Dance", true);
         }
+    }
+
+    private void OnDestroy()
+    {
+        player.GetComponent<Animator>().SetBool("Dance", false);
     }
 }
