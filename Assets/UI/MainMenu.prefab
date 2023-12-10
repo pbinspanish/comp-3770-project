@@ -674,8 +674,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 948be76c78a15c2428e8718d328bb81c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  classMesh: {fileID: 39941934548707793, guid: 52003f0c3bb642a40b3485da6269e02f, type: 3}
-  mainMenu: {fileID: 0}
+  playerPrefab: {fileID: 8229844482685238472, guid: e8f44b5e397ec0b41afa0af9e341aa79,
+    type: 3}
 --- !u!1 &1329993140046867247
 GameObject:
   m_ObjectHideFlags: 0
@@ -1262,8 +1262,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 948be76c78a15c2428e8718d328bb81c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  classMesh: {fileID: 0}
-  mainMenu: {fileID: 0}
+  playerPrefab: {fileID: 8229844482685238472, guid: 21c65d53a716ec54b9d5fa53dedcc89d,
+    type: 3}
 --- !u!1 &2123460630509595279
 GameObject:
   m_ObjectHideFlags: 0
@@ -1413,9 +1413,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 948be76c78a15c2428e8718d328bb81c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  classMesh: {fileID: -3630245196357298938, guid: 969678c0dc4bc5a4cb066ea830ef87f6,
+  playerPrefab: {fileID: 8229844482685238472, guid: 4d4f772b026dd524d95f26b366095f2d,
     type: 3}
-  mainMenu: {fileID: 0}
 --- !u!1 &2253936308043246053
 GameObject:
   m_ObjectHideFlags: 0
@@ -1833,8 +1832,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 948be76c78a15c2428e8718d328bb81c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  classMesh: {fileID: 0}
-  mainMenu: {fileID: 0}
+  playerPrefab: {fileID: 8229844482685238472, guid: b769aa8340a209b4d91ea93442651595,
+    type: 3}
 --- !u!1 &2827881152906941951
 GameObject:
   m_ObjectHideFlags: 0
@@ -2196,7 +2195,6 @@ MonoBehaviour:
   playerPrefab: {fileID: 8229844482685238472, guid: e8f44b5e397ec0b41afa0af9e341aa79,
     type: 3}
   playerStartPosition: {fileID: 0}
-  playerClassMesh: {fileID: 0}
 --- !u!1 &3219539577374020096
 GameObject:
   m_ObjectHideFlags: 0
@@ -2346,8 +2344,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 948be76c78a15c2428e8718d328bb81c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  classMesh: {fileID: 0}
-  mainMenu: {fileID: 0}
+  playerPrefab: {fileID: 8229844482685238472, guid: 184b1f610dbefda499e1c75c02e661bd,
+    type: 3}
 --- !u!1 &3805088351430566450
 GameObject:
   m_ObjectHideFlags: 0
