@@ -28,11 +28,20 @@ public class EnemyAI : MonoBehaviour
 
     public bool gotPlayer = false;
 
+    public HP healthObj;
+    public float rageSpeed=7.0f;
+    public int rageDamage = 15;
+
     /*private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         agent = GetComponent<NavMeshAgent>();
     }*/
+
+    private void Start()
+    {
+        healthObj = gameObject.GetComponent<HP>();
+    }
 
     private void Update()
     {
@@ -50,6 +59,12 @@ public class EnemyAI : MonoBehaviour
             if(!playerInSightRange && !playerInAttackRange) { Patrolling(); }
             if(playerInSightRange && !playerInAttackRange) { ChasePlayer(); }
             if (playerInSightRange && playerInAttackRange) { AttackPlayer(); }
+        }
+
+        if (healthObj.health <= healthObj.maxHealth / 2.0f)
+        {
+            agent.speed = rageSpeed;
+            attackDamage = rageDamage;
         }
     
     }

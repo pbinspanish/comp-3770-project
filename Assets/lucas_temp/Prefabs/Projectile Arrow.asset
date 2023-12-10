@@ -15,7 +15,7 @@ MonoBehaviour:
   prefab: {fileID: 187653448068468399, guid: e86a8fb92fb9015458b421efdbf46dc6, type: 3}
   speed: 70
   range: 200
-  damage: 1
+  damage: 2
   maxHit: 1
   triggerMode: 1
   spawnFwdUp: {x: 1.5, y: 2}
