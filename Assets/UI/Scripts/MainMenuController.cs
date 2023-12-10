@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -12,7 +13,6 @@ public class MainMenuController : MonoBehaviour
     public GameObject mainMenu;             // main menu object to be destroyed on start
     public GameObject playerPrefab;         // player prefab to spawn on game start
     public Transform playerStartPosition;   // position and angle to spawn the player at
-    public Mesh playerClassMesh;
 
     #endregion
 
@@ -25,7 +25,6 @@ public class MainMenuController : MonoBehaviour
     {
         FindObjectsByType<HUDController>(FindObjectsInactive.Include, FindObjectsSortMode.None)[0].gameObject.SetActive(true);
         GameObject player = Instantiate(playerPrefab, playerStartPosition.position, playerStartPosition.rotation);
-        player.GetComponentInChildren<SkinnedMeshRenderer>().sharedMesh = playerClassMesh;
         Destroy(mainMenu);
     }
 
