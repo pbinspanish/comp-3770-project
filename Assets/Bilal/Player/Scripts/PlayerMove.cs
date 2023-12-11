@@ -19,7 +19,7 @@ public class PlayerMove : MonoBehaviour
     private bool Run, Jump; //keys
     private bool canDash = true;
     private bool isDashing;
-    private float dashingPower = 20f;
+    private float dashingPower = 30f;
     private float DashingTime = 0.2f;
     private float DashingCooldown = 1f; 
     [SerializeField] private TrailRenderer tr;
@@ -197,8 +197,9 @@ public class PlayerMove : MonoBehaviour
         movementDirection.z *= dashingPower;
         player.velocity = movementDirection;
         tr.emitting = true;
+        GetComponent<HP>().ChangeDamage();
         yield return new WaitForSeconds(DashingTime);
-
+        GetComponent<HP>().ChangeDamage();
         tr.emitting = false;
         gravity = originalGravity;
         isDashing = false;

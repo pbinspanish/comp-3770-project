@@ -11,7 +11,7 @@ public class HP : MonoBehaviour
     private Animator animator;
 
     #region Variables
-
+    public bool canDamage;
     // Data
     public float health;
     public float maxHealth = 100.0f;
@@ -27,7 +27,7 @@ public class HP : MonoBehaviour
     private void Start()
     {
         animator = GetComponent<Animator>();
-
+        canDamage = true;
         health = maxHealth;
 
         if (treatAsPlayer)
@@ -46,30 +46,39 @@ public class HP : MonoBehaviour
             playerHealthHUD.currentHealth = (int)health;
         }
     }
-
+    public void ChangeDamage(){
+        if(canDamage){
+            canDamage = false;
+        } 
+        else{
+            canDamage = true;
+        }
+    }
     /// <summary>
     /// Deals the given amount of damage to the object.
     /// </summary>
     /// <param name="amount"></param>
     public void DealDamage(float amount)
     {
-        Debug.Log("Sword " + GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>().hasSword);
-        float damage = amount;
-        if (name == "Wall" && GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>().hasSword && GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerAnimate>().punch)
-        {
-            damage = 20f;
-        }
-        else if(name == "Wall" && !GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>().hasSword)
-        {
-            return;
-        }
-        Debug.Log("Player: dealing " + amount + " damage");
-        health -= damage;
-        Debug.Log("Player: has " + health + " health");
+        if(canDamage){
+            Debug.Log("Sword " + GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>().hasSword);
+            float damage = amount;
+            if (name == "Wall" && GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>().hasSword && GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerAnimate>().punch)
+            {
+                damage = 20f;
+            }
+            else if(name == "Wall" && !GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>().hasSword)
+            {
+                return;
+            }
+            Debug.Log("Player: dealing " + amount + " damage");
+            health -= damage;
+            Debug.Log("Player: has " + health + " health");
 
-        if (health <= 0)
-        {
-            Die();
+            if (health <= 0)
+            {
+                Die();
+            }
         }
     }
 
