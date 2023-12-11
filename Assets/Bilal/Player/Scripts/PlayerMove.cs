@@ -175,7 +175,7 @@ public class PlayerMove : MonoBehaviour
         {
             movementDirection = Vector3.ProjectOnPlane(movementDirection, slopeHit.normal);
         }
-        if(Input.GetKeyDown(KeyCode.R) && canDash)
+        if(Input.GetKeyDown(KeyCode.Tab) && canDash)
         {
             StartCoroutine(Dash());
         }
@@ -198,6 +198,7 @@ public class PlayerMove : MonoBehaviour
         player.velocity = movementDirection;
         tr.emitting = true;
         yield return new WaitForSeconds(DashingTime);
+
         tr.emitting = false;
         gravity = originalGravity;
         isDashing = false;
