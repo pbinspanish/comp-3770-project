@@ -50,6 +50,8 @@ public class HUDController : MonoBehaviour
     {
         healthSlider.value = currentHealth;
         healthValue.text = currentHealth.ToString() + "/" + maxHealth.ToString();
+        healthSlider.maxValue = maxHealth;
+        healthSlider.minValue = minHealth;
     }
 
     /// <summary>
