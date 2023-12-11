@@ -809,6 +809,7 @@ MonoBehaviour:
   starterDialogue: 1
   hasSword: 0
   zombieKill: 0
+  demonDead: 0
 --- !u!114 &7050963775638103854
 MonoBehaviour:
   m_ObjectHideFlags: 0

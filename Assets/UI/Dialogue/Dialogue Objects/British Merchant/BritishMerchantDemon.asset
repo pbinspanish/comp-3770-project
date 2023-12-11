@@ -12,5 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 625e41a8b040f944f8f17bfb9c6eb82f, type: 3}
   m_Name: BritishMerchantDemon
   m_EditorClassIdentifier: 
-  dialogueText: []
-  dialogueAudio: []
+  dialogueText:
+  - You nasty fool! You really thought I would help you defeat the dark lord?! My
+    own father!
+  - Well actually, he's not really my father. You see. But he could very well adopt
+    me if I help him kill you! What I've given you is poison. And you've got exactly
+    one minute to live. You'll never get your hands on the antidote! Muahahahaha!
+  dialogueAudio:
+  - {fileID: 8300000, guid: ac17469972d583547b69a8b85ad4a874, type: 3}
+  - {fileID: 8300000, guid: 689551de7015e824b824eb40d1a7cd69, type: 3}

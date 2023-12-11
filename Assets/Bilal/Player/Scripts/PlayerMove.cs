@@ -24,6 +24,8 @@ public class PlayerMove : MonoBehaviour
     private float DashingCooldown = 1f; 
     [SerializeField] private TrailRenderer tr;
 
+    private bool respawning = false;
+
     [Header("Movement")]
     public bool canMove = false;
     public float walkSpeed = 100f;
@@ -60,11 +62,11 @@ public class PlayerMove : MonoBehaviour
     public bool hasSword = false;
 
     public int zombieKill = 0;
+    public bool demonDead;
 
     // Start is called before the first frame update
     void Start()
     {
-        GameObject.FindGameObjectWithTag("Sword").GetComponent<MeshRenderer>().enabled = false;
         hasSword = true;
         canMove = false;
         isDashing = false;
@@ -82,7 +84,7 @@ public class PlayerMove : MonoBehaviour
             return;
         }
         Debug.Log(isGrounded);
-        if (!starterDialogue && !body && !zombie)
+        if (!starterDialogue && !body && !zombie && !respawning)
         {
             GetComponent<Animator>().SetBool("Sleep", false);
             canMove = !GetComponent<DialogueInitiator>().isInConversation;
@@ -91,15 +93,18 @@ public class PlayerMove : MonoBehaviour
         {
             respawn();
         }
-        if (hasSword && !GameObject.FindGameObjectWithTag("Sword").GetComponent<MeshRenderer>().enabled)
-        {
-            GameObject.FindGameObjectWithTag("Sword").GetComponent<MeshRenderer>().enabled = true;
-            //respawn();
-        }
+        
 
-        if(zombieKill == 7)
+        if(zombieKill == 8)
         {
             Destroy(GameObject.FindGameObjectWithTag("CampWall"));
+        }
+
+        if (demonDead)
+        {
+            GameObject.FindGameObjectWithTag("BossWall").GetComponent<BoxCollider>().enabled = false;
+            GameObject.FindGameObjectWithTag("BossWall").GetComponent<MeshRenderer>().enabled = false;
+            GetComponent<HP>().health = GetComponent<HP>().maxHealth;
         }
 
         if (canMove) { getInput(); } //get input if canMove is true
@@ -124,8 +129,9 @@ public class PlayerMove : MonoBehaviour
             {
                 mesh.enabled = true;
             }
-            GameObject.FindGameObjectWithTag("Sword").GetComponent<MeshRenderer>().enabled = false;
+            GetComponentInChildren<MeshRenderer>().enabled = true;
             canMove = true;
+            respawning = false;
         }
     }
 
@@ -304,6 +310,7 @@ public class PlayerMove : MonoBehaviour
 
     public void respawn()
     {
+        respawning = true;
         body = true;
         canMove = false;
         deadBody = Instantiate(gameObject, transform.position, transform.rotation);
@@ -327,6 +334,12 @@ public class PlayerMove : MonoBehaviour
         if (other.gameObject.CompareTag("Checkpoint"))
         {
             spawnPosition = other.transform.position;
+        }
+
+        if (other.gameObject.GetComponent<BossWallCheckpoint>() != null)
+        {
+            GameObject.FindGameObjectWithTag("BossWall").GetComponent<BoxCollider>().enabled = true;
+            GameObject.FindGameObjectWithTag("BossWall").GetComponent<MeshRenderer>().enabled = true;
         }
 
         if (other.gameObject.CompareTag("Respawn"))

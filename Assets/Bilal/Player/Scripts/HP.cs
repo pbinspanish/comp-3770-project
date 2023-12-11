@@ -116,8 +116,17 @@ public class HP : MonoBehaviour
                 health = maxHealth;
                 GetComponent<Animator>().SetBool("Fall", true);
                 GetComponent<NavMeshAgent>().enabled = false;
+                GetComponent<EnemyAI>().enabled = false;
                 GetComponent<ZombieAnimator>().die = true;
             }
+        }
+        else if(name == "Demon")
+        {
+            animator.SetBool("DieBitch", true);
+            Destroy(GetComponent<NavMeshAgent>());
+            Destroy(GetComponent<Collider>());
+            Destroy(GameObject.FindGameObjectWithTag("DemonTrigger"));
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>().demonDead = true;
         }
         else
         {

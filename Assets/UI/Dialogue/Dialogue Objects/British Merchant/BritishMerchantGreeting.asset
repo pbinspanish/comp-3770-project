@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: BritishMerchantGreeting
   m_EditorClassIdentifier: 
   dialogueText:
-  - Hello there, Stranger! I see you've found my little camp. Well don't be shy now!
-    Come Closer!
+  - Well hello there, Stranger! I see you've found my little camp. Well don't be
+    shy now! Come Closer!
   - I've got a little gift for you. I hear you're trynna defeat the dark lord. This
     gift will surely help you on your travels.
   - Do trust me, now! Well, here you go! Take it.

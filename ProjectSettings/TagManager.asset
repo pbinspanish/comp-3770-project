@@ -20,6 +20,7 @@ TagManager:
   - BossWall
   - MerchantTrigger
   - Merchant
+  - DemonTrigger
   layers:
   - Default
   - TransparentFX
