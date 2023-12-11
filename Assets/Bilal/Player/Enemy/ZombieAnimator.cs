@@ -12,6 +12,7 @@ public class ZombieAnimator : MonoBehaviour
     void Start()
     {
         die = false;
+        GetComponent<NavMeshAgent>().enabled = false;
     }
 
     // Update is called once per frame
@@ -27,6 +28,7 @@ public class ZombieAnimator : MonoBehaviour
             GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>().canMove = true;
             GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>().zombie = false;
             Destroy(GameObject.FindGameObjectWithTag("ZombieTrigger"));
+            GetComponent<NavMeshAgent>().enabled = true;
         }
 
         if (GetComponent<NavMeshAgent>().velocity.magnitude > 0)
@@ -39,6 +41,12 @@ public class ZombieAnimator : MonoBehaviour
         {
             GetComponent<Animator>().SetBool("Walk", false);
             GetComponent<Animator>().SetBool("Crawl", false);
+        }
+
+        if(die == true && GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("ZombieCrawl"))
+        {
+            GetComponent<NavMeshAgent>().enabled = true;
+            GetComponent<Animator>().speed = 4;
         }
     }
 

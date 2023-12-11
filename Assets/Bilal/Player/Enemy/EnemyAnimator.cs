@@ -39,7 +39,7 @@ void Start()
     public void meleePunch(Collider target, float attackDamage)
     {
         Debug.Log(target.gameObject.name);
-        if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("WalkForward") && !punch)
+        if (!punch)
         {
             punch = true;
             

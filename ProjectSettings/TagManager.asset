@@ -18,6 +18,8 @@ TagManager:
   - Zombie
   - CampWall
   - BossWall
+  - MerchantTrigger
+  - Merchant
   layers:
   - Default
   - TransparentFX

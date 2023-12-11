@@ -12,5 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 625e41a8b040f944f8f17bfb9c6eb82f, type: 3}
   m_Name: BritishMerchantGreeting
   m_EditorClassIdentifier: 
-  dialogueText: []
-  dialogueAudio: []
+  dialogueText:
+  - Hello there, Stranger! I see you've found my little camp. Well don't be shy now!
+    Come Closer!
+  - I've got a little gift for you. I hear you're trynna defeat the dark lord. This
+    gift will surely help you on your travels.
+  - Do trust me, now! Well, here you go! Take it.
+  dialogueAudio:
+  - {fileID: 8300000, guid: 0f5569ff5f3e2d547a92c8149651c1c4, type: 3}
+  - {fileID: 8300000, guid: 5e25b51f89ca5224593f6b27fbc78a14, type: 3}
+  - {fileID: 8300000, guid: 8294f6e0192f99c41be468ca0101a240, type: 3}

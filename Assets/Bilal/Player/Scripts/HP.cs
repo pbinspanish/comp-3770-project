@@ -106,6 +106,7 @@ public class HP : MonoBehaviour
             {
                 health = maxHealth;
                 GetComponent<Animator>().SetBool("Fall", true);
+                GetComponent<NavMeshAgent>().enabled = false;
                 GetComponent<ZombieAnimator>().die = true;
             }
         }
