@@ -17,6 +17,12 @@ public class PlayerMove : MonoBehaviour
     //Input
     private float verticalInput, horizontalInput; //axes
     private bool Run, Jump; //keys
+    private bool canDash = true;
+    private bool isDashing;
+    private float dashingPower = 20f;
+    private float DashingTime = 0.2f;
+    private float DashingCooldown = 1f; 
+    [SerializeField] private TrailRenderer tr;
 
     [Header("Movement")]
     public bool canMove = false;
@@ -61,6 +67,8 @@ public class PlayerMove : MonoBehaviour
         GameObject.FindGameObjectWithTag("Sword").GetComponent<MeshRenderer>().enabled = false;
         hasSword = true;
         canMove = false;
+        isDashing = false;
+        tr = GetComponentInParent<TrailRenderer>();
         player = GetComponentInParent<Rigidbody>(); //reference
         playerCollider = GetComponentInParent<CapsuleCollider>();
         prefab = transform.parent.gameObject;
@@ -70,6 +78,9 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
+        if(isDashing){
+            return;
+        }
         Debug.Log(isGrounded);
         if (!starterDialogue && !body && !zombie)
         {
@@ -101,6 +112,9 @@ public class PlayerMove : MonoBehaviour
 
     void FixedUpdate()
     {
+        if(isDashing){
+            return;
+        }
         if (canMove) { move(); } //move player if canMove is true
         if (deadBody.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Death") && deadBody.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f && body)
         {
@@ -123,6 +137,10 @@ public class PlayerMove : MonoBehaviour
 
     void getInput() //handle all input configuration
     {
+        if(isDashing)
+        {
+            return;
+        }
         //movement axes
         verticalInput = Input.GetAxisRaw("Vertical");
         horizontalInput = Input.GetAxisRaw("Horizontal");
@@ -130,14 +148,15 @@ public class PlayerMove : MonoBehaviour
         //movement keys
         Run = Input.GetKey(KeyCode.LeftShift);
         Jump = Input.GetKey(KeyCode.Space);
-
         //move facing camera
         Quaternion faceCamera = Quaternion.Euler(0, playerCamera.transform.eulerAngles.y, 0); //get camera forward facing angle on Y axis
         Vector3 movementInput = faceCamera * new Vector3(horizontalInput, 0, verticalInput); //set player movement facing camera
         movementDirection = movementInput.normalized; //normalizing sets the magnitude to 1
-
-        setRotation();
-        setMoveSpeed();
+        if(!isDashing){
+            setRotation();
+            setMoveSpeed();
+        }
+        
 
         isOnSlope = checkSlope();
         isGrounded = checkGround(); //is the player grounded?
@@ -145,16 +164,47 @@ public class PlayerMove : MonoBehaviour
         updateGravity();
 
         //final movement direction
-        movementDirection.x *= currentSpeed;
-        movementDirection.y = upVelocity;
-        movementDirection.z *= currentSpeed;
+        if(!isDashing){
+            movementDirection.x *= currentSpeed;
+            movementDirection.y = upVelocity;
+            movementDirection.z *= currentSpeed;
+        }
+       
 
         if (isOnSlope && !isJumping && isGrounded)
         {
             movementDirection = Vector3.ProjectOnPlane(movementDirection, slopeHit.normal);
         }
+        if(Input.GetKeyDown(KeyCode.R) && canDash)
+        {
+            StartCoroutine(Dash());
+        }
+        Debug.Log("yup");
     }
+    private IEnumerator Dash()
+    {
+        canDash = false;
+        isDashing = true;
+        float originalGravity = gravity;
+        gravity = 0f;
+        verticalInput = Input.GetAxisRaw("Vertical");
+        horizontalInput = Input.GetAxisRaw("Horizontal");
+        Quaternion faceCamera = Quaternion.Euler(0, playerCamera.transform.eulerAngles.y, 0); //get camera forward facing angle on Y axis
+        Vector3 movementInput = faceCamera * new Vector3(horizontalInput, 0, verticalInput); //set player movement facing camera
+        movementDirection = movementInput.normalized; //normalizing sets the magnitude to 1
+        movementDirection.x *= dashingPower;
+        movementDirection.y = 0;
+        movementDirection.z *= dashingPower;
+        player.velocity = movementDirection;
+        tr.emitting = true;
+        yield return new WaitForSeconds(DashingTime);
+        tr.emitting = false;
+        gravity = originalGravity;
+        isDashing = false;
+        yield return new WaitForSeconds(DashingCooldown);
+        canDash = true;
 
+    }
     void setRotation() //player rotates to face mouse cursor
     {
         Ray mouse = playerCamera.ScreenPointToRay(Input.mousePosition); //get mouse position by casting a ray in the world
