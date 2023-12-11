@@ -1831,6 +1831,7 @@ MonoBehaviour:
   healthObj: {fileID: 0}
   rageSpeed: 7
   rageDamage: 15
+  DemonSpeed: 2
 --- !u!195 &128385596
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1888,6 +1889,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6eb30026e0eca24a93509e17ef5c7e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canDamage: 0
   health: 0
   maxHealth: 20
   treatAsPlayer: 0
@@ -9181,6 +9183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6eb30026e0eca24a93509e17ef5c7e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canDamage: 0
   health: 0
   maxHealth: 100
   treatAsPlayer: 0
@@ -9844,6 +9847,7 @@ MonoBehaviour:
   healthObj: {fileID: 0}
   rageSpeed: 7
   rageDamage: 15
+  DemonSpeed: 2
 --- !u!195 &392261164
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -9901,6 +9905,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6eb30026e0eca24a93509e17ef5c7e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canDamage: 0
   health: 0
   maxHealth: 20
   treatAsPlayer: 0
@@ -10541,6 +10546,7 @@ MonoBehaviour:
   healthObj: {fileID: 0}
   rageSpeed: 7
   rageDamage: 15
+  DemonSpeed: 2
 --- !u!195 &430704491
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -10598,6 +10604,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6eb30026e0eca24a93509e17ef5c7e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canDamage: 0
   health: 0
   maxHealth: 20
   treatAsPlayer: 0
@@ -18011,6 +18018,7 @@ MonoBehaviour:
   healthObj: {fileID: 0}
   rageSpeed: 7
   rageDamage: 15
+  DemonSpeed: 2
 --- !u!195 &1088568629
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -18068,6 +18076,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6eb30026e0eca24a93509e17ef5c7e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canDamage: 0
   health: 0
   maxHealth: 20
   treatAsPlayer: 0
@@ -18914,6 +18923,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6eb30026e0eca24a93509e17ef5c7e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canDamage: 0
   health: 50
   maxHealth: 100
   treatAsPlayer: 0
@@ -21278,11 +21288,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Vermal
       objectReference: {fileID: 0}
+    - target: {fileID: 420132085707762341, guid: 80e93679fbb00e44693912ce8b467637,
+        type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 717852742102633302, guid: 80e93679fbb00e44693912ce8b467637,
         type: 3}
       propertyPath: world
       value: 
       objectReference: {fileID: 65919867}
+    - target: {fileID: 857702786874747075, guid: 80e93679fbb00e44693912ce8b467637,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 857702786874747075, guid: 80e93679fbb00e44693912ce8b467637,
+        type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 967619498436481936, guid: 80e93679fbb00e44693912ce8b467637,
         type: 3}
       propertyPath: health
@@ -21302,6 +21327,11 @@ PrefabInstance:
         type: 3}
       propertyPath: rageSpeed
       value: 7.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2110602041593916225, guid: 80e93679fbb00e44693912ce8b467637,
+        type: 3}
+      propertyPath: sightRange
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 2110602041593916225, guid: 80e93679fbb00e44693912ce8b467637,
         type: 3}
@@ -21331,7 +21361,7 @@ PrefabInstance:
     - target: {fileID: 3893975976971204463, guid: 80e93679fbb00e44693912ce8b467637,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 219.4
+      value: 48.4
       objectReference: {fileID: 0}
     - target: {fileID: 3893975976971204463, guid: 80e93679fbb00e44693912ce8b467637,
         type: 3}
@@ -21380,6 +21410,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6192474558871830143, guid: 80e93679fbb00e44693912ce8b467637,
         type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -180.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 6192474558871830143, guid: 80e93679fbb00e44693912ce8b467637,
+        type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
@@ -21403,6 +21438,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6241526982214321443, guid: 80e93679fbb00e44693912ce8b467637,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6241526982214321443, guid: 80e93679fbb00e44693912ce8b467637,
+        type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 7101619687497606817, guid: 80e93679fbb00e44693912ce8b467637,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7101619687497606817, guid: 80e93679fbb00e44693912ce8b467637,
+        type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 8364642295600717780, guid: 80e93679fbb00e44693912ce8b467637,
         type: 3}
       propertyPath: health
@@ -21413,6 +21468,16 @@ PrefabInstance:
       propertyPath: world
       value: 
       objectReference: {fileID: 65919867}
+    - target: {fileID: 9203864218571538897, guid: 80e93679fbb00e44693912ce8b467637,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9203864218571538897, guid: 80e93679fbb00e44693912ce8b467637,
+        type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -21513,6 +21578,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6eb30026e0eca24a93509e17ef5c7e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canDamage: 0
   health: 0
   maxHealth: 100
   treatAsPlayer: 0
@@ -22928,6 +22994,10 @@ PrefabInstance:
     - target: {fileID: 1078351835321466, guid: 1c16b86f32e988744971baadd73ed4ec, type: 3}
       propertyPath: m_Layer
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1078351835321466, guid: 1c16b86f32e988744971baadd73ed4ec, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1078351835321466, guid: 1c16b86f32e988744971baadd73ed4ec, type: 3}
       propertyPath: m_TagString
@@ -30206,6 +30276,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Merchant
       objectReference: {fileID: 0}
+    - target: {fileID: 4777504079154274397, guid: 23d06f020ef83914891d7c3d809124af,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8076330472178211208, guid: 23d06f020ef83914891d7c3d809124af,
         type: 3}
       propertyPath: demon
@@ -30704,6 +30779,7 @@ MonoBehaviour:
   healthObj: {fileID: 0}
   rageSpeed: 7
   rageDamage: 15
+  DemonSpeed: 2
 --- !u!195 &1586235754
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -30761,6 +30837,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6eb30026e0eca24a93509e17ef5c7e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canDamage: 0
   health: 0
   maxHealth: 20
   treatAsPlayer: 0
@@ -31835,6 +31912,7 @@ MonoBehaviour:
   healthObj: {fileID: 0}
   rageSpeed: 7
   rageDamage: 15
+  DemonSpeed: 2
 --- !u!195 &1633126169
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -31892,6 +31970,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6eb30026e0eca24a93509e17ef5c7e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canDamage: 0
   health: 0
   maxHealth: 20
   treatAsPlayer: 0
@@ -32153,6 +32232,10 @@ PrefabInstance:
     - target: {fileID: 1078351835321466, guid: 1c16b86f32e988744971baadd73ed4ec, type: 3}
       propertyPath: m_Layer
       value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 1078351835321466, guid: 1c16b86f32e988744971baadd73ed4ec, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1078351835321466, guid: 1c16b86f32e988744971baadd73ed4ec, type: 3}
       propertyPath: m_TagString
@@ -37808,6 +37891,7 @@ MonoBehaviour:
   healthObj: {fileID: 0}
   rageSpeed: 7
   rageDamage: 15
+  DemonSpeed: 2
 --- !u!195 &2131428199
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -37865,6 +37949,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6eb30026e0eca24a93509e17ef5c7e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canDamage: 0
   health: 0
   maxHealth: 20
   treatAsPlayer: 0
