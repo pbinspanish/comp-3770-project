@@ -67,7 +67,8 @@ public class PlayerMove : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        hasSword = true;
+        GetComponentInChildren<MeshRenderer>().enabled = false;
+        hasSword = false;
         canMove = false;
         isDashing = false;
         tr = GetComponentInParent<TrailRenderer>();
@@ -129,7 +130,11 @@ public class PlayerMove : MonoBehaviour
             {
                 mesh.enabled = true;
             }
-            GetComponentInChildren<MeshRenderer>().enabled = true;
+            if (hasSword)
+            {
+                GetComponentInChildren<MeshRenderer>().enabled = true;
+            }
+            
             canMove = true;
             respawning = false;
         }
