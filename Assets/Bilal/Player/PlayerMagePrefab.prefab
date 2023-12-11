@@ -800,9 +800,10 @@ MonoBehaviour:
   movementDirection: {x: 0, y: 0, z: 0}
   isGrounded: 0
   body: 0
+  zombie: 0
   starterDialogue: 1
-  hasSwordChest: 0
   hasSword: 0
+  zombieKill: 0
 --- !u!114 &7050963775638103854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -884,6 +885,7 @@ MonoBehaviour:
   isInConversation: 0
   hasConversationEnded: 0
   currentDialogueInteractable: {fileID: 0}
+  interactionIndicator: {fileID: 0}
 --- !u!4 &822270836702012934 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 969678c0dc4bc5a4cb066ea830ef87f6,
@@ -904,6 +906,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3418422797168571461}
     m_Modifications:
+    - target: {fileID: 1457470632401092718, guid: 79325960bb88ded42bef3f57e341498d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1892742523658025197, guid: 79325960bb88ded42bef3f57e341498d,
         type: 3}
       propertyPath: m_Name

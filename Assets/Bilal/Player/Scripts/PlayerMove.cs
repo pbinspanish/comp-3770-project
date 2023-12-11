@@ -47,16 +47,19 @@ public class PlayerMove : MonoBehaviour
     private static Vector3 spawnPosition;
 
     public bool body;
+    public bool zombie;
     GameObject deadBody;
 
     public bool starterDialogue = true;
     public bool hasSword = false;
 
+    public int zombieKill = 0;
+
     // Start is called before the first frame update
     void Start()
     {
         GameObject.FindGameObjectWithTag("Sword").GetComponent<MeshRenderer>().enabled = false;
-        hasSword = false;
+        hasSword = true;
         canMove = false;
         player = GetComponentInParent<Rigidbody>(); //reference
         playerCollider = GetComponentInParent<CapsuleCollider>();
@@ -68,7 +71,7 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
         Debug.Log(isGrounded);
-        if (!starterDialogue && !body)
+        if (!starterDialogue && !body && !zombie)
         {
             GetComponent<Animator>().SetBool("Sleep", false);
             canMove = !GetComponent<DialogueInitiator>().isInConversation;
@@ -77,10 +80,15 @@ public class PlayerMove : MonoBehaviour
         {
             respawn();
         }
-        if (hasSword)
+        if (hasSword && !GameObject.FindGameObjectWithTag("Sword").GetComponent<MeshRenderer>().enabled)
         {
             GameObject.FindGameObjectWithTag("Sword").GetComponent<MeshRenderer>().enabled = true;
             //respawn();
+        }
+
+        if(zombieKill == 7)
+        {
+            Destroy(GameObject.FindGameObjectWithTag("CampWall"));
         }
 
         if (canMove) { getInput(); } //get input if canMove is true
@@ -102,7 +110,7 @@ public class PlayerMove : MonoBehaviour
             {
                 mesh.enabled = true;
             }
-            GetComponentInChildren<MeshRenderer>().enabled = true;
+            GameObject.FindGameObjectWithTag("Sword").GetComponent<MeshRenderer>().enabled = false;
             canMove = true;
         }
     }
@@ -272,6 +280,16 @@ public class PlayerMove : MonoBehaviour
         if (other.gameObject.CompareTag("Respawn"))
         {
             respawn();
+        }
+        if (other.gameObject.CompareTag("ZombieTrigger"))
+        {
+            zombie = true;
+            canMove = false;
+            other.GetComponent<AudioSource>().Play();
+            foreach (var zombie in GameObject.FindObjectsOfType(typeof(ZombieAnimator)) as ZombieAnimator[])
+            {
+                zombie.GetComponent<ZombieAnimator>().WakeZombie();
+            }
         }
 
     }

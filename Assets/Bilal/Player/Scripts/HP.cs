@@ -93,6 +93,21 @@ public class HP : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        else if (GetComponent<ZombieAnimator>() != null)
+        {
+            if (GetComponent<ZombieAnimator>().die)
+            {
+                GetComponent<Animator>().SetBool("DieBitch", true);
+                Destroy(GetComponent<Collider>());
+                GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>().zombieKill++;
+            }
+            else
+            {
+                health = maxHealth;
+                GetComponent<Animator>().SetBool("Fall", true);
+                GetComponent<ZombieAnimator>().die = true;
+            }
+        }
         else
         {
             animator.SetBool("DieBitch", true);
