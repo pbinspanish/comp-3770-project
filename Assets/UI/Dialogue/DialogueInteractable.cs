@@ -53,7 +53,7 @@ public class DialogueInteractable : MonoBehaviour
     /// <summary>
     /// Hides the dialogue box and resets the location.
     /// </summary>
-    public void EndDialogue()
+    public virtual void EndDialogue()
     {
         activeHUD.HideDialogue();
         EndAnimate();
