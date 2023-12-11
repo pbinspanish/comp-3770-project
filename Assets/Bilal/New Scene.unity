@@ -9594,6 +9594,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemySpeed: 1
+  punch: 0
 --- !u!1001 &354453865
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10407,7 +10408,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactableName: Aretbrot
   currentDialogue: {fileID: 11400000, guid: d47342ba43b97ce4f8261f539458b31b, type: 2}
-  aretBrot: {fileID: 0}
+  aretbrot: {fileID: 0}
 --- !u!1001 &422996283
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24837,7 +24838,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 0.5019608}
+      maxColor: {r: 0.2979263, g: 0.49172336, b: 0.9716981, a: 0.5019608}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -24954,7 +24955,7 @@ ParticleSystem:
     startSizeY:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 42.94
+      scalar: 1
       minScalar: 2
       maxCurve:
         serializedVersion: 2
@@ -25218,7 +25219,7 @@ ParticleSystem:
         m_RotationOrder: 4
     randomizeRotationDirection: 0
     gravitySource: 0
-    maxNumParticles: 7664
+    maxNumParticles: 100000
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 1
     rotation3D: 0
@@ -25484,7 +25485,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 800
+      scalar: 5000
       minScalar: 10
       maxCurve:
         serializedVersion: 2
