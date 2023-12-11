@@ -28,6 +28,7 @@ public class ZombieAnimator : MonoBehaviour
             GetComponentInChildren<SkinnedMeshRenderer>().enabled = true;
             GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>().canMove = true;
             GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>().zombie = false;
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>().isFightingZombies = true;
             Destroy(GameObject.FindGameObjectWithTag("ZombieTrigger"));
             GetComponent<NavMeshAgent>().enabled = true;
             GetComponent<EnemyAI>().enabled = true;

@@ -18,7 +18,6 @@ public class DialogueInitiator : MonoBehaviour
     public GameObject interactionIndicator;                        // the parent object for the interaction indicator in the UI
     private TextMeshProUGUI interactionIndicatorNameField;          // the name field for the interaction indicator
 
-
     #endregion
 
     #region Methods

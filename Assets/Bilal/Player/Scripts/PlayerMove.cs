@@ -13,6 +13,7 @@ public class PlayerMove : MonoBehaviour
     private static Rigidbody player; //player rigidbody
     public GameObject prefab;
     private CapsuleCollider playerCollider; //player collider used to check if the player is grounded
+    private HUDController activeHUD;
 
     //Input
     private float verticalInput, horizontalInput; //axes
@@ -21,7 +22,7 @@ public class PlayerMove : MonoBehaviour
     private bool isDashing;
     private float dashingPower = 30f;
     private float DashingTime = 0.2f;
-    private float DashingCooldown = 1f; 
+    private float DashingCooldown = 1f;
     [SerializeField] private TrailRenderer tr;
 
     private bool respawning = false;
@@ -47,7 +48,7 @@ public class PlayerMove : MonoBehaviour
     private bool jumpAgain;
     private bool isJumping;
     private float upVelocity; //controls jumping and gravity
-    
+
     //debugging
     private UnityEngine.Color color;
 
@@ -60,6 +61,10 @@ public class PlayerMove : MonoBehaviour
 
     public bool starterDialogue = true;
     public bool hasSword = false;
+    public bool hasBrokenVillageWall = false;
+    public bool isFightingZombies = false;
+    public bool isFightingDemon = false;
+    public bool isVermalDead = false;
 
     public int zombieKill = 0;
     public bool demonDead;
@@ -79,6 +84,8 @@ public class PlayerMove : MonoBehaviour
         prefab = transform.parent.gameObject;
         spawnPosition = transform.position;
         Cursor.visible = true; //make sure mouse cursor is visible
+
+        activeHUD = FindObjectsByType<HUDController>(FindObjectsInactive.Include, FindObjectsSortMode.None)[0];
     }
 
     void Update()
@@ -100,11 +107,12 @@ public class PlayerMove : MonoBehaviour
         {
             respawn();
         }
-        
 
-        if(zombieKill == 8)
+
+        if (zombieKill == 8)
         {
             Destroy(GameObject.FindGameObjectWithTag("CampWall"));
+            isFightingZombies = false;
         }
 
         if (demonDead)
@@ -121,16 +129,50 @@ public class PlayerMove : MonoBehaviour
         }
 
         if (canMove) { getInput(); } //get input if canMove is true
-        else{
+        else
+        {
             currentSpeed = 0;
             player.velocity = Vector3.zero;
         }
         //debug();
+
+        // handle active quest
+        if (!starterDialogue && !hasSword)
+        {
+            activeHUD.UpdateActiveQuest("Go search the forest for the sword");
+        }
+        else if (!starterDialogue && hasSword && !hasBrokenVillageWall)
+        {
+            activeHUD.UpdateActiveQuest("Break the wall using the sword");
+        }
+        else if (!starterDialogue && hasSword && hasBrokenVillageWall && !isFightingZombies)
+        {
+            activeHUD.UpdateActiveQuest(null);
+        }
+        else if (isFightingZombies)
+        {
+            activeHUD.UpdateActiveQuest("Defeat all zombies");
+        }
+        else if (isFightingDemon)
+        {
+            activeHUD.UpdateActiveQuest("Defeat the demon");
+        }
+        else if (demonDead && !isVermalDead)
+        {
+            activeHUD.UpdateActiveQuest("Kill Vermal.");
+        }
+        else
+        {
+            activeHUD.UpdateActiveQuest(null);
+        }
+
+        Debug.Log("Player: is fighting zombies is " + isFightingZombies);
     }
 
     void FixedUpdate()
     {
-        if(isDashing){
+        if (isDashing)
+        {
             return;
         }
         if (canMove) { move(); } //move player if canMove is true
@@ -146,7 +188,7 @@ public class PlayerMove : MonoBehaviour
             {
                 GetComponentInChildren<MeshRenderer>().enabled = true;
             }
-            
+
             canMove = true;
             respawning = false;
         }
@@ -160,7 +202,7 @@ public class PlayerMove : MonoBehaviour
 
     void getInput() //handle all input configuration
     {
-        if(isDashing)
+        if (isDashing)
         {
             return;
         }
@@ -175,11 +217,12 @@ public class PlayerMove : MonoBehaviour
         Quaternion faceCamera = Quaternion.Euler(0, playerCamera.transform.eulerAngles.y, 0); //get camera forward facing angle on Y axis
         Vector3 movementInput = faceCamera * new Vector3(horizontalInput, 0, verticalInput); //set player movement facing camera
         movementDirection = movementInput.normalized; //normalizing sets the magnitude to 1
-        if(!isDashing){
+        if (!isDashing)
+        {
             setRotation();
             setMoveSpeed();
         }
-        
+
 
         isOnSlope = checkSlope();
         isGrounded = checkGround(); //is the player grounded?
@@ -187,18 +230,19 @@ public class PlayerMove : MonoBehaviour
         updateGravity();
 
         //final movement direction
-        if(!isDashing){
+        if (!isDashing)
+        {
             movementDirection.x *= currentSpeed;
             movementDirection.y = upVelocity;
             movementDirection.z *= currentSpeed;
         }
-       
+
 
         if (isOnSlope && !isJumping && isGrounded)
         {
             movementDirection = Vector3.ProjectOnPlane(movementDirection, slopeHit.normal);
         }
-        if(Input.GetKeyDown(KeyCode.Tab) && canDash)
+        if (Input.GetKeyDown(KeyCode.Tab) && canDash)
         {
             StartCoroutine(Dash());
         }
@@ -331,7 +375,7 @@ public class PlayerMove : MonoBehaviour
         body = true;
         canMove = false;
         deadBody = Instantiate(gameObject, transform.position, transform.rotation);
-        foreach(var mesh in GetComponentsInChildren<SkinnedMeshRenderer>())
+        foreach (var mesh in GetComponentsInChildren<SkinnedMeshRenderer>())
         {
             mesh.enabled = false;
         }
@@ -343,7 +387,7 @@ public class PlayerMove : MonoBehaviour
         Destroy(deadBody.GetComponent<ProjectileLauncher>());
         Destroy(deadBody.GetComponent<Collider>());
         Destroy(deadBody.GetComponent<HP>());
-        
+
     }
 
     void OnTriggerEnter(Collider other)
@@ -375,7 +419,7 @@ public class PlayerMove : MonoBehaviour
         }
 
     }
-   
+
 
     private void OnCollisionEnter(Collision collision)
     {

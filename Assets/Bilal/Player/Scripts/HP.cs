@@ -19,6 +19,7 @@ public class HP : MonoBehaviour
     // Display
     private HUDController playerHealthHUD;
     public bool treatAsPlayer = false;
+    public GameObject player;
 
     #endregion
 
@@ -101,6 +102,8 @@ public class HP : MonoBehaviour
         else if (name == "Wall")
         {
             Destroy(gameObject);
+
+            FindObjectOfType<PlayerMove>().hasBrokenVillageWall = true;
         }
         else if (GetComponent<ZombieAnimator>() != null)
         {

@@ -22,6 +22,12 @@ public class HUDController : MonoBehaviour
     public GameObject dialoguePanel;        // The gameobject to be shown/hidden that contains the dialogue box
     public float charactersPerSecond = 5;
 
+    // Quest Variables
+    public GameObject activeQuests;
+    public TextMeshProUGUI activeQuestText;
+    public GameObject questBackground;
+    public GameObject questBackgroundOutline;
+
     #endregion
 
     #region Methods
@@ -75,6 +81,23 @@ public class HUDController : MonoBehaviour
         dialogueAudio.Stop();
 
         dialoguePanel.SetActive(false);
+    }
+
+    /// <summary>
+    /// Shows the applied text on the quest marker. Passing null will cause the quest indicator to be hidden.
+    /// </summary>
+    /// <param name="questText">The text to display on the quest indicator. A null value will hide the indicator entirely.</param>
+    public void UpdateActiveQuest(string questText)
+    {
+        if (questText != null)
+        {
+            activeQuests.SetActive(true);
+            activeQuestText.text = questText;
+        }
+        else
+        {
+            activeQuests.SetActive(false);
+        }
     }
 
     #endregion

@@ -14,6 +14,8 @@ public class DemonInteractable : DialogueInteractable
         GameObject.FindObjectOfType(typeof(DemonScript)).GetComponent<NavMeshAgent>().enabled = true;
         GameObject.FindObjectOfType(typeof(DemonScript)).GetComponent<Animator>().SetBool("Walk", true);
 
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>().isFightingDemon = true;
+
         // add code here
     }
 }
