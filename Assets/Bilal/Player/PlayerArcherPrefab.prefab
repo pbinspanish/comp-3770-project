@@ -224,21 +224,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2499180843070264323}
     m_Modifications:
-    - target: {fileID: -4667362398522730939, guid: 5ffd42eb850ac704ab3cb2b63f25378b,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: -4374133124651659329, guid: 5ffd42eb850ac704ab3cb2b63f25378b,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4037591383602582122, guid: 5ffd42eb850ac704ab3cb2b63f25378b,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: -7121769801107515815, guid: 1a44d13850fbe9740822d2c0220e6717,
         type: 3}
       propertyPath: m_Layer
@@ -368,6 +353,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4667362398522730939, guid: 5ffd42eb850ac704ab3cb2b63f25378b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -4374133124651659329, guid: 5ffd42eb850ac704ab3cb2b63f25378b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4037591383602582122, guid: 5ffd42eb850ac704ab3cb2b63f25378b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -9070493210130169274, guid: 34b2f04814e973c418cc00b2fe20c3a6,
         type: 3}
@@ -705,10 +705,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 34b2f04814e973c418cc00b2fe20c3a6,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5318618089518427918}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 34b2f04814e973c418cc00b2fe20c3a6,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 310005865436838067}
   m_SourcePrefab: {fileID: 100100000, guid: 34b2f04814e973c418cc00b2fe20c3a6, type: 3}
 --- !u!1 &9739837736828092 stripped
@@ -812,7 +808,10 @@ MonoBehaviour:
   zombie: 0
   starterDialogue: 1
   hasSword: 0
+  hasBrokenVillageWall: 0
+  isFightingZombies: 0
   zombieKill: 0
+  demonDead: 0
 --- !u!114 &7050963775638103854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -876,26 +875,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6eb30026e0eca24a93509e17ef5c7e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canDamage: 0
   health: 100
   maxHealth: 100
   treatAsPlayer: 1
+  player: {fileID: 0}
 --- !u!114 &8605795689849857561
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9739837736828092}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dd3ee9310135e344a4da9f8d8afd42d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isInConversation: 0
-  hasConversationEnded: 0
-  currentDialogueInteractable: {fileID: 0}
-  interactionIndicator: {fileID: 0}
---- !u!114 &5318618089518427918
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
