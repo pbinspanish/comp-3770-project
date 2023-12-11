@@ -9594,7 +9594,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemySpeed: 1
-  punch: 0
 --- !u!1001 &354453865
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10408,7 +10407,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactableName: Aretbrot
   currentDialogue: {fileID: 11400000, guid: d47342ba43b97ce4f8261f539458b31b, type: 2}
-  aretbrot: {fileID: 0}
+  aretBrot: {fileID: 0}
 --- !u!1001 &422996283
 PrefabInstance:
   m_ObjectHideFlags: 0
