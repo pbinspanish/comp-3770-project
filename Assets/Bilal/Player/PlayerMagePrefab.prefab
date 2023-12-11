@@ -808,8 +808,13 @@ MonoBehaviour:
   zombie: 0
   starterDialogue: 1
   hasSword: 0
+  hasBrokenVillageWall: 0
+  isFightingZombies: 0
+  isFightingDemon: 0
+  isVermalDead: 0
   zombieKill: 0
   demonDead: 0
+  demon: 0
 --- !u!114 &7050963775638103854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -838,7 +843,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3310e3391a6923e4fae284a219fe8c92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
+  damage: 2
   attackRange: 1.5
   enemyLayer:
     serializedVersion: 2
@@ -873,9 +878,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6eb30026e0eca24a93509e17ef5c7e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
-  maxHealth: 100
+  canDamage: 0
+  health: 75
+  maxHealth: 75
   treatAsPlayer: 1
+  player: {fileID: 0}
 --- !u!114 &8605795689849857561
 MonoBehaviour:
   m_ObjectHideFlags: 0
