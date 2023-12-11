@@ -21,7 +21,7 @@ public class AretbrotDialogueInteractable : DialogueInteractable
     protected override void EndAnimate()
     {
         aretbrot.GetComponent<Animator>().SetBool("DieBitch", true);
-        Destroy(aretbrot);
+        Destroy(this);
         GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>().hasSword = true;
         GameObject.FindGameObjectWithTag("Player").GetComponent<DialogueInitiator>().currentDialogueInteractable = null;
         GameObject.FindGameObjectWithTag("Player").GetComponent<DialogueInitiator>().interactionIndicator.SetActive(false);
