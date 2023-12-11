@@ -865,7 +865,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4a148106791da484f974485eaa8822f9,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 9019457238605687936}
+      addedObject: {fileID: 5261251813114343316}
   m_SourcePrefab: {fileID: 100100000, guid: 4a148106791da484f974485eaa8822f9, type: 3}
 --- !u!4 &6192474558871830143 stripped
 Transform:
@@ -892,7 +892,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 3545932055609113470}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 65536
@@ -981,7 +980,7 @@ Animator:
   m_GameObject: {fileID: 6826267783354033349}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a5f581be44010c446bd1315430110b9a, type: 2}
+  m_Controller: {fileID: 9100000, guid: bc42804339f72114fb63023320106f11, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -992,7 +991,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &9019457238605687936
+--- !u!114 &5261251813114343316
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1001,9 +1000,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6826267783354033349}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80bbed690b9ab9a46b69deed83f5521c, type: 3}
+  m_Script: {fileID: 11500000, guid: 871f9085ae7026443b213a84ce82c940, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 1
-  runSpeed: 1.3
   enemySpeed: 1

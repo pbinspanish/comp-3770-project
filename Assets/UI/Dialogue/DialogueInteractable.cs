@@ -53,6 +53,7 @@ public class DialogueInteractable : MonoBehaviour
                 GameObject player = GameObject.FindGameObjectWithTag("Player");
                 player.GetComponent<PlayerMove>().starterDialogue = false;
                 player.GetComponent<Animator>().SetBool("WakeUp", true);
+                player.GetComponent<Animator>().SetBool("Sleep", false);
                 oldMan.GetComponent<Animator>().SetBool("Talk", true);
             }
             if (active)
