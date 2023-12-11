@@ -12,12 +12,9 @@ public class DialogueInteractable : MonoBehaviour
 
     public string interactableName;             // the name of the interactable object
     public DialogueObject currentDialogue;      // the DialogueObject to be used by a DialogueInitiator
-    public DialogueObject secondDialogue;       //optional
-    private int currentDialogueLocation = 0;    // the line of dialogue in the current DialogueObject
+    protected int currentDialogueLocation = 0;    // the line of dialogue in the current DialogueObject
 
     private HUDController activeHUD;
-
-    GameObject oldMan;
 
     #endregion
 
@@ -27,7 +24,7 @@ public class DialogueInteractable : MonoBehaviour
     /// Get the current HUDController for the scene on start.
     /// Note that there should only be one HUDController at any given time.
     /// </summary>
-    private void Start()
+    protected virtual void Start()
     {
         activeHUD = FindObjectsByType<HUDController>(FindObjectsInactive.Include, FindObjectsSortMode.None)[0];
     }
@@ -38,76 +35,18 @@ public class DialogueInteractable : MonoBehaviour
     /// <returns>True if there is dialogue remaining, false if the displayed line is the last in the conversation.</returns>
     public bool ContinueDialogue()
     {
-        if (interactableName == "Old Man")
+        activeHUD.ShowDialogue(currentDialogue.dialogueText[currentDialogueLocation], currentDialogue.dialogueAudio[currentDialogueLocation], interactableName);
+        Animate();
+
+        currentDialogueLocation++;
+
+        if (currentDialogue.dialogueText.Length == currentDialogueLocation)
         {
-            oldMan = GameObject.FindGameObjectWithTag("OldMan");
-            bool active = oldMan.GetComponentInChildren<OldMan>().active;
-            DialogueObject curDialogue = active ? secondDialogue : currentDialogue;
-
-            activeHUD.ShowDialogue(curDialogue.dialogueText[currentDialogueLocation], curDialogue.dialogueAudio[currentDialogueLocation], interactableName);
-
-            currentDialogueLocation++;
-
-            if (!active && currentDialogueLocation == 4)
-            {
-                GameObject player = GameObject.FindGameObjectWithTag("Player");
-                player.GetComponent<PlayerMove>().starterDialogue = false;
-                player.GetComponent<Animator>().SetBool("WakeUp", true);
-                player.GetComponent<Animator>().SetBool("Sleep", false);
-                oldMan.GetComponent<Animator>().SetBool("Talk", true);
-            }
-            if (active)
-            {
-                oldMan.GetComponent<Animator>().SetBool("Talk", true);
-            }
-
-            if (curDialogue.dialogueText.Length == currentDialogueLocation)
-            {
-                
-                if (!active)
-                { oldMan.GetComponentInChildren<OldMan>().active = true; }
-                // no more remaining lines
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
-        if (interactableName == "Aretbrot")
-        {
-            GameObject uncle = GameObject.FindGameObjectWithTag("Uncle");
-
-            activeHUD.ShowDialogue(currentDialogue.dialogueText[currentDialogueLocation], currentDialogue.dialogueAudio[currentDialogueLocation], interactableName);
-
-            currentDialogueLocation++;
-
-            if (currentDialogue.dialogueText.Length == currentDialogueLocation)
-            {
-                // no more remaining lines
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return false;
         }
         else
         {
-
-            activeHUD.ShowDialogue(currentDialogue.dialogueText[currentDialogueLocation], currentDialogue.dialogueAudio[currentDialogueLocation], interactableName);
-
-            currentDialogueLocation++;
-
-            if (currentDialogue.dialogueText.Length == currentDialogueLocation)
-            {
-                // no more remaining lines
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return true;
         }
     }
 
@@ -116,19 +55,8 @@ public class DialogueInteractable : MonoBehaviour
     /// </summary>
     public void EndDialogue()
     {
-        if (interactableName == "Old Man")
-        {
-            oldMan.GetComponent<Animator>().SetBool("Talk", false);
-        }
-        if (interactableName == "Aretbrot")
-        {
-            GameObject.FindGameObjectWithTag("Uncle").GetComponent<Animator>().SetBool("DieBitch", true);
-            Destroy(gameObject);
-            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>().hasSword = true;
-            GameObject.FindGameObjectWithTag("Player").GetComponent<DialogueInitiator>().currentDialogueInteractable = null;
-            GameObject.FindGameObjectWithTag("Player").GetComponent<DialogueInitiator>().interactionIndicator.SetActive(false);
-        }
         activeHUD.HideDialogue();
+        EndAnimate();
         currentDialogueLocation = 0;
         UpdateCurrentDialogue();
     }
@@ -136,9 +64,22 @@ public class DialogueInteractable : MonoBehaviour
     /// <summary>
     /// Override this method to control how and when the currentDialogue updates and changes.
     /// </summary>
-    public virtual void UpdateCurrentDialogue()
+    protected virtual void UpdateCurrentDialogue()
     {
-        
+
+    }
+
+    /// <summary>
+    /// Override this method to control animations tied to dialogue.
+    /// </summary>
+    protected virtual void Animate()
+    {
+
+    }
+
+    protected virtual void EndAnimate()
+    {
+
     }
 
     #endregion

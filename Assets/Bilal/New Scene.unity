@@ -10236,12 +10236,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 419457361}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 525d556c355ccfc40a68abc2b9ea2917, type: 3}
+  m_Script: {fileID: 11500000, guid: 7e164f8a661fa2d4988864e7a20c83ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   interactableName: Aretbrot
   currentDialogue: {fileID: 11400000, guid: d47342ba43b97ce4f8261f539458b31b, type: 2}
-  secondDialogue: {fileID: 0}
+  aretBrot: {fileID: 0}
 --- !u!1001 &422996283
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20113,7 +20113,6 @@ GameObject:
   - component: {fileID: 1237336767}
   - component: {fileID: 1237336765}
   - component: {fileID: 1237336768}
-  - component: {fileID: 1237336769}
   m_Layer: 0
   m_Name: OldManTrigger
   m_TagString: Untagged
@@ -20174,25 +20173,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1237336763}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 525d556c355ccfc40a68abc2b9ea2917, type: 3}
+  m_Script: {fileID: 11500000, guid: e610757705bb10149bd78e1923909056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   interactableName: Old Man
   currentDialogue: {fileID: 11400000, guid: 045d80cbb9a138942bb798dd0b56d701, type: 2}
-  secondDialogue: {fileID: 11400000, guid: 9c33b816cf84da943ad6c9853ec887e7, type: 2}
---- !u!114 &1237336769
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1237336763}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa57f532bd9ebdd49a862ab1ee99f005, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  active: 0
+  dialogueObjects:
+  - {fileID: 11400000, guid: 045d80cbb9a138942bb798dd0b56d701, type: 2}
+  - {fileID: 11400000, guid: 9c33b816cf84da943ad6c9853ec887e7, type: 2}
+  - {fileID: 11400000, guid: 8958aaee7a79e2a4cbdb3ac22bfb3cae, type: 2}
+  - {fileID: 11400000, guid: 1c6d34d7c397ab748bb0b75819a2069c, type: 2}
+  currentDialogueObject: 0
+  oldMan: {fileID: 0}
 --- !u!1001 &1241605069
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -35642,12 +35634,12 @@ PrefabInstance:
     - target: {fileID: 4965885825406930371, guid: c01bbbdcb1168bf4abaf063376298a17,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4965885825406930371, guid: c01bbbdcb1168bf4abaf063376298a17,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8647850870716171860, guid: c01bbbdcb1168bf4abaf063376298a17,
         type: 3}
@@ -35657,7 +35649,7 @@ PrefabInstance:
     - target: {fileID: 8647850870716171860, guid: c01bbbdcb1168bf4abaf063376298a17,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
