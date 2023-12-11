@@ -114,7 +114,7 @@ public class EnemyAI : MonoBehaviour
         if (!alreadyAttacked)
         {
             //melee attack (basically just deals damage to the player since we're in attack range)
-            GetComponent<PlayerAnimate>().meleePunch(player.GetComponent<CapsuleCollider>(), attackDamage);
+            GetComponent<EnemyAnimator>().meleePunch(player.GetComponent<CapsuleCollider>(), attackDamage);
 
 
             alreadyAttacked = true;

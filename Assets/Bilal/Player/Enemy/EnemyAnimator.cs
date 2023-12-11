@@ -7,7 +7,8 @@ public class EnemyAnimator : MonoBehaviour
 {
 
     private Animator playerAnimator;
-       public float enemySpeed = 1f;
+    public float enemySpeed = 1f;
+    public bool punch;
 // Start is called before the first frame update
 void Start()
     {
@@ -27,5 +28,26 @@ void Start()
             playerAnimator.SetBool("Walk", false);
         }
         Debug.Log("Enemy: " + GetComponent<NavMeshAgent>().velocity.magnitude);
+
+        if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Punch") && GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
+        {
+            punch = false;
+            GetComponent<Animator>().SetBool("Punch", punch);
+        }
+    }
+
+    public void meleePunch(Collider target, float attackDamage)
+    {
+        Debug.Log(target.gameObject.name);
+        if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Walk") && !punch)
+        {
+            punch = true;
+            
+
+            GetComponent<Animator>().SetBool("Punch", true);
+            
+
+            target.GetComponent<HP>().DealDamage(attackDamage);
+        }
     }
 }
