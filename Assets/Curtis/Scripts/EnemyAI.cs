@@ -57,7 +57,7 @@ public class EnemyAI : MonoBehaviour
             playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
     
             if(!playerInSightRange && !playerInAttackRange) { Patrolling(); }
-            if(playerInSightRange && !playerInAttackRange) { ChasePlayer(); }
+            if(playerInSightRange && !playerInAttackRange && player.gameObject.GetComponent<PlayerMove>().canMove) { ChasePlayer(); }
             if (playerInSightRange && playerInAttackRange && !player.gameObject.GetComponent<PlayerMove>().body && player.gameObject.GetComponent<PlayerMove>().canMove) { AttackPlayer(); }
         }
 

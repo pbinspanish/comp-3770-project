@@ -41,7 +41,7 @@ public class AIBulletGen : MonoBehaviour
                 summoned = true;
             }
         }
-        if (parent.GetComponent<HP>().health <= 0 || parent.GetComponent<EnemyAI>().playerInSightRange == false)
+        if ((parent.GetComponent<HP>().health <= 0 || parent.GetComponent<EnemyAI>().playerInSightRange == false)&&summoned)
         {
             Debug.Log("Hi i'm gonna stop");
             CancelInvoke();

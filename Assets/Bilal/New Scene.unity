@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 1ab8b9e6e5c09b546bce2079fb367cbe, type: 2}
 --- !u!1 &5038
 GameObject:
   m_ObjectHideFlags: 0
@@ -152,7 +152,7 @@ Transform:
   m_GameObject: {fileID: 5038}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.81, y: -4.291268, z: -7.14}
+  m_LocalPosition: {x: 0.81, y: -4.291268, z: -12.89}
   m_LocalScale: {x: 90.279854, y: 12.373, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -914,7 +914,6 @@ Transform:
   m_Children:
   - {fileID: 1701382497}
   - {fileID: 615312082}
-  - {fileID: 1880957924}
   - {fileID: 115640413}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1813,19 +1812,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b9370a2d43ff454eb98a761e7dae748, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 0}
+  agent: {fileID: 128385596}
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 65536
   whatIsPlayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 0
-  timeBetweenAttacks: 0
-  attackDamage: 0
-  sightRange: 0
-  attackRange: 0
+  timeBetweenAttacks: 0.5
+  attackDamage: 10
+  sightRange: 10
+  attackRange: 1
   playerInSightRange: 0
   playerInAttackRange: 0
   gotPlayer: 0
@@ -1890,7 +1889,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 0
-  maxHealth: 100
+  maxHealth: 20
   treatAsPlayer: 0
 --- !u!114 &128385599
 MonoBehaviour:
@@ -9787,19 +9786,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b9370a2d43ff454eb98a761e7dae748, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 0}
+  agent: {fileID: 392261164}
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 65536
   whatIsPlayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 0
-  timeBetweenAttacks: 0
-  attackDamage: 0
-  sightRange: 0
-  attackRange: 0
+  timeBetweenAttacks: 0.5
+  attackDamage: 10
+  sightRange: 10
+  attackRange: 1
   playerInSightRange: 0
   playerInAttackRange: 0
   gotPlayer: 0
@@ -9864,7 +9863,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 0
-  maxHealth: 100
+  maxHealth: 20
   treatAsPlayer: 0
 --- !u!114 &392261167
 MonoBehaviour:
@@ -10446,19 +10445,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b9370a2d43ff454eb98a761e7dae748, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 0}
+  agent: {fileID: 430704491}
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 65536
   whatIsPlayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 0
-  timeBetweenAttacks: 0
-  attackDamage: 0
-  sightRange: 0
-  attackRange: 0
+  timeBetweenAttacks: 0.5
+  attackDamage: 10
+  sightRange: 10
+  attackRange: 1
   playerInSightRange: 0
   playerInAttackRange: 0
   gotPlayer: 0
@@ -10523,7 +10522,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 0
-  maxHealth: 100
+  maxHealth: 20
   treatAsPlayer: 0
 --- !u!114 &430704494
 MonoBehaviour:
@@ -17854,19 +17853,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b9370a2d43ff454eb98a761e7dae748, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 0}
+  agent: {fileID: 1088568629}
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 65536
   whatIsPlayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 0
-  timeBetweenAttacks: 0
-  attackDamage: 0
-  sightRange: 0
-  attackRange: 0
+  timeBetweenAttacks: 0.5
+  attackDamage: 10
+  sightRange: 10
+  attackRange: 1
   playerInSightRange: 0
   playerInAttackRange: 0
   gotPlayer: 0
@@ -17931,7 +17930,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 0
-  maxHealth: 100
+  maxHealth: 20
   treatAsPlayer: 0
 --- !u!114 &1088568632
 MonoBehaviour:
@@ -21116,6 +21115,134 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1317560902}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1326768402
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 94273296486357192, guid: 80e93679fbb00e44693912ce8b467637,
+        type: 3}
+      propertyPath: world
+      value: 
+      objectReference: {fileID: 65919867}
+    - target: {fileID: 420132085707762341, guid: 80e93679fbb00e44693912ce8b467637,
+        type: 3}
+      propertyPath: m_Name
+      value: Vermal
+      objectReference: {fileID: 0}
+    - target: {fileID: 717852742102633302, guid: 80e93679fbb00e44693912ce8b467637,
+        type: 3}
+      propertyPath: world
+      value: 
+      objectReference: {fileID: 65919867}
+    - target: {fileID: 967619498436481936, guid: 80e93679fbb00e44693912ce8b467637,
+        type: 3}
+      propertyPath: health
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410092906822586285, guid: 80e93679fbb00e44693912ce8b467637,
+        type: 3}
+      propertyPath: health
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 1418463510380291419, guid: 80e93679fbb00e44693912ce8b467637,
+        type: 3}
+      propertyPath: maxHealth
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 2110602041593916225, guid: 80e93679fbb00e44693912ce8b467637,
+        type: 3}
+      propertyPath: rageSpeed
+      value: 7.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2110602041593916225, guid: 80e93679fbb00e44693912ce8b467637,
+        type: 3}
+      propertyPath: attackRange
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2110602041593916225, guid: 80e93679fbb00e44693912ce8b467637,
+        type: 3}
+      propertyPath: attackDamage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2547943130154490741, guid: 80e93679fbb00e44693912ce8b467637,
+        type: 3}
+      propertyPath: world
+      value: 
+      objectReference: {fileID: 65919867}
+    - target: {fileID: 3893975976971204463, guid: 80e93679fbb00e44693912ce8b467637,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 54
+      objectReference: {fileID: 0}
+    - target: {fileID: 3893975976971204463, guid: 80e93679fbb00e44693912ce8b467637,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.57
+      objectReference: {fileID: 0}
+    - target: {fileID: 3893975976971204463, guid: 80e93679fbb00e44693912ce8b467637,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 230.62
+      objectReference: {fileID: 0}
+    - target: {fileID: 3893975976971204463, guid: 80e93679fbb00e44693912ce8b467637,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3893975976971204463, guid: 80e93679fbb00e44693912ce8b467637,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3893975976971204463, guid: 80e93679fbb00e44693912ce8b467637,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3893975976971204463, guid: 80e93679fbb00e44693912ce8b467637,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3893975976971204463, guid: 80e93679fbb00e44693912ce8b467637,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3893975976971204463, guid: 80e93679fbb00e44693912ce8b467637,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3893975976971204463, guid: 80e93679fbb00e44693912ce8b467637,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5256805402186524425, guid: 80e93679fbb00e44693912ce8b467637,
+        type: 3}
+      propertyPath: health
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 8364642295600717780, guid: 80e93679fbb00e44693912ce8b467637,
+        type: 3}
+      propertyPath: health
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 8865285237662036071, guid: 80e93679fbb00e44693912ce8b467637,
+        type: 3}
+      propertyPath: world
+      value: 
+      objectReference: {fileID: 65919867}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 80e93679fbb00e44693912ce8b467637, type: 3}
 --- !u!1001 &1334950782
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30279,19 +30406,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b9370a2d43ff454eb98a761e7dae748, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 0}
+  agent: {fileID: 1586235754}
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 65536
   whatIsPlayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 0
-  timeBetweenAttacks: 0
-  attackDamage: 0
-  sightRange: 0
-  attackRange: 0
+  timeBetweenAttacks: 0.5
+  attackDamage: 10
+  sightRange: 10
+  attackRange: 1
   playerInSightRange: 0
   playerInAttackRange: 0
   gotPlayer: 0
@@ -30356,7 +30483,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 0
-  maxHealth: 100
+  maxHealth: 20
   treatAsPlayer: 0
 --- !u!114 &1586235757
 MonoBehaviour:
@@ -31372,19 +31499,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b9370a2d43ff454eb98a761e7dae748, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 0}
+  agent: {fileID: 1633126169}
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 65536
   whatIsPlayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 0
-  timeBetweenAttacks: 0
-  attackDamage: 0
-  sightRange: 0
-  attackRange: 0
+  timeBetweenAttacks: 0.5
+  attackDamage: 10
+  sightRange: 10
+  attackRange: 1
   playerInSightRange: 0
   playerInAttackRange: 0
   gotPlayer: 0
@@ -31449,7 +31576,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 0
-  maxHealth: 100
+  maxHealth: 20
   treatAsPlayer: 0
 --- !u!114 &1633126172
 MonoBehaviour:
@@ -32089,11 +32216,11 @@ Transform:
   - {fileID: 5039}
   - {fileID: 2131428195}
   - {fileID: 392261162}
-  - {fileID: 1633126167}
   - {fileID: 1088568627}
   - {fileID: 128385594}
   - {fileID: 1586235752}
   - {fileID: 430704489}
+  - {fileID: 1633126167}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1670970046 stripped
@@ -34979,80 +35106,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ba173c92cc4322b47af71240bac4b632, type: 3}
---- !u!1001 &1880957923
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 65919868}
-    m_Modifications:
-    - target: {fileID: 420132085707762341, guid: 80e93679fbb00e44693912ce8b467637,
-        type: 3}
-      propertyPath: m_Name
-      value: Vermal
-      objectReference: {fileID: 0}
-    - target: {fileID: 3893975976971204463, guid: 80e93679fbb00e44693912ce8b467637,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -9.29
-      objectReference: {fileID: 0}
-    - target: {fileID: 3893975976971204463, guid: 80e93679fbb00e44693912ce8b467637,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -7.523313
-      objectReference: {fileID: 0}
-    - target: {fileID: 3893975976971204463, guid: 80e93679fbb00e44693912ce8b467637,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 12.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 3893975976971204463, guid: 80e93679fbb00e44693912ce8b467637,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.67295474
-      objectReference: {fileID: 0}
-    - target: {fileID: 3893975976971204463, guid: 80e93679fbb00e44693912ce8b467637,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3893975976971204463, guid: 80e93679fbb00e44693912ce8b467637,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0.73968375
-      objectReference: {fileID: 0}
-    - target: {fileID: 3893975976971204463, guid: 80e93679fbb00e44693912ce8b467637,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3893975976971204463, guid: 80e93679fbb00e44693912ce8b467637,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3893975976971204463, guid: 80e93679fbb00e44693912ce8b467637,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -95.409
-      objectReference: {fileID: 0}
-    - target: {fileID: 3893975976971204463, guid: 80e93679fbb00e44693912ce8b467637,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 80e93679fbb00e44693912ce8b467637, type: 3}
---- !u!4 &1880957924 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3893975976971204463, guid: 80e93679fbb00e44693912ce8b467637,
-    type: 3}
-  m_PrefabInstance: {fileID: 1880957923}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1882813376
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36924,6 +36977,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1078351835321466, guid: 1c16b86f32e988744971baadd73ed4ec, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1078351835321466, guid: 1c16b86f32e988744971baadd73ed4ec, type: 3}
       propertyPath: m_TagString
       value: BossWall
       objectReference: {fileID: 0}
@@ -37377,19 +37434,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b9370a2d43ff454eb98a761e7dae748, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 0}
+  agent: {fileID: 2131428199}
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 65536
   whatIsPlayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 0
-  timeBetweenAttacks: 0
-  attackDamage: 0
-  sightRange: 0
-  attackRange: 0
+  timeBetweenAttacks: 0.5
+  attackDamage: 10
+  sightRange: 10
+  attackRange: 3
   playerInSightRange: 0
   playerInAttackRange: 0
   gotPlayer: 0
@@ -37454,7 +37511,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 0
-  maxHealth: 100
+  maxHealth: 20
   treatAsPlayer: 0
 --- !u!1 &2135594929 stripped
 GameObject:
@@ -37666,6 +37723,7 @@ SceneRoots:
   - {fileID: 1414066410}
   - {fileID: 529372058}
   - {fileID: 1669144152}
+  - {fileID: 1326768402}
   - {fileID: 1488605122}
   - {fileID: 29312050}
   - {fileID: 65919868}

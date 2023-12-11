@@ -823,6 +823,7 @@ MonoBehaviour:
   walkSpeed: 1
   runSpeed: 1.3
   enemySpeed: 1
+  punch: 0
 --- !u!95 &35492794
 Animator:
   serializedVersion: 5
@@ -917,7 +918,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 35492797}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 65536
@@ -963,6 +963,7 @@ MonoBehaviour:
   walkSpeed: 1
   runSpeed: 1.3
   enemySpeed: 1
+  punch: 0
 --- !u!95 &63638512
 Animator:
   serializedVersion: 5
@@ -1057,7 +1058,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 63638515}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 65536
@@ -2415,6 +2415,7 @@ MonoBehaviour:
   walkSpeed: 1
   runSpeed: 1.3
   enemySpeed: 1
+  punch: 0
 --- !u!95 &146340674
 Animator:
   serializedVersion: 5
@@ -2509,7 +2510,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 146340677}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 65536
@@ -4227,6 +4227,7 @@ MonoBehaviour:
   walkSpeed: 1
   runSpeed: 1.3
   enemySpeed: 1
+  punch: 0
 --- !u!95 &189977353
 Animator:
   serializedVersion: 5
@@ -4321,7 +4322,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 189977356}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 65536
@@ -14023,6 +14023,7 @@ MonoBehaviour:
   walkSpeed: 1
   runSpeed: 1.3
   enemySpeed: 1
+  punch: 0
 --- !u!95 &235215444
 Animator:
   serializedVersion: 5
@@ -14117,7 +14118,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 235215447}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 65536
@@ -15767,6 +15767,93 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1924241244}
   m_SourcePrefab: {fileID: 100100000, guid: 4a148106791da484f974485eaa8822f9, type: 3}
+--- !u!1001 &348440566
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1671849772}
+    m_Modifications:
+    - target: {fileID: 564212813273325887, guid: cd74bc925c10fc94fb26695b645505bf,
+        type: 3}
+      propertyPath: m_Name
+      value: Bench
+      objectReference: {fileID: 0}
+    - target: {fileID: 3317286419666199649, guid: cd74bc925c10fc94fb26695b645505bf,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.1839445
+      objectReference: {fileID: 0}
+    - target: {fileID: 3317286419666199649, guid: cd74bc925c10fc94fb26695b645505bf,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2.7844293
+      objectReference: {fileID: 0}
+    - target: {fileID: 3317286419666199649, guid: cd74bc925c10fc94fb26695b645505bf,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.1839445
+      objectReference: {fileID: 0}
+    - target: {fileID: 3317286419666199649, guid: cd74bc925c10fc94fb26695b645505bf,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.22348699
+      objectReference: {fileID: 0}
+    - target: {fileID: 3317286419666199649, guid: cd74bc925c10fc94fb26695b645505bf,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3317286419666199649, guid: cd74bc925c10fc94fb26695b645505bf,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.46177548
+      objectReference: {fileID: 0}
+    - target: {fileID: 3317286419666199649, guid: cd74bc925c10fc94fb26695b645505bf,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.67483187
+      objectReference: {fileID: 0}
+    - target: {fileID: 3317286419666199649, guid: cd74bc925c10fc94fb26695b645505bf,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3317286419666199649, guid: cd74bc925c10fc94fb26695b645505bf,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.73797154
+      objectReference: {fileID: 0}
+    - target: {fileID: 3317286419666199649, guid: cd74bc925c10fc94fb26695b645505bf,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3317286419666199649, guid: cd74bc925c10fc94fb26695b645505bf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3317286419666199649, guid: cd74bc925c10fc94fb26695b645505bf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3317286419666199649, guid: cd74bc925c10fc94fb26695b645505bf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 564212813273325887, guid: cd74bc925c10fc94fb26695b645505bf,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2146931951}
+  m_SourcePrefab: {fileID: 100100000, guid: cd74bc925c10fc94fb26695b645505bf, type: 3}
 --- !u!1 &357262829 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 4a148106791da484f974485eaa8822f9,
@@ -15794,6 +15881,7 @@ MonoBehaviour:
   walkSpeed: 1
   runSpeed: 1.3
   enemySpeed: 1
+  punch: 0
 --- !u!95 &357262832
 Animator:
   serializedVersion: 5
@@ -15888,7 +15976,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 357262835}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 65536
@@ -15934,6 +16021,7 @@ MonoBehaviour:
   walkSpeed: 1
   runSpeed: 1.3
   enemySpeed: 1
+  punch: 0
 --- !u!95 &364074854
 Animator:
   serializedVersion: 5
@@ -16028,7 +16116,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 364074857}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 65536
@@ -16290,6 +16377,7 @@ MonoBehaviour:
   walkSpeed: 1
   runSpeed: 1.3
   enemySpeed: 1
+  punch: 0
 --- !u!95 &426664016
 Animator:
   serializedVersion: 5
@@ -16384,7 +16472,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 426664019}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 65536
@@ -21347,6 +21434,7 @@ MonoBehaviour:
   walkSpeed: 1
   runSpeed: 1.3
   enemySpeed: 1
+  punch: 0
 --- !u!95 &493919450
 Animator:
   serializedVersion: 5
@@ -21441,7 +21529,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 493919453}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 65536
@@ -21487,6 +21574,7 @@ MonoBehaviour:
   walkSpeed: 1
   runSpeed: 1.3
   enemySpeed: 1
+  punch: 0
 --- !u!95 &496547547
 Animator:
   serializedVersion: 5
@@ -21581,7 +21669,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 496547550}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 65536
@@ -22598,6 +22685,7 @@ MonoBehaviour:
   walkSpeed: 1
   runSpeed: 1.3
   enemySpeed: 1
+  punch: 0
 --- !u!95 &639480287
 Animator:
   serializedVersion: 5
@@ -22692,7 +22780,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 639480290}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 65536
@@ -23861,6 +23948,7 @@ MonoBehaviour:
   walkSpeed: 1
   runSpeed: 1.3
   enemySpeed: 1
+  punch: 0
 --- !u!95 &758589904
 Animator:
   serializedVersion: 5
@@ -23955,7 +24043,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 758589907}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 65536
@@ -24001,6 +24088,7 @@ MonoBehaviour:
   walkSpeed: 1
   runSpeed: 1.3
   enemySpeed: 1
+  punch: 0
 --- !u!95 &773489825
 Animator:
   serializedVersion: 5
@@ -24095,7 +24183,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 773489828}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 65536
@@ -25938,6 +26025,7 @@ MonoBehaviour:
   walkSpeed: 1
   runSpeed: 1.3
   enemySpeed: 1
+  punch: 0
 --- !u!95 &915752090
 Animator:
   serializedVersion: 5
@@ -26032,7 +26120,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 915752093}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 65536
@@ -27756,6 +27843,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactableName: josiah (the idiot)
   currentDialogue: {fileID: 11400000, guid: 859e3411c9d1e0c4fa01791a53d036ef, type: 2}
+  secondDialogue: {fileID: 0}
 --- !u!1 &1058967032 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 4a148106791da484f974485eaa8822f9,
@@ -27783,6 +27871,7 @@ MonoBehaviour:
   walkSpeed: 1
   runSpeed: 1.3
   enemySpeed: 1
+  punch: 0
 --- !u!95 &1058967035
 Animator:
   serializedVersion: 5
@@ -27877,7 +27966,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 1058967038}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 65536
@@ -27923,6 +28011,7 @@ MonoBehaviour:
   walkSpeed: 1
   runSpeed: 1.3
   enemySpeed: 1
+  punch: 0
 --- !u!95 &1066434757
 Animator:
   serializedVersion: 5
@@ -28017,7 +28106,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 1066434760}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 65536
@@ -28036,6 +28124,95 @@ MonoBehaviour:
   healthObj: {fileID: 0}
   rageSpeed: 7
   rageDamage: 15
+--- !u!1001 &1074250018
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: e7917cc32c28c7047b97d3a9a4a4c0ff,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 106.23
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e7917cc32c28c7047b97d3a9a4a4c0ff,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.00000047683716
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e7917cc32c28c7047b97d3a9a4a4c0ff,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 453.1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e7917cc32c28c7047b97d3a9a4a4c0ff,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.05270469
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e7917cc32c28c7047b97d3a9a4a4c0ff,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e7917cc32c28c7047b97d3a9a4a4c0ff,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.9986102
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e7917cc32c28c7047b97d3a9a4a4c0ff,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e7917cc32c28c7047b97d3a9a4a4c0ff,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e7917cc32c28c7047b97d3a9a4a4c0ff,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 186.042
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e7917cc32c28c7047b97d3a9a4a4c0ff,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e7917cc32c28c7047b97d3a9a4a4c0ff,
+        type: 3}
+      propertyPath: m_Name
+      value: OldMan
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e7917cc32c28c7047b97d3a9a4a4c0ff,
+        type: 3}
+      propertyPath: m_TagString
+      value: OldMan
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: e7917cc32c28c7047b97d3a9a4a4c0ff,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1954047116}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: e7917cc32c28c7047b97d3a9a4a4c0ff,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2146931950}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e7917cc32c28c7047b97d3a9a4a4c0ff,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1671849771}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e7917cc32c28c7047b97d3a9a4a4c0ff,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1671849770}
+  m_SourcePrefab: {fileID: 100100000, guid: e7917cc32c28c7047b97d3a9a4a4c0ff, type: 3}
 --- !u!1 &1093924733 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 4a148106791da484f974485eaa8822f9,
@@ -28063,6 +28240,7 @@ MonoBehaviour:
   walkSpeed: 1
   runSpeed: 1.3
   enemySpeed: 1
+  punch: 0
 --- !u!95 &1093924736
 Animator:
   serializedVersion: 5
@@ -28157,7 +28335,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 1093924739}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 65536
@@ -28286,6 +28463,7 @@ MonoBehaviour:
   walkSpeed: 1
   runSpeed: 1.3
   enemySpeed: 1
+  punch: 0
 --- !u!95 &1105287476
 Animator:
   serializedVersion: 5
@@ -28380,7 +28558,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 1105287479}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 65536
@@ -28937,6 +29114,7 @@ MonoBehaviour:
   walkSpeed: 1
   runSpeed: 1.3
   enemySpeed: 1
+  punch: 0
 --- !u!95 &1128400648
 Animator:
   serializedVersion: 5
@@ -29031,7 +29209,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 1128400651}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 65536
@@ -29484,6 +29661,7 @@ MonoBehaviour:
   walkSpeed: 1
   runSpeed: 1.3
   enemySpeed: 1
+  punch: 0
 --- !u!95 &1161866518
 Animator:
   serializedVersion: 5
@@ -29578,7 +29756,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 1161866521}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 65536
@@ -29624,6 +29801,7 @@ MonoBehaviour:
   walkSpeed: 1
   runSpeed: 1.3
   enemySpeed: 1
+  punch: 0
 --- !u!95 &1182586443
 Animator:
   serializedVersion: 5
@@ -29718,7 +29896,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 1182586446}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 65536
@@ -31917,6 +32094,7 @@ MonoBehaviour:
   walkSpeed: 1
   runSpeed: 1.3
   enemySpeed: 1
+  punch: 0
 --- !u!95 &1319727349
 Animator:
   serializedVersion: 5
@@ -32011,7 +32189,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 1319727352}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 65536
@@ -32568,6 +32745,7 @@ MonoBehaviour:
   walkSpeed: 1
   runSpeed: 1.3
   enemySpeed: 1
+  punch: 0
 --- !u!95 &1336984771
 Animator:
   serializedVersion: 5
@@ -32662,7 +32840,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 1336984774}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 65536
@@ -34253,6 +34430,7 @@ MonoBehaviour:
   walkSpeed: 1
   runSpeed: 1.3
   enemySpeed: 1
+  punch: 0
 --- !u!95 &1424695606
 Animator:
   serializedVersion: 5
@@ -34347,7 +34525,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 1424695609}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 65536
@@ -34393,6 +34570,7 @@ MonoBehaviour:
   walkSpeed: 1
   runSpeed: 1.3
   enemySpeed: 1
+  punch: 0
 --- !u!95 &1431626563
 Animator:
   serializedVersion: 5
@@ -34487,7 +34665,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 1431626566}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 65536
@@ -34595,6 +34772,7 @@ MonoBehaviour:
   walkSpeed: 1
   runSpeed: 1.3
   enemySpeed: 1
+  punch: 0
 --- !u!95 &1439731480
 Animator:
   serializedVersion: 5
@@ -34689,7 +34867,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 1439731483}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 65536
@@ -34797,6 +34974,7 @@ MonoBehaviour:
   walkSpeed: 1
   runSpeed: 1.3
   enemySpeed: 1
+  punch: 0
 --- !u!95 &1472935925
 Animator:
   serializedVersion: 5
@@ -34891,7 +35069,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 1472935928}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 65536
@@ -35026,6 +35203,7 @@ MonoBehaviour:
   walkSpeed: 1
   runSpeed: 1.3
   enemySpeed: 1
+  punch: 0
 --- !u!95 &1484414895
 Animator:
   serializedVersion: 5
@@ -35120,7 +35298,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 1484414898}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 65536
@@ -35166,6 +35343,7 @@ MonoBehaviour:
   walkSpeed: 1
   runSpeed: 1.3
   enemySpeed: 1
+  punch: 0
 --- !u!95 &1505811588
 Animator:
   serializedVersion: 5
@@ -35260,7 +35438,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 1505811591}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 65536
@@ -36467,6 +36644,7 @@ MonoBehaviour:
   walkSpeed: 1
   runSpeed: 1.3
   enemySpeed: 1
+  punch: 0
 --- !u!95 &1567183599
 Animator:
   serializedVersion: 5
@@ -36561,7 +36739,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 1567183602}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 65536
@@ -38367,6 +38544,62 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 63638511}
   m_SourcePrefab: {fileID: 100100000, guid: 4a148106791da484f974485eaa8822f9, type: 3}
+--- !u!1 &1671849769 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e7917cc32c28c7047b97d3a9a4a4c0ff,
+    type: 3}
+  m_PrefabInstance: {fileID: 1074250018}
+  m_PrefabAsset: {fileID: 0}
+--- !u!136 &1671849770
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1671849769}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!95 &1671849771
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1671849769}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: bee560ae30167ef4f954495acd3c3dda, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!4 &1671849772 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e7917cc32c28c7047b97d3a9a4a4c0ff,
+    type: 3}
+  m_PrefabInstance: {fileID: 1074250018}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1702976510 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2484990822553217907, guid: 2c2b645b67fd1f84cbd37f1c078fe279,
@@ -46316,6 +46549,7 @@ MonoBehaviour:
   walkSpeed: 1
   runSpeed: 1.3
   enemySpeed: 1
+  punch: 0
 --- !u!95 &1924241245
 Animator:
   serializedVersion: 5
@@ -46410,7 +46644,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 1924241248}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 65536
@@ -46657,6 +46890,98 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1949245724}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1954047115
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1954047116}
+  - component: {fileID: 1954047120}
+  - component: {fileID: 1954047119}
+  - component: {fileID: 1954047118}
+  - component: {fileID: 1954047117}
+  m_Layer: 0
+  m_Name: OldManTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1954047116
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1954047115}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.04430988, z: -0, w: 0.99901783}
+  m_LocalPosition: {x: -0.48, y: 0.039, z: 1.83}
+  m_LocalScale: {x: 2.4021, y: 0.10627, z: 3.818689}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1671849772}
+  m_LocalEulerAnglesHint: {x: 0, y: -5.079, z: 0}
+--- !u!114 &1954047117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1954047115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa57f532bd9ebdd49a862ab1ee99f005, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  active: 0
+--- !u!114 &1954047118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1954047115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 525d556c355ccfc40a68abc2b9ea2917, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactableName: Old Man
+  currentDialogue: {fileID: 11400000, guid: 045d80cbb9a138942bb798dd0b56d701, type: 2}
+  secondDialogue: {fileID: 11400000, guid: 9c33b816cf84da943ad6c9853ec887e7, type: 2}
+--- !u!65 &1954047119
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1954047115}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!33 &1954047120
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1954047115}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1974428167
 GameObject:
   m_ObjectHideFlags: 0
@@ -46734,7 +47059,7 @@ Transform:
   m_GameObject: {fileID: 1974428167}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 99.72, y: 0.5, z: -89.19}
+  m_LocalPosition: {x: 106.53, y: 0.5, z: 449.12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -47278,6 +47603,7 @@ MonoBehaviour:
   walkSpeed: 1
   runSpeed: 1.3
   enemySpeed: 1
+  punch: 0
 --- !u!95 &2014528454
 Animator:
   serializedVersion: 5
@@ -47372,7 +47698,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 2014528457}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 65536
@@ -47418,6 +47743,7 @@ MonoBehaviour:
   walkSpeed: 1
   runSpeed: 1.3
   enemySpeed: 1
+  punch: 0
 --- !u!95 &2038663084
 Animator:
   serializedVersion: 5
@@ -47512,7 +47838,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 2038663087}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 65536
@@ -47558,6 +47883,7 @@ MonoBehaviour:
   walkSpeed: 1
   runSpeed: 1.3
   enemySpeed: 1
+  punch: 0
 --- !u!95 &2041228029
 Animator:
   serializedVersion: 5
@@ -47652,7 +47978,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 2041228032}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 65536
@@ -47842,6 +48167,7 @@ MonoBehaviour:
   walkSpeed: 1
   runSpeed: 1.3
   enemySpeed: 1
+  punch: 0
 --- !u!95 &2114240652
 Animator:
   serializedVersion: 5
@@ -47936,7 +48262,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 2114240655}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 65536
@@ -48160,6 +48485,7 @@ MonoBehaviour:
   walkSpeed: 1
   runSpeed: 1.3
   enemySpeed: 1
+  punch: 0
 --- !u!95 &2142046942
 Animator:
   serializedVersion: 5
@@ -48254,7 +48580,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 2142046945}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 65536
@@ -48273,6 +48598,39 @@ MonoBehaviour:
   healthObj: {fileID: 0}
   rageSpeed: 7
   rageDamage: 15
+--- !u!1 &2146931949 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 564212813273325887, guid: cd74bc925c10fc94fb26695b645505bf,
+    type: 3}
+  m_PrefabInstance: {fileID: 348440566}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2146931950 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3317286419666199649, guid: cd74bc925c10fc94fb26695b645505bf,
+    type: 3}
+  m_PrefabInstance: {fileID: 348440566}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &2146931951
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2146931949}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.65565425, y: 0.52647835, z: 2.3613193}
+  m_Center: {x: 0.00734121, y: -0.040100392, z: 0.0063489107}
 --- !u!1001 &3876905054382481818
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -49884,6 +50242,7 @@ SceneRoots:
   - {fileID: 475918321}
   - {fileID: 9083265941303878018}
   - {fileID: 1974428171}
+  - {fileID: 1074250018}
   - {fileID: 4956045166774423453}
   - {fileID: 1055044614}
   - {fileID: 645630947}

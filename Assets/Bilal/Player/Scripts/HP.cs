@@ -99,6 +99,7 @@ public class HP : MonoBehaviour
             {
                 GetComponent<Animator>().SetBool("DieBitch", true);
                 Destroy(GetComponent<Collider>());
+                Destroy(GetComponent<NavMeshAgent>());
                 GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>().zombieKill++;
             }
             else
