@@ -58,7 +58,7 @@ public class EnemyAI : MonoBehaviour
     
             if(!playerInSightRange && !playerInAttackRange) { Patrolling(); }
             if(playerInSightRange && !playerInAttackRange) { ChasePlayer(); }
-            if (playerInSightRange && playerInAttackRange) { AttackPlayer(); }
+            if (playerInSightRange && playerInAttackRange && !player.gameObject.GetComponent<PlayerMove>().body) { AttackPlayer(); }
         }
 
         if (healthObj.health <= healthObj.maxHealth / 2.0f)

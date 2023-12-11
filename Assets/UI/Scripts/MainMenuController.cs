@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// Contains definitions for methods called by buttons in the main menu.
@@ -25,6 +26,7 @@ public class MainMenuController : MonoBehaviour
     {
         FindObjectsByType<HUDController>(FindObjectsInactive.Include, FindObjectsSortMode.None)[0].gameObject.SetActive(true);
         GameObject player = Instantiate(playerPrefab, playerStartPosition.position, playerStartPosition.rotation);
+        Destroy(playerStartPosition.gameObject);
         Destroy(mainMenu);
     }
 

@@ -9,6 +9,11 @@ TagManager:
   - Checkpoint
   - Trap
   - TempNavMeshItemDestroyable
+  - Granny
+  - OldMan
+  - Sword
+  - SwordTrigger
+  - Uncle
   layers:
   - Default
   - TransparentFX

@@ -16,7 +16,7 @@ public class granny : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Debug.Log(transform.parent.gameObject.name);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -31,6 +31,11 @@ public class granny : MonoBehaviour
             gran.gameObject.GetComponent<Animator>().SetBool("Dance", true);
             player.GetComponent<Animator>().SetBool("Dance", true);
         }
+    }
+
+    public void destroy()
+    {
+        Destroy(gameObject);
     }
 
     private void OnDestroy()

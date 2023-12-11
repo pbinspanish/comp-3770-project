@@ -17,12 +17,14 @@ public class PlayerAnimate : MonoBehaviour
     //Animation Movement Direction
     private Vector3 animationDirection;
 
-    private bool punch;
+    public bool punch;
 
     // Start is called before the first frame update
     void Start()
     {
         playerAnimator = GetComponent<Animator>();
+        playerAnimator.SetBool("isGrounded", true);
+        playerAnimator.SetBool("Sleep", true);
     }
 
     // Update is called once per frame
@@ -33,6 +35,9 @@ public class PlayerAnimate : MonoBehaviour
             if (GetComponent<DialogueInitiator>().isInConversation)
             {
                 animationDirection = Vector3.zero;
+                playerAnimator.SetFloat("Vertical", 0f, 0.05f, Time.deltaTime);
+                playerAnimator.SetFloat("Horizontal", 0f, 0.05f, Time.deltaTime);
+                playerAnimator.SetBool("isGrounded", true);
             }
             else
             {
@@ -80,14 +85,28 @@ public class PlayerAnimate : MonoBehaviour
             punch = false;
             GetComponent<Animator>().SetBool("Punch", punch);
         }
+        if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("SwordAttack") && GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
+        {
+            punch = false;
+            GetComponent<Animator>().SetBool("Attack", punch);
+        }
     }
 
     public void meleePunch(Collider target, float attackDamage)
     {
+        Debug.Log(target.gameObject.name);
         if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("WalkBS") && !punch)
         {
             punch = true;
-            GetComponent<Animator>().SetBool("Punch", punch);
+            if (GetComponent<PlayerMove>().hasSword)
+            {
+                GetComponent<Animator>().SetBool("Attack", true);
+            }
+            else
+            {
+                GetComponent<Animator>().SetBool("Punch", true);
+            }
+            
             target.GetComponent<HP>().DealDamage(attackDamage);
         }
     }

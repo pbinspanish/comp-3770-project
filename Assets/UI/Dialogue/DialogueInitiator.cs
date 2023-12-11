@@ -15,8 +15,9 @@ public class DialogueInitiator : MonoBehaviour
     public bool hasConversationEnded = false;                       // true if there are no remaining lines of dialogue in the active conversation, false otherwise 
     public DialogueInteractable currentDialogueInteractable = null; // the current DialogueInteractable the DialogueInitator is either talking with or able to talk to
                                                                     // if this value is null there is no DialogueInteractable the DialogueInitiator can talk to
-    private GameObject interactionIndicator;                        // the parent object for the interaction indicator in the UI
+    public GameObject interactionIndicator;                        // the parent object for the interaction indicator in the UI
     private TextMeshProUGUI interactionIndicatorNameField;          // the name field for the interaction indicator
+
 
     #endregion
 

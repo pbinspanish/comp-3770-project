@@ -11,6 +11,7 @@ public class PlayerMove : MonoBehaviour
     [Header("References")]
     public Camera playerCamera; //used to move player forward in the direction facing the camera
     private static Rigidbody player; //player rigidbody
+    public GameObject prefab;
     private CapsuleCollider playerCollider; //player collider used to check if the player is grounded
 
     //Input
@@ -18,7 +19,7 @@ public class PlayerMove : MonoBehaviour
     private bool Run, Jump; //keys
 
     [Header("Movement")]
-    public bool canMove = true;
+    public bool canMove = false;
     public float walkSpeed = 100f;
     public float runSpeed = 200f;
     private float currentSpeed;
@@ -45,18 +46,42 @@ public class PlayerMove : MonoBehaviour
     public static Vector3 mouseHit;
     private static Vector3 spawnPosition;
 
+    public bool body;
+    GameObject deadBody;
+
+    public bool starterDialogue = true;
+    public bool hasSword = false;
+
     // Start is called before the first frame update
     void Start()
     {
+        GameObject.FindGameObjectWithTag("Sword").GetComponent<MeshRenderer>().enabled = false;
+        hasSword = false;
+        canMove = false;
         player = GetComponentInParent<Rigidbody>(); //reference
         playerCollider = GetComponentInParent<CapsuleCollider>();
+        prefab = transform.parent.gameObject;
         spawnPosition = transform.position;
         Cursor.visible = true; //make sure mouse cursor is visible
     }
 
     void Update()
     {
-        canMove = !GetComponent<DialogueInitiator>().isInConversation; // disable movement if the player is in a conversation
+        Debug.Log(isGrounded);
+        if (!starterDialogue && !body)
+        {
+            GetComponent<Animator>().SetBool("Sleep", false);
+            canMove = !GetComponent<DialogueInitiator>().isInConversation;
+        }
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            respawn();
+        }
+        if (hasSword)
+        {
+            GameObject.FindGameObjectWithTag("Sword").GetComponent<MeshRenderer>().enabled = true;
+            //respawn();
+        }
 
         if (canMove) { getInput(); } //get input if canMove is true
         else{
@@ -69,6 +94,17 @@ public class PlayerMove : MonoBehaviour
     void FixedUpdate()
     {
         if (canMove) { move(); } //move player if canMove is true
+        if (deadBody.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Death") && deadBody.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f && body)
+        {
+            body = false;
+            player.transform.position = spawnPosition;
+            foreach (var mesh in GetComponentsInChildren<SkinnedMeshRenderer>())
+            {
+                mesh.enabled = true;
+            }
+            GetComponentInChildren<MeshRenderer>().enabled = true;
+            canMove = true;
+        }
     }
 
     void move() //change velocity and rotation
@@ -206,9 +242,24 @@ public class PlayerMove : MonoBehaviour
         Debug.Log(checkSlope());
     }
 
-    public static void respawn()
+    public void respawn()
     {
-        player.transform.position = spawnPosition;
+        body = true;
+        canMove = false;
+        deadBody = Instantiate(gameObject, transform.position, transform.rotation);
+        foreach(var mesh in GetComponentsInChildren<SkinnedMeshRenderer>())
+        {
+            mesh.enabled = false;
+        }
+        GetComponentInChildren<MeshRenderer>().enabled = false;
+        deadBody.GetComponent<Animator>().SetBool("isGrounded", true);
+        deadBody.GetComponent<Animator>().SetBool("DieBitch", true);
+        Destroy(deadBody.GetComponent<PlayerMove>());
+        Destroy(deadBody.GetComponent<Rigidbody>());
+        Destroy(deadBody.GetComponent<ProjectileLauncher>());
+        Destroy(deadBody.GetComponent<Collider>());
+        Destroy(deadBody.GetComponent<HP>());
+        
     }
 
     void OnTriggerEnter(Collider other)
@@ -221,6 +272,16 @@ public class PlayerMove : MonoBehaviour
         if (other.gameObject.CompareTag("Respawn"))
         {
             respawn();
+        }
+
+    }
+   
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Trap"))
+        {
+            GetComponent<HP>().DealDamage(5f);
         }
     }
 

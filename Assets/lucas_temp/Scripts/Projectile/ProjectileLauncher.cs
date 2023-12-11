@@ -60,6 +60,7 @@ public class ProjectileLauncher : MonoBehaviour
                return;
           
           if (GetComponent<DialogueInitiator>().isInConversation) return; // don't fire a projectile if we're talking
+          if (!GetComponent<PlayerMove>().canMove) return;
 
           FireProjectile_Player();
      }

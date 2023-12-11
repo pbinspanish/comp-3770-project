@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 /// <summary>
 /// Contains the definition for an object with health.
 /// </summary>
 public class HP : MonoBehaviour
 {
+    private Animator animator;
+
     #region Variables
 
     // Data
@@ -23,6 +26,8 @@ public class HP : MonoBehaviour
 
     private void Start()
     {
+        animator = GetComponent<Animator>();
+
         health = maxHealth;
 
         if (treatAsPlayer)
@@ -48,8 +53,18 @@ public class HP : MonoBehaviour
     /// <param name="amount"></param>
     public void DealDamage(float amount)
     {
+        Debug.Log("Sword " + GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>().hasSword);
+        float damage = amount;
+        if (name == "Wall" && GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>().hasSword && GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerAnimate>().punch)
+        {
+            damage = 20f;
+        }
+        else if(name == "Wall" && !GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>().hasSword)
+        {
+            return;
+        }
         Debug.Log("Player: dealing " + amount + " damage");
-        health -= amount;
+        health -= damage;
         Debug.Log("Player: has " + health + " health");
 
         if (health <= 0)
@@ -66,11 +81,23 @@ public class HP : MonoBehaviour
         if (CompareTag("Player"))
         {
             health = maxHealth;
-            PlayerMove.respawn();
+            GetComponent<PlayerMove>().respawn();
+        }
+        else if (name == "Granny")
+        {
+            GetComponent<Animator>().SetBool("DieBitch", true);
+            Destroy(GetComponent<Collider>());
+            GetComponentInChildren<granny>().destroy();
+        }
+        else if (name == "Wall")
+        {
+            Destroy(gameObject);
         }
         else
         {
-            Destroy(gameObject);
+            animator.SetBool("DieBitch", true);
+            Destroy(GetComponent<NavMeshAgent>());
+            Destroy(GetComponent<Collider>());
         }
     }
 
