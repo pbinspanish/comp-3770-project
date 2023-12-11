@@ -6,7 +6,7 @@ public class AretbrotDialogueInteractable : DialogueInteractable
 {
     #region Variables
 
-    public GameObject aretBrot;
+    public GameObject aretbrot;
     
     #endregion
 
@@ -14,19 +14,17 @@ public class AretbrotDialogueInteractable : DialogueInteractable
 
     protected override void Start()
     {
-        aretBrot = GameObject.FindGameObjectWithTag("Uncle");
+        base.Start();
+        aretbrot = GameObject.FindGameObjectWithTag("Uncle");
     }
 
-    protected override void UpdateCurrentDialogue()
+    protected override void EndAnimate()
     {
-        if (currentDialogueLocation == currentDialogue.dialogueText.Length)
-        {
-            aretBrot.GetComponent<Animator>().SetBool("DieBitch", true);
-            Destroy(gameObject);
-            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>().hasSword = true;
-            GameObject.FindGameObjectWithTag("Player").GetComponent<DialogueInitiator>().currentDialogueInteractable = null;
-            GameObject.FindGameObjectWithTag("Player").GetComponent<DialogueInitiator>().interactionIndicator.SetActive(false);
-        }
+        aretbrot.GetComponent<Animator>().SetBool("DieBitch", true);
+        Destroy(this);
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>().hasSword = true;
+        GameObject.FindGameObjectWithTag("Player").GetComponent<DialogueInitiator>().currentDialogueInteractable = null;
+        GameObject.FindGameObjectWithTag("Player").GetComponent<DialogueInitiator>().interactionIndicator.SetActive(false);
     }
 
     #endregion
