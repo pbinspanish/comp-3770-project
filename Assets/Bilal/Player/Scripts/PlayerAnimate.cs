@@ -32,7 +32,7 @@ public class PlayerAnimate : MonoBehaviour
     {
         if (CompareTag("Player"))
         {
-            if (GetComponent<DialogueInitiator>().isInConversation || GetComponent<PlayerMove>().zombie)
+            if (GetComponent<DialogueInitiator>().isInConversation || GetComponent<PlayerMove>().zombie || !GetComponent<PlayerMove>().canMove)
             {
                 animationDirection = Vector3.zero;
                 playerAnimator.SetFloat("Vertical", 0f, 0.05f, Time.deltaTime);

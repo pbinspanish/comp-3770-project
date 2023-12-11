@@ -63,6 +63,8 @@ public class PlayerMove : MonoBehaviour
 
     public int zombieKill = 0;
     public bool demonDead;
+    public bool demon;
+    bool again = true;
 
     // Start is called before the first frame update
     void Start()
@@ -81,6 +83,10 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
+        if (respawning || GetComponent<DialogueInitiator>().isInConversation)
+        {
+            canMove = false;
+        }
         if(isDashing){
             return;
         }
@@ -88,7 +94,7 @@ public class PlayerMove : MonoBehaviour
         if (!starterDialogue && !body && !zombie && !respawning)
         {
             GetComponent<Animator>().SetBool("Sleep", false);
-            canMove = !GetComponent<DialogueInitiator>().isInConversation;
+            //canMove = !GetComponent<DialogueInitiator>().isInConversation;
         }
         if (Input.GetKeyDown(KeyCode.T))
         {
@@ -105,7 +111,13 @@ public class PlayerMove : MonoBehaviour
         {
             GameObject.FindGameObjectWithTag("BossWall").GetComponent<BoxCollider>().enabled = false;
             GameObject.FindGameObjectWithTag("BossWall").GetComponent<MeshRenderer>().enabled = false;
-            GetComponent<HP>().health = GetComponent<HP>().maxHealth;
+            if (again)
+            {
+                GetComponent<HP>().health = GetComponent<HP>().maxHealth;
+                again = false;
+            }
+            canMove = true;
+            demonDead = false;
         }
 
         if (canMove) { getInput(); } //get input if canMove is true

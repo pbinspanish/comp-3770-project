@@ -18,5 +18,6 @@ public class BossWallCheckpoint : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+
     }
 }

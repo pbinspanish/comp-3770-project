@@ -55,6 +55,7 @@ public class DialogueInteractable : MonoBehaviour
     /// </summary>
     public virtual void EndDialogue()
     {
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>().canMove = true;
         activeHUD.HideDialogue();
         EndAnimate();
         currentDialogueLocation = 0;
