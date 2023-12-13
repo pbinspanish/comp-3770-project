@@ -6,6 +6,7 @@ public class MeleeAttack : MonoBehaviour
     public float attackRange = 1.5f;
     public LayerMask enemyLayer;
 
+    public GameObject player;
     void Start()
     {
         // Set the enemyLayer variable to the Enemy layer
@@ -29,6 +30,14 @@ public class MeleeAttack : MonoBehaviour
         {
             //enemy.GetComponent<HP>().DealDamage(damage);
             GetComponent<PlayerAnimate>().meleePunch(enemy, damage);
+            if (player.name == "Healer")
+            {
+                player.GetComponent<HP>().health += damage / 2;
+                if (player.GetComponent<HP>().health >= player.GetComponent<HP>().maxHealth)
+                {
+                    player.GetComponent<HP>().health = player.GetComponent<HP>().maxHealth;
+                }
+            }
         }
     }
 

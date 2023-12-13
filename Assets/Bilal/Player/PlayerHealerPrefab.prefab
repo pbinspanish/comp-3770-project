@@ -843,11 +843,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3310e3391a6923e4fae284a219fe8c92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 5
+  damage: 10
   attackRange: 1.5
   enemyLayer:
     serializedVersion: 2
     m_Bits: 0
+  player: {fileID: 9739837736828092}
 --- !u!114 &8203912187476670962
 MonoBehaviour:
   m_ObjectHideFlags: 0

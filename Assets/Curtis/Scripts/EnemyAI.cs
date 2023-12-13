@@ -33,6 +33,8 @@ public class EnemyAI : MonoBehaviour
     public int rageDamage = 15;
 
     public float DemonSpeed = 2.0f;
+    public float angularAcceleration = 180;
+    public float accelaration = 10.0f;
     /*private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -69,6 +71,8 @@ public class EnemyAI : MonoBehaviour
             if (gameObject.GetComponent<DemonScript>() != null)
             {
                 gameObject.GetComponent<EnemyAnimator>().enemySpeed = DemonSpeed;
+                agent.angularSpeed = angularAcceleration;
+                agent.acceleration = accelaration;
             }
         }
     

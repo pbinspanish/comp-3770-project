@@ -313,8 +313,11 @@ MonoBehaviour:
   playerInAttackRange: 0
   gotPlayer: 0
   healthObj: {fileID: 0}
-  rageSpeed: 7
+  rageSpeed: 12
   rageDamage: 15
+  DemonSpeed: 5
+  angularAcceleration: 180
+  accelaration: 15
 --- !u!195 &5926923593818667358
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -349,9 +352,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6eb30026e0eca24a93509e17ef5c7e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canDamage: 0
   health: 0
   maxHealth: 100
   treatAsPlayer: 0
+  player: {fileID: 0}
 --- !u!95 &2350113699897178889
 Animator:
   serializedVersion: 5

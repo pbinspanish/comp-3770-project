@@ -827,8 +827,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80bbed690b9ab9a46b69deed83f5521c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 1.5
-  runSpeed: 2
+  walkSpeed: 2
+  runSpeed: 3
   enemySpeed: 1
   punch: 0
 --- !u!114 &734531238227796542
@@ -843,7 +843,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3310e3391a6923e4fae284a219fe8c92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 100
+  damage: 35
   attackRange: 1.5
   enemyLayer:
     serializedVersion: 2
@@ -879,8 +879,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canDamage: 0
-  health: 20
-  maxHealth: 20
+  health: 45
+  maxHealth: 45
   treatAsPlayer: 1
   player: {fileID: 0}
 --- !u!114 &8605795689849857561
